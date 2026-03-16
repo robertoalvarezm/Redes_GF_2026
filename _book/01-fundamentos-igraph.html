@@ -1,0 +1,2649 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.25">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>1&nbsp; Fundamentos de igraph – Análisis de Redes con igraph en R</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./02-grado-distribuciones.html" rel="next">
+<link href="./index.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-065a5179aebd64318d7ea99d77b64a9e.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark-969ddfa49e00a70eb3423444dbc81f6c.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-065a5179aebd64318d7ea99d77b64a9e.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-943b5923c44e92211c0aef22d6d9f3c4.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-dark-0ebdff9a2ac168aa150b59d4756870bb.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="site_libs/bootstrap/bootstrap-943b5923c44e92211c0aef22d6d9f3c4.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<style>html{ scroll-behavior: smooth; }</style>
+<script src="site_libs/quarto-diagram/mermaid.min.js"></script>
+<script src="site_libs/quarto-diagram/mermaid-init.js"></script>
+<link href="site_libs/quarto-diagram/mermaid.css" rel="stylesheet">
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+</head>
+
+<body class="nav-sidebar docked quarto-light"><script id="quarto-html-before-body" type="application/javascript">
+    const toggleBodyColorMode = (bsSheetEl) => {
+      const mode = bsSheetEl.getAttribute("data-mode");
+      const bodyEl = window.document.querySelector("body");
+      if (mode === "dark") {
+        bodyEl.classList.add("quarto-dark");
+        bodyEl.classList.remove("quarto-light");
+      } else {
+        bodyEl.classList.add("quarto-light");
+        bodyEl.classList.remove("quarto-dark");
+      }
+    }
+    const toggleBodyColorPrimary = () => {
+      const bsSheetEl = window.document.querySelector("link#quarto-bootstrap:not([rel=disabled-stylesheet])");
+      if (bsSheetEl) {
+        toggleBodyColorMode(bsSheetEl);
+      }
+    }
+    const setColorSchemeToggle = (alternate) => {
+      const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+      for (let i=0; i < toggles.length; i++) {
+        const toggle = toggles[i];
+        if (toggle) {
+          if (alternate) {
+            toggle.classList.add("alternate");
+          } else {
+            toggle.classList.remove("alternate");
+          }
+        }
+      }
+    };
+    const toggleColorMode = (alternate) => {
+      // Switch the stylesheets
+      const primaryStylesheets = window.document.querySelectorAll('link.quarto-color-scheme:not(.quarto-color-alternate)');
+      const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+      manageTransitions('#quarto-margin-sidebar .nav-link', false);
+      if (alternate) {
+        // note: dark is layered on light, we don't disable primary!
+        enableStylesheet(alternateStylesheets);
+        for (const sheetNode of alternateStylesheets) {
+          if (sheetNode.id === "quarto-bootstrap") {
+            toggleBodyColorMode(sheetNode);
+          }
+        }
+      } else {
+        disableStylesheet(alternateStylesheets);
+        enableStylesheet(primaryStylesheets)
+        toggleBodyColorPrimary();
+      }
+      manageTransitions('#quarto-margin-sidebar .nav-link', true);
+      // Switch the toggles
+      setColorSchemeToggle(alternate)
+      // Hack to workaround the fact that safari doesn't
+      // properly recolor the scrollbar when toggling (#1455)
+      if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+        manageTransitions("body", false);
+        window.scrollTo(0, 1);
+        setTimeout(() => {
+          window.scrollTo(0, 0);
+          manageTransitions("body", true);
+        }, 40);
+      }
+    }
+    const disableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        stylesheet.rel = 'disabled-stylesheet';
+      }
+    }
+    const enableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        if(stylesheet.rel !== 'stylesheet') { // for Chrome, which will still FOUC without this check
+          stylesheet.rel = 'stylesheet';
+        }
+      }
+    }
+    const manageTransitions = (selector, allowTransitions) => {
+      const els = window.document.querySelectorAll(selector);
+      for (let i=0; i < els.length; i++) {
+        const el = els[i];
+        if (allowTransitions) {
+          el.classList.remove('notransition');
+        } else {
+          el.classList.add('notransition');
+        }
+      }
+    }
+    const isFileUrl = () => {
+      return window.location.protocol === 'file:';
+    }
+    const hasAlternateSentinel = () => {
+      let styleSentinel = getColorSchemeSentinel();
+      if (styleSentinel !== null) {
+        return styleSentinel === "alternate";
+      } else {
+        return false;
+      }
+    }
+    const setStyleSentinel = (alternate) => {
+      const value = alternate ? "alternate" : "default";
+      if (!isFileUrl()) {
+        window.localStorage.setItem("quarto-color-scheme", value);
+      } else {
+        localAlternateSentinel = value;
+      }
+    }
+    const getColorSchemeSentinel = () => {
+      if (!isFileUrl()) {
+        const storageValue = window.localStorage.getItem("quarto-color-scheme");
+        return storageValue != null ? storageValue : localAlternateSentinel;
+      } else {
+        return localAlternateSentinel;
+      }
+    }
+    const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+      const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+      const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+      let newTheme = '';
+      if(authorPrefersDark) {
+        newTheme = isAlternate ? baseTheme : alternateTheme;
+      } else {
+        newTheme = isAlternate ? alternateTheme : baseTheme;
+      }
+      const changeGiscusTheme = () => {
+        // From: https://github.com/giscus/giscus/issues/336
+        const sendMessage = (message) => {
+          const iframe = document.querySelector('iframe.giscus-frame');
+          if (!iframe) return;
+          iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+        }
+        sendMessage({
+          setConfig: {
+            theme: newTheme
+          }
+        });
+      }
+      const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+      if (isGiscussLoaded) {
+        changeGiscusTheme();
+      }
+    };
+    const authorPrefersDark = false;
+    const darkModeDefault = authorPrefersDark;
+      document.querySelector('link#quarto-text-highlighting-styles.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+      document.querySelector('link#quarto-bootstrap.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+    let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
+    // Dark / light mode switch
+    window.quartoToggleColorScheme = () => {
+      // Read the current dark / light value
+      let toAlternate = !hasAlternateSentinel();
+      toggleColorMode(toAlternate);
+      setStyleSentinel(toAlternate);
+      toggleGiscusIfUsed(toAlternate, darkModeDefault);
+      window.dispatchEvent(new Event('resize'));
+    };
+    // Switch to dark mode if need be
+    if (hasAlternateSentinel()) {
+      toggleColorMode(true);
+    } else {
+      toggleColorMode(false);
+    }
+  </script>
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./01-fundamentos-igraph.html"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Fundamentos de igraph</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header sidebar-header-stacked">
+      <a href="./index.html" class="sidebar-logo-link">
+      </a>
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Análisis de Redes con igraph en R</a> 
+        <div class="sidebar-tools-main">
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+</div>
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Prefacio</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./01-fundamentos-igraph.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Fundamentos de igraph</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./02-grado-distribuciones.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Grado y distribuciones</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./03-distancias-eficiencia.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Distancias y eficiencia</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./04-clustering.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Clustering y transitividad</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./05-robustez.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Robustez de redes</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./99-ejercicios-integradores.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Ejercicios integradores</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./references.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Referencias</span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#preparación-del-entorno" id="toc-preparación-del-entorno" class="nav-link active" data-scroll-target="#preparación-del-entorno"><span class="header-section-number">1.1</span> Preparación del entorno</a></li>
+  <li><a href="#crear-redes-desde-cero" id="toc-crear-redes-desde-cero" class="nav-link" data-scroll-target="#crear-redes-desde-cero"><span class="header-section-number">1.2</span> Crear redes desde cero</a>
+  <ul class="collapse">
+  <li><a href="#paso-1-grafo-vacío" id="toc-paso-1-grafo-vacío" class="nav-link" data-scroll-target="#paso-1-grafo-vacío"><span class="header-section-number">1.2.1</span> Paso 1: Grafo vacío</a></li>
+  <li><a href="#paso-2-agregar-conexiones" id="toc-paso-2-agregar-conexiones" class="nav-link" data-scroll-target="#paso-2-agregar-conexiones"><span class="header-section-number">1.2.2</span> Paso 2: Agregar conexiones</a></li>
+  <li><a href="#paso-3-agregar-nodos-con-atributos" id="toc-paso-3-agregar-nodos-con-atributos" class="nav-link" data-scroll-target="#paso-3-agregar-nodos-con-atributos"><span class="header-section-number">1.2.3</span> Paso 3: Agregar nodos con atributos</a></li>
+  <li><a href="#paso-4-nombrar-los-nodos" id="toc-paso-4-nombrar-los-nodos" class="nav-link" data-scroll-target="#paso-4-nombrar-los-nodos"><span class="header-section-number">1.2.4</span> Paso 4: Nombrar los nodos</a></li>
+  <li><a href="#paso-5-modificar-conexiones" id="toc-paso-5-modificar-conexiones" class="nav-link" data-scroll-target="#paso-5-modificar-conexiones"><span class="header-section-number">1.2.5</span> Paso 5: Modificar conexiones</a></li>
+  </ul></li>
+  <li><a href="#grado-degree-y-distribución-de-grado-degree-sec-grado-degree-basico" id="toc-grado-degree-y-distribución-de-grado-degree-sec-grado-degree-basico" class="nav-link" data-scroll-target="#grado-degree-y-distribución-de-grado-degree-sec-grado-degree-basico"><span class="header-section-number">1.3</span> grado (degree) y distribución de grado (degree) {#sec-grado (degree)-basico}</a>
+  <ul class="collapse">
+  <li><a href="#visualizar-el-grado-degree" id="toc-visualizar-el-grado-degree" class="nav-link" data-scroll-target="#visualizar-el-grado-degree"><span class="header-section-number">1.3.1</span> Visualizar el grado (degree)</a></li>
+  </ul></li>
+  <li><a href="#sec-matriz-adyacencia" id="toc-sec-matriz-adyacencia" class="nav-link" data-scroll-target="#sec-matriz-adyacencia"><span class="header-section-number">1.4</span> Matriz de adyacencia</a></li>
+  <li><a href="#sec-redes-especiales" id="toc-sec-redes-especiales" class="nav-link" data-scroll-target="#sec-redes-especiales"><span class="header-section-number">1.5</span> Redes especiales</a></li>
+  <li><a href="#ejercicios" id="toc-ejercicios" class="nav-link" data-scroll-target="#ejercicios"><span class="header-section-number">1.6</span> Ejercicios</a>
+  <ul class="collapse">
+  <li><a href="#ejercicios-resueltos" id="toc-ejercicios-resueltos" class="nav-link" data-scroll-target="#ejercicios-resueltos">Ejercicios resueltos</a></li>
+  <li><a href="#ejercicios-con-pistas" id="toc-ejercicios-con-pistas" class="nav-link" data-scroll-target="#ejercicios-con-pistas">Ejercicios con pistas</a></li>
+  <li><a href="#ejercicios-propuestos" id="toc-ejercicios-propuestos" class="nav-link" data-scroll-target="#ejercicios-propuestos">Ejercicios propuestos</a></li>
+  </ul></li>
+  <li><a href="#resumen-del-capítulo" id="toc-resumen-del-capítulo" class="nav-link" data-scroll-target="#resumen-del-capítulo"><span class="header-section-number">1.7</span> Resumen del capítulo</a></li>
+  <li><a href="#autoevaluación" id="toc-autoevaluación" class="nav-link" data-scroll-target="#autoevaluación">Autoevaluación</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<div class="quarto-title-block"><div><h1 class="title"><span id="sec-fundamentos" class="quarto-section-identifier"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Fundamentos de igraph</span></span></h1><button type="button" class="btn code-tools-button dropdown-toggle" id="quarto-code-tools-menu" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi"></i> Code</button><ul class="dropdown-menu dropdown-menu-end" aria-labelelledby="quarto-code-tools-menu"><li><a id="quarto-show-all-code" class="dropdown-item" href="javascript:void(0)" role="button">Show All Code</a></li><li><a id="quarto-hide-all-code" class="dropdown-item" href="javascript:void(0)" role="button">Hide All Code</a></li><li><hr class="dropdown-divider"></li><li><a id="quarto-view-source" class="dropdown-item" href="javascript:void(0)" role="button">View Source</a></li></ul></div></div>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<div class="callout callout-style-simple callout-note callout-titled" title="🎯 Objetivos de aprendizaje">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>🎯 Objetivos de aprendizaje
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Al finalizar este capítulo serás capaz de:</p>
+<ol type="1">
+<li><strong>Crear</strong> redes vacías, agregar nodos y conexiones usando <code>igraph</code>.</li>
+<li><strong>Manipular</strong> atributos de vértices y conexiones (color, nombre, forma).</li>
+<li><strong>Visualizar</strong> redes con distintos <em>layouts</em> y personalizaciones.</li>
+<li><strong>Construir</strong> la matriz de adyacencia y representarla como mapa de calor.</li>
+<li><strong>Generar</strong> redes especiales: estrella, anillo, árbol, lattice.</li>
+</ol>
+</div>
+</div>
+<blockquote class="blockquote">
+<p><strong>Pregunta motivadora:</strong> Si representaras tu grupo de amigos como una red, donde cada persona es un punto y cada amistad es una línea, ¿cómo se vería? ¿Quién estaría más “conectado”? ¿Habría grupos aislados?</p>
+</blockquote>
+<div class="cell" data-layout-align="center">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource default number-lines code-with-copy"><code class="sourceCode default"><span id="cb1-1"><a href="#cb1-1"></a>flowchart TD</span>
+<span id="cb1-2"><a href="#cb1-2"></a>    A[Fundamentos de igraph] --&gt; B[Crear redes]</span>
+<span id="cb1-3"><a href="#cb1-3"></a>    A --&gt; C[grado (degree) y distribución]</span>
+<span id="cb1-4"><a href="#cb1-4"></a>    A --&gt; D[Matriz de adyacencia]</span>
+<span id="cb1-5"><a href="#cb1-5"></a>    A --&gt; E[Redes especiales]</span>
+<span id="cb1-6"><a href="#cb1-6"></a>    B --&gt; B1[Nodos y conexiones]</span>
+<span id="cb1-7"><a href="#cb1-7"></a>    B --&gt; B2[Atributos]</span>
+<span id="cb1-8"><a href="#cb1-8"></a>    B --&gt; B3[Visualización]</span>
+<span id="cb1-9"><a href="#cb1-9"></a>    C --&gt; C1[grado (degree) de entrada/salida]</span>
+<span id="cb1-10"><a href="#cb1-10"></a>    C --&gt; C2[Histogramas]</span>
+<span id="cb1-11"><a href="#cb1-11"></a>    D --&gt; D1[Heatmap]</span>
+<span id="cb1-12"><a href="#cb1-12"></a>    E --&gt; E1[Estrella / Anillo / Árbol]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<div id="fig-mapa-cap1" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-mapa-cap1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div>
+<pre class="mermaid mermaid-js" data-label="fig-mapa-cap1">flowchart TD
+    A[Fundamentos de igraph] --&gt; B[Crear redes]
+    A --&gt; C[grado (degree) y distribución]
+    A --&gt; D[Matriz de adyacencia]
+    A --&gt; E[Redes especiales]
+    B --&gt; B1[Nodos y conexiones]
+    B --&gt; B2[Atributos]
+    B --&gt; B3[Visualización]
+    C --&gt; C1[grado (degree) de entrada/salida]
+    C --&gt; C2[Histogramas]
+    D --&gt; D1[Heatmap]
+    E --&gt; E1[Estrella / Anillo / Árbol]
+</pre>
+</div>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-mapa-cap1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;1.1: Mapa conceptual del capítulo
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<section id="preparación-del-entorno" class="level2" data-number="1.1">
+<h2 data-number="1.1" class="anchored" data-anchor-id="preparación-del-entorno"><span class="header-section-number">1.1</span> Preparación del entorno</h2>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a><span class="fu">library</span>(igraph)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+<div class="callout callout-style-simple callout-note callout-titled" title="📦 Paquete requerido">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>📦 Paquete requerido
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-2" class="callout-2-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Si no tienes instalado <code>igraph</code>, ejecuta:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a><span class="fu">install.packages</span>(<span class="st">"igraph"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</div>
+</div>
+</section>
+<section id="crear-redes-desde-cero" class="level2" data-number="1.2">
+<h2 data-number="1.2" class="anchored" data-anchor-id="crear-redes-desde-cero"><span class="header-section-number">1.2</span> Crear redes desde cero</h2>
+<p>Un <strong>grafo</strong> (o red) se compone de <strong>vértices</strong> (nodos) y <strong>conexiones</strong> (conexiones entre nodos). En <code>igraph</code>, todo comienza creando un grafo vacío y luego añadiendo elementos.</p>
+<div class="callout callout-style-simple callout-tip callout-titled" title="💡 Concepto clave">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>💡 Concepto clave
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>En <code>igraph</code>, los vértices se acceden con <code>V(g)</code> y las conexiones con <code>E(g)</code>. Piensa en <code>V</code> de <em>vertices</em> y <code>E</code> de <em>edges</em>.</p>
+</div>
+</div>
+<section id="paso-1-grafo-vacío" class="level3" data-number="1.2.1">
+<h3 data-number="1.2.1" class="anchored" data-anchor-id="paso-1-grafo-vacío"><span class="header-section-number">1.2.1</span> Paso 1: Grafo vacío</h3>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a><span class="co"># Crear un grafo dirigido vacío con 5 nodos</span></span>
+<span id="cb4-2"><a href="#cb4-2"></a>g <span class="ot">&lt;-</span> <span class="fu">make_empty_graph</span>(<span class="at">n =</span> <span class="dv">5</span>, <span class="at">directed =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb4-3"><a href="#cb4-3"></a></span>
+<span id="cb4-4"><a href="#cb4-4"></a><span class="co"># Asignar atributos visuales a los nodos</span></span>
+<span id="cb4-5"><a href="#cb4-5"></a><span class="fu">V</span>(g)<span class="sc">$</span>color <span class="ot">&lt;-</span> <span class="st">"yellow"</span></span>
+<span id="cb4-6"><a href="#cb4-6"></a></span>
+<span id="cb4-7"><a href="#cb4-7"></a><span class="co"># Visualizar</span></span>
+<span id="cb4-8"><a href="#cb4-8"></a><span class="fu">plot</span>(g, </span>
+<span id="cb4-9"><a href="#cb4-9"></a>     <span class="at">main =</span> <span class="st">"Red vacía con 5 nodos"</span>,</span>
+<span id="cb4-10"><a href="#cb4-10"></a>     <span class="at">vertex.size =</span> <span class="dv">30</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="01-fundamentos-igraph_files/figure-html/crear-grafo-vacio-1.png" class="img-fluid figure-img" alt="Cinco nodos amarillos distribuidos sin conexiones entre ellos" width="768"></p>
+<figcaption>Red vacía con 5 nodos y sin conexiones</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="paso-2-agregar-conexiones" class="level3" data-number="1.2.2">
+<h3 data-number="1.2.2" class="anchored" data-anchor-id="paso-2-agregar-conexiones"><span class="header-section-number">1.2.2</span> Paso 2: Agregar conexiones</h3>
+<p>Las conexiones se agregan como un vector de pares: <code>c(origen1, destino1, origen2, destino2, ...)</code>.</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a><span class="co"># Agregar conexiones: 1→2, 1→3, 2→4, 3→4, 4→5</span></span>
+<span id="cb5-2"><a href="#cb5-2"></a>g <span class="ot">&lt;-</span> <span class="fu">add_edges</span>(g, <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>, <span class="dv">1</span>,<span class="dv">3</span>, <span class="dv">2</span>,<span class="dv">4</span>, <span class="dv">3</span>,<span class="dv">4</span>, <span class="dv">4</span>,<span class="dv">5</span>))</span>
+<span id="cb5-3"><a href="#cb5-3"></a></span>
+<span id="cb5-4"><a href="#cb5-4"></a><span class="fu">plot</span>(g, </span>
+<span id="cb5-5"><a href="#cb5-5"></a>     <span class="at">main =</span> <span class="st">"Red con conexiones agregadas"</span>,</span>
+<span id="cb5-6"><a href="#cb5-6"></a>     <span class="at">vertex.size =</span> <span class="dv">30</span>,</span>
+<span id="cb5-7"><a href="#cb5-7"></a>     <span class="at">edge.arrow.size =</span> <span class="fl">0.6</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="01-fundamentos-igraph_files/figure-html/agregar-conexiones-1.png" class="img-fluid figure-img" alt="Cinco nodos conectados por conexiones dirigidas" width="768"></p>
+<figcaption>Red con conexiones agregadas manualmente</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="paso-3-agregar-nodos-con-atributos" class="level3" data-number="1.2.3">
+<h3 data-number="1.2.3" class="anchored" data-anchor-id="paso-3-agregar-nodos-con-atributos"><span class="header-section-number">1.2.3</span> Paso 3: Agregar nodos con atributos</h3>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a><span class="co"># Agregar un nodo nuevo con color rojo</span></span>
+<span id="cb6-2"><a href="#cb6-2"></a>g <span class="ot">&lt;-</span> <span class="fu">add_vertices</span>(g, <span class="dv">1</span>, <span class="at">color =</span> <span class="st">"red"</span>)</span>
+<span id="cb6-3"><a href="#cb6-3"></a></span>
+<span id="cb6-4"><a href="#cb6-4"></a><span class="co"># Conectar el nuevo nodo (nodo 6)</span></span>
+<span id="cb6-5"><a href="#cb6-5"></a>g <span class="ot">&lt;-</span> <span class="fu">add_edges</span>(g, <span class="fu">c</span>(<span class="dv">3</span>,<span class="dv">6</span>, <span class="dv">6</span>,<span class="dv">5</span>))</span>
+<span id="cb6-6"><a href="#cb6-6"></a></span>
+<span id="cb6-7"><a href="#cb6-7"></a><span class="fu">plot</span>(g, </span>
+<span id="cb6-8"><a href="#cb6-8"></a>     <span class="at">main =</span> <span class="st">"Nodo rojo y nuevas conexiones"</span>,</span>
+<span id="cb6-9"><a href="#cb6-9"></a>     <span class="at">vertex.size =</span> <span class="dv">30</span>,</span>
+<span id="cb6-10"><a href="#cb6-10"></a>     <span class="at">edge.arrow.size =</span> <span class="fl">0.6</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="01-fundamentos-igraph_files/figure-html/agregar-nodo-1.png" class="img-fluid figure-img" alt="Seis nodos, uno rojo, con conexiones dirigidas" width="768"></p>
+<figcaption>Nodo rojo agregado con nuevas conexiones</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="paso-4-nombrar-los-nodos" class="level3" data-number="1.2.4">
+<h3 data-number="1.2.4" class="anchored" data-anchor-id="paso-4-nombrar-los-nodos"><span class="header-section-number">1.2.4</span> Paso 4: Nombrar los nodos</h3>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1"></a><span class="co"># Asignar nombres a los vértices</span></span>
+<span id="cb7-2"><a href="#cb7-2"></a><span class="fu">V</span>(g)<span class="sc">$</span>name <span class="ot">&lt;-</span> LETTERS[<span class="dv">1</span><span class="sc">:</span><span class="dv">6</span>]</span>
+<span id="cb7-3"><a href="#cb7-3"></a></span>
+<span id="cb7-4"><a href="#cb7-4"></a><span class="fu">plot</span>(g, </span>
+<span id="cb7-5"><a href="#cb7-5"></a>     <span class="at">main =</span> <span class="st">"Nodos con nombres A–F"</span>,</span>
+<span id="cb7-6"><a href="#cb7-6"></a>     <span class="at">vertex.size =</span> <span class="dv">30</span>,</span>
+<span id="cb7-7"><a href="#cb7-7"></a>     <span class="at">edge.arrow.size =</span> <span class="fl">0.6</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="01-fundamentos-igraph_files/figure-html/renombrar-nodos-1.png" class="img-fluid figure-img" alt="Seis nodos etiquetados con letras A a F" width="768"></p>
+<figcaption>Red con nodos etiquetados de A a F</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="paso-5-modificar-conexiones" class="level3" data-number="1.2.5">
+<h3 data-number="1.2.5" class="anchored" data-anchor-id="paso-5-modificar-conexiones"><span class="header-section-number">1.2.5</span> Paso 5: Modificar conexiones</h3>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1"></a><span class="co"># Eliminar la segunda conexión (A→C) y agregar C→A</span></span>
+<span id="cb8-2"><a href="#cb8-2"></a>g <span class="ot">&lt;-</span> <span class="fu">delete_edges</span>(g, <span class="dv">2</span>)</span>
+<span id="cb8-3"><a href="#cb8-3"></a>g <span class="ot">&lt;-</span> <span class="fu">add_edges</span>(g, <span class="fu">c</span>(<span class="dv">3</span>, <span class="dv">1</span>))  <span class="co"># C → A</span></span>
+<span id="cb8-4"><a href="#cb8-4"></a></span>
+<span id="cb8-5"><a href="#cb8-5"></a><span class="fu">plot</span>(g, </span>
+<span id="cb8-6"><a href="#cb8-6"></a>     <span class="at">main =</span> <span class="st">"Cambio en dirección de conexión"</span>,</span>
+<span id="cb8-7"><a href="#cb8-7"></a>     <span class="at">vertex.size =</span> <span class="dv">30</span>,</span>
+<span id="cb8-8"><a href="#cb8-8"></a>     <span class="at">edge.arrow.size =</span> <span class="fl">0.6</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="01-fundamentos-igraph_files/figure-html/modificar-conexiones-1.png" class="img-fluid figure-img" alt="Red de seis nodos con una conexión cambiada de dirección" width="768"></p>
+<figcaption>Red con dirección de conexión modificada</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<div class="callout callout-style-simple callout-warning callout-titled" title="⚠️ Error frecuente">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Warning</span>⚠️ Error frecuente
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Cuando eliminas conexiones con <code>delete_edges()</code>, los <strong>índices se reorganizan</strong>. Si eliminas la conexión 2, la que antes era la 3 ahora es la 2. Siempre verifica con <code>E(g)</code> después de eliminar.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="grado-degree-y-distribución-de-grado-degree-sec-grado-degree-basico" class="level2" data-number="1.3">
+<h2 data-number="1.3" class="anchored" data-anchor-id="grado-degree-y-distribución-de-grado-degree-sec-grado-degree-basico"><span class="header-section-number">1.3</span> grado (degree) y distribución de grado (degree) {#sec-grado (degree)-basico}</h2>
+<p>El <strong>grado (degree)</strong> de un nodo es el número de conexiones que tiene. En redes dirigidas, distinguimos entre grado (degree) de entrada (<em>in-degree</em>) y de salida (<em>out-degree</em>).</p>
+<div class="tabset-margin-container"></div><div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" href="" aria-current="page">grado (degree) total</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false" href="">grado (degree) de entrada</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-3-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-3" role="tab" aria-controls="tabset-1-3" aria-selected="false" href="">grado (degree) de salida</a></li></ul>
+<div class="tab-content">
+<div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1"></a><span class="co"># grado (degree) total de cada nodo</span></span>
+<span id="cb9-2"><a href="#cb9-2"></a><span class="fu">degree</span>(g)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>A B C D E F 
+2 2 3 3 2 2 </code></pre>
+</div>
+</div>
+</div>
+<div id="tabset-1-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-2-tab">
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1"></a><span class="co"># ¿Cuántas conexiones llegan a cada nodo?</span></span>
+<span id="cb11-2"><a href="#cb11-2"></a><span class="fu">degree</span>(g, <span class="at">mode =</span> <span class="st">"in"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>A B C D E F 
+1 1 0 2 2 1 </code></pre>
+</div>
+</div>
+</div>
+<div id="tabset-1-3" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-3-tab">
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1"></a><span class="co"># ¿Cuántas conexiones salen de cada nodo?</span></span>
+<span id="cb13-2"><a href="#cb13-2"></a><span class="fu">degree</span>(g, <span class="at">mode =</span> <span class="st">"out"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>A B C D E F 
+1 1 3 1 0 1 </code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<section id="visualizar-el-grado-degree" class="level3" data-number="1.3.1">
+<h3 data-number="1.3.1" class="anchored" data-anchor-id="visualizar-el-grado-degree"><span class="header-section-number">1.3.1</span> Visualizar el grado (degree)</h3>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1"></a><span class="fu">plot</span>(g, </span>
+<span id="cb15-2"><a href="#cb15-2"></a>     <span class="at">layout =</span> <span class="fu">layout_nicely</span>(g),</span>
+<span id="cb15-3"><a href="#cb15-3"></a>     <span class="at">vertex.size =</span> <span class="fu">degree</span>(g, <span class="at">mode =</span> <span class="st">"in"</span>) <span class="sc">*</span> <span class="dv">10</span> <span class="sc">+</span> <span class="dv">10</span>,</span>
+<span id="cb15-4"><a href="#cb15-4"></a>     <span class="at">vertex.label.dist =</span> <span class="fl">0.5</span>,</span>
+<span id="cb15-5"><a href="#cb15-5"></a>     <span class="at">edge.arrow.size =</span> <span class="fl">0.5</span>,</span>
+<span id="cb15-6"><a href="#cb15-6"></a>     <span class="at">main =</span> <span class="st">"Tamaño proporcional al grado (degree) de entrada"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="01-fundamentos-igraph_files/figure-html/fig-tamano-grado (degree)-1.png" class="img-fluid figure-img" alt="Tamaño de nodos proporcional al grado (degree) de entrada">{#fig-tamano-grado (degree) fig-alt=‘Red donde los nodos más grandes reciben más conexiones’ width=768}</p>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1"></a><span class="fu">hist</span>(<span class="fu">degree</span>(g), </span>
+<span id="cb16-2"><a href="#cb16-2"></a>     <span class="at">col =</span> <span class="st">"salmon"</span>, </span>
+<span id="cb16-3"><a href="#cb16-3"></a>     <span class="at">main =</span> <span class="st">"Histograma del grado (degree)"</span>,</span>
+<span id="cb16-4"><a href="#cb16-4"></a>     <span class="at">xlab =</span> <span class="st">"grado (degree)"</span>,</span>
+<span id="cb16-5"><a href="#cb16-5"></a>     <span class="at">ylab =</span> <span class="st">"Frecuencia"</span>,</span>
+<span id="cb16-6"><a href="#cb16-6"></a>     <span class="at">border =</span> <span class="st">"white"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="01-fundamentos-igraph_files/figure-html/fig-histograma-grado (degree)-1.png" class="img-fluid figure-img" alt="Histograma de la distribución de grado (degree)">{#fig-histograma-grado (degree) fig-alt=‘Histograma que muestra la frecuencia de cada valor de grado (degree)’ width=768}</p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="sec-matriz-adyacencia" class="level2" data-number="1.4">
+<h2 data-number="1.4" class="anchored" data-anchor-id="sec-matriz-adyacencia"><span class="header-section-number">1.4</span> Matriz de adyacencia</h2>
+<p>La <strong>matriz de adyacencia</strong> es una representación numérica de la red: un 1 en la posición <span class="math inline">\((i,j)\)</span> indica que existe una conexión del nodo <span class="math inline">\(i\)</span> al nodo <span class="math inline">\(j\)</span>.</p>
+<p><span class="math display">\[
+A_{ij} = \begin{cases} 1 &amp; \text{si existe conexión de } i \text{ a } j \\ 0 &amp; \text{en otro caso} \end{cases}
+\]</span></p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1"></a><span class="co"># Obtener la matriz de adyacencia</span></span>
+<span id="cb17-2"><a href="#cb17-2"></a>adj_mat <span class="ot">&lt;-</span> <span class="fu">as.matrix</span>(<span class="fu">get.adjacency</span>(g))</span>
+<span id="cb17-3"><a href="#cb17-3"></a></span>
+<span id="cb17-4"><a href="#cb17-4"></a><span class="co"># Mostrar como tabla</span></span>
+<span id="cb17-5"><a href="#cb17-5"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(adj_mat, <span class="at">caption =</span> <span class="st">"Matriz de adyacencia de la red"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<caption>Matriz de adyacencia de la red</caption>
+<thead>
+<tr class="header">
+<th style="text-align: left;"></th>
+<th style="text-align: right;">A</th>
+<th style="text-align: right;">B</th>
+<th style="text-align: right;">C</th>
+<th style="text-align: right;">D</th>
+<th style="text-align: right;">E</th>
+<th style="text-align: right;">F</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">A</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">B</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">C</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">D</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">E</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">F</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1"></a><span class="fu">heatmap</span>(adj_mat, </span>
+<span id="cb18-2"><a href="#cb18-2"></a>        <span class="at">Rowv =</span> <span class="cn">NA</span>, <span class="at">Colv =</span> <span class="cn">NA</span>, </span>
+<span id="cb18-3"><a href="#cb18-3"></a>        <span class="at">col =</span> <span class="fu">c</span>(<span class="st">"white"</span>, <span class="st">"steelblue"</span>),</span>
+<span id="cb18-4"><a href="#cb18-4"></a>        <span class="at">main =</span> <span class="st">"Mapa de calor — Matriz de adyacencia"</span>,</span>
+<span id="cb18-5"><a href="#cb18-5"></a>        <span class="at">scale =</span> <span class="st">"none"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<div id="fig-heatmap-adj" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Heatmap que muestra las conexiones entre nodos como celdas coloreadas">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-heatmap-adj-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="01-fundamentos-igraph_files/figure-html/fig-heatmap-adj-1.png" class="img-fluid figure-img" alt="Heatmap que muestra las conexiones entre nodos como celdas coloreadas" width="768">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-heatmap-adj-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;1.2: Mapa de calor de la matriz de adyacencia
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<div class="callout callout-style-simple callout-tip callout-titled" title="💡 Concepto clave">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>💡 Concepto clave
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>En una red <strong>no dirigida</strong>, la matriz de adyacencia es <strong>simétrica</strong> (<span class="math inline">\(A_{ij} = A_{ji}\)</span>). En una red dirigida, no necesariamente lo es. Verifica esto convirtiendo la red con <code>as.undirected(g)</code>.</p>
+</div>
+</div>
+</section>
+<section id="sec-redes-especiales" class="level2" data-number="1.5">
+<h2 data-number="1.5" class="anchored" data-anchor-id="sec-redes-especiales"><span class="header-section-number">1.5</span> Redes especiales</h2>
+<p><code>igraph</code> incluye funciones para crear topologías clásicas que aparecen frecuentemente en la teoría de redes.</p>
+<div class="tabset-margin-container"></div><div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-2-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-1" role="tab" aria-controls="tabset-2-1" aria-selected="true" href="">Estrella</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-2-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-2" role="tab" aria-controls="tabset-2-2" aria-selected="false" href="">Anillo</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-2-3-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-3" role="tab" aria-controls="tabset-2-3" aria-selected="false" href="">Árbol binario</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-2-4-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-4" role="tab" aria-controls="tabset-2-4" aria-selected="false" href="">Lattice</a></li></ul>
+<div class="tab-content">
+<div id="tabset-2-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-2-1-tab">
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1"></a><span class="fu">plot</span>(<span class="fu">make_star</span>(<span class="dv">10</span>), </span>
+<span id="cb19-2"><a href="#cb19-2"></a>     <span class="at">vertex.color =</span> <span class="fu">c</span>(<span class="st">"tomato"</span>, <span class="fu">rep</span>(<span class="st">"gold"</span>, <span class="dv">9</span>)),</span>
+<span id="cb19-3"><a href="#cb19-3"></a>     <span class="at">vertex.size =</span> <span class="dv">20</span>,</span>
+<span id="cb19-4"><a href="#cb19-4"></a>     <span class="at">main =</span> <span class="st">"Red estrella"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<div id="fig-red-estrella" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Un nodo central conectado a 9 nodos periféricos">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-red-estrella-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="01-fundamentos-igraph_files/figure-html/fig-red-estrella-1.png" class="img-fluid figure-img" alt="Un nodo central conectado a 9 nodos periféricos" width="768">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-red-estrella-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;1.3: Red tipo estrella con 10 nodos
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<div id="tabset-2-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-2-2-tab">
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1"></a><span class="fu">plot</span>(<span class="fu">make_ring</span>(<span class="dv">10</span>), </span>
+<span id="cb20-2"><a href="#cb20-2"></a>     <span class="at">vertex.color =</span> <span class="st">"skyblue"</span>,</span>
+<span id="cb20-3"><a href="#cb20-3"></a>     <span class="at">vertex.size =</span> <span class="dv">20</span>,</span>
+<span id="cb20-4"><a href="#cb20-4"></a>     <span class="at">main =</span> <span class="st">"Red anillo"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<div id="fig-red-anillo" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Diez nodos formando un círculo conectados secuencialmente">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-red-anillo-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="01-fundamentos-igraph_files/figure-html/fig-red-anillo-1.png" class="img-fluid figure-img" alt="Diez nodos formando un círculo conectados secuencialmente" width="768">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-red-anillo-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;1.4: Red tipo anillo con 10 nodos
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<div id="tabset-2-3" class="tab-pane" role="tabpanel" aria-labelledby="tabset-2-3-tab">
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1"></a><span class="fu">plot</span>(<span class="fu">make_tree</span>(<span class="dv">15</span>, <span class="at">children =</span> <span class="dv">2</span>), </span>
+<span id="cb21-2"><a href="#cb21-2"></a>     <span class="at">vertex.color =</span> <span class="st">"lightgreen"</span>,</span>
+<span id="cb21-3"><a href="#cb21-3"></a>     <span class="at">vertex.size =</span> <span class="dv">15</span>,</span>
+<span id="cb21-4"><a href="#cb21-4"></a>     <span class="at">layout =</span> layout_as_tree,</span>
+<span id="cb21-5"><a href="#cb21-5"></a>     <span class="at">main =</span> <span class="st">"Árbol binario"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<div id="fig-red-arbol" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Estructura jerárquica de 15 nodos donde cada padre tiene 2 hijos">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-red-arbol-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="01-fundamentos-igraph_files/figure-html/fig-red-arbol-1.png" class="img-fluid figure-img" alt="Estructura jerárquica de 15 nodos donde cada padre tiene 2 hijos" width="768">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-red-arbol-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;1.5: Árbol binario con 15 nodos
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<div id="tabset-2-4" class="tab-pane" role="tabpanel" aria-labelledby="tabset-2-4-tab">
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1"></a><span class="fu">plot</span>(<span class="fu">make_lattice</span>(<span class="fu">c</span>(<span class="dv">4</span>, <span class="dv">4</span>)), </span>
+<span id="cb22-2"><a href="#cb22-2"></a>     <span class="at">vertex.color =</span> <span class="st">"plum"</span>,</span>
+<span id="cb22-3"><a href="#cb22-3"></a>     <span class="at">vertex.size =</span> <span class="dv">20</span>,</span>
+<span id="cb22-4"><a href="#cb22-4"></a>     <span class="at">main =</span> <span class="st">"Lattice 4×4"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<div id="fig-red-lattice" class="quarto-float quarto-figure quarto-figure-center anchored" alt="16 nodos formando una cuadrícula con conexiones entre vecinos">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-red-lattice-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="01-fundamentos-igraph_files/figure-html/fig-red-lattice-1.png" class="img-fluid figure-img" alt="16 nodos formando una cuadrícula con conexiones entre vecinos" width="768">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-red-lattice-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;1.6: Red tipo rejilla (lattice) de 4×4
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="ejercicios" class="level2" data-number="1.6">
+<h2 data-number="1.6" class="anchored" data-anchor-id="ejercicios"><span class="header-section-number">1.6</span> Ejercicios</h2>
+<section id="ejercicios-resueltos" class="level3 unnumbered">
+<h3 class="unnumbered anchored" data-anchor-id="ejercicios-resueltos">Ejercicios resueltos</h3>
+<p><strong>Ejercicio resuelto 1:</strong> Crea una red no dirigida de 7 nodos con colores aleatorios de una paleta, conéctalos formando una cadena (<em>path</em>), y visualiza el resultado.</p>
+<div class="callout callout-style-simple callout-tip callout-titled" title="📝 Solución">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-6-contents" aria-controls="callout-6" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>📝 Solución
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-6" class="callout-6-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p><strong>Paso 1:</strong> Crear el grafo tipo cadena y asignar colores.</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1"></a><span class="fu">set.seed</span>(<span class="dv">42</span>)</span>
+<span id="cb23-2"><a href="#cb23-2"></a></span>
+<span id="cb23-3"><a href="#cb23-3"></a><span class="co"># Crear cadena de 7 nodos</span></span>
+<span id="cb23-4"><a href="#cb23-4"></a><span class="co">#g_cadena &lt;- make_graph(~ 1-2-3-4-5-6-7, directed = FALSE)</span></span>
+<span id="cb23-5"><a href="#cb23-5"></a>g_cadena <span class="ot">&lt;-</span> <span class="fu">graph_from_literal</span>(<span class="dv">1-2-3-4-5-6-7</span>)</span>
+<span id="cb23-6"><a href="#cb23-6"></a><span class="co"># Asignar colores aleatorios de una paleta</span></span>
+<span id="cb23-7"><a href="#cb23-7"></a>paleta <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"tomato"</span>, <span class="st">"gold"</span>, <span class="st">"skyblue"</span>, <span class="st">"lightgreen"</span>, <span class="st">"plum"</span>, <span class="st">"salmon"</span>, <span class="st">"steelblue"</span>)</span>
+<span id="cb23-8"><a href="#cb23-8"></a><span class="fu">V</span>(g_cadena)<span class="sc">$</span>color <span class="ot">&lt;-</span> <span class="fu">sample</span>(paleta, <span class="dv">7</span>)</span>
+<span id="cb23-9"><a href="#cb23-9"></a><span class="fu">V</span>(g_cadena)<span class="sc">$</span>name <span class="ot">&lt;-</span> <span class="fu">paste0</span>(<span class="st">"N"</span>, <span class="dv">1</span><span class="sc">:</span><span class="dv">7</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+<p><strong>Paso 2:</strong> Visualizar la red.</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1"></a><span class="fu">plot</span>(g_cadena, </span>
+<span id="cb24-2"><a href="#cb24-2"></a>     <span class="at">vertex.size =</span> <span class="dv">30</span>, </span>
+<span id="cb24-3"><a href="#cb24-3"></a>     <span class="at">main =</span> <span class="st">"Red tipo cadena (path)"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<div id="fig-ej-resuelto-1" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-ej-resuelto-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="01-fundamentos-igraph_files/figure-html/fig-ej-resuelto-1-1.png" class="img-fluid figure-img" width="768">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-ej-resuelto-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;1.7: Red tipo cadena con 7 nodos y colores aleatorios
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p><strong>Paso 3:</strong> Verificar propiedades.</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1"></a><span class="fu">cat</span>(<span class="st">"Número de nodos:"</span>, <span class="fu">vcount</span>(g_cadena), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>Número de nodos: 7 </code></pre>
+</div>
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb27"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1"></a><span class="fu">cat</span>(<span class="st">"Número de conexiones:"</span>, <span class="fu">ecount</span>(g_cadena), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>Número de conexiones: 6 </code></pre>
+</div>
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb29"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1"></a><span class="fu">cat</span>(<span class="st">"grado (degree) de cada nodo:"</span>, <span class="fu">degree</span>(g_cadena), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>grado (degree) de cada nodo: 1 2 2 2 2 2 1 </code></pre>
+</div>
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb31"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1"></a><span class="fu">cat</span>(<span class="st">"¿Es conexa?"</span>, <span class="fu">is_connected</span>(g_cadena), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>¿Es conexa? TRUE </code></pre>
+</div>
+</div>
+<p><strong>Interpretación:</strong> La cadena tiene 7 nodos y 6 conexiones. Los nodos extremos tienen grado (degree) 1 y los internos grado (degree) 2. La red es conexa (todos los nodos se pueden alcanzar entre sí).</p>
+</div>
+</div>
+</div>
+<hr>
+<p><strong>Ejercicio resuelto 2:</strong> Construye manualmente una red donde los nodos representen 5 ciudades mexicanas y las conexiones indiquen si comparten frontera estatal. Muestra la matriz de adyacencia.</p>
+<div class="callout callout-style-simple callout-tip callout-titled" title="📝 Solución">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-7-contents" aria-controls="callout-7" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>📝 Solución
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-7" class="callout-7-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p><strong>Paso 1:</strong> Definir las ciudades y sus conexiones fronterizas.</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb33"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1"></a><span class="co"># Crear la red</span></span>
+<span id="cb33-2"><a href="#cb33-2"></a>ciudades <span class="ot">&lt;-</span> <span class="fu">graph_from_literal</span>(</span>
+<span id="cb33-3"><a href="#cb33-3"></a>  Querétaro <span class="sc">--</span> Guanajuato,</span>
+<span id="cb33-4"><a href="#cb33-4"></a>  Querétaro <span class="sc">--</span> <span class="st">"San Luis Potosí"</span>,</span>
+<span id="cb33-5"><a href="#cb33-5"></a>  Querétaro <span class="sc">--</span> Hidalgo,</span>
+<span id="cb33-6"><a href="#cb33-6"></a>  Guanajuato <span class="sc">--</span> <span class="st">"San Luis Potosí"</span>,</span>
+<span id="cb33-7"><a href="#cb33-7"></a>  Hidalgo <span class="sc">--</span> <span class="st">"Estado de México"</span></span>
+<span id="cb33-8"><a href="#cb33-8"></a>)</span>
+<span id="cb33-9"><a href="#cb33-9"></a></span>
+<span id="cb33-10"><a href="#cb33-10"></a><span class="fu">V</span>(ciudades)<span class="sc">$</span>color <span class="ot">&lt;-</span> <span class="st">"gold"</span></span>
+<span id="cb33-11"><a href="#cb33-11"></a><span class="fu">V</span>(ciudades)<span class="sc">$</span>size <span class="ot">&lt;-</span> <span class="dv">25</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+<p><strong>Paso 2:</strong> Visualizar y mostrar la matriz.</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb34"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1"></a><span class="fu">plot</span>(ciudades, </span>
+<span id="cb34-2"><a href="#cb34-2"></a>     <span class="at">vertex.label.cex =</span> <span class="fl">0.8</span>,</span>
+<span id="cb34-3"><a href="#cb34-3"></a>     <span class="at">main =</span> <span class="st">"Red de vecindad entre estados"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<div id="fig-ej-resuelto-2" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-ej-resuelto-2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="01-fundamentos-igraph_files/figure-html/fig-ej-resuelto-2-1.png" class="img-fluid figure-img" width="768">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-ej-resuelto-2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;1.8: Red de ciudades que comparten frontera estatal
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb35"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(</span>
+<span id="cb35-2"><a href="#cb35-2"></a>  <span class="fu">as.matrix</span>(<span class="fu">get.adjacency</span>(ciudades)),</span>
+<span id="cb35-3"><a href="#cb35-3"></a>  <span class="at">caption =</span> <span class="st">"Matriz de adyacencia de la red de estados"</span></span>
+<span id="cb35-4"><a href="#cb35-4"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<caption>Matriz de adyacencia de la red de estados</caption>
+<colgroup>
+<col style="width: 21%">
+<col style="width: 12%">
+<col style="width: 13%">
+<col style="width: 20%">
+<col style="width: 10%">
+<col style="width: 21%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;"></th>
+<th style="text-align: right;">Querétaro</th>
+<th style="text-align: right;">Guanajuato</th>
+<th style="text-align: right;">San Luis Potosí</th>
+<th style="text-align: right;">Hidalgo</th>
+<th style="text-align: right;">Estado de México</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Querétaro</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Guanajuato</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">San Luis Potosí</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Hidalgo</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Estado de México</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p><strong>Interpretación:</strong> Querétaro es el nodo más conectado (grado (degree) 3) porque comparte frontera con tres estados. La matriz es simétrica porque la red es no dirigida.</p>
+</div>
+</div>
+</div>
+</section>
+<section id="ejercicios-con-pistas" class="level3 unnumbered">
+<h3 class="unnumbered anchored" data-anchor-id="ejercicios-con-pistas">Ejercicios con pistas</h3>
+<p><strong>Ejercicio 1:</strong> Crea una red vacía de 7 nodos no dirigidos. Agrega conexiones para formar un triángulo entre los nodos 1, 2 y 3, y otro triángulo entre 5, 6 y 7. Conecta ambos triángulos con una conexión entre 3 y 5. Visualiza el resultado y calcula el grado (degree) de cada nodo.</p>
+<div class="callout callout-style-simple callout-note callout-titled" title="💡 Pista 1">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-8-contents" aria-controls="callout-8" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>💡 Pista 1
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-8" class="callout-8-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Usa <code>make_empty_graph(n = 7, directed = FALSE)</code> y luego <code>add_edges()</code> con el vector de pares.</p>
+</div>
+</div>
+</div>
+<div class="callout callout-style-simple callout-note callout-titled" title="💡 Pista 2">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-9-contents" aria-controls="callout-9" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>💡 Pista 2
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-9" class="callout-9-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>El vector de conexiones sería: <code>c(1,2, 2,3, 1,3, 5,6, 6,7, 5,7, 3,5)</code>. Son 7 conexiones en total.</p>
+</div>
+</div>
+</div>
+<div class="callout callout-style-simple callout-note callout-titled" title="💡 Pista 3 — Pseudocódigo">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-10-contents" aria-controls="callout-10" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>💡 Pista 3 — Pseudocódigo
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-10" class="callout-10-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<pre><code>1. g &lt;- make_empty_graph(7, directed = FALSE)
+2. g &lt;- add_edges(g, c(1,2, 2,3, ...))
+3. plot(g)
+4. degree(g)</code></pre>
+</div>
+</div>
+</div>
+<hr>
+<p><strong>Ejercicio 2:</strong> Genera un <code>make_tree()</code> con 3 hijos por nodo y profundidad suficiente para tener al menos 40 nodos. ¿Cuántos nodos tiene exactamente? ¿Cuántas hojas (nodos con grado (degree) 1)?</p>
+<div class="callout callout-style-simple callout-note callout-titled" title="💡 Pista 1">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-11-contents" aria-controls="callout-11" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>💡 Pista 1
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-11" class="callout-11-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>En <code>make_tree(n, children)</code>, <code>n</code> es el número total de nodos. Un árbol con 3 hijos y <code>n = 40</code> tendrá exactamente 40 nodos.</p>
+</div>
+</div>
+</div>
+<div class="callout callout-style-simple callout-note callout-titled" title="💡 Pista 2">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-12-contents" aria-controls="callout-12" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>💡 Pista 2
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-12" class="callout-12-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Las hojas son los nodos con grado (degree) 1. Filtra con: <code>sum(degree(arbol) == 1)</code>.</p>
+</div>
+</div>
+</div>
+<div class="callout callout-style-simple callout-note callout-titled" title="💡 Pista 3 — Pseudocódigo">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-13-contents" aria-controls="callout-13" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>💡 Pista 3 — Pseudocódigo
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-13" class="callout-13-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<pre><code>1. arbol &lt;- make_tree(40, children = 3)
+2. vcount(arbol)
+3. sum(degree(arbol) == 1)
+4. plot(arbol, layout = layout_as_tree, vertex.size = 5)</code></pre>
+</div>
+</div>
+</div>
+<hr>
+<p><strong>Ejercicio 3:</strong> ¿Qué pasa si agregas un <em>self-loop</em> (conexión de un nodo a sí mismo) y una conexión duplicada? Crea una red, agrégalos, visualiza, y luego “limpia” la red con <code>simplify()</code>. Compara el antes y después.</p>
+<div class="callout callout-style-simple callout-note callout-titled" title="💡 Pista 1">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-14-contents" aria-controls="callout-14" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>💡 Pista 1
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-14" class="callout-14-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Usa <code>add_edges(g, c(1,1))</code> para un <em>self-loop</em> y repite una conexión existente para duplicarla.</p>
+</div>
+</div>
+</div>
+<div class="callout callout-style-simple callout-note callout-titled" title="💡 Pista 2">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-15-contents" aria-controls="callout-15" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>💡 Pista 2
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-15" class="callout-15-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p><code>simplify(g, remove.multiple = TRUE, remove.loops = TRUE)</code> elimina duplicados y <em>self-loops</em>.</p>
+</div>
+</div>
+</div>
+<div class="callout callout-style-simple callout-note callout-titled" title="💡 Pista 3 — Pseudocódigo">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-16-contents" aria-controls="callout-16" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>💡 Pista 3 — Pseudocódigo
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-16" class="callout-16-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<pre><code>1. g &lt;- make_ring(5)
+2. g &lt;- add_edges(g, c(1,1, 1,2))  # loop + duplicada
+3. ecount(g)  # contar conexiones antes
+4. plot(g)
+5. g_limpio &lt;- simplify(g)
+6. ecount(g_limpio)  # contar conexiones después
+7. plot(g_limpio)</code></pre>
+</div>
+</div>
+</div>
+</section>
+<section id="ejercicios-propuestos" class="level3 unnumbered">
+<h3 class="unnumbered anchored" data-anchor-id="ejercicios-propuestos">Ejercicios propuestos</h3>
+<p><strong>Ejercicio propuesto 1</strong> ⭐</p>
+<p>Crea una red estrella de 15 nodos. Calcula su grado (degree) máximo y mínimo. ¿Cuál es la densidad de conexiones (<code>edge_density()</code>)?</p>
+<blockquote class="blockquote">
+<p><strong>Autoevaluación:</strong> El grado (degree) máximo debe ser 14 (el nodo central) y el mínimo 1 (nodos periféricos).</p>
+</blockquote>
+<hr>
+<p><strong>Ejercicio propuesto 2</strong> ⭐⭐</p>
+<p>Genera tres redes con <code>sample_gnp(50, p)</code> usando <span class="math inline">\(p = 0.05\)</span>, <span class="math inline">\(p = 0.20\)</span> y <span class="math inline">\(p = 0.50\)</span>. Compara sus histogramas de grado (degree) en un gráfico con <code>par(mfrow = c(1, 3))</code>. ¿Qué patrón observas a medida que <span class="math inline">\(p\)</span> aumenta?</p>
+<blockquote class="blockquote">
+<p><strong>Autoevaluación:</strong> A mayor <span class="math inline">\(p\)</span>, la distribución de grado (degree) se desplaza a la derecha y se vuelve más concentrada. Con <span class="math inline">\(p = 0.50\)</span> el grado (degree) medio debe estar cerca de 25.</p>
+</blockquote>
+<hr>
+<p><strong>Ejercicio propuesto 3</strong> ⭐⭐</p>
+<p>Diseña una red hipotética de 8 ingredientes de cocina donde las conexiones representen que dos ingredientes aparecen juntos en una misma receta. Usa <code>graph_from_literal()</code> para definirla. Visualízala y calcula la matriz de distancias entre todos los pares.</p>
+<blockquote class="blockquote">
+<p><strong>Autoevaluación:</strong> Todos los nodos deben ser alcanzables entre sí (la red debe ser conexa). Si alguna distancia es <code>Inf</code>, tienes componentes desconectados.</p>
+</blockquote>
+<hr>
+<p><strong>Ejercicio propuesto 4</strong> ⭐⭐⭐</p>
+<p>Crea una función en R llamada <code>resumen_red()</code> que reciba un grafo <code>g</code> y devuelva un <em>data frame</em> con las columnas: <code>nodo</code>, <code>grado_total</code>, <code>grado_entrada</code>, <code>grado_salida</code>. Pruébala con una red dirigida de al menos 10 nodos.</p>
+<blockquote class="blockquote">
+<p><strong>Autoevaluación:</strong> Tu función debe manejar correctamente tanto redes dirigidas como no dirigidas (en las no dirigidas, los tres grados son iguales).</p>
+</blockquote>
+</section>
+</section>
+<section id="resumen-del-capítulo" class="level2" data-number="1.7">
+<h2 data-number="1.7" class="anchored" data-anchor-id="resumen-del-capítulo"><span class="header-section-number">1.7</span> Resumen del capítulo</h2>
+<div class="cell" data-layout-align="center">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb39"><pre class="sourceCode numberSource default number-lines code-with-copy"><code class="sourceCode default"><span id="cb39-1"><a href="#cb39-1"></a>flowchart LR</span>
+<span id="cb39-2"><a href="#cb39-2"></a>    A[Crear redes] --&gt; B[Manipular nodos y conexiones]</span>
+<span id="cb39-3"><a href="#cb39-3"></a>    B --&gt; C[Calcular grado (degree)]</span>
+<span id="cb39-4"><a href="#cb39-4"></a>    C --&gt; D[Matriz de adyacencia]</span>
+<span id="cb39-5"><a href="#cb39-5"></a>    D --&gt; E[Redes especiales]</span>
+<span id="cb39-6"><a href="#cb39-6"></a>    E --&gt; F["Siguiente: Distribuciones de grado (degree) →"]</span>
+<span id="cb39-7"><a href="#cb39-7"></a>    style F fill:#e8f4f8,stroke:#3ABEF9</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<div id="fig-resumen-cap1" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-resumen-cap1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div>
+<pre class="mermaid mermaid-js" data-label="fig-resumen-cap1">flowchart LR
+    A[Crear redes] --&gt; B[Manipular nodos y conexiones]
+    B --&gt; C[Calcular grado (degree)]
+    C --&gt; D[Matriz de adyacencia]
+    D --&gt; E[Redes especiales]
+    E --&gt; F["Siguiente: Distribuciones de grado (degree) →"]
+    style F fill:#e8f4f8,stroke:#3ABEF9
+</pre>
+</div>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-resumen-cap1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;1.9: Resumen visual del capítulo
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<table class="table-striped table-hover caption-top table">
+<caption>Funciones clave del capítulo</caption>
+<thead>
+<tr class="header">
+<th>Función</th>
+<th>Descripción</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>make_empty_graph()</code></td>
+<td>Crear grafo vacío</td>
+</tr>
+<tr class="even">
+<td><code>add_vertices()</code> / <code>add_edges()</code></td>
+<td>Agregar nodos / conexiones</td>
+</tr>
+<tr class="odd">
+<td><code>delete_vertices()</code> / <code>delete_edges()</code></td>
+<td>Eliminar nodos / conexiones</td>
+</tr>
+<tr class="even">
+<td><code>V(g)</code> / <code>E(g)</code></td>
+<td>Acceder a vértices / conexiones</td>
+</tr>
+<tr class="odd">
+<td><code>degree()</code></td>
+<td>Calcular grado (degree)</td>
+</tr>
+<tr class="even">
+<td><code>get.adjacency()</code></td>
+<td>Obtener matriz de adyacencia</td>
+</tr>
+<tr class="odd">
+<td><code>make_star()</code>, <code>make_ring()</code>, <code>make_tree()</code></td>
+<td>Crear redes especiales</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Conexión con el siguiente capítulo:</strong> Ahora que sabes crear redes y calcular grados, en el <span class="quarto-unresolved-ref">?sec-grado</span> (degree)-distribuciones exploraremos <em>cómo se distribuyen</em> esos grados y por qué algunas redes producen “superhubs” mientras que otras son más homogéneas.</p>
+</section>
+<section id="autoevaluación" class="level2 unnumbered">
+<h2 class="unnumbered anchored" data-anchor-id="autoevaluación">Autoevaluación</h2>
+<div class="callout callout-style-simple callout-caution callout-titled" title="Pregunta 1">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-17-contents" aria-controls="callout-17" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Caution</span>Pregunta 1
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-17" class="callout-17-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p><strong>Verdadero o Falso:</strong> En una red no dirigida, la matriz de adyacencia siempre es simétrica.</p>
+<p>✅ <strong>Verdadero.</strong> Si <span class="math inline">\(i\)</span> está conectado con <span class="math inline">\(j\)</span>, entonces <span class="math inline">\(j\)</span> también está conectado con <span class="math inline">\(i\)</span>.</p>
+</div>
+</div>
+</div>
+<div class="callout callout-style-simple callout-caution callout-titled" title="Pregunta 2">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-18-contents" aria-controls="callout-18" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Caution</span>Pregunta 2
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-18" class="callout-18-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p><strong>¿Cuál es el grado (degree) del nodo central en una red estrella de <span class="math inline">\(n\)</span> nodos?</strong></p>
+<ol type="a">
+<li><span class="math inline">\(1\)</span></li>
+<li><span class="math inline">\(n\)</span></li>
+<li><span class="math inline">\(n - 1\)</span> ✅</li>
+<li><span class="math inline">\(2\)</span></li>
+</ol>
+<p>El nodo central se conecta con todos los demás, así que su grado (degree) es <span class="math inline">\(n - 1\)</span>.</p>
+</div>
+</div>
+</div>
+<div class="callout callout-style-simple callout-caution callout-titled" title="Pregunta 3">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-19-contents" aria-controls="callout-19" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Caution</span>Pregunta 3
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-19" class="callout-19-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p><strong>¿Qué función usarías para eliminar <em>self-loops</em> y conexiones duplicadas de una red?</strong></p>
+<p><code>simplify()</code> con los parámetros <code>remove.multiple = TRUE</code> y <code>remove.loops = TRUE</code>.</p>
+</div>
+</div>
+</div>
+<div class="callout callout-style-simple callout-caution callout-titled" title="Pregunta 4">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-20-contents" aria-controls="callout-20" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Caution</span>Pregunta 4
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-20" class="callout-20-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p><strong>Verdadero o Falso:</strong> <code>add_edges(g, c(1,2,3))</code> agrega tres conexiones.</p>
+<p>❌ <strong>Falso.</strong> El vector debe tener un número par de elementos (pares origen-destino). Este código produciría un error.</p>
+</div>
+</div>
+</div>
+<div class="callout callout-style-simple callout-caution callout-titled" title="Pregunta 5">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-21-contents" aria-controls="callout-21" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Caution</span>Pregunta 5
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-21" class="callout-21-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p><strong>¿Cuántas conexiones tiene un <code>make_ring(10)</code>?</strong></p>
+<p>Exactamente <strong>10</strong>: cada nodo se conecta con su vecino y el último se conecta con el primero, formando un ciclo.</p>
+</div>
+</div>
+</div>
+
+
+<!-- -->
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    // Ensure there is a toggle, if there isn't float one in the top right
+    if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+      const a = window.document.createElement('a');
+      a.classList.add('top-right');
+      a.classList.add('quarto-color-scheme-toggle');
+      a.href = "";
+      a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+      const i = window.document.createElement("i");
+      i.classList.add('bi');
+      a.appendChild(i);
+      window.document.body.appendChild(a);
+    }
+    setColorSchemeToggle(hasAlternateSentinel())
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+    const viewSource = window.document.getElementById('quarto-view-source') ||
+                       window.document.getElementById('quarto-code-tools-source');
+    if (viewSource) {
+      const sourceUrl = viewSource.getAttribute("data-quarto-source-url");
+      viewSource.addEventListener("click", function(e) {
+        if (sourceUrl) {
+          // rstudio viewer pane
+          if (/\bcapabilities=\b/.test(window.location)) {
+            window.open(sourceUrl);
+          } else {
+            window.location.href = sourceUrl;
+          }
+        } else {
+          const modal = new bootstrap.Modal(document.getElementById('quarto-embedded-source-code-modal'));
+          modal.show();
+        }
+        return false;
+      });
+    }
+    function toggleCodeHandler(show) {
+      return function(e) {
+        const detailsSrc = window.document.querySelectorAll(".cell > details > .sourceCode");
+        for (let i=0; i<detailsSrc.length; i++) {
+          const details = detailsSrc[i].parentElement;
+          if (show) {
+            details.open = true;
+          } else {
+            details.removeAttribute("open");
+          }
+        }
+        const cellCodeDivs = window.document.querySelectorAll(".cell > .sourceCode");
+        const fromCls = show ? "hidden" : "unhidden";
+        const toCls = show ? "unhidden" : "hidden";
+        for (let i=0; i<cellCodeDivs.length; i++) {
+          const codeDiv = cellCodeDivs[i];
+          if (codeDiv.classList.contains(fromCls)) {
+            codeDiv.classList.remove(fromCls);
+            codeDiv.classList.add(toCls);
+          } 
+        }
+        return false;
+      }
+    }
+    const hideAllCode = window.document.getElementById("quarto-hide-all-code");
+    if (hideAllCode) {
+      hideAllCode.addEventListener("click", toggleCodeHandler(false));
+    }
+    const showAllCode = window.document.getElementById("quarto-show-all-code");
+    if (showAllCode) {
+      showAllCode.addEventListener("click", toggleCodeHandler(true));
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./index.html" class="pagination-link" aria-label="Prefacio">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Prefacio</span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./02-grado-distribuciones.html" class="pagination-link" aria-label="Grado y distribuciones">
+        <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Grado y distribuciones</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Source Code</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb40" data-shortcodes="false"><pre class="sourceCode numberSource markdown number-lines code-with-copy"><code class="sourceCode markdown"><span id="cb40-1"><a href="#cb40-1"></a><span class="fu"># Fundamentos de igraph {#sec-fundamentos}</span></span>
+<span id="cb40-2"><a href="#cb40-2"></a></span>
+<span id="cb40-3"><a href="#cb40-3"></a>::: {.callout-note title="🎯 Objetivos de aprendizaje"}</span>
+<span id="cb40-4"><a href="#cb40-4"></a>Al finalizar este capítulo serás capaz de:</span>
+<span id="cb40-5"><a href="#cb40-5"></a></span>
+<span id="cb40-6"><a href="#cb40-6"></a><span class="ss">1. </span>**Crear** redes vacías, agregar nodos y conexiones usando <span class="in">`igraph`</span>.</span>
+<span id="cb40-7"><a href="#cb40-7"></a><span class="ss">2. </span>**Manipular** atributos de vértices y conexiones (color, nombre, forma).</span>
+<span id="cb40-8"><a href="#cb40-8"></a><span class="ss">3. </span>**Visualizar** redes con distintos *layouts* y personalizaciones.</span>
+<span id="cb40-9"><a href="#cb40-9"></a><span class="ss">4. </span>**Construir** la matriz de adyacencia y representarla como mapa de calor.</span>
+<span id="cb40-10"><a href="#cb40-10"></a><span class="ss">5. </span>**Generar** redes especiales: estrella, anillo, árbol, lattice.</span>
+<span id="cb40-11"><a href="#cb40-11"></a>:::</span>
+<span id="cb40-12"><a href="#cb40-12"></a></span>
+<span id="cb40-13"><a href="#cb40-13"></a><span class="at">&gt; **Pregunta motivadora:** Si representaras tu grupo de amigos como una red, donde cada persona es un punto y cada amistad es una línea, ¿cómo se vería? ¿Quién estaría más "conectado"? ¿Habría grupos aislados?</span></span>
+<span id="cb40-14"><a href="#cb40-14"></a></span>
+<span id="cb40-17"><a href="#cb40-17"></a><span class="in">```{mermaid}</span></span>
+<span id="cb40-18"><a href="#cb40-18"></a>%%| label: fig-mapa-cap1</span>
+<span id="cb40-19"><a href="#cb40-19"></a>%%| fig-cap: <span class="ot">"</span><span class="st">Mapa conceptual del capítulo</span><span class="ot">"</span></span>
+<span id="cb40-20"><a href="#cb40-20"></a>flowchart TD</span>
+<span id="cb40-21"><a href="#cb40-21"></a>    A[Fundamentos de igraph] --&gt; B[Crear redes]</span>
+<span id="cb40-22"><a href="#cb40-22"></a>    A --&gt; C[grado (degree) y distribución]</span>
+<span id="cb40-23"><a href="#cb40-23"></a>    A --&gt; D[Matriz de adyacencia]</span>
+<span id="cb40-24"><a href="#cb40-24"></a>    A --&gt; E[Redes especiales]</span>
+<span id="cb40-25"><a href="#cb40-25"></a>    B --&gt; B1[Nodos y conexiones]</span>
+<span id="cb40-26"><a href="#cb40-26"></a>    B --&gt; B2[Atributos]</span>
+<span id="cb40-27"><a href="#cb40-27"></a>    B --&gt; B3[Visualización]</span>
+<span id="cb40-28"><a href="#cb40-28"></a>    C --&gt; C1[grado (degree) de entrada/salida]</span>
+<span id="cb40-29"><a href="#cb40-29"></a>    C --&gt; C2[Histogramas]</span>
+<span id="cb40-30"><a href="#cb40-30"></a>    D --&gt; D1[Heatmap]</span>
+<span id="cb40-31"><a href="#cb40-31"></a>    E --&gt; E1[Estrella / Anillo / Árbol]</span>
+<span id="cb40-32"><a href="#cb40-32"></a><span class="in">```</span></span>
+<span id="cb40-33"><a href="#cb40-33"></a></span>
+<span id="cb40-34"><a href="#cb40-34"></a><span class="fu">## Preparación del entorno</span></span>
+<span id="cb40-35"><a href="#cb40-35"></a></span>
+<span id="cb40-38"><a href="#cb40-38"></a><span class="in">```{r}</span></span>
+<span id="cb40-39"><a href="#cb40-39"></a><span class="co">#| label: setup-cap1</span></span>
+<span id="cb40-40"><a href="#cb40-40"></a></span>
+<span id="cb40-41"><a href="#cb40-41"></a><span class="fu">library</span>(igraph)</span>
+<span id="cb40-42"><a href="#cb40-42"></a><span class="in">```</span></span>
+<span id="cb40-43"><a href="#cb40-43"></a></span>
+<span id="cb40-44"><a href="#cb40-44"></a>::: {.callout-note title="📦 Paquete requerido" collapse="true"}</span>
+<span id="cb40-45"><a href="#cb40-45"></a>Si no tienes instalado <span class="in">`igraph`</span>, ejecuta:</span>
+<span id="cb40-46"><a href="#cb40-46"></a></span>
+<span id="cb40-47"><a href="#cb40-47"></a><span class="in">```r</span></span>
+<span id="cb40-48"><a href="#cb40-48"></a><span class="fu">install.packages</span>(<span class="st">"igraph"</span>)</span>
+<span id="cb40-49"><a href="#cb40-49"></a><span class="in">```</span></span>
+<span id="cb40-50"><a href="#cb40-50"></a>:::</span>
+<span id="cb40-51"><a href="#cb40-51"></a></span>
+<span id="cb40-52"><a href="#cb40-52"></a><span class="fu">## Crear redes desde cero</span></span>
+<span id="cb40-53"><a href="#cb40-53"></a></span>
+<span id="cb40-54"><a href="#cb40-54"></a>Un **grafo** (o red) se compone de **vértices** (nodos) y **conexiones** (conexiones entre nodos). En <span class="in">`igraph`</span>, todo comienza creando un grafo vacío y luego añadiendo elementos.</span>
+<span id="cb40-55"><a href="#cb40-55"></a></span>
+<span id="cb40-56"><a href="#cb40-56"></a>::: {.callout-tip title="💡 Concepto clave"}</span>
+<span id="cb40-57"><a href="#cb40-57"></a>En <span class="in">`igraph`</span>, los vértices se acceden con <span class="in">`V(g)`</span> y las conexiones con <span class="in">`E(g)`</span>. Piensa en <span class="in">`V`</span> de *vertices* y `E` de *edges*.</span>
+<span id="cb40-58"><a href="#cb40-58"></a>:::</span>
+<span id="cb40-59"><a href="#cb40-59"></a></span>
+<span id="cb40-60"><a href="#cb40-60"></a><span class="fu">### Paso 1: Grafo vacío</span></span>
+<span id="cb40-61"><a href="#cb40-61"></a></span>
+<span id="cb40-64"><a href="#cb40-64"></a><span class="in">```{r}</span></span>
+<span id="cb40-65"><a href="#cb40-65"></a><span class="co">#| label: crear-grafo-vacio</span></span>
+<span id="cb40-66"><a href="#cb40-66"></a><span class="co">#| fig-cap: "Red vacía con 5 nodos y sin conexiones"</span></span>
+<span id="cb40-67"><a href="#cb40-67"></a><span class="co">#| fig-alt: "Cinco nodos amarillos distribuidos sin conexiones entre ellos"</span></span>
+<span id="cb40-68"><a href="#cb40-68"></a></span>
+<span id="cb40-69"><a href="#cb40-69"></a><span class="co"># Crear un grafo dirigido vacío con 5 nodos</span></span>
+<span id="cb40-70"><a href="#cb40-70"></a>g <span class="ot">&lt;-</span> <span class="fu">make_empty_graph</span>(<span class="at">n =</span> <span class="dv">5</span>, <span class="at">directed =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb40-71"><a href="#cb40-71"></a></span>
+<span id="cb40-72"><a href="#cb40-72"></a><span class="co"># Asignar atributos visuales a los nodos</span></span>
+<span id="cb40-73"><a href="#cb40-73"></a><span class="fu">V</span>(g)<span class="sc">$</span>color <span class="ot">&lt;-</span> <span class="st">"yellow"</span></span>
+<span id="cb40-74"><a href="#cb40-74"></a></span>
+<span id="cb40-75"><a href="#cb40-75"></a><span class="co"># Visualizar</span></span>
+<span id="cb40-76"><a href="#cb40-76"></a><span class="fu">plot</span>(g, </span>
+<span id="cb40-77"><a href="#cb40-77"></a>     <span class="at">main =</span> <span class="st">"Red vacía con 5 nodos"</span>,</span>
+<span id="cb40-78"><a href="#cb40-78"></a>     <span class="at">vertex.size =</span> <span class="dv">30</span>)</span>
+<span id="cb40-79"><a href="#cb40-79"></a><span class="in">```</span></span>
+<span id="cb40-80"><a href="#cb40-80"></a></span>
+<span id="cb40-81"><a href="#cb40-81"></a><span class="fu">### Paso 2: Agregar conexiones</span></span>
+<span id="cb40-82"><a href="#cb40-82"></a></span>
+<span id="cb40-83"><a href="#cb40-83"></a>Las conexiones se agregan como un vector de pares: <span class="in">`c(origen1, destino1, origen2, destino2, ...)`</span>.</span>
+<span id="cb40-84"><a href="#cb40-84"></a></span>
+<span id="cb40-87"><a href="#cb40-87"></a><span class="in">```{r}</span></span>
+<span id="cb40-88"><a href="#cb40-88"></a><span class="co">#| label: agregar-conexiones</span></span>
+<span id="cb40-89"><a href="#cb40-89"></a><span class="co">#| fig-cap: "Red con conexiones agregadas manualmente"</span></span>
+<span id="cb40-90"><a href="#cb40-90"></a><span class="co">#| fig-alt: "Cinco nodos conectados por conexiones dirigidas"</span></span>
+<span id="cb40-91"><a href="#cb40-91"></a></span>
+<span id="cb40-92"><a href="#cb40-92"></a><span class="co"># Agregar conexiones: 1→2, 1→3, 2→4, 3→4, 4→5</span></span>
+<span id="cb40-93"><a href="#cb40-93"></a>g <span class="ot">&lt;-</span> <span class="fu">add_edges</span>(g, <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>, <span class="dv">1</span>,<span class="dv">3</span>, <span class="dv">2</span>,<span class="dv">4</span>, <span class="dv">3</span>,<span class="dv">4</span>, <span class="dv">4</span>,<span class="dv">5</span>))</span>
+<span id="cb40-94"><a href="#cb40-94"></a></span>
+<span id="cb40-95"><a href="#cb40-95"></a><span class="fu">plot</span>(g, </span>
+<span id="cb40-96"><a href="#cb40-96"></a>     <span class="at">main =</span> <span class="st">"Red con conexiones agregadas"</span>,</span>
+<span id="cb40-97"><a href="#cb40-97"></a>     <span class="at">vertex.size =</span> <span class="dv">30</span>,</span>
+<span id="cb40-98"><a href="#cb40-98"></a>     <span class="at">edge.arrow.size =</span> <span class="fl">0.6</span>)</span>
+<span id="cb40-99"><a href="#cb40-99"></a><span class="in">```</span></span>
+<span id="cb40-100"><a href="#cb40-100"></a></span>
+<span id="cb40-101"><a href="#cb40-101"></a><span class="fu">### Paso 3: Agregar nodos con atributos</span></span>
+<span id="cb40-102"><a href="#cb40-102"></a></span>
+<span id="cb40-105"><a href="#cb40-105"></a><span class="in">```{r}</span></span>
+<span id="cb40-106"><a href="#cb40-106"></a><span class="co">#| label: agregar-nodo</span></span>
+<span id="cb40-107"><a href="#cb40-107"></a><span class="co">#| fig-cap: "Nodo rojo agregado con nuevas conexiones"</span></span>
+<span id="cb40-108"><a href="#cb40-108"></a><span class="co">#| fig-alt: "Seis nodos, uno rojo, con conexiones dirigidas"</span></span>
+<span id="cb40-109"><a href="#cb40-109"></a></span>
+<span id="cb40-110"><a href="#cb40-110"></a><span class="co"># Agregar un nodo nuevo con color rojo</span></span>
+<span id="cb40-111"><a href="#cb40-111"></a>g <span class="ot">&lt;-</span> <span class="fu">add_vertices</span>(g, <span class="dv">1</span>, <span class="at">color =</span> <span class="st">"red"</span>)</span>
+<span id="cb40-112"><a href="#cb40-112"></a></span>
+<span id="cb40-113"><a href="#cb40-113"></a><span class="co"># Conectar el nuevo nodo (nodo 6)</span></span>
+<span id="cb40-114"><a href="#cb40-114"></a>g <span class="ot">&lt;-</span> <span class="fu">add_edges</span>(g, <span class="fu">c</span>(<span class="dv">3</span>,<span class="dv">6</span>, <span class="dv">6</span>,<span class="dv">5</span>))</span>
+<span id="cb40-115"><a href="#cb40-115"></a></span>
+<span id="cb40-116"><a href="#cb40-116"></a><span class="fu">plot</span>(g, </span>
+<span id="cb40-117"><a href="#cb40-117"></a>     <span class="at">main =</span> <span class="st">"Nodo rojo y nuevas conexiones"</span>,</span>
+<span id="cb40-118"><a href="#cb40-118"></a>     <span class="at">vertex.size =</span> <span class="dv">30</span>,</span>
+<span id="cb40-119"><a href="#cb40-119"></a>     <span class="at">edge.arrow.size =</span> <span class="fl">0.6</span>)</span>
+<span id="cb40-120"><a href="#cb40-120"></a><span class="in">```</span></span>
+<span id="cb40-121"><a href="#cb40-121"></a></span>
+<span id="cb40-122"><a href="#cb40-122"></a><span class="fu">### Paso 4: Nombrar los nodos</span></span>
+<span id="cb40-123"><a href="#cb40-123"></a></span>
+<span id="cb40-126"><a href="#cb40-126"></a><span class="in">```{r}</span></span>
+<span id="cb40-127"><a href="#cb40-127"></a><span class="co">#| label: renombrar-nodos</span></span>
+<span id="cb40-128"><a href="#cb40-128"></a><span class="co">#| fig-cap: "Red con nodos etiquetados de A a F"</span></span>
+<span id="cb40-129"><a href="#cb40-129"></a><span class="co">#| fig-alt: "Seis nodos etiquetados con letras A a F"</span></span>
+<span id="cb40-130"><a href="#cb40-130"></a></span>
+<span id="cb40-131"><a href="#cb40-131"></a><span class="co"># Asignar nombres a los vértices</span></span>
+<span id="cb40-132"><a href="#cb40-132"></a><span class="fu">V</span>(g)<span class="sc">$</span>name <span class="ot">&lt;-</span> LETTERS[<span class="dv">1</span><span class="sc">:</span><span class="dv">6</span>]</span>
+<span id="cb40-133"><a href="#cb40-133"></a></span>
+<span id="cb40-134"><a href="#cb40-134"></a><span class="fu">plot</span>(g, </span>
+<span id="cb40-135"><a href="#cb40-135"></a>     <span class="at">main =</span> <span class="st">"Nodos con nombres A–F"</span>,</span>
+<span id="cb40-136"><a href="#cb40-136"></a>     <span class="at">vertex.size =</span> <span class="dv">30</span>,</span>
+<span id="cb40-137"><a href="#cb40-137"></a>     <span class="at">edge.arrow.size =</span> <span class="fl">0.6</span>)</span>
+<span id="cb40-138"><a href="#cb40-138"></a><span class="in">```</span></span>
+<span id="cb40-139"><a href="#cb40-139"></a></span>
+<span id="cb40-140"><a href="#cb40-140"></a><span class="fu">### Paso 5: Modificar conexiones</span></span>
+<span id="cb40-141"><a href="#cb40-141"></a></span>
+<span id="cb40-144"><a href="#cb40-144"></a><span class="in">```{r}</span></span>
+<span id="cb40-145"><a href="#cb40-145"></a><span class="co">#| label: modificar-conexiones</span></span>
+<span id="cb40-146"><a href="#cb40-146"></a><span class="co">#| fig-cap: "Red con dirección de conexión modificada"</span></span>
+<span id="cb40-147"><a href="#cb40-147"></a><span class="co">#| fig-alt: "Red de seis nodos con una conexión cambiada de dirección"</span></span>
+<span id="cb40-148"><a href="#cb40-148"></a></span>
+<span id="cb40-149"><a href="#cb40-149"></a><span class="co"># Eliminar la segunda conexión (A→C) y agregar C→A</span></span>
+<span id="cb40-150"><a href="#cb40-150"></a>g <span class="ot">&lt;-</span> <span class="fu">delete_edges</span>(g, <span class="dv">2</span>)</span>
+<span id="cb40-151"><a href="#cb40-151"></a>g <span class="ot">&lt;-</span> <span class="fu">add_edges</span>(g, <span class="fu">c</span>(<span class="dv">3</span>, <span class="dv">1</span>))  <span class="co"># C → A</span></span>
+<span id="cb40-152"><a href="#cb40-152"></a></span>
+<span id="cb40-153"><a href="#cb40-153"></a><span class="fu">plot</span>(g, </span>
+<span id="cb40-154"><a href="#cb40-154"></a>     <span class="at">main =</span> <span class="st">"Cambio en dirección de conexión"</span>,</span>
+<span id="cb40-155"><a href="#cb40-155"></a>     <span class="at">vertex.size =</span> <span class="dv">30</span>,</span>
+<span id="cb40-156"><a href="#cb40-156"></a>     <span class="at">edge.arrow.size =</span> <span class="fl">0.6</span>)</span>
+<span id="cb40-157"><a href="#cb40-157"></a><span class="in">```</span></span>
+<span id="cb40-158"><a href="#cb40-158"></a></span>
+<span id="cb40-159"><a href="#cb40-159"></a>::: {.callout-warning title="⚠️ Error frecuente"}</span>
+<span id="cb40-160"><a href="#cb40-160"></a>Cuando eliminas conexiones con <span class="in">`delete_edges()`</span>, los **índices se reorganizan**. Si eliminas la conexión 2, la que antes era la 3 ahora es la 2. Siempre verifica con <span class="in">`E(g)`</span> después de eliminar.</span>
+<span id="cb40-161"><a href="#cb40-161"></a>:::</span>
+<span id="cb40-162"><a href="#cb40-162"></a></span>
+<span id="cb40-163"><a href="#cb40-163"></a><span class="fu">## grado (degree) y distribución de grado (degree) {#sec-grado (degree)-basico}</span></span>
+<span id="cb40-164"><a href="#cb40-164"></a></span>
+<span id="cb40-165"><a href="#cb40-165"></a>El **grado (degree)** de un nodo es el número de conexiones que tiene. En redes dirigidas, distinguimos entre grado (degree) de entrada (*in-degree*) y de salida (*out-degree*).</span>
+<span id="cb40-166"><a href="#cb40-166"></a></span>
+<span id="cb40-167"><a href="#cb40-167"></a>::: {.panel-tabset}</span>
+<span id="cb40-168"><a href="#cb40-168"></a></span>
+<span id="cb40-169"><a href="#cb40-169"></a><span class="fu">### grado (degree) total</span></span>
+<span id="cb40-170"><a href="#cb40-170"></a></span>
+<span id="cb40-173"><a href="#cb40-173"></a><span class="in">```{r}</span></span>
+<span id="cb40-174"><a href="#cb40-174"></a><span class="co">#| label: grado (degree)-total</span></span>
+<span id="cb40-175"><a href="#cb40-175"></a></span>
+<span id="cb40-176"><a href="#cb40-176"></a><span class="co"># grado (degree) total de cada nodo</span></span>
+<span id="cb40-177"><a href="#cb40-177"></a><span class="fu">degree</span>(g)</span>
+<span id="cb40-178"><a href="#cb40-178"></a><span class="in">```</span></span>
+<span id="cb40-179"><a href="#cb40-179"></a></span>
+<span id="cb40-180"><a href="#cb40-180"></a><span class="fu">### grado (degree) de entrada</span></span>
+<span id="cb40-181"><a href="#cb40-181"></a></span>
+<span id="cb40-184"><a href="#cb40-184"></a><span class="in">```{r}</span></span>
+<span id="cb40-185"><a href="#cb40-185"></a><span class="co">#| label: grado (degree)-entrada</span></span>
+<span id="cb40-186"><a href="#cb40-186"></a></span>
+<span id="cb40-187"><a href="#cb40-187"></a><span class="co"># ¿Cuántas conexiones llegan a cada nodo?</span></span>
+<span id="cb40-188"><a href="#cb40-188"></a><span class="fu">degree</span>(g, <span class="at">mode =</span> <span class="st">"in"</span>)</span>
+<span id="cb40-189"><a href="#cb40-189"></a><span class="in">```</span></span>
+<span id="cb40-190"><a href="#cb40-190"></a></span>
+<span id="cb40-191"><a href="#cb40-191"></a><span class="fu">### grado (degree) de salida</span></span>
+<span id="cb40-192"><a href="#cb40-192"></a></span>
+<span id="cb40-195"><a href="#cb40-195"></a><span class="in">```{r}</span></span>
+<span id="cb40-196"><a href="#cb40-196"></a><span class="co">#| label: grado (degree)-salida</span></span>
+<span id="cb40-197"><a href="#cb40-197"></a></span>
+<span id="cb40-198"><a href="#cb40-198"></a><span class="co"># ¿Cuántas conexiones salen de cada nodo?</span></span>
+<span id="cb40-199"><a href="#cb40-199"></a><span class="fu">degree</span>(g, <span class="at">mode =</span> <span class="st">"out"</span>)</span>
+<span id="cb40-200"><a href="#cb40-200"></a><span class="in">```</span></span>
+<span id="cb40-201"><a href="#cb40-201"></a></span>
+<span id="cb40-202"><a href="#cb40-202"></a>:::</span>
+<span id="cb40-203"><a href="#cb40-203"></a></span>
+<span id="cb40-204"><a href="#cb40-204"></a><span class="fu">### Visualizar el grado (degree)</span></span>
+<span id="cb40-205"><a href="#cb40-205"></a></span>
+<span id="cb40-208"><a href="#cb40-208"></a><span class="in">```{r}</span></span>
+<span id="cb40-209"><a href="#cb40-209"></a><span class="co">#| label: fig-tamano-grado (degree)</span></span>
+<span id="cb40-210"><a href="#cb40-210"></a><span class="co">#| fig-cap: "Tamaño de nodos proporcional al grado (degree) de entrada"</span></span>
+<span id="cb40-211"><a href="#cb40-211"></a><span class="co">#| fig-alt: "Red donde los nodos más grandes reciben más conexiones"</span></span>
+<span id="cb40-212"><a href="#cb40-212"></a></span>
+<span id="cb40-213"><a href="#cb40-213"></a><span class="fu">plot</span>(g, </span>
+<span id="cb40-214"><a href="#cb40-214"></a>     <span class="at">layout =</span> <span class="fu">layout_nicely</span>(g),</span>
+<span id="cb40-215"><a href="#cb40-215"></a>     <span class="at">vertex.size =</span> <span class="fu">degree</span>(g, <span class="at">mode =</span> <span class="st">"in"</span>) <span class="sc">*</span> <span class="dv">10</span> <span class="sc">+</span> <span class="dv">10</span>,</span>
+<span id="cb40-216"><a href="#cb40-216"></a>     <span class="at">vertex.label.dist =</span> <span class="fl">0.5</span>,</span>
+<span id="cb40-217"><a href="#cb40-217"></a>     <span class="at">edge.arrow.size =</span> <span class="fl">0.5</span>,</span>
+<span id="cb40-218"><a href="#cb40-218"></a>     <span class="at">main =</span> <span class="st">"Tamaño proporcional al grado (degree) de entrada"</span>)</span>
+<span id="cb40-219"><a href="#cb40-219"></a><span class="in">```</span></span>
+<span id="cb40-220"><a href="#cb40-220"></a></span>
+<span id="cb40-223"><a href="#cb40-223"></a><span class="in">```{r}</span></span>
+<span id="cb40-224"><a href="#cb40-224"></a><span class="co">#| label: fig-histograma-grado (degree)</span></span>
+<span id="cb40-225"><a href="#cb40-225"></a><span class="co">#| fig-cap: "Histograma de la distribución de grado (degree)"</span></span>
+<span id="cb40-226"><a href="#cb40-226"></a><span class="co">#| fig-alt: "Histograma que muestra la frecuencia de cada valor de grado (degree)"</span></span>
+<span id="cb40-227"><a href="#cb40-227"></a></span>
+<span id="cb40-228"><a href="#cb40-228"></a><span class="fu">hist</span>(<span class="fu">degree</span>(g), </span>
+<span id="cb40-229"><a href="#cb40-229"></a>     <span class="at">col =</span> <span class="st">"salmon"</span>, </span>
+<span id="cb40-230"><a href="#cb40-230"></a>     <span class="at">main =</span> <span class="st">"Histograma del grado (degree)"</span>,</span>
+<span id="cb40-231"><a href="#cb40-231"></a>     <span class="at">xlab =</span> <span class="st">"grado (degree)"</span>,</span>
+<span id="cb40-232"><a href="#cb40-232"></a>     <span class="at">ylab =</span> <span class="st">"Frecuencia"</span>,</span>
+<span id="cb40-233"><a href="#cb40-233"></a>     <span class="at">border =</span> <span class="st">"white"</span>)</span>
+<span id="cb40-234"><a href="#cb40-234"></a><span class="in">```</span></span>
+<span id="cb40-235"><a href="#cb40-235"></a></span>
+<span id="cb40-236"><a href="#cb40-236"></a><span class="fu">## Matriz de adyacencia {#sec-matriz-adyacencia}</span></span>
+<span id="cb40-237"><a href="#cb40-237"></a></span>
+<span id="cb40-238"><a href="#cb40-238"></a>La **matriz de adyacencia** es una representación numérica de la red: un 1 en la posición $(i,j)$ indica que existe una conexión del nodo $i$ al nodo $j$.</span>
+<span id="cb40-239"><a href="#cb40-239"></a></span>
+<span id="cb40-240"><a href="#cb40-240"></a>$$</span>
+<span id="cb40-241"><a href="#cb40-241"></a>A_{ij} = \begin{cases} 1 &amp; \text{si existe conexión de } i \text{ a } j <span class="sc">\\</span> 0 &amp; \text{en otro caso} \end{cases}</span>
+<span id="cb40-242"><a href="#cb40-242"></a>$$</span>
+<span id="cb40-243"><a href="#cb40-243"></a></span>
+<span id="cb40-246"><a href="#cb40-246"></a><span class="in">```{r}</span></span>
+<span id="cb40-247"><a href="#cb40-247"></a><span class="co">#| label: matriz-adyacencia</span></span>
+<span id="cb40-248"><a href="#cb40-248"></a></span>
+<span id="cb40-249"><a href="#cb40-249"></a><span class="co"># Obtener la matriz de adyacencia</span></span>
+<span id="cb40-250"><a href="#cb40-250"></a>adj_mat <span class="ot">&lt;-</span> <span class="fu">as.matrix</span>(<span class="fu">get.adjacency</span>(g))</span>
+<span id="cb40-251"><a href="#cb40-251"></a></span>
+<span id="cb40-252"><a href="#cb40-252"></a><span class="co"># Mostrar como tabla</span></span>
+<span id="cb40-253"><a href="#cb40-253"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(adj_mat, <span class="at">caption =</span> <span class="st">"Matriz de adyacencia de la red"</span>)</span>
+<span id="cb40-254"><a href="#cb40-254"></a><span class="in">```</span></span>
+<span id="cb40-255"><a href="#cb40-255"></a></span>
+<span id="cb40-258"><a href="#cb40-258"></a><span class="in">```{r}</span></span>
+<span id="cb40-259"><a href="#cb40-259"></a><span class="co">#| label: fig-heatmap-adj</span></span>
+<span id="cb40-260"><a href="#cb40-260"></a><span class="co">#| fig-cap: "Mapa de calor de la matriz de adyacencia"</span></span>
+<span id="cb40-261"><a href="#cb40-261"></a><span class="co">#| fig-alt: "Heatmap que muestra las conexiones entre nodos como celdas coloreadas"</span></span>
+<span id="cb40-262"><a href="#cb40-262"></a></span>
+<span id="cb40-263"><a href="#cb40-263"></a><span class="fu">heatmap</span>(adj_mat, </span>
+<span id="cb40-264"><a href="#cb40-264"></a>        <span class="at">Rowv =</span> <span class="cn">NA</span>, <span class="at">Colv =</span> <span class="cn">NA</span>, </span>
+<span id="cb40-265"><a href="#cb40-265"></a>        <span class="at">col =</span> <span class="fu">c</span>(<span class="st">"white"</span>, <span class="st">"steelblue"</span>),</span>
+<span id="cb40-266"><a href="#cb40-266"></a>        <span class="at">main =</span> <span class="st">"Mapa de calor — Matriz de adyacencia"</span>,</span>
+<span id="cb40-267"><a href="#cb40-267"></a>        <span class="at">scale =</span> <span class="st">"none"</span>)</span>
+<span id="cb40-268"><a href="#cb40-268"></a><span class="in">```</span></span>
+<span id="cb40-269"><a href="#cb40-269"></a></span>
+<span id="cb40-270"><a href="#cb40-270"></a>::: {.callout-tip title="💡 Concepto clave"}</span>
+<span id="cb40-271"><a href="#cb40-271"></a>En una red **no dirigida**, la matriz de adyacencia es **simétrica** ($A_{ij} = A_{ji}$). En una red dirigida, no necesariamente lo es. Verifica esto convirtiendo la red con <span class="in">`as.undirected(g)`</span>.</span>
+<span id="cb40-272"><a href="#cb40-272"></a>:::</span>
+<span id="cb40-273"><a href="#cb40-273"></a></span>
+<span id="cb40-274"><a href="#cb40-274"></a><span class="fu">## Redes especiales {#sec-redes-especiales}</span></span>
+<span id="cb40-275"><a href="#cb40-275"></a></span>
+<span id="cb40-276"><a href="#cb40-276"></a><span class="in">`igraph`</span> incluye funciones para crear topologías clásicas que aparecen frecuentemente en la teoría de redes.</span>
+<span id="cb40-277"><a href="#cb40-277"></a></span>
+<span id="cb40-278"><a href="#cb40-278"></a>::: {.panel-tabset}</span>
+<span id="cb40-279"><a href="#cb40-279"></a></span>
+<span id="cb40-280"><a href="#cb40-280"></a><span class="fu">### Estrella</span></span>
+<span id="cb40-281"><a href="#cb40-281"></a></span>
+<span id="cb40-284"><a href="#cb40-284"></a><span class="in">```{r}</span></span>
+<span id="cb40-285"><a href="#cb40-285"></a><span class="co">#| label: fig-red-estrella</span></span>
+<span id="cb40-286"><a href="#cb40-286"></a><span class="co">#| fig-cap: "Red tipo estrella con 10 nodos"</span></span>
+<span id="cb40-287"><a href="#cb40-287"></a><span class="co">#| fig-alt: "Un nodo central conectado a 9 nodos periféricos"</span></span>
+<span id="cb40-288"><a href="#cb40-288"></a></span>
+<span id="cb40-289"><a href="#cb40-289"></a><span class="fu">plot</span>(<span class="fu">make_star</span>(<span class="dv">10</span>), </span>
+<span id="cb40-290"><a href="#cb40-290"></a>     <span class="at">vertex.color =</span> <span class="fu">c</span>(<span class="st">"tomato"</span>, <span class="fu">rep</span>(<span class="st">"gold"</span>, <span class="dv">9</span>)),</span>
+<span id="cb40-291"><a href="#cb40-291"></a>     <span class="at">vertex.size =</span> <span class="dv">20</span>,</span>
+<span id="cb40-292"><a href="#cb40-292"></a>     <span class="at">main =</span> <span class="st">"Red estrella"</span>)</span>
+<span id="cb40-293"><a href="#cb40-293"></a><span class="in">```</span></span>
+<span id="cb40-294"><a href="#cb40-294"></a></span>
+<span id="cb40-295"><a href="#cb40-295"></a><span class="fu">### Anillo</span></span>
+<span id="cb40-296"><a href="#cb40-296"></a></span>
+<span id="cb40-299"><a href="#cb40-299"></a><span class="in">```{r}</span></span>
+<span id="cb40-300"><a href="#cb40-300"></a><span class="co">#| label: fig-red-anillo</span></span>
+<span id="cb40-301"><a href="#cb40-301"></a><span class="co">#| fig-cap: "Red tipo anillo con 10 nodos"</span></span>
+<span id="cb40-302"><a href="#cb40-302"></a><span class="co">#| fig-alt: "Diez nodos formando un círculo conectados secuencialmente"</span></span>
+<span id="cb40-303"><a href="#cb40-303"></a></span>
+<span id="cb40-304"><a href="#cb40-304"></a><span class="fu">plot</span>(<span class="fu">make_ring</span>(<span class="dv">10</span>), </span>
+<span id="cb40-305"><a href="#cb40-305"></a>     <span class="at">vertex.color =</span> <span class="st">"skyblue"</span>,</span>
+<span id="cb40-306"><a href="#cb40-306"></a>     <span class="at">vertex.size =</span> <span class="dv">20</span>,</span>
+<span id="cb40-307"><a href="#cb40-307"></a>     <span class="at">main =</span> <span class="st">"Red anillo"</span>)</span>
+<span id="cb40-308"><a href="#cb40-308"></a><span class="in">```</span></span>
+<span id="cb40-309"><a href="#cb40-309"></a></span>
+<span id="cb40-310"><a href="#cb40-310"></a><span class="fu">### Árbol binario</span></span>
+<span id="cb40-311"><a href="#cb40-311"></a></span>
+<span id="cb40-314"><a href="#cb40-314"></a><span class="in">```{r}</span></span>
+<span id="cb40-315"><a href="#cb40-315"></a><span class="co">#| label: fig-red-arbol</span></span>
+<span id="cb40-316"><a href="#cb40-316"></a><span class="co">#| fig-cap: "Árbol binario con 15 nodos"</span></span>
+<span id="cb40-317"><a href="#cb40-317"></a><span class="co">#| fig-alt: "Estructura jerárquica de 15 nodos donde cada padre tiene 2 hijos"</span></span>
+<span id="cb40-318"><a href="#cb40-318"></a></span>
+<span id="cb40-319"><a href="#cb40-319"></a><span class="fu">plot</span>(<span class="fu">make_tree</span>(<span class="dv">15</span>, <span class="at">children =</span> <span class="dv">2</span>), </span>
+<span id="cb40-320"><a href="#cb40-320"></a>     <span class="at">vertex.color =</span> <span class="st">"lightgreen"</span>,</span>
+<span id="cb40-321"><a href="#cb40-321"></a>     <span class="at">vertex.size =</span> <span class="dv">15</span>,</span>
+<span id="cb40-322"><a href="#cb40-322"></a>     <span class="at">layout =</span> layout_as_tree,</span>
+<span id="cb40-323"><a href="#cb40-323"></a>     <span class="at">main =</span> <span class="st">"Árbol binario"</span>)</span>
+<span id="cb40-324"><a href="#cb40-324"></a><span class="in">```</span></span>
+<span id="cb40-325"><a href="#cb40-325"></a></span>
+<span id="cb40-326"><a href="#cb40-326"></a><span class="fu">### Lattice</span></span>
+<span id="cb40-327"><a href="#cb40-327"></a></span>
+<span id="cb40-330"><a href="#cb40-330"></a><span class="in">```{r}</span></span>
+<span id="cb40-331"><a href="#cb40-331"></a><span class="co">#| label: fig-red-lattice</span></span>
+<span id="cb40-332"><a href="#cb40-332"></a><span class="co">#| fig-cap: "Red tipo rejilla (lattice) de 4×4"</span></span>
+<span id="cb40-333"><a href="#cb40-333"></a><span class="co">#| fig-alt: "16 nodos formando una cuadrícula con conexiones entre vecinos"</span></span>
+<span id="cb40-334"><a href="#cb40-334"></a></span>
+<span id="cb40-335"><a href="#cb40-335"></a><span class="fu">plot</span>(<span class="fu">make_lattice</span>(<span class="fu">c</span>(<span class="dv">4</span>, <span class="dv">4</span>)), </span>
+<span id="cb40-336"><a href="#cb40-336"></a>     <span class="at">vertex.color =</span> <span class="st">"plum"</span>,</span>
+<span id="cb40-337"><a href="#cb40-337"></a>     <span class="at">vertex.size =</span> <span class="dv">20</span>,</span>
+<span id="cb40-338"><a href="#cb40-338"></a>     <span class="at">main =</span> <span class="st">"Lattice 4×4"</span>)</span>
+<span id="cb40-339"><a href="#cb40-339"></a><span class="in">```</span></span>
+<span id="cb40-340"><a href="#cb40-340"></a></span>
+<span id="cb40-341"><a href="#cb40-341"></a>:::</span>
+<span id="cb40-342"><a href="#cb40-342"></a></span>
+<span id="cb40-343"><a href="#cb40-343"></a><span class="fu">## Ejercicios</span></span>
+<span id="cb40-344"><a href="#cb40-344"></a></span>
+<span id="cb40-345"><a href="#cb40-345"></a><span class="fu">### Ejercicios resueltos {.unnumbered}</span></span>
+<span id="cb40-346"><a href="#cb40-346"></a></span>
+<span id="cb40-347"><a href="#cb40-347"></a>**Ejercicio resuelto 1:** Crea una red no dirigida de 7 nodos con colores aleatorios de una paleta, conéctalos formando una cadena (*path*), y visualiza el resultado.</span>
+<span id="cb40-348"><a href="#cb40-348"></a></span>
+<span id="cb40-349"><a href="#cb40-349"></a>::: {.callout-tip title="📝 Solución" collapse="true"}</span>
+<span id="cb40-350"><a href="#cb40-350"></a></span>
+<span id="cb40-351"><a href="#cb40-351"></a>**Paso 1:** Crear el grafo tipo cadena y asignar colores.</span>
+<span id="cb40-352"><a href="#cb40-352"></a></span>
+<span id="cb40-355"><a href="#cb40-355"></a><span class="in">```{r}</span></span>
+<span id="cb40-356"><a href="#cb40-356"></a><span class="co">#| label: ej-resuelto-1</span></span>
+<span id="cb40-357"><a href="#cb40-357"></a></span>
+<span id="cb40-358"><a href="#cb40-358"></a><span class="fu">set.seed</span>(<span class="dv">42</span>)</span>
+<span id="cb40-359"><a href="#cb40-359"></a></span>
+<span id="cb40-360"><a href="#cb40-360"></a><span class="co"># Crear cadena de 7 nodos</span></span>
+<span id="cb40-361"><a href="#cb40-361"></a><span class="co">#g_cadena &lt;- make_graph(~ 1-2-3-4-5-6-7, directed = FALSE)</span></span>
+<span id="cb40-362"><a href="#cb40-362"></a>g_cadena <span class="ot">&lt;-</span> <span class="fu">graph_from_literal</span>(<span class="dv">1-2-3-4-5-6-7</span>)</span>
+<span id="cb40-363"><a href="#cb40-363"></a><span class="co"># Asignar colores aleatorios de una paleta</span></span>
+<span id="cb40-364"><a href="#cb40-364"></a>paleta <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"tomato"</span>, <span class="st">"gold"</span>, <span class="st">"skyblue"</span>, <span class="st">"lightgreen"</span>, <span class="st">"plum"</span>, <span class="st">"salmon"</span>, <span class="st">"steelblue"</span>)</span>
+<span id="cb40-365"><a href="#cb40-365"></a><span class="fu">V</span>(g_cadena)<span class="sc">$</span>color <span class="ot">&lt;-</span> <span class="fu">sample</span>(paleta, <span class="dv">7</span>)</span>
+<span id="cb40-366"><a href="#cb40-366"></a><span class="fu">V</span>(g_cadena)<span class="sc">$</span>name <span class="ot">&lt;-</span> <span class="fu">paste0</span>(<span class="st">"N"</span>, <span class="dv">1</span><span class="sc">:</span><span class="dv">7</span>)</span>
+<span id="cb40-367"><a href="#cb40-367"></a><span class="in">```</span></span>
+<span id="cb40-368"><a href="#cb40-368"></a></span>
+<span id="cb40-369"><a href="#cb40-369"></a>**Paso 2:** Visualizar la red.</span>
+<span id="cb40-370"><a href="#cb40-370"></a></span>
+<span id="cb40-373"><a href="#cb40-373"></a><span class="in">```{r}</span></span>
+<span id="cb40-374"><a href="#cb40-374"></a><span class="co">#| label: fig-ej-resuelto-1</span></span>
+<span id="cb40-375"><a href="#cb40-375"></a><span class="co">#| fig-cap: "Red tipo cadena con 7 nodos y colores aleatorios"</span></span>
+<span id="cb40-376"><a href="#cb40-376"></a></span>
+<span id="cb40-377"><a href="#cb40-377"></a><span class="fu">plot</span>(g_cadena, </span>
+<span id="cb40-378"><a href="#cb40-378"></a>     <span class="at">vertex.size =</span> <span class="dv">30</span>, </span>
+<span id="cb40-379"><a href="#cb40-379"></a>     <span class="at">main =</span> <span class="st">"Red tipo cadena (path)"</span>)</span>
+<span id="cb40-380"><a href="#cb40-380"></a><span class="in">```</span></span>
+<span id="cb40-381"><a href="#cb40-381"></a></span>
+<span id="cb40-382"><a href="#cb40-382"></a>**Paso 3:** Verificar propiedades.</span>
+<span id="cb40-383"><a href="#cb40-383"></a></span>
+<span id="cb40-386"><a href="#cb40-386"></a><span class="in">```{r}</span></span>
+<span id="cb40-387"><a href="#cb40-387"></a><span class="co">#| label: ej-resuelto-1-props</span></span>
+<span id="cb40-388"><a href="#cb40-388"></a></span>
+<span id="cb40-389"><a href="#cb40-389"></a><span class="fu">cat</span>(<span class="st">"Número de nodos:"</span>, <span class="fu">vcount</span>(g_cadena), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span>
+<span id="cb40-390"><a href="#cb40-390"></a><span class="fu">cat</span>(<span class="st">"Número de conexiones:"</span>, <span class="fu">ecount</span>(g_cadena), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span>
+<span id="cb40-391"><a href="#cb40-391"></a><span class="fu">cat</span>(<span class="st">"grado (degree) de cada nodo:"</span>, <span class="fu">degree</span>(g_cadena), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span>
+<span id="cb40-392"><a href="#cb40-392"></a><span class="fu">cat</span>(<span class="st">"¿Es conexa?"</span>, <span class="fu">is_connected</span>(g_cadena), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span>
+<span id="cb40-393"><a href="#cb40-393"></a><span class="in">```</span></span>
+<span id="cb40-394"><a href="#cb40-394"></a></span>
+<span id="cb40-395"><a href="#cb40-395"></a>**Interpretación:** La cadena tiene 7 nodos y 6 conexiones. Los nodos extremos tienen grado (degree) 1 y los internos grado (degree) 2. La red es conexa (todos los nodos se pueden alcanzar entre sí).</span>
+<span id="cb40-396"><a href="#cb40-396"></a>:::</span>
+<span id="cb40-397"><a href="#cb40-397"></a></span>
+<span id="cb40-398"><a href="#cb40-398"></a>---</span>
+<span id="cb40-399"><a href="#cb40-399"></a></span>
+<span id="cb40-400"><a href="#cb40-400"></a>**Ejercicio resuelto 2:** Construye manualmente una red donde los nodos representen 5 ciudades mexicanas y las conexiones indiquen si comparten frontera estatal. Muestra la matriz de adyacencia.</span>
+<span id="cb40-401"><a href="#cb40-401"></a></span>
+<span id="cb40-402"><a href="#cb40-402"></a>::: {.callout-tip title="📝 Solución" collapse="true"}</span>
+<span id="cb40-403"><a href="#cb40-403"></a></span>
+<span id="cb40-404"><a href="#cb40-404"></a>**Paso 1:** Definir las ciudades y sus conexiones fronterizas.</span>
+<span id="cb40-405"><a href="#cb40-405"></a></span>
+<span id="cb40-408"><a href="#cb40-408"></a><span class="in">```{r}</span></span>
+<span id="cb40-409"><a href="#cb40-409"></a><span class="co">#| label: ej-resuelto-2</span></span>
+<span id="cb40-410"><a href="#cb40-410"></a></span>
+<span id="cb40-411"><a href="#cb40-411"></a><span class="co"># Crear la red</span></span>
+<span id="cb40-412"><a href="#cb40-412"></a>ciudades <span class="ot">&lt;-</span> <span class="fu">graph_from_literal</span>(</span>
+<span id="cb40-413"><a href="#cb40-413"></a>  Querétaro <span class="sc">--</span> Guanajuato,</span>
+<span id="cb40-414"><a href="#cb40-414"></a>  Querétaro <span class="sc">--</span> <span class="st">"San Luis Potosí"</span>,</span>
+<span id="cb40-415"><a href="#cb40-415"></a>  Querétaro <span class="sc">--</span> Hidalgo,</span>
+<span id="cb40-416"><a href="#cb40-416"></a>  Guanajuato <span class="sc">--</span> <span class="st">"San Luis Potosí"</span>,</span>
+<span id="cb40-417"><a href="#cb40-417"></a>  Hidalgo <span class="sc">--</span> <span class="st">"Estado de México"</span></span>
+<span id="cb40-418"><a href="#cb40-418"></a>)</span>
+<span id="cb40-419"><a href="#cb40-419"></a></span>
+<span id="cb40-420"><a href="#cb40-420"></a><span class="fu">V</span>(ciudades)<span class="sc">$</span>color <span class="ot">&lt;-</span> <span class="st">"gold"</span></span>
+<span id="cb40-421"><a href="#cb40-421"></a><span class="fu">V</span>(ciudades)<span class="sc">$</span>size <span class="ot">&lt;-</span> <span class="dv">25</span></span>
+<span id="cb40-422"><a href="#cb40-422"></a><span class="in">```</span></span>
+<span id="cb40-423"><a href="#cb40-423"></a></span>
+<span id="cb40-424"><a href="#cb40-424"></a>**Paso 2:** Visualizar y mostrar la matriz.</span>
+<span id="cb40-425"><a href="#cb40-425"></a></span>
+<span id="cb40-428"><a href="#cb40-428"></a><span class="in">```{r}</span></span>
+<span id="cb40-429"><a href="#cb40-429"></a><span class="co">#| label: fig-ej-resuelto-2</span></span>
+<span id="cb40-430"><a href="#cb40-430"></a><span class="co">#| fig-cap: "Red de ciudades que comparten frontera estatal"</span></span>
+<span id="cb40-431"><a href="#cb40-431"></a></span>
+<span id="cb40-432"><a href="#cb40-432"></a><span class="fu">plot</span>(ciudades, </span>
+<span id="cb40-433"><a href="#cb40-433"></a>     <span class="at">vertex.label.cex =</span> <span class="fl">0.8</span>,</span>
+<span id="cb40-434"><a href="#cb40-434"></a>     <span class="at">main =</span> <span class="st">"Red de vecindad entre estados"</span>)</span>
+<span id="cb40-435"><a href="#cb40-435"></a><span class="in">```</span></span>
+<span id="cb40-436"><a href="#cb40-436"></a></span>
+<span id="cb40-439"><a href="#cb40-439"></a><span class="in">```{r}</span></span>
+<span id="cb40-440"><a href="#cb40-440"></a><span class="co">#| label: ej-resuelto-2-mat</span></span>
+<span id="cb40-441"><a href="#cb40-441"></a></span>
+<span id="cb40-442"><a href="#cb40-442"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(</span>
+<span id="cb40-443"><a href="#cb40-443"></a>  <span class="fu">as.matrix</span>(<span class="fu">get.adjacency</span>(ciudades)),</span>
+<span id="cb40-444"><a href="#cb40-444"></a>  <span class="at">caption =</span> <span class="st">"Matriz de adyacencia de la red de estados"</span></span>
+<span id="cb40-445"><a href="#cb40-445"></a>)</span>
+<span id="cb40-446"><a href="#cb40-446"></a><span class="in">```</span></span>
+<span id="cb40-447"><a href="#cb40-447"></a></span>
+<span id="cb40-448"><a href="#cb40-448"></a>**Interpretación:** Querétaro es el nodo más conectado (grado (degree) 3) porque comparte frontera con tres estados. La matriz es simétrica porque la red es no dirigida.</span>
+<span id="cb40-449"><a href="#cb40-449"></a>:::</span>
+<span id="cb40-450"><a href="#cb40-450"></a></span>
+<span id="cb40-451"><a href="#cb40-451"></a><span class="fu">### Ejercicios con pistas {.unnumbered}</span></span>
+<span id="cb40-452"><a href="#cb40-452"></a></span>
+<span id="cb40-453"><a href="#cb40-453"></a>**Ejercicio 1:** Crea una red vacía de 7 nodos no dirigidos. Agrega conexiones para formar un triángulo entre los nodos 1, 2 y 3, y otro triángulo entre 5, 6 y 7. Conecta ambos triángulos con una conexión entre 3 y 5. Visualiza el resultado y calcula el grado (degree) de cada nodo.</span>
+<span id="cb40-454"><a href="#cb40-454"></a></span>
+<span id="cb40-455"><a href="#cb40-455"></a>::: {.callout-note title="💡 Pista 1" collapse="true"}</span>
+<span id="cb40-456"><a href="#cb40-456"></a>Usa <span class="in">`make_empty_graph(n = 7, directed = FALSE)`</span> y luego <span class="in">`add_edges()`</span> con el vector de pares.</span>
+<span id="cb40-457"><a href="#cb40-457"></a>:::</span>
+<span id="cb40-458"><a href="#cb40-458"></a></span>
+<span id="cb40-459"><a href="#cb40-459"></a>::: {.callout-note title="💡 Pista 2" collapse="true"}</span>
+<span id="cb40-460"><a href="#cb40-460"></a>El vector de conexiones sería: <span class="in">`c(1,2, 2,3, 1,3, 5,6, 6,7, 5,7, 3,5)`</span>. Son 7 conexiones en total.</span>
+<span id="cb40-461"><a href="#cb40-461"></a>:::</span>
+<span id="cb40-462"><a href="#cb40-462"></a></span>
+<span id="cb40-463"><a href="#cb40-463"></a>::: {.callout-note title="💡 Pista 3 — Pseudocódigo" collapse="true"}</span>
+<span id="cb40-464"><a href="#cb40-464"></a><span class="in">```</span></span>
+<span id="cb40-465"><a href="#cb40-465"></a><span class="in">1. g &lt;- make_empty_graph(7, directed = FALSE)</span></span>
+<span id="cb40-466"><a href="#cb40-466"></a><span class="in">2. g &lt;- add_edges(g, c(1,2, 2,3, ...))</span></span>
+<span id="cb40-467"><a href="#cb40-467"></a><span class="in">3. plot(g)</span></span>
+<span id="cb40-468"><a href="#cb40-468"></a><span class="in">4. degree(g)</span></span>
+<span id="cb40-469"><a href="#cb40-469"></a><span class="in">```</span></span>
+<span id="cb40-470"><a href="#cb40-470"></a>:::</span>
+<span id="cb40-471"><a href="#cb40-471"></a></span>
+<span id="cb40-472"><a href="#cb40-472"></a>---</span>
+<span id="cb40-473"><a href="#cb40-473"></a></span>
+<span id="cb40-474"><a href="#cb40-474"></a>**Ejercicio 2:** Genera un <span class="in">`make_tree()`</span> con 3 hijos por nodo y profundidad suficiente para tener al menos 40 nodos. ¿Cuántos nodos tiene exactamente? ¿Cuántas hojas (nodos con grado (degree) 1)?</span>
+<span id="cb40-475"><a href="#cb40-475"></a></span>
+<span id="cb40-476"><a href="#cb40-476"></a>::: {.callout-note title="💡 Pista 1" collapse="true"}</span>
+<span id="cb40-477"><a href="#cb40-477"></a>En <span class="in">`make_tree(n, children)`</span>, <span class="in">`n`</span> es el número total de nodos. Un árbol con 3 hijos y <span class="in">`n = 40`</span> tendrá exactamente 40 nodos.</span>
+<span id="cb40-478"><a href="#cb40-478"></a>:::</span>
+<span id="cb40-479"><a href="#cb40-479"></a></span>
+<span id="cb40-480"><a href="#cb40-480"></a>::: {.callout-note title="💡 Pista 2" collapse="true"}</span>
+<span id="cb40-481"><a href="#cb40-481"></a>Las hojas son los nodos con grado (degree) 1. Filtra con: <span class="in">`sum(degree(arbol) == 1)`</span>.</span>
+<span id="cb40-482"><a href="#cb40-482"></a>:::</span>
+<span id="cb40-483"><a href="#cb40-483"></a></span>
+<span id="cb40-484"><a href="#cb40-484"></a>::: {.callout-note title="💡 Pista 3 — Pseudocódigo" collapse="true"}</span>
+<span id="cb40-485"><a href="#cb40-485"></a><span class="in">```</span></span>
+<span id="cb40-486"><a href="#cb40-486"></a><span class="in">1. arbol &lt;- make_tree(40, children = 3)</span></span>
+<span id="cb40-487"><a href="#cb40-487"></a><span class="in">2. vcount(arbol)</span></span>
+<span id="cb40-488"><a href="#cb40-488"></a><span class="in">3. sum(degree(arbol) == 1)</span></span>
+<span id="cb40-489"><a href="#cb40-489"></a><span class="in">4. plot(arbol, layout = layout_as_tree, vertex.size = 5)</span></span>
+<span id="cb40-490"><a href="#cb40-490"></a><span class="in">```</span></span>
+<span id="cb40-491"><a href="#cb40-491"></a>:::</span>
+<span id="cb40-492"><a href="#cb40-492"></a></span>
+<span id="cb40-493"><a href="#cb40-493"></a>---</span>
+<span id="cb40-494"><a href="#cb40-494"></a></span>
+<span id="cb40-495"><a href="#cb40-495"></a>**Ejercicio 3:** ¿Qué pasa si agregas un *self-loop* (conexión de un nodo a sí mismo) y una conexión duplicada? Crea una red, agrégalos, visualiza, y luego "limpia" la red con <span class="in">`simplify()`</span>. Compara el antes y después.</span>
+<span id="cb40-496"><a href="#cb40-496"></a></span>
+<span id="cb40-497"><a href="#cb40-497"></a>::: {.callout-note title="💡 Pista 1" collapse="true"}</span>
+<span id="cb40-498"><a href="#cb40-498"></a>Usa <span class="in">`add_edges(g, c(1,1))`</span> para un *self-loop* y repite una conexión existente para duplicarla.</span>
+<span id="cb40-499"><a href="#cb40-499"></a>:::</span>
+<span id="cb40-500"><a href="#cb40-500"></a></span>
+<span id="cb40-501"><a href="#cb40-501"></a>::: {.callout-note title="💡 Pista 2" collapse="true"}</span>
+<span id="cb40-502"><a href="#cb40-502"></a><span class="in">`simplify(g, remove.multiple = TRUE, remove.loops = TRUE)`</span> elimina duplicados y *self-loops*.</span>
+<span id="cb40-503"><a href="#cb40-503"></a>:::</span>
+<span id="cb40-504"><a href="#cb40-504"></a></span>
+<span id="cb40-505"><a href="#cb40-505"></a>::: {.callout-note title="💡 Pista 3 — Pseudocódigo" collapse="true"}</span>
+<span id="cb40-506"><a href="#cb40-506"></a><span class="in">```</span></span>
+<span id="cb40-507"><a href="#cb40-507"></a><span class="in">1. g &lt;- make_ring(5)</span></span>
+<span id="cb40-508"><a href="#cb40-508"></a><span class="in">2. g &lt;- add_edges(g, c(1,1, 1,2))  # loop + duplicada</span></span>
+<span id="cb40-509"><a href="#cb40-509"></a><span class="in">3. ecount(g)  # contar conexiones antes</span></span>
+<span id="cb40-510"><a href="#cb40-510"></a><span class="in">4. plot(g)</span></span>
+<span id="cb40-511"><a href="#cb40-511"></a><span class="in">5. g_limpio &lt;- simplify(g)</span></span>
+<span id="cb40-512"><a href="#cb40-512"></a><span class="in">6. ecount(g_limpio)  # contar conexiones después</span></span>
+<span id="cb40-513"><a href="#cb40-513"></a><span class="in">7. plot(g_limpio)</span></span>
+<span id="cb40-514"><a href="#cb40-514"></a><span class="in">```</span></span>
+<span id="cb40-515"><a href="#cb40-515"></a>:::</span>
+<span id="cb40-516"><a href="#cb40-516"></a></span>
+<span id="cb40-517"><a href="#cb40-517"></a><span class="fu">### Ejercicios propuestos {.unnumbered}</span></span>
+<span id="cb40-518"><a href="#cb40-518"></a></span>
+<span id="cb40-519"><a href="#cb40-519"></a>**Ejercicio propuesto 1** ⭐</span>
+<span id="cb40-520"><a href="#cb40-520"></a></span>
+<span id="cb40-521"><a href="#cb40-521"></a>Crea una red estrella de 15 nodos. Calcula su grado (degree) máximo y mínimo. ¿Cuál es la densidad de conexiones (<span class="in">`edge_density()`</span>)?</span>
+<span id="cb40-522"><a href="#cb40-522"></a></span>
+<span id="cb40-523"><a href="#cb40-523"></a><span class="at">&gt; **Autoevaluación:** El grado (degree) máximo debe ser 14 (el nodo central) y el mínimo 1 (nodos periféricos).</span></span>
+<span id="cb40-524"><a href="#cb40-524"></a></span>
+<span id="cb40-525"><a href="#cb40-525"></a>---</span>
+<span id="cb40-526"><a href="#cb40-526"></a></span>
+<span id="cb40-527"><a href="#cb40-527"></a>**Ejercicio propuesto 2** ⭐⭐</span>
+<span id="cb40-528"><a href="#cb40-528"></a></span>
+<span id="cb40-529"><a href="#cb40-529"></a>Genera tres redes con <span class="in">`sample_gnp(50, p)`</span> usando $p = 0.05$, $p = 0.20$ y $p = 0.50$. Compara sus histogramas de grado (degree) en un gráfico con <span class="in">`par(mfrow = c(1, 3))`</span>. ¿Qué patrón observas a medida que $p$ aumenta?</span>
+<span id="cb40-530"><a href="#cb40-530"></a></span>
+<span id="cb40-531"><a href="#cb40-531"></a><span class="at">&gt; **Autoevaluación:** A mayor $p$, la distribución de grado (degree) se desplaza a la derecha y se vuelve más concentrada. Con $p = 0.50$ el grado (degree) medio debe estar cerca de 25.</span></span>
+<span id="cb40-532"><a href="#cb40-532"></a></span>
+<span id="cb40-533"><a href="#cb40-533"></a>---</span>
+<span id="cb40-534"><a href="#cb40-534"></a></span>
+<span id="cb40-535"><a href="#cb40-535"></a>**Ejercicio propuesto 3** ⭐⭐</span>
+<span id="cb40-536"><a href="#cb40-536"></a></span>
+<span id="cb40-537"><a href="#cb40-537"></a>Diseña una red hipotética de 8 ingredientes de cocina donde las conexiones representen que dos ingredientes aparecen juntos en una misma receta. Usa <span class="in">`graph_from_literal()`</span> para definirla. Visualízala y calcula la matriz de distancias entre todos los pares.</span>
+<span id="cb40-538"><a href="#cb40-538"></a></span>
+<span id="cb40-539"><a href="#cb40-539"></a><span class="at">&gt; **Autoevaluación:** Todos los nodos deben ser alcanzables entre sí (la red debe ser conexa). Si alguna distancia es </span><span class="in">`Inf`</span><span class="at">, tienes componentes desconectados.</span></span>
+<span id="cb40-540"><a href="#cb40-540"></a></span>
+<span id="cb40-541"><a href="#cb40-541"></a>---</span>
+<span id="cb40-542"><a href="#cb40-542"></a></span>
+<span id="cb40-543"><a href="#cb40-543"></a>**Ejercicio propuesto 4** ⭐⭐⭐</span>
+<span id="cb40-544"><a href="#cb40-544"></a></span>
+<span id="cb40-545"><a href="#cb40-545"></a>Crea una función en R llamada <span class="in">`resumen_red()`</span> que reciba un grafo <span class="in">`g`</span> y devuelva un *data frame* con las columnas: <span class="in">`nodo`</span>, <span class="in">`grado_total`</span>, <span class="in">`grado_entrada`</span>, <span class="in">`grado_salida`</span>. Pruébala con una red dirigida de al menos 10 nodos.</span>
+<span id="cb40-546"><a href="#cb40-546"></a></span>
+<span id="cb40-547"><a href="#cb40-547"></a><span class="at">&gt; **Autoevaluación:** Tu función debe manejar correctamente tanto redes dirigidas como no dirigidas (en las no dirigidas, los tres grados son iguales).</span></span>
+<span id="cb40-548"><a href="#cb40-548"></a></span>
+<span id="cb40-549"><a href="#cb40-549"></a><span class="fu">## Resumen del capítulo</span></span>
+<span id="cb40-550"><a href="#cb40-550"></a></span>
+<span id="cb40-553"><a href="#cb40-553"></a><span class="in">```{mermaid}</span></span>
+<span id="cb40-554"><a href="#cb40-554"></a>%%| label: fig-resumen-cap1</span>
+<span id="cb40-555"><a href="#cb40-555"></a>%%| fig-cap: <span class="ot">"</span><span class="st">Resumen visual del capítulo</span><span class="ot">"</span></span>
+<span id="cb40-556"><a href="#cb40-556"></a>flowchart LR</span>
+<span id="cb40-557"><a href="#cb40-557"></a>    A[Crear redes] --&gt; B[Manipular nodos y conexiones]</span>
+<span id="cb40-558"><a href="#cb40-558"></a>    B --&gt; C[Calcular grado (degree)]</span>
+<span id="cb40-559"><a href="#cb40-559"></a>    C --&gt; D[Matriz de adyacencia]</span>
+<span id="cb40-560"><a href="#cb40-560"></a>    D --&gt; E[Redes especiales]</span>
+<span id="cb40-561"><a href="#cb40-561"></a>    E --&gt; F[<span class="ot">"</span><span class="st">Siguiente: Distribuciones de grado (degree) →</span><span class="ot">"</span>]</span>
+<span id="cb40-562"><a href="#cb40-562"></a>    style F fill:<span class="co">#e8f4f8,stroke:#3ABEF9</span></span>
+<span id="cb40-563"><a href="#cb40-563"></a><span class="in">```</span></span>
+<span id="cb40-564"><a href="#cb40-564"></a></span>
+<span id="cb40-565"><a href="#cb40-565"></a><span class="pp">|</span> Función <span class="pp">|</span> Descripción <span class="pp">|</span></span>
+<span id="cb40-566"><a href="#cb40-566"></a><span class="pp">|---------|-------------|</span></span>
+<span id="cb40-567"><a href="#cb40-567"></a><span class="pp">|</span> <span class="in">`make_empty_graph()`</span> <span class="pp">|</span> Crear grafo vacío <span class="pp">|</span></span>
+<span id="cb40-568"><a href="#cb40-568"></a><span class="pp">|</span> <span class="in">`add_vertices()`</span> / <span class="in">`add_edges()`</span> <span class="pp">|</span> Agregar nodos / conexiones <span class="pp">|</span></span>
+<span id="cb40-569"><a href="#cb40-569"></a><span class="pp">|</span> <span class="in">`delete_vertices()`</span> / <span class="in">`delete_edges()`</span> <span class="pp">|</span> Eliminar nodos / conexiones <span class="pp">|</span></span>
+<span id="cb40-570"><a href="#cb40-570"></a><span class="pp">|</span> <span class="in">`V(g)`</span> / <span class="in">`E(g)`</span> <span class="pp">|</span> Acceder a vértices / conexiones <span class="pp">|</span></span>
+<span id="cb40-571"><a href="#cb40-571"></a><span class="pp">|</span> <span class="in">`degree()`</span> <span class="pp">|</span> Calcular grado (degree) <span class="pp">|</span></span>
+<span id="cb40-572"><a href="#cb40-572"></a><span class="pp">|</span> <span class="in">`get.adjacency()`</span> <span class="pp">|</span> Obtener matriz de adyacencia <span class="pp">|</span></span>
+<span id="cb40-573"><a href="#cb40-573"></a><span class="pp">|</span> <span class="in">`make_star()`</span>, <span class="in">`make_ring()`</span>, <span class="in">`make_tree()`</span> <span class="pp">|</span> Crear redes especiales <span class="pp">|</span></span>
+<span id="cb40-574"><a href="#cb40-574"></a></span>
+<span id="cb40-575"><a href="#cb40-575"></a>: Funciones clave del capítulo {.striped .hover}</span>
+<span id="cb40-576"><a href="#cb40-576"></a></span>
+<span id="cb40-577"><a href="#cb40-577"></a>**Conexión con el siguiente capítulo:** Ahora que sabes crear redes y calcular grados, en el @sec-grado (degree)-distribuciones exploraremos *cómo se distribuyen* esos grados y por qué algunas redes producen "superhubs" mientras que otras son más homogéneas.</span>
+<span id="cb40-578"><a href="#cb40-578"></a></span>
+<span id="cb40-579"><a href="#cb40-579"></a><span class="fu">## Autoevaluación {.unnumbered}</span></span>
+<span id="cb40-580"><a href="#cb40-580"></a></span>
+<span id="cb40-581"><a href="#cb40-581"></a>::: {.callout-caution title="Pregunta 1" collapse="true"}</span>
+<span id="cb40-582"><a href="#cb40-582"></a>**Verdadero o Falso:** En una red no dirigida, la matriz de adyacencia siempre es simétrica.</span>
+<span id="cb40-583"><a href="#cb40-583"></a></span>
+<span id="cb40-584"><a href="#cb40-584"></a>✅ **Verdadero.** Si $i$ está conectado con $j$, entonces $j$ también está conectado con $i$.</span>
+<span id="cb40-585"><a href="#cb40-585"></a>:::</span>
+<span id="cb40-586"><a href="#cb40-586"></a></span>
+<span id="cb40-587"><a href="#cb40-587"></a>::: {.callout-caution title="Pregunta 2" collapse="true"}</span>
+<span id="cb40-588"><a href="#cb40-588"></a>**¿Cuál es el grado (degree) del nodo central en una red estrella de $n$ nodos?**</span>
+<span id="cb40-589"><a href="#cb40-589"></a></span>
+<span id="cb40-590"><a href="#cb40-590"></a>a) $1$</span>
+<span id="cb40-591"><a href="#cb40-591"></a>b) $n$</span>
+<span id="cb40-592"><a href="#cb40-592"></a>c) $n - 1$ ✅</span>
+<span id="cb40-593"><a href="#cb40-593"></a>d) $2$</span>
+<span id="cb40-594"><a href="#cb40-594"></a></span>
+<span id="cb40-595"><a href="#cb40-595"></a>El nodo central se conecta con todos los demás, así que su grado (degree) es $n - 1$.</span>
+<span id="cb40-596"><a href="#cb40-596"></a>:::</span>
+<span id="cb40-597"><a href="#cb40-597"></a></span>
+<span id="cb40-598"><a href="#cb40-598"></a>::: {.callout-caution title="Pregunta 3" collapse="true"}</span>
+<span id="cb40-599"><a href="#cb40-599"></a>**¿Qué función usarías para eliminar *self-loops* y conexiones duplicadas de una red?**</span>
+<span id="cb40-600"><a href="#cb40-600"></a></span>
+<span id="cb40-601"><a href="#cb40-601"></a><span class="in">`simplify()`</span> con los parámetros <span class="in">`remove.multiple = TRUE`</span> y <span class="in">`remove.loops = TRUE`</span>.</span>
+<span id="cb40-602"><a href="#cb40-602"></a>:::</span>
+<span id="cb40-603"><a href="#cb40-603"></a></span>
+<span id="cb40-604"><a href="#cb40-604"></a>::: {.callout-caution title="Pregunta 4" collapse="true"}</span>
+<span id="cb40-605"><a href="#cb40-605"></a>**Verdadero o Falso:** <span class="in">`add_edges(g, c(1,2,3))`</span> agrega tres conexiones.</span>
+<span id="cb40-606"><a href="#cb40-606"></a></span>
+<span id="cb40-607"><a href="#cb40-607"></a>❌ **Falso.** El vector debe tener un número par de elementos (pares origen-destino). Este código produciría un error.</span>
+<span id="cb40-608"><a href="#cb40-608"></a>:::</span>
+<span id="cb40-609"><a href="#cb40-609"></a></span>
+<span id="cb40-610"><a href="#cb40-610"></a>::: {.callout-caution title="Pregunta 5" collapse="true"}</span>
+<span id="cb40-611"><a href="#cb40-611"></a>**¿Cuántas conexiones tiene un `make_ring(10)`?**</span>
+<span id="cb40-612"><a href="#cb40-612"></a></span>
+<span id="cb40-613"><a href="#cb40-613"></a>Exactamente **10**: cada nodo se conecta con su vecino y el último se conecta con el primero, formando un ciclo.</span>
+<span id="cb40-614"><a href="#cb40-614"></a>:::</span>
+</code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
+</div></div></div></div></div>
+</div> <!-- /content -->
+
+
+
+
+<script src="site_libs/quarto-html/zenscroll-min.js"></script>
+</body></html>

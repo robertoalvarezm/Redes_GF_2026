@@ -1,0 +1,398 @@
+# Ejercicios integradores {#sec-ejercicios-integradores}
+
+::: {.callout-note title="🎯 Propósito de este capítulo"}
+Estos ejercicios combinan conceptos de **todos los capítulos anteriores**. Cada uno requiere que apliques múltiples herramientas: creación de redes, métricas de grado, distancias, clustering y robustez. Están diseñados para que los resuelvas de forma autónoma, simulando un análisis de redes completo.
+:::
+
+## Guía de dificultad {.unnumbered}
+
+| Nivel | Descripción | Tiempo estimado |
+|:-----:|-------------|:---------------:|
+| ⭐ | Aplica funciones directamente | 15–20 min |
+| ⭐⭐ | Requiere combinar 2–3 conceptos | 30–45 min |
+| ⭐⭐⭐ | Diseño experimental y análisis completo | 60–90 min |
+
+## Preparación del entorno
+
+```{r}
+#| label: setup-integradores
+
+library(igraph)
+library(poweRlaw)
+```
+
+---
+
+## Ejercicio integrador 1: Perfil completo de una red ⭐⭐ {.unnumbered}
+
+Crea una función `perfil_red()` que reciba un grafo `g` y devuelva un *data frame* con todas las métricas que hemos aprendido:
+
+- Número de nodos y aristas
+- Grado medio, mínimo y máximo
+- Densidad de aristas
+- Distancia media y diámetro
+- Clustering global y promedio
+- Número de componentes conectados
+- Tamaño del componente gigante (fracción)
+
+Prueba tu función con las siguientes cinco redes (todas de 200 nodos):
+
+1. Erdős–Rényi con $p = 0.03$
+2. Barabási–Albert con $m = 2$
+3. *Small-world* con `nei = 3`, $p = 0.05$
+4. Anillo
+5. Estrella
+
+Presenta los resultados en una tabla comparativa y responde: ¿cuál red tiene la mejor combinación de distancia corta y clustering alto?
+
+::: {.callout-tip title="📝 Solución" collapse="true"}
+
+**Paso 1:** Definir la función.
+
+```{r}
+#| label: ej-int-1a
+
+perfil_red <- function(g) {
+  comp <- components(g)
+  
+  # Eficiencia: promedio de 1/d(i,j)
+  d <- distances(g)
+  n <- vcount(g)
+  inv_d <- ifelse(d == 0 | is.infinite(d), 0, 1 / d)
+  eficiencia <- sum(inv_d) / (n * (n - 1))
+  
+  data.frame(
+    Nodos            = vcount(g),
+    Aristas          = ecount(g),
+    Grado_medio      = round(mean(degree(g)), 2),
+    Grado_min        = min(degree(g)),
+    Grado_max        = max(degree(g)),
+    Densidad         = round(edge_density(g), 4),
+    Dist_media       = round(mean_distance(g), 3),
+    Diámetro         = diameter(g),
+    C_global         = round(transitivity(g, type = "global"), 4),
+    C_promedio       = round(transitivity(g, type = "average"), 4),
+    Componentes      = comp$no,
+    Comp_gigante_pct = round(max(comp$csize) / vcount(g) * 100, 1),
+    Eficiencia       = round(eficiencia, 4)
+  )
+}
+```
+
+**Paso 2:** Generar las redes y calcular perfiles.
+
+```{r}
+#| label: ej-int-1b
+
+set.seed(42)
+
+redes_perfil <- list(
+  "Erdős–Rényi"     = sample_gnp(200, 0.03),
+  "Barabási–Albert"  = sample_pa(200, m = 2, directed = FALSE),
+  "Small-world"      = sample_smallworld(1, 200, nei = 3, p = 0.05),
+  "Anillo"           = make_ring(200),
+  "Estrella"         = make_star(200, mode = "undirected")
+)
+
+# Calcular el perfil de cada red
+perfiles <- do.call(rbind, lapply(redes_perfil, perfil_red))
+perfiles <- cbind(Red = names(redes_perfil), perfiles)
+rownames(perfiles) <- NULL
+
+knitr::kable(perfiles,
+             caption = "Perfil completo de cinco topologías con 200 nodos")
+```
+
+**Interpretación:** La red *small-world* ofrece la mejor combinación de distancia corta y clustering alto. La estrella tiene la menor distancia media pero clustering cero. La red completa sería ideal en ambas métricas, pero requiere $\binom{200}{2} = 19{,}900$ aristas, mientras que la *small-world* logra un excelente balance con solo ~600.
+:::
+
+---
+
+## Ejercicio integrador 2: Red social de una clase ⭐⭐ {.unnumbered}
+
+Diseña una red que represente las relaciones de colaboración en un grupo de 20 estudiantes. Las reglas son:
+
+1. Cada estudiante tiene un nombre (invéntalos o usa `paste0("Est_", 1:20)`).
+2. Cada estudiante pertenece a uno de 4 equipos de proyecto (5 por equipo).
+3. Dentro de cada equipo, todos están conectados entre sí (clique).
+4. Entre equipos, agrega 8 conexiones aleatorias (simulando amistades inter-equipo).
+
+Con la red construida:
+
+a) Visualiza la red coloreando por equipo.
+b) Calcula el clustering local de cada nodo. ¿Los nodos "puente" (con conexiones inter-equipo) tienen clustering diferente?
+c) Encuentra el nodo con mayor *betweenness centrality*. ¿Es un puente?
+d) Simula la eliminación de ese nodo. ¿Cómo cambian la distancia media y el número de componentes?
+
+::: {.callout-note title="💡 Pista 1" collapse="true"}
+Para crear los cliques por equipo, usa `make_full_graph(5)` cuatro veces y luego `disjoint_union()` para combinarlos. Después agrega las aristas inter-equipo con `add_edges()`.
+:::
+
+::: {.callout-note title="💡 Pista 2" collapse="true"}
+Los colores por equipo se asignan fácilmente: `V(g)$color <- rep(c("tomato", "skyblue", "gold", "lightgreen"), each = 5)`. La *betweenness centrality* se calcula con `betweenness(g)`.
+:::
+
+::: {.callout-note title="💡 Pista 3 — Pseudocódigo" collapse="true"}
+```
+1. set.seed(42)
+2. # Crear 4 cliques
+3. equipos <- disjoint_union(make_full_graph(5), make_full_graph(5),
+4.                           make_full_graph(5), make_full_graph(5))
+5. V(equipos)$name <- paste0("Est_", 1:20)
+6. V(equipos)$equipo <- rep(1:4, each = 5)
+7. V(equipos)$color <- rep(c("tomato","skyblue","gold","lightgreen"), each=5)
+8. 
+9. # Agregar 8 conexiones inter-equipo aleatorias
+10. for (k in 1:8) {
+11.   e1 <- sample(1:5, 1) + (sample(0:3, 1) * 5)
+12.   e2 <- sample(1:5, 1) + (sample(0:3, 1) * 5)
+13.   while (V(equipos)$equipo[e1] == V(equipos)$equipo[e2]) {
+14.     e2 <- sample(1:5, 1) + (sample(0:3, 1) * 5)
+15.   }
+16.   equipos <- add_edges(equipos, c(e1, e2))
+17. }
+18. 
+19. plot(equipos)
+20. betweenness(equipos)
+21. transitivity(equipos, type = "local")
+```
+:::
+
+---
+
+## Ejercicio integrador 3: Epidemia en tres topologías ⭐⭐⭐ {.unnumbered}
+
+Simula una epidemia SIR (*Susceptible → Infectado → Recuperado*) simplificada en tres tipos de red con 500 nodos: ER ($p = 0.01$), BA ($m = 2$) y *small-world* (`nei = 3`, $p = 0.1$).
+
+**Reglas de la epidemia (por ronda):**
+
+1. Comienza con 1 nodo infectado al azar.
+2. Cada nodo infectado contagia a cada vecino susceptible con probabilidad $\beta = 0.3$.
+3. Cada nodo infectado se recupera (y se vuelve inmune) con probabilidad $\gamma = 0.1$.
+4. La epidemia termina cuando no quedan infectados.
+
+**Tareas:**
+
+a) Implementa la simulación como una función `simular_sir(g, beta, gamma, semilla)`.
+b) Ejecuta 20 realizaciones por red. Registra el número final de recuperados (= total de infectados acumulados).
+c) Presenta boxplots del total de infectados por tipo de red.
+d) ¿En qué red se propaga más rápido la epidemia? ¿En cuál infecta a más personas en total?
+e) Relaciona los resultados con las métricas de distancia y clustering de cada red.
+
+::: {.callout-note title="💡 Pista 1" collapse="true"}
+Usa tres vectores de estado: `S`, `I`, `R` (lógicos o numéricos). En cada ronda, para cada infectado, recorre sus vecinos con `neighbors(g, v)` y contagia con `rbinom(1, 1, beta)`.
+:::
+
+::: {.callout-note title="💡 Pista 2" collapse="true"}
+Estructura de la función:
+```r
+simular_sir <- function(g, beta = 0.3, gamma = 0.1, semilla = 42) {
+  set.seed(semilla)
+  n <- vcount(g)
+  estado <- rep("S", n)  # S, I, R
+  paciente_cero <- sample(1:n, 1)
+  estado[paciente_cero] <- "I"
+  historial <- data.frame(ronda = 0, S = n-1, I = 1, R = 0)
+  
+  while (sum(estado == "I") > 0) {
+    # ... contagio y recuperación ...
+  }
+  historial
+}
+```
+:::
+
+::: {.callout-note title="💡 Pista 3 — Pseudocódigo" collapse="true"}
+```
+Para cada ronda mientras haya infectados:
+  1. nuevos_infectados <- c()
+  2. Para cada nodo infectado v:
+     a) Para cada vecino u de v:
+        - Si u es susceptible y runif(1) < beta:
+          nuevos_infectados <- c(nuevos_infectados, u)
+     b) Si runif(1) < gamma: estado[v] <- "R"
+  3. estado[nuevos_infectados] <- "I"
+  4. Registrar conteos S, I, R
+```
+
+La red BA debería propagar más rápido (distancia corta, hubs actúan como super-propagadores). La *small-world* debería alcanzar más personas en total (clustering alto = propagación local eficiente + atajos para propagación global).
+:::
+
+---
+
+## Ejercicio integrador 4: Análisis de robustez comparativo completo ⭐⭐⭐ {.unnumbered}
+
+Realiza un análisis de robustez exhaustivo de tres redes de 300 nodos: ER ($p = 0.02$), BA ($m = 2$) y *small-world* (`nei = 3`, $p = 0.1$).
+
+**Tareas:**
+
+a) Para cada red, ejecuta:
+   - 10 simulaciones de fallos aleatorios (eliminando hasta el 50% de nodos).
+   - 1 simulación de ataque dirigido por grado (determinista).
+   - 1 simulación de ataque dirigido por *betweenness*.
+
+b) Genera un panel de 6 gráficos (3 redes × 2 escenarios: fallo vs. ataque) mostrando la evolución del componente gigante. Para los fallos, incluye la media y la banda de ± 1 DE.
+
+c) Calcula el "índice de robustez" $R$ (área bajo la curva del componente gigante) para cada escenario y presenta una tabla resumen.
+
+d) Redacta un párrafo de conclusiones comparando las tres topologías.
+
+::: {.callout-note title="💡 Pista 1" collapse="true"}
+El índice $R$ se calcula como el área bajo la curva del componente gigante vs. fracción eliminada. Usa la regla del trapecio:
+```r
+indice_R <- function(x, y) {
+  sum(diff(x) * (y[-length(y)] + y[-1]) / 2)
+}
+```
+Un $R = 0.5$ corresponde a una degradación lineal; $R > 0.5$ indica robustez; $R < 0.5$ indica fragilidad.
+:::
+
+::: {.callout-note title="💡 Pista 2" collapse="true"}
+Para el panel de 6 gráficos, usa `par(mfrow = c(2, 3))`. Fila superior: fallos aleatorios. Fila inferior: ataques. Columnas: ER, BA, SW.
+:::
+
+---
+
+## Ejercicio integrador 5: Red de ingredientes ⭐⭐ {.unnumbered}
+
+Diseña una red donde los nodos representen 15 ingredientes de cocina mexicana y las aristas indiquen que dos ingredientes aparecen juntos en al menos una receta.
+
+**Ingredientes sugeridos:** chile, tomate, cebolla, ajo, cilantro, limón, aguacate, frijol, maíz, queso, crema, pollo, arroz, tortilla, sal.
+
+**Tareas:**
+
+a) Define las conexiones manualmente con `graph_from_literal()` basándote en recetas reales (salsa mexicana, guacamole, tacos, enchiladas, arroz rojo, etc.).
+b) Visualiza la red con tamaño de nodo proporcional al grado.
+c) ¿Cuál es el ingrediente más "central" (mayor grado)? ¿Coincide con tu intuición culinaria?
+d) Calcula la distancia media. ¿Los ingredientes están "cerca" unos de otros?
+e) Identifica si hay comunidades usando `cluster_louvain()` o `cluster_walktrap()`. ¿Las comunidades corresponden a tipos de ingrediente (proteínas, vegetales, condimentos)?
+f) Elimina el ingrediente más conectado. ¿Cómo cambia la estructura de la red?
+
+::: {.callout-note title="💡 Pista 1" collapse="true"}
+Un ejemplo de definición:
+```r
+g <- graph_from_literal(
+  chile -- tomate, chile -- cebolla, chile -- ajo,
+  tomate -- cebolla, tomate -- cilantro, tomate -- limón,
+  aguacate -- limón, aguacate -- cilantro, aguacate -- tomate, aguacate -- sal,
+  # ... continuar con más recetas
+)
+```
+:::
+
+::: {.callout-note title="💡 Pista 2" collapse="true"}
+Para detectar comunidades: `com <- cluster_walktrap(g)` y luego `membership(com)` te da el grupo de cada nodo. Colorea con `V(g)$color <- membership(com)`.
+:::
+
+---
+
+## Ejercicio integrador 6: Construir desde archivo ⭐⭐ {.unnumbered}
+
+Crea dos archivos CSV: uno de nodos y otro de aristas para representar una red de colaboración entre 12 investigadores.
+
+**Archivo `nodos.csv`:**
+
+| id | nombre | departamento | publicaciones |
+|----|--------|-------------|---------------|
+| 1 | Ana | Biología | 15 |
+| 2 | Beto | Física | 22 |
+| ... | ... | ... | ... |
+
+**Archivo `aristas.csv`:**
+
+| from | to | peso |
+|------|-----|------|
+| 1 | 2 | 3 |
+| 1 | 5 | 1 |
+| ... | ... | ... |
+
+**Tareas:**
+
+a) Crea ambos archivos con `write.csv()` y léelos con `read.csv()`.
+b) Construye la red con `graph_from_data_frame(d = aristas, vertices = nodos, directed = FALSE)`.
+c) Limpia la red con `simplify()`.
+d) Visualiza con tamaño proporcional a publicaciones y color por departamento.
+e) Calcula el perfil completo (usa `perfil_red()` del Ejercicio 1 si lo resolviste).
+f) ¿Quién es el investigador más central por *betweenness*? ¿Conecta departamentos diferentes?
+
+::: {.callout-note title="💡 Pista 1" collapse="true"}
+Diseña la red pensando en que las colaboraciones inter-departamento sean menos frecuentes que las intra-departamento. Así la detección de comunidades debería encontrar los departamentos.
+:::
+
+---
+
+## Ejercicio integrador 7: Power-law en el mundo real ⭐⭐⭐ {.unnumbered}
+
+Genera una red BA de 5000 nodos con $m = 2$. Realiza un análisis completo de su distribución de grado:
+
+a) Histograma de grado con ejes lineales.
+b) Histograma con eje y logarítmico.
+c) Gráfico log-log de la distribución de grado (CCDF).
+d) Ajuste de ley de potencia con `poweRlaw`: reporta $\gamma$ y $x_{\min}$.
+e) Superpón el ajuste sobre el gráfico CCDF.
+f) Compara con una red ER del mismo tamaño: ¿el ajuste *power-law* tiene sentido para la red ER?
+g) Identifica los 20 *hubs* principales. ¿Qué fracción de las aristas totales concentran?
+h) Elimina los 20 *hubs* y recalcula la distribución de grado. ¿Sigue siendo *power-law*?
+
+::: {.callout-note title="💡 Pista 1" collapse="true"}
+Para la fracción de aristas de los *hubs*: `sum(degree(g)[top_20]) / (2 * ecount(g))`. Se divide entre $2m$ porque cada arista contribuye al grado de dos nodos (posible sobreconteo si los *hubs* están conectados entre sí).
+:::
+
+::: {.callout-note title="💡 Pista 2" collapse="true"}
+Después de eliminar los *hubs*, la cola de la distribución debería "recortarse" pero el cuerpo debería seguir mostrando un patrón *power-law* con un $x_{\min}$ diferente. Las redes BA son *scale-free* en su estructura, no solo en unos pocos nodos.
+:::
+
+---
+
+## Ejercicio integrador 8: Diseña tu propia red ⭐⭐⭐ {.unnumbered}
+
+Elige un sistema real que te interese (ejemplos: red de transporte de tu ciudad, red de personajes de una serie/película, red de interacciones en un ecosistema, red de citas entre artículos científicos) y modélalo como una red.
+
+**Requisitos mínimos del análisis:**
+
+1. **Construcción:** Al menos 20 nodos y aristas definidas con sentido.
+2. **Visualización:** Red con atributos visuales (color, tamaño, etiquetas).
+3. **Métricas básicas:** Grado, distancia media, diámetro, clustering.
+4. **Distribución de grado:** Histograma y gráfico log-log.
+5. **Comunidades:** Detección con al menos un algoritmo.
+6. **Robustez:** Simulación de fallo aleatorio y ataque dirigido.
+7. **Interpretación:** Para cada métrica, explica qué significa en el contexto de tu sistema real.
+
+::: {.callout-note title="💡 Pista 1" collapse="true"}
+Si no sabes qué sistema elegir, estas son opciones accesibles:
+
+- **Red de personajes de Harry Potter:** Nodos = personajes, aristas = aparecen juntos en una escena.
+- **Red de metro/transporte:** Nodos = estaciones, aristas = líneas directas.
+- **Red de playlist:** Nodos = canciones, aristas = aparecen en la misma playlist.
+- **Red de ingredientes:** Similar al Ejercicio 5 pero con tu cocina favorita.
+:::
+
+::: {.callout-note title="💡 Pista 2" collapse="true"}
+Estructura sugerida del reporte:
+
+```
+## 1. Descripción del sistema
+## 2. Construcción de la red
+## 3. Visualización
+## 4. Análisis de métricas
+## 5. Distribución de grado
+## 6. Detección de comunidades
+## 7. Análisis de robustez
+## 8. Conclusiones
+```
+:::
+
+---
+
+## Rúbrica de autoevaluación general {.unnumbered}
+
+Usa esta rúbrica para evaluar tus soluciones a los ejercicios integradores:
+
+| Criterio | Excelente (3) | Adecuado (2) | Necesita mejora (1) |
+|:---------|:-------------|:-------------|:-------------------|
+| **Código** | Funciona sin errores, bien comentado, usa funciones reutilizables | Funciona con ajustes menores, comentarios parciales | Tiene errores o no es reproducible |
+| **Visualización** | Gráficos claros con títulos, ejes etiquetados y leyenda | Gráficos legibles pero incompletos en etiquetado | Gráficos difíciles de interpretar |
+| **Interpretación** | Conecta resultados numéricos con el contexto del problema | Interpreta parcialmente | Solo muestra números sin explicación |
+| **Integración** | Combina ≥ 3 conceptos del libro de forma coherente | Combina 2 conceptos | Aplica conceptos de forma aislada |
+
+: Rúbrica de autoevaluación {.striped .hover}

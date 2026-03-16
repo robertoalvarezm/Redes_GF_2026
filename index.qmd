@@ -1,0 +1,81 @@
+# Prefacio {.unnumbered}
+
+Bienvenido a **Análisis de Redes con igraph en R**, un libro diseñado para que aprendas, de forma práctica y progresiva, los fundamentos del análisis de redes complejas utilizando el lenguaje R y el paquete `igraph`.
+
+## ¿Para quién es este libro? {.unnumbered}
+
+Este material está pensado para **estudiantes universitarios** de ciencias, ingeniería o áreas afines que deseen comprender cómo modelar, analizar y visualizar sistemas conectados: desde redes sociales y biológicas hasta infraestructuras tecnológicas.
+
+## ¿Qué vas a aprender? {.unnumbered}
+
+::: {.callout-note title="🎯 Objetivos generales del libro"}
+Al finalizar estas notas serás capaz de:
+
+1. **Crear y manipular** redes (grafos) en R usando `igraph`.
+2. **Calcular e interpretar** métricas fundamentales: grado, distancia, clustering y centralidad.
+3. **Distinguir** modelos de redes (Erdős–Rényi, Barabási–Albert, *small-world*) y sus propiedades.
+4. **Evaluar** la robustez de una red ante fallos aleatorios y ataques dirigidos.
+5. **Comunicar** hallazgos mediante visualizaciones claras y reproducibles.
+:::
+
+## Estructura del libro {.unnumbered}
+
+| Capítulo | Tema | Pregunta guía |
+|:--------:|------|---------------|
+| 1 | Fundamentos de igraph | ¿Cómo se construye y representa una red en R? |
+| 2 | Grado y distribuciones | ¿Por qué algunas redes tienen "superhubs" y otras no? |
+| 3 | Distancias y eficiencia | ¿Qué tan fácil es ir de un punto a otro en una red? |
+| 4 | Clustering y transitividad | ¿Los amigos de tus amigos son tus amigos? |
+| 5 | Robustez de redes | ¿Qué pasa si falla un nodo crítico? |
+| Integradores | Ejercicios finales | ¿Puedes analizar una red completa de principio a fin? |
+
+: Mapa del libro {.striped .hover}
+
+## Prerrequisitos {.unnumbered}
+
+::: {.callout-important title="🔑 Antes de empezar necesitas"}
+- **R** (versión ≥ 4.1) y **RStudio** instalados.
+- Conocimientos básicos de R: vectores, funciones, gráficos con `plot()`.
+- Nociones elementales de estadística descriptiva (media, varianza, histogramas).
+- Familiaridad básica con álgebra de matrices (útil, pero no indispensable).
+:::
+
+## Paquetes necesarios {.unnumbered}
+
+Ejecuta el siguiente bloque para instalar todos los paquetes que usaremos a lo largo del libro:
+
+```{r}
+#| label: instalar-paquetes
+#| eval: false
+
+paquetes <- c("igraph", "tidyverse", "poweRlaw", "gt", "knitr")
+
+# Instalar solo los que no tengas
+nuevos <- paquetes[!(paquetes %in% installed.packages()[, "Package"])]
+if (length(nuevos)) install.packages(nuevos)
+```
+
+## Convenciones del libro {.unnumbered}
+
+A lo largo del texto encontrarás estos bloques informativos:
+
+::: {.callout-tip title="💡 Concepto clave"}
+Resalta un concepto o idea fundamental que debes recordar.
+:::
+
+::: {.callout-warning title="⚠️ Error frecuente"}
+Señala errores comunes que cometen lxs estudiantes y cómo evitarlos.
+:::
+
+::: {.callout-note title="💡 Pista" collapse="true"}
+Pistas progresivas para resolver ejercicios. Haz clic para expandir.
+:::
+
+## Cómo usar este libro {.unnumbered}
+
+1. **Lee la teoría** y ejecuta los ejemplos en tu sesión de R.
+2. **Intenta los ejercicios** antes de ver las soluciones o pistas.
+3. **Experimenta**: modifica parámetros, cambia redes, rompe cosas.
+4. Al final de cada capítulo, responde la **autoevaluación** para verificar tu comprensión.
+
+¡Comencemos!
