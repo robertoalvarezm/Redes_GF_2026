@@ -1,0 +1,2021 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.4.553">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>distancias-eficiencia</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="03-distancias-eficiencia_files/libs/clipboard/clipboard.min.js"></script>
+<script src="03-distancias-eficiencia_files/libs/quarto-html/quarto.js"></script>
+<script src="03-distancias-eficiencia_files/libs/quarto-html/popper.min.js"></script>
+<script src="03-distancias-eficiencia_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="03-distancias-eficiencia_files/libs/quarto-html/anchor.min.js"></script>
+<link href="03-distancias-eficiencia_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="03-distancias-eficiencia_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="03-distancias-eficiencia_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="03-distancias-eficiencia_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="03-distancias-eficiencia_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script src="03-distancias-eficiencia_files/libs/quarto-diagram/mermaid.min.js"></script>
+<script src="03-distancias-eficiencia_files/libs/quarto-diagram/mermaid-init.js"></script>
+<link href="03-distancias-eficiencia_files/libs/quarto-diagram/mermaid.css" rel="stylesheet">
+
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+</head>
+
+<body class="fullcontent">
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+
+<main class="content" id="quarto-document-content">
+
+
+
+
+<section id="sec-distancias" class="level1">
+<h1>Distancias y eficiencia</h1>
+<div class="callout callout-style-default callout-note callout-titled" title="🎯 Objetivos de aprendizaje">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+🎯 Objetivos de aprendizaje
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Al finalizar este capítulo serás capaz de:</p>
+<ol type="1">
+<li><strong>Calcular</strong> la distancia más corta (<em>shortest path</em>) entre cualquier par de nodos.</li>
+<li><strong>Construir e interpretar</strong> la matriz de distancias y su representación como mapa de calor.</li>
+<li><strong>Medir</strong> la distancia media, el diámetro y la excentricidad de una red.</li>
+<li><strong>Evaluar</strong> la eficiencia global de una red y su densidad de aristas.</li>
+<li><strong>Comparar</strong> distintas topologías en función de sus propiedades de distancia.</li>
+</ol>
+</div>
+</div>
+<blockquote class="blockquote">
+<p><strong>Pregunta motivadora:</strong> En una red social, ¿cuántos “apretones de manos” separan a dos personas cualesquiera? La famosa idea de los “seis grados de separación” sugiere que el número es sorprendentemente bajo. ¿Es cierto para cualquier tipo de red?</p>
+</blockquote>
+<div class="cell" data-layout-align="default">
+<div class="cell-output-display">
+<div id="fig-mapa-cap3" class="quarto-figure quarto-figure-center quarto-float anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-mapa-cap3-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div>
+<pre class="mermaid mermaid-js" data-label="fig-mapa-cap3">flowchart TD
+    A[Distancias en redes] --&gt; B[Caminos más cortos]
+    A --&gt; C[Matriz de distancias]
+    A --&gt; D[Métricas globales]
+    A --&gt; E[Eficiencia]
+    B --&gt; B1["shortest_paths()"]
+    B --&gt; B2[Diámetro]
+    C --&gt; C1[Heatmap]
+    D --&gt; D1[Distancia media]
+    D --&gt; D2[Excentricidad]
+    D --&gt; D3[Centro y periferia]
+    E --&gt; E1[Eficiencia global]
+    E --&gt; E2[Densidad de aristas]
+</pre>
+</div>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-mapa-cap3-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;1: Mapa conceptual del capítulo
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<section id="preparación-del-entorno" class="level2">
+<h2 class="anchored" data-anchor-id="preparación-del-entorno">Preparación del entorno</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(igraph)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>
+Attaching package: 'igraph'</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following objects are masked from 'package:stats':
+
+    decompose, spectrum</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following object is masked from 'package:base':
+
+    union</code></pre>
+</div>
+</div>
+</section>
+<section id="qué-es-la-distancia-en-una-red" class="level2">
+<h2 class="anchored" data-anchor-id="qué-es-la-distancia-en-una-red">¿Qué es la distancia en una red?</h2>
+<p>En una red, la <strong>distancia</strong> entre dos nodos <span class="math inline">\(u\)</span> y <span class="math inline">\(v\)</span> es el número mínimo de aristas que hay que recorrer para ir de <span class="math inline">\(u\)</span> a <span class="math inline">\(v\)</span>. Se denota <span class="math inline">\(d(u, v)\)</span> y también se le llama <em>geodésica</em> o <em>shortest path length</em>.</p>
+<p><span class="math display">\[
+d(u, v) = \min \{ \text{número de aristas en un camino de } u \text{ a } v \}
+\]</span></p>
+<div class="callout callout-style-default callout-tip callout-titled" title="💡 Concepto clave">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+💡 Concepto clave
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>La distancia en redes <strong>no es geográfica</strong>, es <strong>topológica</strong>: mide saltos entre nodos, no kilómetros. Dos personas en diferentes continentes pueden estar a distancia 1 si son amigos directos en una red social.</p>
+</div>
+</div>
+<p>Comencemos con un ejemplo simple: una red tipo anillo.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>g <span class="ot">&lt;-</span> <span class="fu">make_ring</span>(<span class="dv">10</span>)</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">V</span>(g)<span class="sc">$</span>name <span class="ot">&lt;-</span> <span class="fu">paste0</span>(<span class="st">"N"</span>, <span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>)</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(g, </span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>     <span class="at">vertex.color =</span> <span class="st">"skyblue"</span>, </span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>     <span class="at">vertex.size =</span> <span class="dv">25</span>,</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>     <span class="at">main =</span> <span class="st">"Red tipo anillo (10 nodos)"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div id="fig-red-anillo-distancias" class="quarto-figure quarto-figure-center quarto-float anchored" alt="Diez nodos formando un círculo conectados secuencialmente">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-red-anillo-distancias-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="03-distancias-eficiencia_files/figure-html/fig-red-anillo-distancias-1.png" class="img-fluid figure-img" alt="Diez nodos formando un círculo conectados secuencialmente" width="672">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-red-anillo-distancias-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;2: Red tipo anillo con 10 nodos: punto de partida para explorar distancias
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="caminos-más-cortos" class="level2">
+<h2 class="anchored" data-anchor-id="caminos-más-cortos">Caminos más cortos</h2>
+<section id="entre-dos-nodos-específicos" class="level3">
+<h3 class="anchored" data-anchor-id="entre-dos-nodos-específicos">Entre dos nodos específicos</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># ¿Cuál es el camino más corto entre N1 y N6?</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>camino <span class="ot">&lt;-</span> <span class="fu">shortest_paths</span>(g, <span class="at">from =</span> <span class="st">"N1"</span>, <span class="at">to =</span> <span class="st">"N6"</span>)<span class="sc">$</span>vpath[[<span class="dv">1</span>]]</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Camino más corto de N1 a N6:"</span>, <span class="fu">paste</span>(<span class="fu">V</span>(g)<span class="sc">$</span>name[camino], <span class="at">collapse =</span> <span class="st">" → "</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Camino más corto de N1 a N6: N1 → N2 → N3 → N4 → N5 → N6 </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Distancia:"</span>, <span class="fu">length</span>(camino) <span class="sc">-</span> <span class="dv">1</span>, <span class="st">"saltos</span><span class="sc">\n</span><span class="st">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Distancia: 5 saltos</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Colorear el camino</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="fu">V</span>(g)<span class="sc">$</span>color <span class="ot">&lt;-</span> <span class="st">"skyblue"</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="fu">V</span>(g)<span class="sc">$</span>color[camino] <span class="ot">&lt;-</span> <span class="st">"tomato"</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Identificar las aristas del camino</span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>camino_ids <span class="ot">&lt;-</span> <span class="fu">as.integer</span>(camino)</span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>pares <span class="ot">&lt;-</span> <span class="fu">c</span>()</span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>(<span class="fu">length</span>(camino_ids) <span class="sc">-</span> <span class="dv">1</span>)) {</span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>  pares <span class="ot">&lt;-</span> <span class="fu">c</span>(pares, camino_ids[i], camino_ids[i <span class="sc">+</span> <span class="dv">1</span>])</span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>eids <span class="ot">&lt;-</span> <span class="fu">get.edge.ids</span>(g, pares)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: `get.edge.ids()` was deprecated in igraph 2.1.0.
+ℹ Please use `get_edge_ids()` instead.</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">E</span>(g)<span class="sc">$</span>color <span class="ot">&lt;-</span> <span class="st">"gray70"</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="fu">E</span>(g)<span class="sc">$</span>width <span class="ot">&lt;-</span> <span class="dv">1</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="fu">E</span>(g)<span class="sc">$</span>color[eids] <span class="ot">&lt;-</span> <span class="st">"red"</span></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="fu">E</span>(g)<span class="sc">$</span>width[eids] <span class="ot">&lt;-</span> <span class="dv">3</span></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(g, <span class="at">vertex.size =</span> <span class="dv">25</span>, <span class="at">main =</span> <span class="st">"Camino más corto: N1 → N6"</span>)</span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Restaurar colores</span></span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a><span class="fu">V</span>(g)<span class="sc">$</span>color <span class="ot">&lt;-</span> <span class="st">"skyblue"</span></span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a><span class="fu">E</span>(g)<span class="sc">$</span>color <span class="ot">&lt;-</span> <span class="st">"gray70"</span></span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a><span class="fu">E</span>(g)<span class="sc">$</span>width <span class="ot">&lt;-</span> <span class="dv">1</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div id="fig-shortest-path-visual" class="quarto-figure quarto-figure-center quarto-float anchored" alt="Red anillo donde el camino de N1 a N6 está resaltado en rojo">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-shortest-path-visual-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="03-distancias-eficiencia_files/figure-html/fig-shortest-path-visual-1.png" class="img-fluid figure-img" alt="Red anillo donde el camino de N1 a N6 está resaltado en rojo" width="672">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-shortest-path-visual-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;3: Camino más corto entre N1 y N6 destacado en rojo
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="la-matriz-de-distancias-completa" class="level3">
+<h3 class="anchored" data-anchor-id="la-matriz-de-distancias-completa">La matriz de distancias completa</h3>
+<p>La <strong>matriz de distancias</strong> contiene <span class="math inline">\(d(i, j)\)</span> para todos los pares de nodos. Es una herramienta fundamental para entender la estructura global de la red.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>dist_mat <span class="ot">&lt;-</span> <span class="fu">distances</span>(g)</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(dist_mat, </span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>             <span class="at">caption =</span> <span class="st">"Matriz de distancias de la red anillo (10 nodos)"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table class="table table-sm table-striped small">
+<caption>Matriz de distancias de la red anillo (10 nodos)</caption>
+<thead>
+<tr class="header">
+<th style="text-align: left;"></th>
+<th style="text-align: right;">N1</th>
+<th style="text-align: right;">N2</th>
+<th style="text-align: right;">N3</th>
+<th style="text-align: right;">N4</th>
+<th style="text-align: right;">N5</th>
+<th style="text-align: right;">N6</th>
+<th style="text-align: right;">N7</th>
+<th style="text-align: right;">N8</th>
+<th style="text-align: right;">N9</th>
+<th style="text-align: right;">N10</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">N1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">N2</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">2</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">N3</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">3</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">N4</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">4</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">N5</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">5</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">N6</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">4</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">N7</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">3</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">N8</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">2</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">N9</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">N10</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="callout callout-style-default callout-warning callout-titled" title="⚠️ Error frecuente">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+⚠️ Error frecuente
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Si la red tiene <strong>componentes desconectados</strong>, la distancia entre nodos de diferentes componentes es <code>Inf</code> (infinito). Siempre verifica con <code>is_connected(g)</code> antes de interpretar la matriz de distancias.</p>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">heatmap</span>(dist_mat, </span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>        <span class="at">Rowv =</span> <span class="cn">NA</span>, <span class="at">Colv =</span> <span class="cn">NA</span>,</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>        <span class="at">col =</span> <span class="fu">hcl.colors</span>(<span class="dv">20</span>, <span class="at">palette =</span> <span class="st">"YlOrRd"</span>, <span class="at">rev =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>        <span class="at">scale =</span> <span class="st">"none"</span>,</span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>        <span class="at">main =</span> <span class="st">"Mapa de calor — Distancias en red anillo"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div id="fig-heatmap-distancias" class="quarto-figure quarto-figure-center quarto-float anchored" alt="Heatmap simétrico con patrón de bandas diagonales típico de una red anillo">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-heatmap-distancias-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="03-distancias-eficiencia_files/figure-html/fig-heatmap-distancias-1.png" class="img-fluid figure-img" alt="Heatmap simétrico con patrón de bandas diagonales típico de una red anillo" width="672">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-heatmap-distancias-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;4: Mapa de calor de la matriz de distancias: colores cálidos indican nodos más lejanos
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>Observa el patrón de bandas diagonales: en una red anillo, la distancia crece simétricamente desde la diagonal (distancia 0) hasta un máximo en la posición diametralmente opuesta.</p>
+</section>
+</section>
+<section id="métricas-globales-de-distancia" class="level2">
+<h2 class="anchored" data-anchor-id="métricas-globales-de-distancia">Métricas globales de distancia</h2>
+<section id="distancia-media" class="level3">
+<h3 class="anchored" data-anchor-id="distancia-media">Distancia media</h3>
+<p>La <strong>distancia media</strong> <span class="math inline">\(\langle d \rangle\)</span> es el promedio de las distancias más cortas entre todos los pares de nodos. Indica qué tan “compacta” es la red.</p>
+<p><span class="math display">\[
+\langle d \rangle = \frac{1}{n(n-1)} \sum_{i \neq j} d(i, j)
+\]</span></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Distancia media de la red anillo:"</span>, <span class="fu">mean_distance</span>(g), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Distancia media de la red anillo: 2.777778 </code></pre>
+</div>
+</div>
+</section>
+<section id="diámetro" class="level3">
+<h3 class="anchored" data-anchor-id="diámetro">Diámetro</h3>
+<p>El <strong>diámetro</strong> es la distancia más larga entre cualquier par de nodos conectados. Representa el “peor caso” de comunicación en la red.</p>
+<p><span class="math display">\[
+\text{diámetro} = \max_{i,j} \, d(i, j)
+\]</span></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Diámetro de la red anillo:"</span>, <span class="fu">diameter</span>(g), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Diámetro de la red anillo: 5 </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co"># El camino que corresponde al diámetro</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>camino_largo <span class="ot">&lt;-</span> <span class="fu">get_diameter</span>(g)</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Camino más largo:"</span>, <span class="fu">paste</span>(<span class="fu">V</span>(g)<span class="sc">$</span>name[camino_largo], <span class="at">collapse =</span> <span class="st">" → "</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Camino más largo: N1 → N2 → N3 → N4 → N5 → N6 </code></pre>
+</div>
+</div>
+</section>
+<section id="excentricidad" class="level3">
+<h3 class="anchored" data-anchor-id="excentricidad">Excentricidad</h3>
+<p>La <strong>excentricidad</strong> de un nodo <span class="math inline">\(v\)</span> es la distancia máxima de <span class="math inline">\(v\)</span> a cualquier otro nodo. Nos dice qué tan “periférico” es un nodo.</p>
+<p><span class="math display">\[
+\text{ecc}(v) = \max_{u} \, d(v, u)
+\]</span></p>
+<p>A partir de la excentricidad se definen dos conceptos importantes:</p>
+<ul>
+<li><strong>Centro</strong> de la red: nodo(s) con la <strong>menor</strong> excentricidad.</li>
+<li><strong>Periferia</strong>: nodo(s) con la <strong>mayor</strong> excentricidad (igual al diámetro).</li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>ecc <span class="ot">&lt;-</span> <span class="fu">eccentricity</span>(g)</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Tabla de excentricidad por nodo</span></span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(</span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">data.frame</span>(<span class="at">Nodo =</span> <span class="fu">V</span>(g)<span class="sc">$</span>name, <span class="at">Excentricidad =</span> ecc),</span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">caption =</span> <span class="st">"Excentricidad de cada nodo en la red anillo"</span></span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table class="table table-sm table-striped small">
+<caption>Excentricidad de cada nodo en la red anillo</caption>
+<thead>
+<tr class="header">
+<th style="text-align: left;"></th>
+<th style="text-align: left;">Nodo</th>
+<th style="text-align: right;">Excentricidad</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">N1</td>
+<td style="text-align: left;">N1</td>
+<td style="text-align: right;">5</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">N2</td>
+<td style="text-align: left;">N2</td>
+<td style="text-align: right;">5</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">N3</td>
+<td style="text-align: left;">N3</td>
+<td style="text-align: right;">5</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">N4</td>
+<td style="text-align: left;">N4</td>
+<td style="text-align: right;">5</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">N5</td>
+<td style="text-align: left;">N5</td>
+<td style="text-align: right;">5</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">N6</td>
+<td style="text-align: left;">N6</td>
+<td style="text-align: right;">5</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">N7</td>
+<td style="text-align: left;">N7</td>
+<td style="text-align: right;">5</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">N8</td>
+<td style="text-align: left;">N8</td>
+<td style="text-align: right;">5</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">N9</td>
+<td style="text-align: left;">N9</td>
+<td style="text-align: right;">5</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">N10</td>
+<td style="text-align: left;">N10</td>
+<td style="text-align: right;">5</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(ecc, </span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>     <span class="at">col =</span> <span class="st">"mediumpurple"</span>, <span class="at">border =</span> <span class="st">"white"</span>,</span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>     <span class="at">main =</span> <span class="st">"Distribución de excentricidad"</span>,</span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">"Excentricidad"</span>, <span class="at">ylab =</span> <span class="st">"Frecuencia"</span>,</span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>     <span class="at">breaks =</span> <span class="fu">seq</span>(<span class="fu">min</span>(ecc) <span class="sc">-</span> <span class="fl">0.5</span>, <span class="fu">max</span>(ecc) <span class="sc">+</span> <span class="fl">0.5</span>, <span class="at">by =</span> <span class="dv">1</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div id="fig-excentricidad" class="quarto-figure quarto-figure-center quarto-float anchored" alt="Histograma mostrando la distribución de excentricidad de los nodos">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-excentricidad-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="03-distancias-eficiencia_files/figure-html/fig-excentricidad-1.png" class="img-fluid figure-img" alt="Histograma mostrando la distribución de excentricidad de los nodos" width="672">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-excentricidad-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;5: Distribución de la excentricidad en la red anillo
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled" title="💡 Concepto clave">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+💡 Concepto clave
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>En una red anillo con <span class="math inline">\(n\)</span> nodos, <strong>todos</strong> los nodos tienen la misma excentricidad (<span class="math inline">\(\lfloor n/2 \rfloor\)</span>) porque la red es perfectamente simétrica. Esto no es así en redes más complejas.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="eficiencia-de-la-red" class="level2">
+<h2 class="anchored" data-anchor-id="eficiencia-de-la-red">Eficiencia de la red</h2>
+<p>La <strong>eficiencia global</strong> mide qué tan bien se puede transmitir información en la red. Se calcula como el promedio del inverso de las distancias:</p>
+<p><span class="math display">\[
+E_{\text{global}} = \frac{1}{n(n-1)} \sum_{i \neq j} \frac{1}{d(i, j)}
+\]</span></p>
+<p>Una red completamente conectada tiene eficiencia 1; una red sin aristas tiene eficiencia 0.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Función para calcular eficiencia global</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>eficiencia_global <span class="ot">&lt;-</span> <span class="cf">function</span>(g) {</span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>  d <span class="ot">&lt;-</span> <span class="fu">distances</span>(g)</span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>  n <span class="ot">&lt;-</span> <span class="fu">vcount</span>(g)</span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Reemplazar Inf por 0 (nodos desconectados no contribuyen)</span></span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>  inv_d <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(d <span class="sc">==</span> <span class="dv">0</span> <span class="sc">|</span> <span class="fu">is.infinite</span>(d), <span class="dv">0</span>, <span class="dv">1</span> <span class="sc">/</span> d)</span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">sum</span>(inv_d) <span class="sc">/</span> (n <span class="sc">*</span> (n <span class="sc">-</span> <span class="dv">1</span>))</span>
+<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-10"><a href="#cb23-10" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Eficiencia global (anillo):"</span>, <span class="fu">round</span>(<span class="fu">eficiencia_global</span>(g), <span class="dv">4</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Eficiencia global (anillo): 0.4852 </code></pre>
+</div>
+</div>
+<section id="densidad-de-aristas" class="level3">
+<h3 class="anchored" data-anchor-id="densidad-de-aristas">Densidad de aristas</h3>
+<p>La <strong>densidad</strong> indica qué fracción de todas las aristas posibles existen realmente:</p>
+<p><span class="math display">\[
+\rho = \frac{2m}{n(n-1)} \quad \text{(red no dirigida)}
+\]</span></p>
+<p>donde <span class="math inline">\(m\)</span> es el número de aristas y <span class="math inline">\(n\)</span> el de nodos.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Densidad de aristas (anillo):"</span>, <span class="fu">round</span>(<span class="fu">edge_density</span>(g), <span class="dv">4</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Densidad de aristas (anillo): 0.2222 </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Aristas existentes:"</span>, <span class="fu">ecount</span>(g), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Aristas existentes: 10 </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Aristas posibles:"</span>, <span class="fu">choose</span>(<span class="fu">vcount</span>(g), <span class="dv">2</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Aristas posibles: 45 </code></pre>
+</div>
+</div>
+</section>
+</section>
+<section id="el-efecto-de-los-atajos" class="level2">
+<h2 class="anchored" data-anchor-id="el-efecto-de-los-atajos">El efecto de los atajos</h2>
+<p>¿Qué pasa si agregamos una sola arista “atajo” entre dos nodos distantes de una red anillo? Veamos cómo impacta las métricas.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>g_original <span class="ot">&lt;-</span> <span class="fu">make_ring</span>(<span class="dv">20</span>)</span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a><span class="fu">V</span>(g_original)<span class="sc">$</span>name <span class="ot">&lt;-</span> <span class="fu">paste0</span>(<span class="st">"N"</span>, <span class="dv">1</span><span class="sc">:</span><span class="dv">20</span>)</span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Agregar un atajo entre N1 y N11 (diametralmente opuestos)</span></span>
+<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a>g_atajo <span class="ot">&lt;-</span> <span class="fu">add_edges</span>(g_original, <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">11</span>))</span>
+<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-7"><a href="#cb31-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Métricas antes y después</span></span>
+<span id="cb31-8"><a href="#cb31-8" aria-hidden="true" tabindex="-1"></a>metricas <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb31-9"><a href="#cb31-9" aria-hidden="true" tabindex="-1"></a>  Métrica <span class="ot">=</span> <span class="fu">c</span>(<span class="st">"Distancia media"</span>, <span class="st">"Diámetro"</span>, <span class="st">"Eficiencia global"</span>),</span>
+<span id="cb31-10"><a href="#cb31-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">Sin_atajo =</span> <span class="fu">c</span>(</span>
+<span id="cb31-11"><a href="#cb31-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">round</span>(<span class="fu">mean_distance</span>(g_original), <span class="dv">3</span>),</span>
+<span id="cb31-12"><a href="#cb31-12" aria-hidden="true" tabindex="-1"></a>    <span class="fu">diameter</span>(g_original),</span>
+<span id="cb31-13"><a href="#cb31-13" aria-hidden="true" tabindex="-1"></a>    <span class="fu">round</span>(<span class="fu">eficiencia_global</span>(g_original), <span class="dv">4</span>)</span>
+<span id="cb31-14"><a href="#cb31-14" aria-hidden="true" tabindex="-1"></a>  ),</span>
+<span id="cb31-15"><a href="#cb31-15" aria-hidden="true" tabindex="-1"></a>  <span class="at">Con_atajo =</span> <span class="fu">c</span>(</span>
+<span id="cb31-16"><a href="#cb31-16" aria-hidden="true" tabindex="-1"></a>    <span class="fu">round</span>(<span class="fu">mean_distance</span>(g_atajo), <span class="dv">3</span>),</span>
+<span id="cb31-17"><a href="#cb31-17" aria-hidden="true" tabindex="-1"></a>    <span class="fu">diameter</span>(g_atajo),</span>
+<span id="cb31-18"><a href="#cb31-18" aria-hidden="true" tabindex="-1"></a>    <span class="fu">round</span>(<span class="fu">eficiencia_global</span>(g_atajo), <span class="dv">4</span>)</span>
+<span id="cb31-19"><a href="#cb31-19" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb31-20"><a href="#cb31-20" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb31-21"><a href="#cb31-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-22"><a href="#cb31-22" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(metricas, </span>
+<span id="cb31-23"><a href="#cb31-23" aria-hidden="true" tabindex="-1"></a>             <span class="at">caption =</span> <span class="st">"Efecto de un solo atajo en una red anillo de 20 nodos"</span>,</span>
+<span id="cb31-24"><a href="#cb31-24" aria-hidden="true" tabindex="-1"></a>             <span class="at">col.names =</span> <span class="fu">c</span>(<span class="st">"Métrica"</span>, <span class="st">"Sin atajo"</span>, <span class="st">"Con atajo"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="fig-efecto-atajo" class="cell-output-display quarto-figure quarto-figure-center quarto-float anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-efecto-atajo-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="table table-sm table-striped small">
+<caption>Efecto de un solo atajo en una red anillo de 20 nodos</caption>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Métrica</th>
+<th style="text-align: right;">Sin atajo</th>
+<th style="text-align: right;">Con atajo</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Distancia media</td>
+<td style="text-align: right;">5.263</td>
+<td style="text-align: right;">4.2680</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Diámetro</td>
+<td style="text-align: right;">10.000</td>
+<td style="text-align: right;">10.0000</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Eficiencia global</td>
+<td style="text-align: right;">0.303</td>
+<td style="text-align: right;">0.3397</td>
+</tr>
+</tbody>
+</table>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-efecto-atajo-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;6: Impacto de un atajo en la red anillo: antes y después
+</figcaption>
+</figure>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>), <span class="at">mar =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">3</span>, <span class="dv">1</span>))</span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Layout fijo para ambos gráficos</span></span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a>lay <span class="ot">&lt;-</span> <span class="fu">layout_in_circle</span>(g_original)</span>
+<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(g_original, <span class="at">layout =</span> lay,</span>
+<span id="cb32-7"><a href="#cb32-7" aria-hidden="true" tabindex="-1"></a>     <span class="at">vertex.color =</span> <span class="st">"skyblue"</span>, <span class="at">vertex.size =</span> <span class="dv">15</span>,</span>
+<span id="cb32-8"><a href="#cb32-8" aria-hidden="true" tabindex="-1"></a>     <span class="at">vertex.label.cex =</span> <span class="fl">0.6</span>,</span>
+<span id="cb32-9"><a href="#cb32-9" aria-hidden="true" tabindex="-1"></a>     <span class="at">main =</span> <span class="st">"Anillo original"</span>)</span>
+<span id="cb32-10"><a href="#cb32-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-11"><a href="#cb32-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Destacar el atajo en la segunda red</span></span>
+<span id="cb32-12"><a href="#cb32-12" aria-hidden="true" tabindex="-1"></a><span class="fu">E</span>(g_atajo)<span class="sc">$</span>color <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">rep</span>(<span class="st">"gray70"</span>, <span class="fu">ecount</span>(g_original)), <span class="st">"red"</span>)</span>
+<span id="cb32-13"><a href="#cb32-13" aria-hidden="true" tabindex="-1"></a><span class="fu">E</span>(g_atajo)<span class="sc">$</span>width <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">rep</span>(<span class="dv">1</span>, <span class="fu">ecount</span>(g_original)), <span class="dv">3</span>)</span>
+<span id="cb32-14"><a href="#cb32-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-15"><a href="#cb32-15" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(g_atajo, <span class="at">layout =</span> lay,</span>
+<span id="cb32-16"><a href="#cb32-16" aria-hidden="true" tabindex="-1"></a>     <span class="at">vertex.color =</span> <span class="st">"skyblue"</span>, <span class="at">vertex.size =</span> <span class="dv">15</span>,</span>
+<span id="cb32-17"><a href="#cb32-17" aria-hidden="true" tabindex="-1"></a>     <span class="at">vertex.label.cex =</span> <span class="fl">0.6</span>,</span>
+<span id="cb32-18"><a href="#cb32-18" aria-hidden="true" tabindex="-1"></a>     <span class="at">main =</span> <span class="st">"Anillo + 1 atajo (N1–N11)"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div id="fig-anillo-atajo-visual" class="quarto-figure quarto-figure-center quarto-float anchored" alt="Dos redes anillo: la de la derecha tiene una arista adicional cruzando el centro">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-anillo-atajo-visual-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="03-distancias-eficiencia_files/figure-html/fig-anillo-atajo-visual-1.png" class="img-fluid figure-img" alt="Dos redes anillo: la de la derecha tiene una arista adicional cruzando el centro" width="1152">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-anillo-atajo-visual-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;7: Visualización del anillo original (izq.) y con atajo (der.)
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-important callout-titled" title="🔑 Recuerda">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+🔑 Recuerda
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Un solo atajo puede <strong>reducir drásticamente</strong> la distancia media de una red. Este fenómeno es la base del modelo <em>small-world</em> de Watts y Strogatz <span class="citation" data-cites="watts1998">[@watts1998]</span>: unas pocas conexiones aleatorias transforman una red regular en una donde “todo el mundo está cerca de todo el mundo”.</p>
+</div>
+</div>
+</section>
+<section id="comparación-entre-topologías" class="level2">
+<h2 class="anchored" data-anchor-id="comparación-entre-topologías">Comparación entre topologías</h2>
+<p>Comparemos las métricas de distancia de cinco topologías clásicas con 50 nodos:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">42</span>)</span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>redes <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">Anillo       =</span> <span class="fu">make_ring</span>(<span class="dv">50</span>),</span>
+<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">Estrella     =</span> <span class="fu">make_star</span>(<span class="dv">50</span>, <span class="at">mode =</span> <span class="st">"undirected"</span>),</span>
+<span id="cb33-6"><a href="#cb33-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">Completa     =</span> <span class="fu">make_full_graph</span>(<span class="dv">50</span>),</span>
+<span id="cb33-7"><a href="#cb33-7" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Small-world"</span> <span class="ot">=</span> <span class="fu">sample_smallworld</span>(<span class="dv">1</span>, <span class="dv">50</span>, <span class="at">nei =</span> <span class="dv">3</span>, <span class="at">p =</span> <span class="fl">0.1</span>),</span>
+<span id="cb33-8"><a href="#cb33-8" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Barabási–Albert"</span> <span class="ot">=</span> <span class="fu">sample_pa</span>(<span class="dv">50</span>, <span class="at">directed =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb33-9"><a href="#cb33-9" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb33-10"><a href="#cb33-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-11"><a href="#cb33-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Calcular métricas</span></span>
+<span id="cb33-12"><a href="#cb33-12" aria-hidden="true" tabindex="-1"></a>comparacion <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb33-13"><a href="#cb33-13" aria-hidden="true" tabindex="-1"></a>  <span class="at">Red =</span> <span class="fu">names</span>(redes),</span>
+<span id="cb33-14"><a href="#cb33-14" aria-hidden="true" tabindex="-1"></a>  <span class="at">Nodos =</span> <span class="fu">sapply</span>(redes, vcount),</span>
+<span id="cb33-15"><a href="#cb33-15" aria-hidden="true" tabindex="-1"></a>  <span class="at">Aristas =</span> <span class="fu">sapply</span>(redes, ecount),</span>
+<span id="cb33-16"><a href="#cb33-16" aria-hidden="true" tabindex="-1"></a>  <span class="at">Dist_media =</span> <span class="fu">round</span>(<span class="fu">sapply</span>(redes, mean_distance), <span class="dv">3</span>),</span>
+<span id="cb33-17"><a href="#cb33-17" aria-hidden="true" tabindex="-1"></a>  Diámetro <span class="ot">=</span> <span class="fu">sapply</span>(redes, diameter),</span>
+<span id="cb33-18"><a href="#cb33-18" aria-hidden="true" tabindex="-1"></a>  <span class="at">Densidad =</span> <span class="fu">round</span>(<span class="fu">sapply</span>(redes, edge_density), <span class="dv">4</span>),</span>
+<span id="cb33-19"><a href="#cb33-19" aria-hidden="true" tabindex="-1"></a>  <span class="at">Eficiencia =</span> <span class="fu">round</span>(<span class="fu">sapply</span>(redes, eficiencia_global), <span class="dv">4</span>)</span>
+<span id="cb33-20"><a href="#cb33-20" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb33-21"><a href="#cb33-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-22"><a href="#cb33-22" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(comparacion,</span>
+<span id="cb33-23"><a href="#cb33-23" aria-hidden="true" tabindex="-1"></a>             <span class="at">caption =</span> <span class="st">"Comparación de métricas de distancia entre cinco topologías (50 nodos)"</span>,</span>
+<span id="cb33-24"><a href="#cb33-24" aria-hidden="true" tabindex="-1"></a>             <span class="at">col.names =</span> <span class="fu">c</span>(<span class="st">"Red"</span>, <span class="st">"Nodos"</span>, <span class="st">"Aristas"</span>, <span class="st">"Dist. media"</span>, </span>
+<span id="cb33-25"><a href="#cb33-25" aria-hidden="true" tabindex="-1"></a>                           <span class="st">"Diámetro"</span>, <span class="st">"Densidad"</span>, <span class="st">"Eficiencia"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table class="table table-sm table-striped small">
+<caption>Comparación de métricas de distancia entre cinco topologías (50 nodos)</caption>
+<colgroup>
+<col style="width: 18%">
+<col style="width: 18%">
+<col style="width: 6%">
+<col style="width: 9%">
+<col style="width: 13%">
+<col style="width: 10%">
+<col style="width: 10%">
+<col style="width: 12%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;"></th>
+<th style="text-align: left;">Red</th>
+<th style="text-align: right;">Nodos</th>
+<th style="text-align: right;">Aristas</th>
+<th style="text-align: right;">Dist. media</th>
+<th style="text-align: right;">Diámetro</th>
+<th style="text-align: right;">Densidad</th>
+<th style="text-align: right;">Eficiencia</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Anillo</td>
+<td style="text-align: left;">Anillo</td>
+<td style="text-align: right;">50</td>
+<td style="text-align: right;">50</td>
+<td style="text-align: right;">12.755</td>
+<td style="text-align: right;">25</td>
+<td style="text-align: right;">0.0408</td>
+<td style="text-align: right;">0.1549</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Estrella</td>
+<td style="text-align: left;">Estrella</td>
+<td style="text-align: right;">50</td>
+<td style="text-align: right;">49</td>
+<td style="text-align: right;">1.960</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">0.0400</td>
+<td style="text-align: right;">0.5200</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Completa</td>
+<td style="text-align: left;">Completa</td>
+<td style="text-align: right;">50</td>
+<td style="text-align: right;">1225</td>
+<td style="text-align: right;">1.000</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1.0000</td>
+<td style="text-align: right;">1.0000</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Small-world</td>
+<td style="text-align: left;">Small-world</td>
+<td style="text-align: right;">50</td>
+<td style="text-align: right;">150</td>
+<td style="text-align: right;">2.673</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">0.1224</td>
+<td style="text-align: right;">0.4462</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Barabási–Albert</td>
+<td style="text-align: left;">Barabási–Albert</td>
+<td style="text-align: right;">50</td>
+<td style="text-align: right;">49</td>
+<td style="text-align: right;">4.358</td>
+<td style="text-align: right;">9</td>
+<td style="text-align: right;">0.0400</td>
+<td style="text-align: right;">0.2851</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>), <span class="at">mar =</span> <span class="fu">c</span>(<span class="dv">8</span>, <span class="dv">4</span>, <span class="dv">3</span>, <span class="dv">1</span>))</span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Distancia media</span></span>
+<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a><span class="fu">barplot</span>(comparacion<span class="sc">$</span>Dist_media,</span>
+<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a>        <span class="at">names.arg =</span> comparacion<span class="sc">$</span>Red,</span>
+<span id="cb34-6"><a href="#cb34-6" aria-hidden="true" tabindex="-1"></a>        <span class="at">col =</span> <span class="fu">c</span>(<span class="st">"skyblue"</span>, <span class="st">"gold"</span>, <span class="st">"lightgreen"</span>, <span class="st">"mediumpurple"</span>, <span class="st">"tomato"</span>),</span>
+<span id="cb34-7"><a href="#cb34-7" aria-hidden="true" tabindex="-1"></a>        <span class="at">main =</span> <span class="st">"Distancia media"</span>,</span>
+<span id="cb34-8"><a href="#cb34-8" aria-hidden="true" tabindex="-1"></a>        <span class="at">ylab =</span> <span class="st">"Distancia media"</span>,</span>
+<span id="cb34-9"><a href="#cb34-9" aria-hidden="true" tabindex="-1"></a>        <span class="at">las =</span> <span class="dv">2</span>, <span class="at">cex.names =</span> <span class="fl">0.8</span>)</span>
+<span id="cb34-10"><a href="#cb34-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-11"><a href="#cb34-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Eficiencia</span></span>
+<span id="cb34-12"><a href="#cb34-12" aria-hidden="true" tabindex="-1"></a><span class="fu">barplot</span>(comparacion<span class="sc">$</span>Eficiencia,</span>
+<span id="cb34-13"><a href="#cb34-13" aria-hidden="true" tabindex="-1"></a>        <span class="at">names.arg =</span> comparacion<span class="sc">$</span>Red,</span>
+<span id="cb34-14"><a href="#cb34-14" aria-hidden="true" tabindex="-1"></a>        <span class="at">col =</span> <span class="fu">c</span>(<span class="st">"skyblue"</span>, <span class="st">"gold"</span>, <span class="st">"lightgreen"</span>, <span class="st">"mediumpurple"</span>, <span class="st">"tomato"</span>),</span>
+<span id="cb34-15"><a href="#cb34-15" aria-hidden="true" tabindex="-1"></a>        <span class="at">main =</span> <span class="st">"Eficiencia global"</span>,</span>
+<span id="cb34-16"><a href="#cb34-16" aria-hidden="true" tabindex="-1"></a>        <span class="at">ylab =</span> <span class="st">"Eficiencia"</span>,</span>
+<span id="cb34-17"><a href="#cb34-17" aria-hidden="true" tabindex="-1"></a>        <span class="at">las =</span> <span class="dv">2</span>, <span class="at">cex.names =</span> <span class="fl">0.8</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div id="fig-barplot-comparacion" class="quarto-figure quarto-figure-center quarto-float anchored" alt="Gráficos de barras comparando distancia media y eficiencia de cinco topologías">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-barplot-comparacion-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="03-distancias-eficiencia_files/figure-html/fig-barplot-comparacion-1.png" class="img-fluid figure-img" alt="Gráficos de barras comparando distancia media y eficiencia de cinco topologías" width="1152">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-barplot-comparacion-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;8: Distancia media y eficiencia global por tipo de red
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled" title="💡 Concepto clave">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+💡 Concepto clave
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>La red <strong>completa</strong> tiene la eficiencia máxima (todos están a distancia 1), pero requiere <span class="math inline">\(\binom{n}{2}\)</span> aristas. La red <em>small-world</em> logra una eficiencia alta con muchas menos aristas, lo que la convierte en un diseño “económico” para la propagación rápida de información.</p>
+</div>
+</div>
+</section>
+<section id="distancias-en-redes-grandes" class="level2">
+<h2 class="anchored" data-anchor-id="distancias-en-redes-grandes">Distancias en redes grandes</h2>
+<p>Veamos cómo se comportan las distancias en una red <em>small-world</em> de 500 nodos, similar a las que aparecen en sistemas reales.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">42</span>)</span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>g_large <span class="ot">&lt;-</span> <span class="fu">sample_smallworld</span>(<span class="dv">1</span>, <span class="dv">500</span>, <span class="at">nei =</span> <span class="dv">3</span>, <span class="at">p =</span> <span class="fl">0.1</span>)</span>
+<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Nodos:"</span>, <span class="fu">vcount</span>(g_large), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Nodos: 500 </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Aristas:"</span>, <span class="fu">ecount</span>(g_large), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Aristas: 1500 </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Distancia media:"</span>, <span class="fu">round</span>(<span class="fu">mean_distance</span>(g_large), <span class="dv">3</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Distancia media: 4.556 </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Diámetro:"</span>, <span class="fu">diameter</span>(g_large), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Diámetro: 8 </code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Mostrar solo un fragmento (la matriz completa sería 500×500)</span></span>
+<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a>dist_large <span class="ot">&lt;-</span> <span class="fu">distances</span>(g_large)</span>
+<span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb43-4"><a href="#cb43-4" aria-hidden="true" tabindex="-1"></a><span class="fu">heatmap</span>(dist_large[<span class="dv">1</span><span class="sc">:</span><span class="dv">20</span>, <span class="dv">1</span><span class="sc">:</span><span class="dv">20</span>],</span>
+<span id="cb43-5"><a href="#cb43-5" aria-hidden="true" tabindex="-1"></a>        <span class="at">Rowv =</span> <span class="cn">NA</span>, <span class="at">Colv =</span> <span class="cn">NA</span>,</span>
+<span id="cb43-6"><a href="#cb43-6" aria-hidden="true" tabindex="-1"></a>        <span class="at">col =</span> <span class="fu">hcl.colors</span>(<span class="dv">20</span>, <span class="at">palette =</span> <span class="st">"YlOrRd"</span>, <span class="at">rev =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb43-7"><a href="#cb43-7" aria-hidden="true" tabindex="-1"></a>        <span class="at">scale =</span> <span class="st">"none"</span>,</span>
+<span id="cb43-8"><a href="#cb43-8" aria-hidden="true" tabindex="-1"></a>        <span class="at">main =</span> <span class="st">"Distancias (primeros 20 nodos)"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div id="fig-heatmap-grande" class="quarto-figure quarto-figure-center quarto-float anchored" alt="Heatmap mostrando las distancias entre los primeros 20 nodos de la red">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-heatmap-grande-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="03-distancias-eficiencia_files/figure-html/fig-heatmap-grande-1.png" class="img-fluid figure-img" alt="Heatmap mostrando las distancias entre los primeros 20 nodos de la red" width="672">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-heatmap-grande-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;9: Fragmento 20×20 de la matriz de distancias de una red small-world (500 nodos)
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Extraer todas las distancias (triángulo superior para no duplicar)</span></span>
+<span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a>todas_dist <span class="ot">&lt;-</span> dist_large[<span class="fu">upper.tri</span>(dist_large)]</span>
+<span id="cb44-3"><a href="#cb44-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-4"><a href="#cb44-4" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(todas_dist,</span>
+<span id="cb44-5"><a href="#cb44-5" aria-hidden="true" tabindex="-1"></a>     <span class="at">col =</span> <span class="st">"mediumpurple"</span>, <span class="at">border =</span> <span class="st">"white"</span>,</span>
+<span id="cb44-6"><a href="#cb44-6" aria-hidden="true" tabindex="-1"></a>     <span class="at">main =</span> <span class="st">"Distribución de distancias (n = 500, small-world)"</span>,</span>
+<span id="cb44-7"><a href="#cb44-7" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">"Distancia (saltos)"</span>, <span class="at">ylab =</span> <span class="st">"Frecuencia de pares"</span>,</span>
+<span id="cb44-8"><a href="#cb44-8" aria-hidden="true" tabindex="-1"></a>     <span class="at">breaks =</span> <span class="fu">seq</span>(<span class="fl">0.5</span>, <span class="fu">max</span>(todas_dist) <span class="sc">+</span> <span class="fl">0.5</span>, <span class="at">by =</span> <span class="dv">1</span>))</span>
+<span id="cb44-9"><a href="#cb44-9" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">v =</span> <span class="fu">mean</span>(todas_dist), <span class="at">col =</span> <span class="st">"navy"</span>, <span class="at">lwd =</span> <span class="dv">2</span>, <span class="at">lty =</span> <span class="dv">2</span>)</span>
+<span id="cb44-10"><a href="#cb44-10" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">"topright"</span>, <span class="fu">paste</span>(<span class="st">"Media ="</span>, <span class="fu">round</span>(<span class="fu">mean</span>(todas_dist), <span class="dv">2</span>)),</span>
+<span id="cb44-11"><a href="#cb44-11" aria-hidden="true" tabindex="-1"></a>       <span class="at">col =</span> <span class="st">"navy"</span>, <span class="at">lty =</span> <span class="dv">2</span>, <span class="at">lwd =</span> <span class="dv">2</span>, <span class="at">bty =</span> <span class="st">"n"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div id="fig-dist-distribucion-grande" class="quarto-figure quarto-figure-center quarto-float anchored" alt="Histograma de las distancias par-a-par mostrando concentración en valores bajos">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-dist-distribucion-grande-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="03-distancias-eficiencia_files/figure-html/fig-dist-distribucion-grande-1.png" class="img-fluid figure-img" alt="Histograma de las distancias par-a-par mostrando concentración en valores bajos" width="672">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-dist-distribucion-grande-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;10: Distribución de todas las distancias en la red small-world de 500 nodos
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-warning callout-titled" title="⚠️ Error frecuente">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+⚠️ Error frecuente
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>No intentes visualizar la matriz de distancias completa de una red grande con <code>heatmap()</code>. Para <span class="math inline">\(n = 1000\)</span>, la matriz tiene un millón de entradas y el gráfico será ilegible. Muestra fragmentos o usa la distribución de distancias como alternativa.</p>
+</div>
+</div>
+</section>
+<section id="ejercicios" class="level2">
+<h2 class="anchored" data-anchor-id="ejercicios">Ejercicios</h2>
+<section id="ejercicios-resueltos" class="level3 unnumbered">
+<h3 class="unnumbered anchored" data-anchor-id="ejercicios-resueltos">Ejercicios resueltos</h3>
+<p><strong>Ejercicio resuelto 1:</strong> Compara la distancia media de tres redes: anillo, estrella y grafo completo, todos con 30 nodos. ¿Cuál sería la mejor para difundir una noticia rápidamente? Visualiza los resultados con un gráfico de barras.</p>
+<div class="callout callout-style-default callout-tip callout-titled" title="📝 Solución">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-8-contents" aria-controls="callout-8" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+📝 Solución
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-8" class="callout-8-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p><strong>Paso 1:</strong> Crear las tres redes y calcular sus métricas.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a>redes_30 <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
+<span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">Anillo   =</span> <span class="fu">make_ring</span>(<span class="dv">30</span>),</span>
+<span id="cb45-3"><a href="#cb45-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">Estrella =</span> <span class="fu">make_star</span>(<span class="dv">30</span>, <span class="at">mode =</span> <span class="st">"undirected"</span>),</span>
+<span id="cb45-4"><a href="#cb45-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">Completa =</span> <span class="fu">make_full_graph</span>(<span class="dv">30</span>)</span>
+<span id="cb45-5"><a href="#cb45-5" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb45-6"><a href="#cb45-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-7"><a href="#cb45-7" aria-hidden="true" tabindex="-1"></a>metricas_30 <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb45-8"><a href="#cb45-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">Red =</span> <span class="fu">names</span>(redes_30),</span>
+<span id="cb45-9"><a href="#cb45-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">Dist_media =</span> <span class="fu">round</span>(<span class="fu">sapply</span>(redes_30, mean_distance), <span class="dv">3</span>),</span>
+<span id="cb45-10"><a href="#cb45-10" aria-hidden="true" tabindex="-1"></a>  Diámetro <span class="ot">=</span> <span class="fu">sapply</span>(redes_30, diameter),</span>
+<span id="cb45-11"><a href="#cb45-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">Aristas =</span> <span class="fu">sapply</span>(redes_30, ecount)</span>
+<span id="cb45-12"><a href="#cb45-12" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb45-13"><a href="#cb45-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-14"><a href="#cb45-14" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(metricas_30,</span>
+<span id="cb45-15"><a href="#cb45-15" aria-hidden="true" tabindex="-1"></a>             <span class="at">caption =</span> <span class="st">"Métricas de tres topologías con 30 nodos"</span>,</span>
+<span id="cb45-16"><a href="#cb45-16" aria-hidden="true" tabindex="-1"></a>             <span class="at">col.names =</span> <span class="fu">c</span>(<span class="st">"Red"</span>, <span class="st">"Dist. media"</span>, <span class="st">"Diámetro"</span>, <span class="st">"Aristas"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table class="table table-sm table-striped small">
+<caption>Métricas de tres topologías con 30 nodos</caption>
+<thead>
+<tr class="header">
+<th style="text-align: left;"></th>
+<th style="text-align: left;">Red</th>
+<th style="text-align: right;">Dist. media</th>
+<th style="text-align: right;">Diámetro</th>
+<th style="text-align: right;">Aristas</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Anillo</td>
+<td style="text-align: left;">Anillo</td>
+<td style="text-align: right;">7.759</td>
+<td style="text-align: right;">15</td>
+<td style="text-align: right;">30</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Estrella</td>
+<td style="text-align: left;">Estrella</td>
+<td style="text-align: right;">1.933</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">29</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Completa</td>
+<td style="text-align: left;">Completa</td>
+<td style="text-align: right;">1.000</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">435</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p><strong>Paso 2:</strong> Visualizar con gráfico de barras.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="fu">barplot</span>(metricas_30<span class="sc">$</span>Dist_media,</span>
+<span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a>        <span class="at">names.arg =</span> metricas_30<span class="sc">$</span>Red,</span>
+<span id="cb46-3"><a href="#cb46-3" aria-hidden="true" tabindex="-1"></a>        <span class="at">col =</span> <span class="fu">c</span>(<span class="st">"skyblue"</span>, <span class="st">"gold"</span>, <span class="st">"lightgreen"</span>),</span>
+<span id="cb46-4"><a href="#cb46-4" aria-hidden="true" tabindex="-1"></a>        <span class="at">main =</span> <span class="st">"Distancia media (n = 30)"</span>,</span>
+<span id="cb46-5"><a href="#cb46-5" aria-hidden="true" tabindex="-1"></a>        <span class="at">ylab =</span> <span class="st">"Distancia media"</span>,</span>
+<span id="cb46-6"><a href="#cb46-6" aria-hidden="true" tabindex="-1"></a>        <span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="fu">max</span>(metricas_30<span class="sc">$</span>Dist_media) <span class="sc">*</span> <span class="fl">1.2</span>))</span>
+<span id="cb46-7"><a href="#cb46-7" aria-hidden="true" tabindex="-1"></a><span class="fu">text</span>(<span class="at">x =</span> <span class="fu">c</span>(<span class="fl">0.7</span>, <span class="fl">1.9</span>, <span class="fl">3.1</span>), <span class="at">y =</span> metricas_30<span class="sc">$</span>Dist_media <span class="sc">+</span> <span class="fl">0.3</span>,</span>
+<span id="cb46-8"><a href="#cb46-8" aria-hidden="true" tabindex="-1"></a>     <span class="at">labels =</span> metricas_30<span class="sc">$</span>Dist_media, <span class="at">cex =</span> <span class="fl">0.9</span>, <span class="at">font =</span> <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div id="fig-ej-res-cap3-1" class="quarto-figure quarto-figure-center quarto-float anchored" alt="Gráfico de barras mostrando distancia media: anillo alta, estrella baja, completa mínima">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-ej-res-cap3-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="03-distancias-eficiencia_files/figure-html/fig-ej-res-cap3-1-1.png" class="img-fluid figure-img" alt="Gráfico de barras mostrando distancia media: anillo alta, estrella baja, completa mínima" width="672">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-ej-res-cap3-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;11: Distancia media de tres topologías con 30 nodos
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p><strong>Interpretación:</strong> La red <strong>completa</strong> tiene distancia media 1 (todos conectados directamente), pero requiere <span class="math inline">\(\binom{30}{2} = 435\)</span> aristas. La <strong>estrella</strong> logra una distancia media de apenas ~2 con solo 29 aristas (muy eficiente). El <strong>anillo</strong> tiene la mayor distancia media (~8) porque la información debe recorrer la mitad del círculo. Para difundir una noticia rápido, la completa es óptima pero costosa; la estrella es la más eficiente en aristas por unidad de distancia.</p>
+</div>
+</div>
+</div>
+<hr>
+<p><strong>Ejercicio resuelto 2:</strong> Crea una función <code>resumen_distancias()</code> que reciba un grafo y devuelva un <em>data frame</em> con: distancia media, diámetro, excentricidad mínima (radio), excentricidad máxima y eficiencia global. Pruébala con una red <em>small-world</em> de 100 nodos.</p>
+<div class="callout callout-style-default callout-tip callout-titled" title="📝 Solución">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-9-contents" aria-controls="callout-9" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+📝 Solución
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-9" class="callout-9-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p><strong>Paso 1:</strong> Definir la función.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb47"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a>resumen_distancias <span class="ot">&lt;-</span> <span class="cf">function</span>(g) {</span>
+<span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a>  ecc <span class="ot">&lt;-</span> <span class="fu">eccentricity</span>(g)</span>
+<span id="cb47-3"><a href="#cb47-3" aria-hidden="true" tabindex="-1"></a>  d <span class="ot">&lt;-</span> <span class="fu">distances</span>(g)</span>
+<span id="cb47-4"><a href="#cb47-4" aria-hidden="true" tabindex="-1"></a>  n <span class="ot">&lt;-</span> <span class="fu">vcount</span>(g)</span>
+<span id="cb47-5"><a href="#cb47-5" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb47-6"><a href="#cb47-6" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Eficiencia global</span></span>
+<span id="cb47-7"><a href="#cb47-7" aria-hidden="true" tabindex="-1"></a>  inv_d <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(d <span class="sc">==</span> <span class="dv">0</span> <span class="sc">|</span> <span class="fu">is.infinite</span>(d), <span class="dv">0</span>, <span class="dv">1</span> <span class="sc">/</span> d)</span>
+<span id="cb47-8"><a href="#cb47-8" aria-hidden="true" tabindex="-1"></a>  eficiencia <span class="ot">&lt;-</span> <span class="fu">sum</span>(inv_d) <span class="sc">/</span> (n <span class="sc">*</span> (n <span class="sc">-</span> <span class="dv">1</span>))</span>
+<span id="cb47-9"><a href="#cb47-9" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb47-10"><a href="#cb47-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">data.frame</span>(</span>
+<span id="cb47-11"><a href="#cb47-11" aria-hidden="true" tabindex="-1"></a>    Métrica <span class="ot">=</span> <span class="fu">c</span>(<span class="st">"Distancia media"</span>, <span class="st">"Diámetro"</span>, <span class="st">"Radio (ecc. mín.)"</span>,</span>
+<span id="cb47-12"><a href="#cb47-12" aria-hidden="true" tabindex="-1"></a>                <span class="st">"Ecc. máxima"</span>, <span class="st">"Eficiencia global"</span>, <span class="st">"¿Conexa?"</span>),</span>
+<span id="cb47-13"><a href="#cb47-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">Valor =</span> <span class="fu">c</span>(</span>
+<span id="cb47-14"><a href="#cb47-14" aria-hidden="true" tabindex="-1"></a>      <span class="fu">round</span>(<span class="fu">mean_distance</span>(g), <span class="dv">3</span>),</span>
+<span id="cb47-15"><a href="#cb47-15" aria-hidden="true" tabindex="-1"></a>      <span class="fu">diameter</span>(g),</span>
+<span id="cb47-16"><a href="#cb47-16" aria-hidden="true" tabindex="-1"></a>      <span class="fu">min</span>(ecc),</span>
+<span id="cb47-17"><a href="#cb47-17" aria-hidden="true" tabindex="-1"></a>      <span class="fu">max</span>(ecc),</span>
+<span id="cb47-18"><a href="#cb47-18" aria-hidden="true" tabindex="-1"></a>      <span class="fu">round</span>(eficiencia, <span class="dv">4</span>),</span>
+<span id="cb47-19"><a href="#cb47-19" aria-hidden="true" tabindex="-1"></a>      <span class="fu">is_connected</span>(g)</span>
+<span id="cb47-20"><a href="#cb47-20" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb47-21"><a href="#cb47-21" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb47-22"><a href="#cb47-22" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><strong>Paso 2:</strong> Probar con una red <em>small-world</em>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">55</span>)</span>
+<span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a>g_sw100 <span class="ot">&lt;-</span> <span class="fu">sample_smallworld</span>(<span class="dv">1</span>, <span class="dv">100</span>, <span class="at">nei =</span> <span class="dv">3</span>, <span class="at">p =</span> <span class="fl">0.1</span>)</span>
+<span id="cb48-3"><a href="#cb48-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb48-4"><a href="#cb48-4" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(<span class="fu">resumen_distancias</span>(g_sw100),</span>
+<span id="cb48-5"><a href="#cb48-5" aria-hidden="true" tabindex="-1"></a>             <span class="at">caption =</span> <span class="st">"Resumen de distancias — Red small-world (100 nodos)"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table class="table table-sm table-striped small">
+<caption>Resumen de distancias — Red small-world (100 nodos)</caption>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Métrica</th>
+<th style="text-align: right;">Valor</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Distancia media</td>
+<td style="text-align: right;">3.2510</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Diámetro</td>
+<td style="text-align: right;">6.0000</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Radio (ecc. mín.)</td>
+<td style="text-align: right;">4.0000</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Ecc. máxima</td>
+<td style="text-align: right;">6.0000</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Eficiencia global</td>
+<td style="text-align: right;">0.3589</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">¿Conexa?</td>
+<td style="text-align: right;">1.0000</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p><strong>Interpretación:</strong> La función encapsula todas las métricas de distancia en una sola llamada. El radio indica la excentricidad del nodo más “central” y la eficiencia global resume qué tan fácil es la comunicación en la red en un solo número entre 0 y 1.</p>
+</div>
+</div>
+</div>
+</section>
+<section id="ejercicios-con-pistas" class="level3 unnumbered">
+<h3 class="unnumbered anchored" data-anchor-id="ejercicios-con-pistas">Ejercicios con pistas</h3>
+<p><strong>Ejercicio 1:</strong> Crea una red tipo anillo de 20 nodos. Agrega una arista entre dos nodos distantes (por ejemplo, N1 y N11). ¿Cuánto se reduce la distancia media? ¿Y el diámetro? Repite agregando 2, 3 y 5 atajos en posiciones diferentes y grafica la evolución de la distancia media.</p>
+<div class="callout callout-style-default callout-note callout-titled" title="💡 Pista 1">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-10-contents" aria-controls="callout-10" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+💡 Pista 1
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-10" class="callout-10-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Guarda la distancia media original con <code>mean_distance(g)</code> antes de modificar. Usa <code>add_edges()</code> para agregar atajos en cada iteración.</p>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled" title="💡 Pista 2">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-11-contents" aria-controls="callout-11" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+💡 Pista 2
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-11" class="callout-11-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Para los atajos adicionales, elige pares de nodos alejados: (N5, N15), (N3, N18), etc. Almacena los resultados en un vector y grafícalos con <code>plot(0:5, distancias, type = "b")</code>.</p>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled" title="💡 Pista 3 — Pseudocódigo">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-12-contents" aria-controls="callout-12" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+💡 Pista 3 — Pseudocódigo
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-12" class="callout-12-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<pre><code>1. g &lt;- make_ring(20)
+2. atajos &lt;- list(c(1,11), c(5,15), c(3,18), c(8,14), c(2,19))
+3. resultados &lt;- mean_distance(g)  # sin atajos
+4. for (i in 1:5) {
+5.     g &lt;- add_edges(g, atajos[[i]])
+6.     resultados &lt;- c(resultados, mean_distance(g))
+7. }
+8. plot(0:5, resultados, type = "b",
+9.      xlab = "Número de atajos", ylab = "Distancia media")</code></pre>
+</div>
+</div>
+</div>
+<hr>
+<p><strong>Ejercicio 2:</strong> Calcula la excentricidad de cada nodo en una red tipo estrella de 15 nodos. Identifica el centro y la periferia de la red. ¿Por qué la estrella tiene un centro tan obvio?</p>
+<div class="callout callout-style-default callout-note callout-titled" title="💡 Pista 1">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-13-contents" aria-controls="callout-13" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+💡 Pista 1
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-13" class="callout-13-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Usa <code>eccentricity(g)</code> y luego <code>which.min()</code> para encontrar el centro. En una estrella, el nodo central tiene excentricidad 1.</p>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled" title="💡 Pista 2">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-14-contents" aria-controls="callout-14" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+💡 Pista 2
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-14" class="callout-14-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Los nodos periféricos tienen excentricidad 2 (necesitan pasar por el centro para llegar a cualquier otro nodo periférico). El centro es el nodo 1 (el hub).</p>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled" title="💡 Pista 3 — Pseudocódigo">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-15-contents" aria-controls="callout-15" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+💡 Pista 3 — Pseudocódigo
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-15" class="callout-15-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<pre><code>1. g &lt;- make_star(15, mode = "undirected")
+2. ecc &lt;- eccentricity(g)
+3. cat("Centro:", which(ecc == min(ecc)))
+4. cat("Periferia:", which(ecc == max(ecc)))
+5. # Colorear: centro rojo, periferia azul
+6. V(g)$color &lt;- ifelse(ecc == min(ecc), "tomato", "skyblue")
+7. plot(g, vertex.size = 20)</code></pre>
+</div>
+</div>
+</div>
+<hr>
+<p><strong>Ejercicio 3:</strong> Crea una red aleatoria ER (<code>sample_gnp(100, 0.03)</code>) y una red regular (anillo) del mismo tamaño. Compara sus distribuciones de distancias par-a-par usando histogramas superpuestos. ¿Cuál tiene distancias más “compactas”?</p>
+<div class="callout callout-style-default callout-note callout-titled" title="💡 Pista 1">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-16-contents" aria-controls="callout-16" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+💡 Pista 1
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-16" class="callout-16-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Extrae las distancias del triángulo superior de la matriz: <code>d[upper.tri(d)]</code>. Esto evita contar cada par dos veces.</p>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled" title="💡 Pista 2">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-17-contents" aria-controls="callout-17" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+💡 Pista 2
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-17" class="callout-17-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Asegúrate de que la red ER sea conexa (<code>is_connected()</code>). Si no lo es, regenera con una semilla diferente o usa <code>p = 0.05</code>.</p>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled" title="💡 Pista 3 — Pseudocódigo">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-18-contents" aria-controls="callout-18" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+💡 Pista 3 — Pseudocódigo
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-18" class="callout-18-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<pre><code>1. set.seed(10)
+2. g_er &lt;- sample_gnp(100, 0.05)
+3. g_ring &lt;- make_ring(100)
+4. d_er &lt;- distances(g_er)[upper.tri(distances(g_er))]
+5. d_ring &lt;- distances(g_ring)[upper.tri(distances(g_ring))]
+6. hist(d_ring, col = adjustcolor("skyblue", 0.5), ...)
+7. hist(d_er, col = adjustcolor("tomato", 0.5), add = TRUE)
+8. legend(...)</code></pre>
+<p>La red ER debería tener distancias más compactas (concentradas en valores bajos) gracias a sus conexiones aleatorias.</p>
+</div>
+</div>
+</div>
+</section>
+<section id="ejercicios-propuestos" class="level3 unnumbered">
+<h3 class="unnumbered anchored" data-anchor-id="ejercicios-propuestos">Ejercicios propuestos</h3>
+<p><strong>Ejercicio propuesto 1</strong> ⭐</p>
+<p>Usa <code>shortest_paths()</code> para encontrar el camino más corto entre los nodos 1 y 50 en una red BA de 100 nodos. ¿Cuántos saltos son? Visualiza la red destacando el camino encontrado.</p>
+<blockquote class="blockquote">
+<p><strong>Autoevaluación:</strong> En una red BA de 100 nodos, el camino más corto entre nodos arbitrarios suele tener entre 2 y 5 saltos gracias a los <em>hubs</em>.</p>
+</blockquote>
+<hr>
+<p><strong>Ejercicio propuesto 2</strong> ⭐⭐</p>
+<p>Crea una función <code>eficiencia_global()</code> y úsala para comparar la eficiencia de redes <code>sample_smallworld(1, 100, nei = 3, p)</code> variando <span class="math inline">\(p \in \{0, 0.01, 0.05, 0.1, 0.3, 0.5, 1\}\)</span>. Grafica eficiencia vs.&nbsp;<span class="math inline">\(p\)</span>. ¿En qué rango de <span class="math inline">\(p\)</span> se obtiene el mayor “salto” de eficiencia?</p>
+<blockquote class="blockquote">
+<p><strong>Autoevaluación:</strong> La eficiencia debería aumentar rápidamente entre <span class="math inline">\(p = 0.01\)</span> y <span class="math inline">\(p = 0.1\)</span>, y luego estabilizarse. Esto refleja la transición al régimen <em>small-world</em>.</p>
+</blockquote>
+<hr>
+<p><strong>Ejercicio propuesto 3</strong> ⭐⭐</p>
+<p>Calcula la distancia media y el diámetro de una red BA de 1000 nodos. Encuentra los dos nodos más alejados entre sí (los extremos del diámetro) y extrae el camino completo entre ellos con <code>get_diameter()</code>. ¿Pasa el camino por algún <em>hub</em>?</p>
+<blockquote class="blockquote">
+<p><strong>Autoevaluación:</strong> En una red BA de 1000 nodos, el diámetro suele estar entre 6 y 10. El camino del diámetro generalmente pasa por al menos un <em>hub</em> (nodo con grado alto).</p>
+</blockquote>
+<hr>
+<p><strong>Ejercicio propuesto 4</strong> ⭐⭐⭐</p>
+<p>Diseña un experimento: genera 30 redes <em>small-world</em> con <span class="math inline">\(n = 200\)</span> y <span class="math inline">\(p\)</span> fijo en 0.05, cada una con diferente semilla. Para cada red, calcula la distancia media y el diámetro. Grafica un <em>boxplot</em> de ambas métricas. ¿Cuánta variabilidad hay entre realizaciones del mismo modelo?</p>
+<blockquote class="blockquote">
+<p><strong>Autoevaluación:</strong> Las distancias medias deberían ser muy similares (baja varianza), mientras que el diámetro puede mostrar más variabilidad porque depende de los “extremos” de la red.</p>
+</blockquote>
+<hr>
+<p><strong>Ejercicio propuesto 5</strong> ⭐⭐⭐</p>
+<p>Investiga la relación entre densidad y eficiencia: genera redes ER con 100 nodos y <span class="math inline">\(p\)</span> variando de 0.01 a 0.50 (en pasos de 0.01). Para cada una, calcula la densidad y la eficiencia global. Grafica eficiencia vs.&nbsp;densidad. ¿La relación es lineal?</p>
+<blockquote class="blockquote">
+<p><strong>Autoevaluación:</strong> La relación debería ser creciente pero <strong>no lineal</strong>: la eficiencia crece rápido al principio (las primeras aristas tienen un impacto enorme) y luego se satura al acercarse a 1. Un gráfico con forma de curva logarítmica o raíz cuadrada es esperable.</p>
+</blockquote>
+</section>
+</section>
+<section id="resumen-del-capítulo" class="level2">
+<h2 class="anchored" data-anchor-id="resumen-del-capítulo">Resumen del capítulo</h2>
+<div class="cell" data-layout-align="default">
+<div class="cell-output-display">
+<div id="fig-resumen-cap3" class="quarto-figure quarto-figure-center quarto-float anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-resumen-cap3-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div>
+<pre class="mermaid mermaid-js" data-label="fig-resumen-cap3">flowchart LR
+    A[Distancias] --&gt; B[Caminos más cortos]
+    B --&gt; C[Matriz de distancias]
+    C --&gt; D[Dist. media y diámetro]
+    D --&gt; E[Excentricidad: centro/periferia]
+    E --&gt; F[Eficiencia global]
+    F --&gt; G["Siguiente: Clustering →"]
+    style G fill:#e8f4f8,stroke:#3ABEF9
+</pre>
+</div>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-resumen-cap3-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;12: Resumen visual del capítulo
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<table class="table-striped table-hover table">
+<caption>Funciones y conceptos clave del capítulo</caption>
+<colgroup>
+<col style="width: 61%">
+<col style="width: 38%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Función / Concepto</th>
+<th>Descripción</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>distances(g)</code></td>
+<td>Matriz de distancias más cortas entre todos los pares</td>
+</tr>
+<tr class="even">
+<td><code>shortest_paths(g, from, to)</code></td>
+<td>Camino más corto entre dos nodos específicos</td>
+</tr>
+<tr class="odd">
+<td><code>mean_distance(g)</code></td>
+<td>Distancia media de la red</td>
+</tr>
+<tr class="even">
+<td><code>diameter(g)</code> / <code>get_diameter(g)</code></td>
+<td>Diámetro y camino correspondiente</td>
+</tr>
+<tr class="odd">
+<td><code>eccentricity(g)</code></td>
+<td>Excentricidad de cada nodo</td>
+</tr>
+<tr class="even">
+<td><code>edge_density(g)</code></td>
+<td>Densidad de aristas</td>
+</tr>
+<tr class="odd">
+<td>Eficiencia global</td>
+<td><span class="math inline">\(\frac{1}{n(n-1)} \sum_{i \neq j} 1/d(i,j)\)</span></td>
+</tr>
+<tr class="even">
+<td>Centro / Periferia</td>
+<td>Nodos con menor / mayor excentricidad</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Conexión con el siguiente capítulo:</strong> Las distancias nos dicen qué tan lejos están los nodos, pero no nos cuentan toda la historia. En el <strong>?@sec-clustering</strong> exploraremos si los <strong>vecinos de un nodo tienden a ser vecinos entre sí</strong> — un fenómeno clave llamado <em>clustering</em> que distingue las redes reales de las puramente aleatorias.</p>
+</section>
+<section id="autoevaluación" class="level2 unnumbered">
+<h2 class="unnumbered anchored" data-anchor-id="autoevaluación">Autoevaluación</h2>
+<div class="callout callout-style-default callout-caution callout-titled" title="Pregunta 1">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-19-contents" aria-controls="callout-19" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Pregunta 1
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-19" class="callout-19-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p><strong>¿Qué representa el diámetro de una red?</strong></p>
+<ol type="a">
+<li>El número total de aristas</li>
+<li>La distancia media entre todos los pares</li>
+<li>La distancia más larga entre cualquier par de nodos ✅</li>
+<li>El grado del nodo más conectado</li>
+</ol>
+<p>El diámetro es el “peor caso”: la distancia máxima entre dos nodos en la red.</p>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-caution callout-titled" title="Pregunta 2">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-20-contents" aria-controls="callout-20" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Pregunta 2
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-20" class="callout-20-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p><strong>Verdadero o Falso:</strong> Si una red tiene componentes desconectados, <code>mean_distance()</code> devuelve <code>Inf</code>.</p>
+<p>❌ <strong>Falso</strong> (por defecto). En <code>igraph</code>, <code>mean_distance()</code> ignora las distancias infinitas y calcula el promedio solo sobre pares de nodos conectados. Sin embargo, puedes pasar <code>unconnected = TRUE</code> para incluir los <code>Inf</code>.</p>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-caution callout-titled" title="Pregunta 3">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-21-contents" aria-controls="callout-21" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Pregunta 3
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-21" class="callout-21-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p><strong>¿Cuál de estas redes tiene la menor distancia media para un mismo número de nodos <span class="math inline">\(n\)</span>?</strong></p>
+<ol type="a">
+<li>Anillo</li>
+<li>Lattice 2D</li>
+<li>Grafo completo ✅</li>
+<li>Árbol binario</li>
+</ol>
+<p>En el grafo completo todos los nodos están a distancia 1 entre sí, por lo que la distancia media es exactamente 1.</p>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-caution callout-titled" title="Pregunta 4">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-22-contents" aria-controls="callout-22" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Pregunta 4
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-22" class="callout-22-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p><strong>¿Qué es la excentricidad de un nodo <span class="math inline">\(v\)</span>?</strong></p>
+<p>Es la distancia máxima de <span class="math inline">\(v\)</span> a cualquier otro nodo de la red: <span class="math inline">\(\text{ecc}(v) = \max_u d(v, u)\)</span>. Cuanto menor la excentricidad, más “central” es el nodo.</p>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-caution callout-titled" title="Pregunta 5">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-23-contents" aria-controls="callout-23" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Pregunta 5
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-23" class="callout-23-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p><strong>Verdadero o Falso:</strong> Agregar un solo atajo a una red anillo de 1000 nodos puede reducir su distancia media significativamente.</p>
+<p>✅ <strong>Verdadero.</strong> Este es precisamente el efecto <em>small-world</em>: unos pocos atajos reducen drásticamente las distancias en redes regulares <span class="citation" data-cites="watts1998">[@watts1998]</span>.</p>
+</div>
+</div>
+</div>
+</section>
+</section>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

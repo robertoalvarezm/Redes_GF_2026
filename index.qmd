@@ -1,17 +1,29 @@
 ---
-project:
-  type: website
-
-book:
-  title: "Curso de Redes"
-  author: "Roberto Álvarez"
-  date: !expr format(Sys.Date(), "%B %d, %Y")
-
+title: "Análisis de Redes con igraph en R"
+subtitle: "Un enfoque práctico y didáctico"
+author: "Roberto Álvarez"
+date: today
+lang: es
 format:
   html:
     output-file: "index"
     toc: true
+    toc-depth: 3
+    toc-title: "📋 Contenido"
+    theme: flatly
+    code-fold: false
+    code-tools: true
+    highlight-style: github
+    fig-width: 8
+    fig-height: 5
+    self-contained: true
+    number-sections: true
+execute:
+  echo: true
+  warning: false
+  message: false
 ---
+
 
 # Prefacio {.unnumbered}
 
