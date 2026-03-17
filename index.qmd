@@ -1,3 +1,18 @@
+---
+project:
+  type: website
+
+book:
+  title: "Curso de Redes"
+  author: "Roberto Álvarez"
+  date: !expr format(Sys.Date(), "%B %d, %Y")
+
+format:
+  html:
+    output-file: "index"
+    toc: true
+---
+
 # Prefacio {.unnumbered}
 
 Bienvenido a **Análisis de Redes con igraph en R**, un libro diseñado para que aprendas, de forma práctica y progresiva, los fundamentos del análisis de redes complejas utilizando el lenguaje R y el paquete `igraph`.

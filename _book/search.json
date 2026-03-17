@@ -24,7 +24,7 @@
     "href": "index.html#qué-vas-a-aprender",
     "title": "Análisis de Redes con igraph en R",
     "section": "¿Qué vas a aprender?",
-    "text": "¿Qué vas a aprender?\n\n\n\n\n\n\nNote🎯 Objetivos generales del libro\n\n\n\nAl finalizar estas notas serás capaz de:\n\nCrear y manipular redes (grafos) en R usando igraph.\nCalcular e interpretar métricas fundamentales: grado, distancia, clustering y centralidad.\nDistinguir modelos de redes (Erdős–Rényi, Barabási–Albert, small-world) y sus propiedades.\nEvaluar la robustez de una red ante fallos aleatorios y ataques dirigidos.\nComunicar hallazgos mediante visualizaciones claras y reproducibles.",
+    "text": "¿Qué vas a aprender?\n\n\n\n\n\n\n🎯 Objetivos generales del libro\n\n\n\nAl finalizar estas notas serás capaz de:\n\nCrear y manipular redes (grafos) en R usando igraph.\nCalcular e interpretar métricas fundamentales: grado, distancia, clustering y centralidad.\nDistinguir modelos de redes (Erdős–Rényi, Barabási–Albert, small-world) y sus propiedades.\nEvaluar la robustez de una red ante fallos aleatorios y ataques dirigidos.\nComunicar hallazgos mediante visualizaciones claras y reproducibles.",
     "crumbs": [
       "Prefacio"
     ]
@@ -44,7 +44,7 @@
     "href": "index.html#prerrequisitos",
     "title": "Análisis de Redes con igraph en R",
     "section": "Prerrequisitos",
-    "text": "Prerrequisitos\n\n\n\n\n\n\nImportant🔑 Antes de empezar necesitas\n\n\n\n\nR (versión ≥ 4.1) y RStudio instalados.\nConocimientos básicos de R: vectores, funciones, gráficos con plot().\nNociones elementales de estadística descriptiva (media, varianza, histogramas).\nFamiliaridad básica con álgebra de matrices (útil, pero no indispensable).",
+    "text": "Prerrequisitos\n\n\n\n\n\n\n🔑 Antes de empezar necesitas\n\n\n\n\nR (versión ≥ 4.1) y RStudio instalados.\nConocimientos básicos de R: vectores, funciones, gráficos con plot().\nNociones elementales de estadística descriptiva (media, varianza, histogramas).\nFamiliaridad básica con álgebra de matrices (útil, pero no indispensable).",
     "crumbs": [
       "Prefacio"
     ]
@@ -64,7 +64,7 @@
     "href": "index.html#convenciones-del-libro",
     "title": "Análisis de Redes con igraph en R",
     "section": "Convenciones del libro",
-    "text": "Convenciones del libro\nA lo largo del texto encontrarás estos bloques informativos:\n\n\n\n\n\n\nTip💡 Concepto clave\n\n\n\nResalta un concepto o idea fundamental que debes recordar.\n\n\n\n\n\n\n\n\nWarning⚠️ Error frecuente\n\n\n\nSeñala errores comunes que cometen lxs estudiantes y cómo evitarlos.\n\n\n\n\n\n\n\n\nNote💡 Pista\n\n\n\n\n\nPistas progresivas para resolver ejercicios. Haz clic para expandir.",
+    "text": "Convenciones del libro\nA lo largo del texto encontrarás estos bloques informativos:\n\n\n\n\n\n\n💡 Concepto clave\n\n\n\nResalta un concepto o idea fundamental que debes recordar.\n\n\n\n\n\n\n\n\n⚠️ Error frecuente\n\n\n\nSeñala errores comunes que cometen lxs estudiantes y cómo evitarlos.\n\n\n\n\n\n\n\n\n💡 Pista\n\n\n\n\n\nPistas progresivas para resolver ejercicios. Haz clic para expandir.",
     "crumbs": [
       "Prefacio"
     ]
