@@ -1,5 +1,5 @@
 ---
-title: "Análisis de Redes con igraph en R"
+title: "Análisis de Redes con igraph en     R"
 subtitle: "Un enfoque práctico y didáctico"
 author: "Roberto Álvarez"
 date: today
