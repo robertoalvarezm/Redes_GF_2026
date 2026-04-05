@@ -1,0 +1,845 @@
+# Detección de comunidades {#sec-comunidades}
+
+::: {.callout-note title="🎯 Objetivos de aprendizaje"}
+Al finalizar este capítulo serás capaz de:
+
+1. **Definir** qué es una comunidad en una red y por qué es importante detectarlas.
+2. **Aplicar** los 11 algoritmos de detección de comunidades disponibles en `igraph`.
+3. **Evaluar** la calidad de una partición usando la modularidad y otras métricas.
+4. **Comparar** los resultados de diferentes algoritmos sobre una misma red.
+5. **Visualizar** comunidades con colores, regiones sombreadas y dendrogramas.
+:::
+
+> **Pregunta motivadora:** En una red social de una universidad, ¿cómo encontrarías automáticamente los grupos de amigos, los departamentos o las comunidades temáticas sin información previa sobre quién pertenece a qué grupo?
+
+```{mermaid}
+%%| label: fig-mapa-cap7
+%%| fig-cap: "Mapa conceptual del capítulo"
+flowchart TD
+    A[Detección de comunidades] --> B[¿Qué es una comunidad?]
+    A --> C[Modularidad]
+    A --> D[Algoritmos]
+    A --> E[Comparación y evaluación]
+    D --> D1[Jerárquicos]
+    D --> D2[Optimización]
+    D --> D3[Propagación]
+    D --> D4[Otros]
+    D1 --> D1a[Edge betweenness]
+    D1 --> D1b[Fast greedy]
+    D1 --> D1c[Walktrap]
+    D1 --> D1d[Leading eigenvector]
+    D2 --> D2a[Louvain]
+    D2 --> D2b[Leiden]
+    D2 --> D2c[Optimal]
+    D3 --> D3a[Label propagation]
+    D4 --> D4a[Spinglass]
+    D4 --> D4b[Infomap]
+    D4 --> D4c[Fluid communities]
+```
+
+## Preparación del entorno
+
+```{r}
+#| label: setup-cap7
+
+library(igraph)
+```
+
+## ¿Qué es una comunidad?
+
+Una **comunidad** (o módulo) es un grupo de nodos que están más densamente conectados entre sí que con el resto de la red. Piensa en grupos de amigos, departamentos de una empresa o clusters funcionales en una red biológica.
+
+```{r}
+#| label: fig-comunidades-concepto
+#| fig-cap: "Ejemplo visual: red con 3 comunidades claramente separadas"
+#| fig-alt: "Red con tres grupos de nodos densamente conectados internamente y escasamente conectados entre sí"
+
+set.seed(42)
+
+# Crear una red con estructura de comunidades clara
+g_demo <- sample_islands(islands.n = 3, islands.size = 10, 
+                         islands.pin = 0.6, n.inter = 3)
+V(g_demo)$name <- paste0("n", 1:vcount(g_demo))
+
+# Colorear por comunidad real
+colores_demo <- rep(c("tomato", "skyblue", "lightgreen"), each = 10)
+
+plot(g_demo,
+     vertex.color = colores_demo,
+     vertex.size = 12,
+     vertex.label.cex = 0.5,
+     edge.color = adjustcolor("gray50", 0.4),
+     main = "Red con 3 comunidades")
+```
+
+::: {.callout-tip title="💡 Concepto clave"}
+La detección de comunidades es un problema **no supervisado**: no sabemos de antemano cuántas comunidades hay ni a cuál pertenece cada nodo. Los algoritmos deben descubrirlo a partir de la estructura de la red.
+:::
+
+## Modularidad: la métrica de calidad
+
+La **modularidad** $Q$ mide qué tan buena es una partición comparando la densidad de aristas dentro de las comunidades con lo que esperaríamos en una red aleatoria con la misma distribución de grado:
+
+$$
+Q = \frac{1}{2m} \sum_{ij} \left[ A_{ij} - \frac{k_i k_j}{2m} \right] \delta(c_i, c_j)
+$$
+
+donde $\delta(c_i, c_j) = 1$ si los nodos $i$ y $j$ están en la misma comunidad.
+
+- $Q \approx 0$: la partición no es mejor que una división aleatoria.
+- $Q > 0.3$: indica estructura de comunidades significativa.
+- $Q_{\max} \leq 1$: valores más altos = mejores particiones.
+
+```{r}
+#| label: modularidad-demo
+
+# Asignar comunidades "reales" a la red demo
+memb_real <- rep(1:3, each = 10)
+
+cat("Modularidad con comunidades correctas:", 
+    round(modularity(g_demo, memb_real), 4), "\n")
+
+# Comparar con una asignación aleatoria
+set.seed(10)
+memb_random <- sample(1:3, vcount(g_demo), replace = TRUE)
+cat("Modularidad con comunidades aleatorias:", 
+    round(modularity(g_demo, memb_random), 4), "\n")
+```
+
+## Red de ejemplo: Club de Karate de Zachary
+
+Usaremos esta red clásica para probar todos los algoritmos:
+
+```{r}
+#| label: crear-karate
+
+g <- make_graph("Zachary")
+V(g)$name <- paste0("M", 1:vcount(g))
+
+set.seed(42)
+lay <- layout_with_fr(g)
+```
+
+---
+
+## Los 11 algoritmos de igraph
+
+### 1. Edge Betweenness (`cluster_edge_betweenness`)
+
+**Tipo:** Jerárquico divisivo (Girvan-Newman).
+
+**Idea:** Elimina iterativamente la arista con mayor intermediación (*edge betweenness*). Las aristas "puente" entre comunidades tienen alta intermediación, así que al eliminarlas la red se fragmenta en comunidades.
+
+**Complejidad:** $O(m^2 n)$ — lento para redes grandes.
+
+```{r}
+#| label: fig-edge-betweenness
+#| fig-cap: "Comunidades por edge betweenness (Girvan-Newman)"
+#| fig-alt: "Red de Zachary coloreada por comunidades detectadas con el algoritmo de edge betweenness"
+#| fig-width: 10
+#| fig-height: 5
+
+c_eb <- cluster_edge_betweenness(g)
+
+par(mfrow = c(1, 2), mar = c(1, 1, 3, 1))
+
+plot(c_eb, g, layout = lay,
+     vertex.size = 12, vertex.label.cex = 0.5,
+     main = paste0("Edge betweenness\nQ = ", round(modularity(g, membership(c_eb)), 4),
+                   " | k = ", length(c_eb)))
+
+# Dendrograma
+plot_dendrogram(c_eb, mode = "hclust",
+                main = "Dendrograma")
+```
+
+### 2. Fast Greedy (`cluster_fast_greedy`)
+
+**Tipo:** Jerárquico aglomerativo.
+
+**Idea:** Comienza con cada nodo en su propia comunidad. En cada paso, fusiona las dos comunidades que producen el mayor incremento en modularidad. Es rápido y eficiente.
+
+**Complejidad:** $O(m \cdot d \cdot \log n)$ donde $d$ es la profundidad del dendrograma.
+
+```{r}
+#| label: fig-fast-greedy
+#| fig-cap: "Comunidades por fast greedy"
+#| fig-width: 10
+#| fig-height: 5
+
+c_fg <- cluster_fast_greedy(g)
+
+par(mfrow = c(1, 2), mar = c(1, 1, 3, 1))
+
+plot(c_fg, g, layout = lay,
+     vertex.size = 12, vertex.label.cex = 0.5,
+     main = paste0("Fast greedy\nQ = ", round(modularity(g, membership(c_fg)), 4),
+                   " | k = ", length(c_fg)))
+
+plot_dendrogram(c_fg, mode = "hclust", main = "Dendrograma")
+```
+
+### 3. Walktrap (`cluster_walktrap`)
+
+**Tipo:** Jerárquico aglomerativo.
+
+**Idea:** Los caminantes aleatorios (*random walkers*) tienden a quedarse "atrapados" dentro de comunidades densas. Dos nodos pertenecen a la misma comunidad si las distribuciones de sus caminatas son similares.
+
+**Parámetro clave:** `steps` — longitud de las caminatas (por defecto 4).
+
+```{r}
+#| label: fig-walktrap
+#| fig-cap: "Comunidades por walktrap con caminatas de 4 pasos"
+#| fig-width: 10
+#| fig-height: 5
+
+c_wt <- cluster_walktrap(g, steps = 4)
+
+par(mfrow = c(1, 2), mar = c(1, 1, 3, 1))
+
+plot(c_wt, g, layout = lay,
+     vertex.size = 12, vertex.label.cex = 0.5,
+     main = paste0("Walktrap (steps=4)\nQ = ", round(modularity(g, membership(c_wt)), 4),
+                   " | k = ", length(c_wt)))
+
+plot_dendrogram(c_wt, mode = "hclust", main = "Dendrograma")
+```
+
+### 4. Leading Eigenvector (`cluster_leading_eigen`)
+
+**Tipo:** Jerárquico divisivo.
+
+**Idea:** Divide la red usando el vector propio líder de la **matriz de modularidad**. Si los elementos del vector propio tienen signos opuestos, los nodos correspondientes están en comunidades distintas.
+
+```{r}
+#| label: fig-leading-eigen
+#| fig-cap: "Comunidades por leading eigenvector"
+
+c_le <- cluster_leading_eigen(g)
+
+plot(c_le, g, layout = lay,
+     vertex.size = 12, vertex.label.cex = 0.5,
+     main = paste0("Leading eigenvector\nQ = ", round(modularity(g, membership(c_le)), 4),
+                   " | k = ", length(c_le)))
+```
+
+### 5. Louvain (`cluster_louvain`)
+
+**Tipo:** Optimización multinivel de modularidad.
+
+**Idea:** Cada nodo comienza en su propia comunidad. En cada iteración, mueve nodos a la comunidad vecina que maximiza el incremento de modularidad. Luego colapsa las comunidades encontradas en "supernodos" y repite. Muy rápido y popular.
+
+**Complejidad:** Casi lineal $O(m)$.
+
+```{r}
+#| label: fig-louvain
+#| fig-cap: "Comunidades por Louvain"
+
+c_lv <- cluster_louvain(g)
+
+plot(c_lv, g, layout = lay,
+     vertex.size = 12, vertex.label.cex = 0.5,
+     main = paste0("Louvain\nQ = ", round(modularity(g, membership(c_lv)), 4),
+                   " | k = ", length(c_lv)))
+```
+
+::: {.callout-tip title="💡 Concepto clave"}
+Louvain es uno de los algoritmos más usados por su **velocidad** y buenos resultados. Sin embargo, puede producir comunidades mal conectadas internamente. El algoritmo **Leiden** (siguiente) fue diseñado para corregir este problema.
+:::
+
+### 6. Leiden (`cluster_leiden`)
+
+**Tipo:** Optimización mejorada (evolución de Louvain).
+
+**Idea:** Mejora a Louvain garantizando que las comunidades detectadas estén **bien conectadas** internamente. Introduce una fase de refinamiento que evita comunidades degeneradas.
+
+**Parámetro clave:** `resolution` — mayor resolución = más comunidades más pequeñas.
+
+```{r}
+#| label: fig-leiden
+#| fig-cap: "Comunidades por Leiden con dos resoluciones diferentes"
+#| fig-width: 12
+#| fig-height: 5
+
+c_ld1 <- cluster_leiden(g, objective_function = "modularity", resolution = 1)
+c_ld2 <- cluster_leiden(g, objective_function = "modularity", resolution = 1.5)
+
+# Leiden no almacena modularidad en el objeto, hay que calcularla manualmente
+q_ld1 <- modularity(g, membership(c_ld1))
+q_ld2 <- modularity(g, membership(c_ld2))
+
+par(mfrow = c(1, 2), mar = c(1, 1, 3, 1))
+
+plot(c_ld1, g, layout = lay,
+     vertex.size = 12, vertex.label.cex = 0.5,
+     main = paste0("Leiden (res=1)\nQ = ", round(q_ld1, 4),
+                   " | k = ", length(c_ld1)))
+
+plot(c_ld2, g, layout = lay,
+     vertex.size = 12, vertex.label.cex = 0.5,
+     main = paste0("Leiden (res=1.5)\nQ = ", round(q_ld2, 4),
+                   " | k = ", length(c_ld2)))
+```
+
+### 7. Label Propagation (`cluster_label_prop`)
+
+**Tipo:** Propagación iterativa.
+
+**Idea:** Cada nodo adopta la etiqueta más frecuente entre sus vecinos. Las etiquetas se propagan por la red hasta converger. Extremadamente rápido pero **no determinista** (puede dar resultados diferentes en cada ejecución).
+
+**Complejidad:** Casi lineal $O(m)$.
+
+```{r}
+#| label: fig-label-prop
+#| fig-cap: "Comunidades por label propagation (3 ejecuciones)"
+#| fig-width: 14
+#| fig-height: 5
+
+par(mfrow = c(1, 3), mar = c(1, 1, 3, 1))
+
+for (s in 1:3) {
+  set.seed(s)
+  c_lp <- cluster_label_prop(g)
+  plot(c_lp, g, layout = lay,
+       vertex.size = 12, vertex.label.cex = 0.5,
+       main = paste0("Label prop. (seed=", s, ")\nQ = ", 
+                     round(modularity(g, membership(c_lp)), 4),
+                     " | k = ", length(c_lp)))
+}
+```
+
+::: {.callout-warning title="⚠️ Error frecuente"}
+`cluster_label_prop()` es **no determinista**: ejecutarlo varias veces puede dar resultados diferentes. Siempre fija la semilla con `set.seed()` si necesitas reproducibilidad, o ejecuta múltiples veces y selecciona la partición con mayor modularidad.
+:::
+
+### 8. Spinglass (`cluster_spinglass`)
+
+**Tipo:** Basado en mecánica estadística.
+
+**Idea:** Modela la red como un sistema de partículas con "espines" (*spins*). Minimiza la energía del sistema, donde los nodos en la misma comunidad tienen espines alineados. Permite ajustar la resolución con `gamma`.
+
+**Limitación:** Solo funciona en redes **conexas**.
+
+```{r}
+#| label: fig-spinglass
+#| fig-cap: "Comunidades por spinglass"
+
+set.seed(42)
+c_sg <- cluster_spinglass(g, spins = 10)
+
+plot(c_sg, g, layout = lay,
+     vertex.size = 12, vertex.label.cex = 0.5,
+     main = paste0("Spinglass\nQ = ", round(modularity(g, membership(c_sg)), 4),
+                   " | k = ", length(c_sg)))
+```
+
+### 9. Infomap (`cluster_infomap`)
+
+**Tipo:** Basado en teoría de la información.
+
+**Idea:** Busca la partición que **minimiza la longitud de descripción** del recorrido de un caminante aleatorio por la red. Comprime el "mapa" de la red usando la estructura de comunidades.
+
+```{r}
+#| label: fig-infomap
+#| fig-cap: "Comunidades por Infomap"
+
+c_im <- cluster_infomap(g)
+
+plot(c_im, g, layout = lay,
+     vertex.size = 12, vertex.label.cex = 0.5,
+     main = paste0("Infomap\nQ = ", round(modularity(g, membership(c_im)), 4),
+                   " | k = ", length(c_im)))
+```
+
+### 10. Fluid Communities (`cluster_fluid_communities`)
+
+**Tipo:** Basado en dinámica de fluidos.
+
+**Idea:** Simula varios "fluidos" que se expanden y contraen en la topología de la red. Cada fluido representa una comunidad. **Requiere especificar** el número de comunidades de antemano.
+
+```{r}
+#| label: fig-fluid
+#| fig-cap: "Comunidades por fluid communities (k=2, 3 y 4)"
+#| fig-width: 14
+#| fig-height: 5
+
+par(mfrow = c(1, 3), mar = c(1, 1, 3, 1))
+
+for (k in 2:4) {
+  set.seed(42)
+  c_fl <- cluster_fluid_communities(g, no.of.communities = k)
+  q_fl <- modularity(g, membership(c_fl))
+  plot(c_fl, g, layout = lay,
+       vertex.size = 12, vertex.label.cex = 0.5,
+       main = paste0("Fluid (k=", k, ")\nQ = ", 
+                     round(q_fl, 4)))
+}
+```
+
+### 11. Optimal (`cluster_optimal`)
+
+**Tipo:** Optimización exacta.
+
+**Idea:** Encuentra la partición que **maximiza exactamente** la modularidad. Garantiza el resultado óptimo, pero es computacionalmente intratable para redes grandes (NP-completo).
+
+**Limitación:** Solo viable para redes pequeñas ($n < 50$–$100$).
+
+```{r}
+#| label: fig-optimal
+#| fig-cap: "Comunidades por optimización exacta de modularidad"
+
+c_opt <- cluster_optimal(g)
+
+plot(c_opt, g, layout = lay,
+     vertex.size = 12, vertex.label.cex = 0.5,
+     main = paste0("Optimal\nQ = ", round(modularity(g, membership(c_opt)), 4),
+                   " | k = ", length(c_opt)))
+```
+
+::: {.callout-important title="🔑 Recuerda"}
+`cluster_optimal()` da la **mejor partición posible** según modularidad, pero es extremadamente lento. Úsalo como referencia en redes pequeñas para evaluar qué tan cerca están los otros algoritmos del óptimo.
+:::
+
+---
+
+## Comparación de todos los algoritmos
+
+### Tabla resumen
+
+```{r}
+#| label: tabla-comparacion-algoritmos
+
+set.seed(42)
+
+# Ejecutar todos los algoritmos
+algoritmos <- list(
+  "Edge betweenness"   = cluster_edge_betweenness(g),
+  "Fast greedy"        = cluster_fast_greedy(g),
+  "Walktrap"           = cluster_walktrap(g),
+  "Leading eigenvector" = cluster_leading_eigen(g),
+  "Louvain"            = cluster_louvain(g),
+  "Leiden"             = cluster_leiden(g, objective_function = "modularity"),
+  "Label propagation"  = cluster_label_prop(g),
+  "Spinglass"          = cluster_spinglass(g),
+  "Infomap"            = cluster_infomap(g),
+  "Fluid (k=2)"        = cluster_fluid_communities(g, no.of.communities = 2),
+  "Optimal"            = cluster_optimal(g)
+)
+
+comparacion <- data.frame(
+  Algoritmo = names(algoritmos),
+  Comunidades = sapply(algoritmos, length),
+  Modularidad = round(sapply(algoritmos, function(c) modularity(g, membership(c))), 4),
+  Tamaño_max = sapply(algoritmos, function(c) max(sizes(c))),
+  Tamaño_min = sapply(algoritmos, function(c) min(sizes(c)))
+)
+
+comparacion <- comparacion[order(comparacion$Modularidad, decreasing = TRUE), ]
+
+knitr::kable(comparacion,
+             caption = "Comparación de los 11 algoritmos de detección de comunidades",
+             col.names = c("Algoritmo", "Comunidades", "Modularidad", 
+                           "Tamaño máx.", "Tamaño mín."),
+             row.names = FALSE)
+```
+
+### Visualización comparativa
+
+```{r}
+#| label: fig-comparacion-6-algoritmos
+#| fig-cap: "Seis algoritmos aplicados a la red de Zachary"
+#| fig-alt: "Panel de 6 redes, cada una coloreada por las comunidades detectadas con un algoritmo diferente"
+#| fig-width: 14
+#| fig-height: 10
+
+seleccion <- c("Edge betweenness", "Fast greedy", "Walktrap", 
+               "Louvain", "Leiden", "Optimal")
+
+par(mfrow = c(2, 3), mar = c(1, 1, 3, 1))
+
+for (nombre in seleccion) {
+  c_alg <- algoritmos[[nombre]]
+  q_alg <- modularity(g, membership(c_alg))
+  plot(c_alg, g, layout = lay,
+       vertex.size = 12, vertex.label.cex = 0.45,
+       main = paste0(nombre, "\nQ = ", round(q_alg, 4),
+                     " | k = ", length(c_alg)))
+}
+```
+
+### Gráfico de barras: modularidad
+
+```{r}
+#| label: fig-modularidad-barplot
+#| fig-cap: "Modularidad de cada algoritmo en la red de Zachary"
+#| fig-alt: "Gráfico de barras ordenado por modularidad de mayor a menor"
+#| fig-height: 6
+
+comp_sorted <- comparacion[order(comparacion$Modularidad, decreasing = TRUE), ]
+
+barplot(comp_sorted$Modularidad,
+        names.arg = comp_sorted$Algoritmo,
+        col = hcl.colors(nrow(comp_sorted), palette = "Zissou 1"),
+        main = "Modularidad por algoritmo",
+        ylab = "Modularidad (Q)",
+        las = 2, cex.names = 0.7,
+        ylim = c(0, max(comp_sorted$Modularidad) * 1.15))
+
+# Línea del óptimo
+q_optimo <- modularity(g, membership(algoritmos[["Optimal"]]))
+abline(h = q_optimo, col = "red", lty = 2, lwd = 2)
+legend("topright", "Óptimo", col = "red", lty = 2, lwd = 2, bty = "n")
+```
+
+## Comparar dos particiones: NMI y Rand Index
+
+¿Qué tan similares son las particiones encontradas por dos algoritmos diferentes? Usamos métricas de comparación:
+
+- **NMI** (Normalized Mutual Information): mide cuánta información comparten dos particiones. 1 = idénticas, 0 = independientes.
+- **Rand Index ajustado**: mide la proporción de pares de nodos clasificados igual en ambas particiones.
+
+```{r}
+#| label: fig-nmi-matrix
+#| fig-cap: "Similitud (NMI) entre las particiones de todos los algoritmos"
+#| fig-alt: "Heatmap de similitud entre algoritmos: valores cercanos a 1 indican particiones similares"
+#| fig-width: 9
+#| fig-height: 8
+
+n_alg <- length(algoritmos)
+nmi_mat <- matrix(0, n_alg, n_alg)
+rownames(nmi_mat) <- colnames(nmi_mat) <- names(algoritmos)
+
+for (i in 1:n_alg) {
+  for (j in 1:n_alg) {
+    nmi_mat[i, j] <- compare(algoritmos[[i]], algoritmos[[j]], method = "nmi")
+  }
+}
+
+heatmap(nmi_mat,
+        col = hcl.colors(20, palette = "YlOrRd", rev = TRUE),
+        scale = "none",
+        margins = c(12, 12),
+        main = "Similitud entre algoritmos (NMI)")
+```
+
+```{r}
+#| label: tabla-nmi
+
+knitr::kable(round(nmi_mat, 3),
+             caption = "Matriz de similitud NMI entre algoritmos")
+```
+
+::: {.callout-tip title="💡 Concepto clave"}
+Cuando varios algoritmos **diferentes** producen particiones similares (NMI alto entre ellos), es una señal fuerte de que la estructura de comunidades es **robusta** y no un artefacto de un algoritmo particular.
+:::
+
+## Guía de selección de algoritmo
+
+| Criterio | Algoritmo recomendado |
+|:---------|:---------------------|
+| Red pequeña (< 100 nodos), quieres el óptimo | `cluster_optimal()` |
+| Red grande, uso general | `cluster_louvain()` o `cluster_leiden()` |
+| Quieres un dendrograma | `cluster_fast_greedy()` o `cluster_walktrap()` |
+| Red dirigida | `cluster_infomap()` o `cluster_walktrap()` |
+| Red con pesos | `cluster_louvain()`, `cluster_leiden()`, `cluster_walktrap()` |
+| Sabes cuántas comunidades quieres | `cluster_fluid_communities()` |
+| Máxima velocidad | `cluster_label_prop()` o `cluster_louvain()` |
+| Quieres controlar la resolución | `cluster_leiden(resolution = ...)` |
+| Red conexa, análisis fino | `cluster_spinglass()` |
+
+: Guía de selección de algoritmo {.striped .hover}
+
+::: {.callout-warning title="⚠️ Error frecuente"}
+No todos los algoritmos funcionan en todas las redes:
+
+- `cluster_fast_greedy()` solo funciona en grafos **no dirigidos** sin aristas múltiples.
+- `cluster_spinglass()` solo funciona en grafos **conexos**.
+- `cluster_fluid_communities()` requiere especificar el número de comunidades y que el grafo sea **conexo**.
+- `cluster_optimal()` es inviable para redes con más de ~100 nodos.
+:::
+
+## Ejercicios
+
+### Ejercicios resueltos {.unnumbered}
+
+**Ejercicio resuelto 1:** Aplica tres algoritmos (Louvain, Walktrap y Leading eigenvector) a la red de Zachary. Compara las particiones usando NMI. ¿Cuáles dos algoritmos producen resultados más similares?
+
+::: {.callout-tip title="📝 Solución" collapse="true"}
+
+```{r}
+#| label: ej-res-cap7-1
+
+c1 <- cluster_louvain(g)
+c2 <- cluster_walktrap(g)
+c3 <- cluster_leading_eigen(g)
+
+pares <- list(
+  c("Louvain", "Walktrap"),
+  c("Louvain", "Leading eigen"),
+  c("Walktrap", "Leading eigen")
+)
+comunidades_lista <- list(c1, c2, c3)
+nombres <- c("Louvain", "Walktrap", "Leading eigen")
+
+resultados <- data.frame(
+  Par = sapply(pares, paste, collapse = " vs. "),
+  NMI = round(c(
+    compare(c1, c2, method = "nmi"),
+    compare(c1, c3, method = "nmi"),
+    compare(c2, c3, method = "nmi")
+  ), 4),
+  Rand_ajustado = round(c(
+    compare(c1, c2, method = "adjusted.rand"),
+    compare(c1, c3, method = "adjusted.rand"),
+    compare(c2, c3, method = "adjusted.rand")
+  ), 4)
+)
+
+knitr::kable(resultados,
+             caption = "Similitud entre tres algoritmos",
+             col.names = c("Par de algoritmos", "NMI", "Rand ajustado"))
+```
+
+**Interpretación:** El par con NMI más alto son los que producen particiones más similares. Típicamente, Louvain y Walktrap coinciden bastante en la red de Zachary porque ambos tienden a encontrar 4–5 comunidades con modularidad similar.
+:::
+
+---
+
+**Ejercicio resuelto 2:** Genera una red con estructura de comunidades conocida usando `sample_islands()`. Aplica `cluster_louvain()` y evalúa qué tan bien recupera las comunidades reales.
+
+::: {.callout-tip title="📝 Solución" collapse="true"}
+
+```{r}
+#| label: ej-res-cap7-2a
+
+set.seed(42)
+
+# Red con 4 comunidades de 15 nodos, 5 aristas entre comunidades
+g_test <- sample_islands(islands.n = 4, islands.size = 15,
+                         islands.pin = 0.5, n.inter = 5)
+V(g_test)$name <- paste0("n", 1:vcount(g_test))
+
+# Comunidades reales
+memb_real <- rep(1:4, each = 15)
+
+# Detectar con Louvain
+c_test <- cluster_louvain(g_test)
+
+cat("Comunidades reales: 4\n")
+cat("Comunidades detectadas:", length(c_test), "\n")
+cat("NMI:", round(compare(memb_real, membership(c_test), method = "nmi"), 4), "\n")
+cat("Modularidad:", round(modularity(g_test, membership(c_test)), 4), "\n")
+```
+
+```{r}
+#| label: fig-ej-res-cap7-2
+#| fig-cap: "Comunidades reales (izq.) vs. detectadas por Louvain (der.)"
+#| fig-width: 12
+#| fig-height: 5
+
+lay_test <- layout_with_fr(g_test)
+
+par(mfrow = c(1, 2), mar = c(1, 1, 3, 1))
+
+plot(g_test, layout = lay_test,
+     vertex.color = memb_real,
+     vertex.size = 10, vertex.label = NA,
+     main = "Comunidades reales")
+
+plot(c_test, g_test, layout = lay_test,
+     vertex.size = 10, vertex.label = NA,
+     main = paste0("Louvain (NMI = ", 
+                   round(compare(memb_real, membership(c_test), method = "nmi"), 3), ")"))
+```
+
+**Interpretación:** Si el NMI es cercano a 1, Louvain recuperó casi perfectamente las comunidades reales. Valores menores indican que algunas comunidades se fusionaron o se dividieron.
+:::
+
+### Ejercicios con pistas {.unnumbered}
+
+**Ejercicio 1:** Investiga el efecto del parámetro `steps` en `cluster_walktrap()`. Ejecuta el algoritmo con `steps = 2, 4, 6, 8, 10, 20` sobre la red de Zachary. ¿Cómo cambian el número de comunidades y la modularidad?
+
+::: {.callout-note title="💡 Pista 1" collapse="true"}
+Usa un bucle `for` sobre los valores de steps. Guarda `length(c)` y `modularity(c)` para cada valor.
+:::
+
+::: {.callout-note title="💡 Pista 2" collapse="true"}
+Caminatas muy cortas (steps = 2) pueden no capturar la estructura global. Caminatas muy largas (steps = 20) pueden "borrar" las diferencias entre comunidades.
+:::
+
+::: {.callout-note title="💡 Pista 3 — Pseudocódigo" collapse="true"}
+```
+1. pasos <- c(2, 4, 6, 8, 10, 20)
+2. resultados <- data.frame(steps = pasos, k = NA, Q = NA)
+3. for (i in seq_along(pasos)) {
+4.     c <- cluster_walktrap(g, steps = pasos[i])
+5.     resultados$k[i] <- length(c)
+6.     resultados$Q[i] <- modularity(c)
+7. }
+8. plot(resultados$steps, resultados$Q, type = "b")
+```
+:::
+
+---
+
+**Ejercicio 2:** Aplica `cluster_leiden()` variando el parámetro `resolution` de 0.5 a 3.0 (en pasos de 0.5). Grafica el número de comunidades vs. resolución. ¿La relación es monótona?
+
+::: {.callout-note title="💡 Pista 1" collapse="true"}
+Mayor resolución = más comunidades más pequeñas. Pero la relación no es perfectamente lineal porque depende de la estructura de la red.
+:::
+
+::: {.callout-note title="💡 Pista 2" collapse="true"}
+Usa `objective_function = "modularity"` para que los resultados sean comparables con otros algoritmos basados en modularidad.
+:::
+
+::: {.callout-note title="💡 Pista 3 — Pseudocódigo" collapse="true"}
+```
+1. res_vals <- seq(0.5, 3.0, by = 0.5)
+2. resultados <- sapply(res_vals, function(r) {
+3.     c <- cluster_leiden(g, objective_function = "modularity",
+4.                         resolution = r)
+5.     c(k = length(c), Q = modularity(c))
+6. })
+7. plot(res_vals, resultados["k", ], type = "b",
+8.      xlab = "Resolución", ylab = "Número de comunidades")
+```
+:::
+
+---
+
+**Ejercicio 3:** Genera una red BA de 200 nodos. Aplica `cluster_louvain()` y `cluster_infomap()`. ¿Encuentran comunidades significativas? ¿Tiene sentido hablar de "comunidades" en una red BA pura?
+
+::: {.callout-note title="💡 Pista 1" collapse="true"}
+Las redes BA no tienen una estructura de comunidades clara "de fábrica". Sin embargo, los algoritmos siempre encontrarán alguna partición — la pregunta es si la modularidad es significativamente mayor que cero.
+:::
+
+::: {.callout-note title="💡 Pista 2" collapse="true"}
+Compara la modularidad obtenida con la de redes aleatorias del mismo tamaño para saber si es significativa. Genera 100 redes ER y calcula la modularidad de `cluster_louvain()` en cada una como referencia.
+:::
+
+::: {.callout-note title="💡 Pista 3 — Pseudocódigo" collapse="true"}
+```
+1. set.seed(42)
+2. g_ba <- sample_pa(200, m = 2, directed = FALSE)
+3. c_lv <- cluster_louvain(g_ba)
+4. cat("Q (BA):", modularity(g, membership(c_lv)))
+5. 
+6. # Referencia: 100 redes ER
+7. q_ref <- sapply(1:100, function(i) {
+8.     g_er <- sample_gnp(200, p = edge_density(g_ba))
+9.     modularity(cluster_louvain(g_er))
+10. })
+11. cat("Q medio (ER):", mean(q_ref))
+12. hist(q_ref); abline(v = modularity(g, membership(c_lv)), col = "red")
+```
+:::
+
+### Ejercicios propuestos {.unnumbered}
+
+**Ejercicio propuesto 1** ⭐
+
+Aplica los 11 algoritmos a una red tipo anillo de 30 nodos. ¿Cuántas comunidades encuentra cada uno? ¿Tiene sentido hablar de comunidades en un anillo?
+
+> **Autoevaluación:** Un anillo es perfectamente simétrico, sin estructura de comunidades real. La modularidad debería ser baja ($Q < 0.3$) para la mayoría de algoritmos. Algunos podrían dividir el anillo en segmentos arbitrarios.
+
+---
+
+**Ejercicio propuesto 2** ⭐⭐
+
+Crea una red con estructura de comunidades conocida (`sample_islands()` con 5 comunidades de 20 nodos). Evalúa los 11 algoritmos con NMI contra la partición real. ¿Cuál recupera mejor las comunidades reales? Presenta un gráfico de barras con los NMI.
+
+> **Autoevaluación:** Los algoritmos basados en modularidad (Louvain, Leiden, Optimal) suelen tener NMI alto. Label propagation puede variar mucho entre ejecuciones.
+
+---
+
+**Ejercicio propuesto 3** ⭐⭐
+
+Investiga la **resolución límite** de la modularidad: genera una red con 10 comunidades pequeñas (5 nodos cada una) conectadas por pocas aristas. ¿Los algoritmos basados en modularidad logran distinguir las 10 comunidades o las fusionan?
+
+> **Autoevaluación:** Es probable que `cluster_louvain()` fusione algunas comunidades pequeñas (este es un problema conocido de la modularidad). `cluster_leiden()` con resolución alta debería encontrar más comunidades.
+
+---
+
+**Ejercicio propuesto 4** ⭐⭐⭐
+
+Diseña un experimento: genera redes con estructura de comunidades cada vez más difusa (variando `n.inter` en `sample_islands()` de 1 a 50). Para cada nivel de "difusión", aplica Louvain y calcula el NMI contra la partición real. Grafica NMI vs. número de aristas inter-comunidad. ¿En qué punto los algoritmos dejan de detectar las comunidades?
+
+> **Autoevaluación:** El NMI debería decrecer gradualmente. Cuando las aristas inter-comunidad igualan las intra-comunidad, la estructura se pierde y el NMI se acerca a 0.
+
+---
+
+**Ejercicio propuesto 5** ⭐⭐⭐
+
+Crea una función `consenso_comunidades()` que ejecute $k$ algoritmos diferentes, calcule la matriz de co-ocurrencia (cuántas veces cada par de nodos termina en la misma comunidad), y aplique un clustering final sobre esa matriz. Pruébala con la red de Zachary usando 5 algoritmos.
+
+> **Autoevaluación:** El consenso debería producir una partición más estable que cualquier algoritmo individual. La modularidad del consenso debería estar cerca del promedio o por encima.
+
+## Resumen del capítulo
+
+| Algoritmo | Función | Tipo | Complejidad | Dendrograma |
+|:----------|:--------|:-----|:------------|:------------|
+| Edge betweenness | `cluster_edge_betweenness()` | Divisivo | $O(m^2 n)$ | Sí |
+| Fast greedy | `cluster_fast_greedy()` | Aglomerativo | $O(md \log n)$ | Sí |
+| Walktrap | `cluster_walktrap()` | Aglomerativo | $O(mn^2)$ | Sí |
+| Leading eigenvector | `cluster_leading_eigen()` | Divisivo | $O(n^2 + m)$ | Sí |
+| Louvain | `cluster_louvain()` | Multinivel | $\sim O(m)$ | No |
+| Leiden | `cluster_leiden()` | Multinivel+ | $\sim O(m)$ | No |
+| Label propagation | `cluster_label_prop()` | Propagación | $\sim O(m)$ | No |
+| Spinglass | `cluster_spinglass()` | Simulación | $O(n^{3.2})$ | No |
+| Infomap | `cluster_infomap()` | Información | $O(m)$ | No |
+| Fluid | `cluster_fluid_communities()` | Dinámica | $O(m \cdot k)$ | No |
+| Optimal | `cluster_optimal()` | Exacto | NP-completo | No |
+
+: Resumen de algoritmos de detección de comunidades {.striped .hover}
+
+## Autoevaluación {.unnumbered}
+
+::: {.callout-caution title="Pregunta 1" collapse="true"}
+**¿Qué mide la modularidad?**
+
+a) El número de comunidades
+b) El tamaño de la comunidad más grande
+c) La diferencia entre la densidad intra-comunidad y la esperada por azar ✅
+d) La distancia media entre comunidades
+
+La modularidad compara las aristas dentro de comunidades con lo esperado en una red aleatoria con la misma distribución de grado.
+:::
+
+::: {.callout-caution title="Pregunta 2" collapse="true"}
+**¿Cuál algoritmo es el más rápido para redes muy grandes (millones de nodos)?**
+
+a) Edge betweenness
+b) Optimal
+c) Louvain o Label propagation ✅
+d) Spinglass
+
+Louvain y Label propagation tienen complejidad casi lineal $O(m)$, haciéndolos viables para redes masivas.
+:::
+
+::: {.callout-caution title="Pregunta 3" collapse="true"}
+**Verdadero o Falso:** `cluster_optimal()` siempre da la mejor respuesta posible.
+
+✅ **Verdadero**, pero con una advertencia importante: es óptimo respecto a la **modularidad**, no respecto a la "verdad". Si las comunidades reales no corresponden a la partición que maximiza modularidad (por ejemplo, comunidades muy pequeñas), el resultado óptimo puede no ser el correcto.
+:::
+
+::: {.callout-caution title="Pregunta 4" collapse="true"}
+**¿Qué algoritmo usarías si necesitas especificar el número de comunidades?**
+
+a) Louvain
+b) Infomap
+c) Fluid communities ✅
+d) Fast greedy
+
+`cluster_fluid_communities()` requiere que el usuario especifique `no.of.communities`. Los demás algoritmos determinan el número automáticamente.
+:::
+
+::: {.callout-caution title="Pregunta 5" collapse="true"}
+**¿Qué mide el NMI (Normalized Mutual Information) entre dos particiones?**
+
+a) La modularidad promedio
+b) Cuánta información comparten ambas particiones ✅
+c) El número de nodos que cambian de comunidad
+d) La diferencia en número de comunidades
+
+NMI = 1 significa que ambas particiones son idénticas; NMI = 0 significa que son completamente independientes.
+:::

@@ -21,6 +21,7 @@ book:
     - 04-clustering.qmd
     - 05-robustez.qmd
     - 06-centralidad.qmd
+    - 07-comunidades.qmd
     - 99-ejercicios-integradores.qmd
     - references.qmd
 
