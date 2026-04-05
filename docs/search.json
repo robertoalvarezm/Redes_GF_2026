@@ -1,0 +1,82 @@
+[
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Análisis de Redes con igraph en R",
+    "section": "",
+    "text": "Prefacio\nBienvenido a Análisis de Redes con igraph en R, un libro diseñado para que aprendas, de forma práctica y progresiva, los fundamentos del análisis de redes complejas utilizando el lenguaje R y el paquete igraph.",
+    "crumbs": [
+      "Prefacio"
+    ]
+  },
+  {
+    "objectID": "index.html#para-quién-es-este-libro",
+    "href": "index.html#para-quién-es-este-libro",
+    "title": "Análisis de Redes con igraph en R",
+    "section": "¿Para quién es este libro?",
+    "text": "¿Para quién es este libro?\nEste material está pensado para estudiantes universitarios de ciencias, ingeniería o áreas afines que deseen comprender cómo modelar, analizar y visualizar sistemas conectados: desde redes sociales y biológicas hasta infraestructuras tecnológicas.",
+    "crumbs": [
+      "Prefacio"
+    ]
+  },
+  {
+    "objectID": "index.html#qué-vas-a-aprender",
+    "href": "index.html#qué-vas-a-aprender",
+    "title": "Análisis de Redes con igraph en R",
+    "section": "¿Qué vas a aprender?",
+    "text": "¿Qué vas a aprender?\n\n\n\n\n\n\nNote🎯 Objetivos generales del libro\n\n\n\nAl finalizar estas notas serás capaz de:\n\nCrear y manipular redes (grafos) en R usando igraph.\nCalcular e interpretar métricas fundamentales: grado, distancia, clustering y centralidad.\nDistinguir modelos de redes (Erdős–Rényi, Barabási–Albert, small-world) y sus propiedades.\nEvaluar la robustez de una red ante fallos aleatorios y ataques dirigidos.\nComunicar hallazgos mediante visualizaciones claras y reproducibles.",
+    "crumbs": [
+      "Prefacio"
+    ]
+  },
+  {
+    "objectID": "index.html#estructura-del-libro",
+    "href": "index.html#estructura-del-libro",
+    "title": "Análisis de Redes con igraph en R",
+    "section": "Estructura del libro",
+    "text": "Estructura del libro\n\nMapa del libro\n\n\n\n\n\n\n\nCapítulo\nTema\nPregunta guía\n\n\n\n\n1\nFundamentos de igraph\n¿Cómo se construye y representa una red en R?\n\n\n2\nGrado y distribuciones\n¿Por qué algunas redes tienen “superhubs” y otras no?\n\n\n3\nDistancias y eficiencia\n¿Qué tan fácil es ir de un punto a otro en una red?\n\n\n4\nClustering y transitividad\n¿Los amigos de tus amigos son tus amigos?\n\n\n5\nRobustez de redes\n¿Qué pasa si falla un nodo crítico?\n\n\nIntegradores\nEjercicios finales\n¿Puedes analizar una red completa de principio a fin?",
+    "crumbs": [
+      "Prefacio"
+    ]
+  },
+  {
+    "objectID": "index.html#prerrequisitos",
+    "href": "index.html#prerrequisitos",
+    "title": "Análisis de Redes con igraph en R",
+    "section": "Prerrequisitos",
+    "text": "Prerrequisitos\n\n\n\n\n\n\nImportant🔑 Antes de empezar necesitas\n\n\n\n\nR (versión ≥ 4.1) y RStudio instalados.\nConocimientos básicos de R: vectores, funciones, gráficos con plot().\nNociones elementales de estadística descriptiva (media, varianza, histogramas).\nFamiliaridad básica con álgebra de matrices (útil, pero no indispensable).",
+    "crumbs": [
+      "Prefacio"
+    ]
+  },
+  {
+    "objectID": "index.html#paquetes-necesarios",
+    "href": "index.html#paquetes-necesarios",
+    "title": "Análisis de Redes con igraph en R",
+    "section": "Paquetes necesarios",
+    "text": "Paquetes necesarios\nEjecuta el siguiente bloque para instalar todos los paquetes que usaremos a lo largo del libro:\n\n\nCode\npaquetes &lt;- c(\"igraph\", \"tidyverse\", \"poweRlaw\", \"gt\", \"knitr\")\n\n# Instalar solo los que no tengas\nnuevos &lt;- paquetes[!(paquetes %in% installed.packages()[, \"Package\"])]\nif (length(nuevos)) install.packages(nuevos)",
+    "crumbs": [
+      "Prefacio"
+    ]
+  },
+  {
+    "objectID": "index.html#convenciones-del-libro",
+    "href": "index.html#convenciones-del-libro",
+    "title": "Análisis de Redes con igraph en R",
+    "section": "Convenciones del libro",
+    "text": "Convenciones del libro\nA lo largo del texto encontrarás estos bloques informativos:\n\n\n\n\n\n\nTip💡 Concepto clave\n\n\n\nResalta un concepto o idea fundamental que debes recordar.\n\n\n\n\n\n\n\n\nWarning⚠️ Error frecuente\n\n\n\nSeñala errores comunes que cometen lxs estudiantes y cómo evitarlos.\n\n\n\n\n\n\n\n\nNote💡 Pista\n\n\n\n\n\nPistas progresivas para resolver ejercicios. Haz clic para expandir.",
+    "crumbs": [
+      "Prefacio"
+    ]
+  },
+  {
+    "objectID": "index.html#cómo-usar-este-libro",
+    "href": "index.html#cómo-usar-este-libro",
+    "title": "Análisis de Redes con igraph en R",
+    "section": "Cómo usar este libro",
+    "text": "Cómo usar este libro\n\nLee la teoría y ejecuta los ejemplos en tu sesión de R.\nIntenta los ejercicios antes de ver las soluciones o pistas.\nExperimenta: modifica parámetros, cambia redes, rompe cosas.\nAl final de cada capítulo, responde la autoevaluación para verificar tu comprensión.\n\n¡Comencemos!",
+    "crumbs": [
+      "Prefacio"
+    ]
+  }
+]
