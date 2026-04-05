@@ -502,16 +502,54 @@ window.Quarto = {
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource default number-lines code-with-copy"><code class="sourceCode default"><span id="cb1-1"><a href="#cb1-1"></a>flowchart TD</span>
-<span id="cb1-2"><a href="#cb1-2"></a>    A[Distribuciones de grado] --&gt; B[Modelo Erdős–Rényi]</span>
-<span id="cb1-3"><a href="#cb1-3"></a>    A --&gt; C[Modelo Barabási–Albert]</span>
-<span id="cb1-4"><a href="#cb1-4"></a>    B --&gt; D[Distribución Poisson]</span>
-<span id="cb1-5"><a href="#cb1-5"></a>    C --&gt; E[Distribución Power-law]</span>
-<span id="cb1-6"><a href="#cb1-6"></a>    D --&gt; F[Grado homogéneo]</span>
-<span id="cb1-7"><a href="#cb1-7"></a>    E --&gt; G[Hubs y colas pesadas]</span>
-<span id="cb1-8"><a href="#cb1-8"></a>    A --&gt; H[Comparación visual]</span>
-<span id="cb1-9"><a href="#cb1-9"></a>    H --&gt; I[Histogramas y gráficos log-log]</span>
-<span id="cb1-10"><a href="#cb1-10"></a>    A --&gt; J[Ajuste estadístico]</span>
-<span id="cb1-11"><a href="#cb1-11"></a>    J --&gt; K[Paquete poweRlaw]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb1-2"><a href="#cb1-2"></a>    A([Distribuciones de grado&lt;br/&gt;en redes complejas]):::central</span>
+<span id="cb1-3"><a href="#cb1-3"></a></span>
+<span id="cb1-4"><a href="#cb1-4"></a>    subgraph MOD["⚙️ Modelos generativos"]</span>
+<span id="cb1-5"><a href="#cb1-5"></a>        direction LR</span>
+<span id="cb1-6"><a href="#cb1-6"></a>        B[Erdős–Rényi&lt;br/&gt;red aleatoria]:::modelo</span>
+<span id="cb1-7"><a href="#cb1-7"></a>        C[Barabási–Albert&lt;br/&gt;crecimiento preferencial]:::modelo</span>
+<span id="cb1-8"><a href="#cb1-8"></a>    end</span>
+<span id="cb1-9"><a href="#cb1-9"></a></span>
+<span id="cb1-10"><a href="#cb1-10"></a>    subgraph DIST["📐 Distribuciones resultantes"]</span>
+<span id="cb1-11"><a href="#cb1-11"></a>        direction LR</span>
+<span id="cb1-12"><a href="#cb1-12"></a>        D1{{Distribución&lt;br/&gt;Poisson}}:::dist</span>
+<span id="cb1-13"><a href="#cb1-13"></a>        D2{{Distribución&lt;br/&gt;Power-law}}:::dist</span>
+<span id="cb1-14"><a href="#cb1-14"></a>    end</span>
+<span id="cb1-15"><a href="#cb1-15"></a></span>
+<span id="cb1-16"><a href="#cb1-16"></a>    subgraph PROP["🔎 Propiedades estructurales"]</span>
+<span id="cb1-17"><a href="#cb1-17"></a>        direction LR</span>
+<span id="cb1-18"><a href="#cb1-18"></a>        F[/Grado homogéneo&lt;br/&gt;nodos similares/]:::prop</span>
+<span id="cb1-19"><a href="#cb1-19"></a>        G[/Hubs y colas pesadas&lt;br/&gt;alta conectividad/]:::prop</span>
+<span id="cb1-20"><a href="#cb1-20"></a>    end</span>
+<span id="cb1-21"><a href="#cb1-21"></a></span>
+<span id="cb1-22"><a href="#cb1-22"></a>    subgraph ANAL["📊 Análisis y comparación"]</span>
+<span id="cb1-23"><a href="#cb1-23"></a>        direction LR</span>
+<span id="cb1-24"><a href="#cb1-24"></a>        H[Comparación&lt;br/&gt;visual]:::anal</span>
+<span id="cb1-25"><a href="#cb1-25"></a>        I[Histogramas y&lt;br/&gt;gráficas log-log]:::anal</span>
+<span id="cb1-26"><a href="#cb1-26"></a>        J[Ajuste&lt;br/&gt;estadístico]:::anal</span>
+<span id="cb1-27"><a href="#cb1-27"></a>        K[(poweRlaw&lt;br/&gt;en R)]:::anal</span>
+<span id="cb1-28"><a href="#cb1-28"></a>    end</span>
+<span id="cb1-29"><a href="#cb1-29"></a></span>
+<span id="cb1-30"><a href="#cb1-30"></a>    A --&gt;|genera| B</span>
+<span id="cb1-31"><a href="#cb1-31"></a>    A --&gt;|genera| C</span>
+<span id="cb1-32"><a href="#cb1-32"></a>    A --&gt;|se analiza con| H</span>
+<span id="cb1-33"><a href="#cb1-33"></a>    A --&gt;|se ajusta con| J</span>
+<span id="cb1-34"><a href="#cb1-34"></a>    B --&gt;|produce| D1</span>
+<span id="cb1-35"><a href="#cb1-35"></a>    C --&gt;|produce| D2</span>
+<span id="cb1-36"><a href="#cb1-36"></a>    D1 --&gt;|implica| F</span>
+<span id="cb1-37"><a href="#cb1-37"></a>    D2 --&gt;|implica| G</span>
+<span id="cb1-38"><a href="#cb1-38"></a>    H --&gt; I</span>
+<span id="cb1-39"><a href="#cb1-39"></a>    J --&gt; K</span>
+<span id="cb1-40"><a href="#cb1-40"></a>    D1 -. se compara .-&gt; H</span>
+<span id="cb1-41"><a href="#cb1-41"></a>    D2 -. se compara .-&gt; H</span>
+<span id="cb1-42"><a href="#cb1-42"></a>    F -. se ajusta .-&gt; J</span>
+<span id="cb1-43"><a href="#cb1-43"></a>    G -. se ajusta .-&gt; J</span>
+<span id="cb1-44"><a href="#cb1-44"></a></span>
+<span id="cb1-45"><a href="#cb1-45"></a>    classDef central fill:#F39C12,stroke:#D68910,color:#fff,font-weight:bold</span>
+<span id="cb1-46"><a href="#cb1-46"></a>    classDef modelo fill:#2E86C1,stroke:#1A5276,color:#fff,font-weight:bold</span>
+<span id="cb1-47"><a href="#cb1-47"></a>    classDef dist fill:#1E8449,stroke:#145A32,color:#fff,font-weight:bold</span>
+<span id="cb1-48"><a href="#cb1-48"></a>    classDef prop fill:#7D3C98,stroke:#6C3483,color:#fff,font-weight:bold</span>
+<span id="cb1-49"><a href="#cb1-49"></a>    classDef anal fill:#C0392B,stroke:#922B21,color:#fff,font-weight:bold</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output-display">
 <div id="fig-mapa-cap2" class="quarto-float quarto-figure quarto-figure-center anchored">
@@ -519,21 +557,59 @@ window.Quarto = {
 <div aria-describedby="fig-mapa-cap2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <div>
 <pre class="mermaid mermaid-js" data-label="fig-mapa-cap2">flowchart TD
-    A[Distribuciones de grado] --&gt; B[Modelo Erdős–Rényi]
-    A --&gt; C[Modelo Barabási–Albert]
-    B --&gt; D[Distribución Poisson]
-    C --&gt; E[Distribución Power-law]
-    D --&gt; F[Grado homogéneo]
-    E --&gt; G[Hubs y colas pesadas]
-    A --&gt; H[Comparación visual]
-    H --&gt; I[Histogramas y gráficos log-log]
-    A --&gt; J[Ajuste estadístico]
-    J --&gt; K[Paquete poweRlaw]
+    A([Distribuciones de grado&lt;br/&gt;en redes complejas]):::central
+
+    subgraph MOD["⚙️ Modelos generativos"]
+        direction LR
+        B[Erdős–Rényi&lt;br/&gt;red aleatoria]:::modelo
+        C[Barabási–Albert&lt;br/&gt;crecimiento preferencial]:::modelo
+    end
+
+    subgraph DIST["📐 Distribuciones resultantes"]
+        direction LR
+        D1{{Distribución&lt;br/&gt;Poisson}}:::dist
+        D2{{Distribución&lt;br/&gt;Power-law}}:::dist
+    end
+
+    subgraph PROP["🔎 Propiedades estructurales"]
+        direction LR
+        F[/Grado homogéneo&lt;br/&gt;nodos similares/]:::prop
+        G[/Hubs y colas pesadas&lt;br/&gt;alta conectividad/]:::prop
+    end
+
+    subgraph ANAL["📊 Análisis y comparación"]
+        direction LR
+        H[Comparación&lt;br/&gt;visual]:::anal
+        I[Histogramas y&lt;br/&gt;gráficas log-log]:::anal
+        J[Ajuste&lt;br/&gt;estadístico]:::anal
+        K[(poweRlaw&lt;br/&gt;en R)]:::anal
+    end
+
+    A --&gt;|genera| B
+    A --&gt;|genera| C
+    A --&gt;|se analiza con| H
+    A --&gt;|se ajusta con| J
+    B --&gt;|produce| D1
+    C --&gt;|produce| D2
+    D1 --&gt;|implica| F
+    D2 --&gt;|implica| G
+    H --&gt; I
+    J --&gt; K
+    D1 -. se compara .-&gt; H
+    D2 -. se compara .-&gt; H
+    F -. se ajusta .-&gt; J
+    G -. se ajusta .-&gt; J
+
+    classDef central fill:#F39C12,stroke:#D68910,color:#fff,font-weight:bold
+    classDef modelo fill:#2E86C1,stroke:#1A5276,color:#fff,font-weight:bold
+    classDef dist fill:#1E8449,stroke:#145A32,color:#fff,font-weight:bold
+    classDef prop fill:#7D3C98,stroke:#6C3483,color:#fff,font-weight:bold
+    classDef anal fill:#C0392B,stroke:#922B21,color:#fff,font-weight:bold
 </pre>
 </div>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-mapa-cap2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;2.1: Mapa conceptual del capítulo
+Figure&nbsp;2.1: Mapa conceptual del capítulo: distribuciones de grado en redes
 </figcaption>
 </figure>
 </div>
@@ -1675,7 +1751,7 @@ Figure&nbsp;2.10: Resumen visual del capítulo
 </div>
 <div id="callout-23" class="callout-23-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p><strong>¿Qué representa el parámetro <span class="math inline">\(x_{\min}\)</span> en un ajuste de ley de potencia?</strong></p>
+<p><strong>¿Qué representa el parámetro</strong> <span class="math inline">\(x_{\min}\)</span> en un ajuste de ley de potencia?</p>
 <p>Es el valor de grado mínimo a partir del cual la distribución se comporta como <em>power-law</em>. Los nodos con grado menor a <span class="math inline">\(x_{\min}\)</span> no siguen este patrón.</p>
 </div>
 </div>
@@ -2222,691 +2298,725 @@ Watts, D. J., &amp; Strogatz, S. H. (1998). Collective dynamics of ’small-worl
 <span id="cb40-3"><a href="#cb40-3"></a>::: {.callout-note title="🎯 Objetivos de aprendizaje"}</span>
 <span id="cb40-4"><a href="#cb40-4"></a>Al finalizar este capítulo serás capaz de:</span>
 <span id="cb40-5"><a href="#cb40-5"></a></span>
-<span id="cb40-6"><a href="#cb40-6"></a><span class="ss">1. </span>**Diferenciar** entre distribuciones de grado tipo Poisson y *power-law* (ley de potencia).</span>
-<span id="cb40-7"><a href="#cb40-7"></a><span class="ss">2. </span>**Generar** redes con los modelos Erdős–Rényi (ER) y Barabási–Albert (BA) en <span class="in">`igraph`</span>.</span>
-<span id="cb40-8"><a href="#cb40-8"></a><span class="ss">3. </span>**Visualizar y comparar** distribuciones de grado usando histogramas y gráficos log-log.</span>
-<span id="cb40-9"><a href="#cb40-9"></a><span class="ss">4. </span>**Ajustar** una ley de potencia a datos de grado con el paquete <span class="in">`poweRlaw`</span>.</span>
-<span id="cb40-10"><a href="#cb40-10"></a><span class="ss">5. </span>**Identificar** *hubs* (nodos altamente conectados) y explicar su importancia en la estructura de la red.</span>
+<span id="cb40-6"><a href="#cb40-6"></a><span class="ss">1.  </span>**Diferenciar** entre distribuciones de grado tipo Poisson y *power-law* (ley de potencia).</span>
+<span id="cb40-7"><a href="#cb40-7"></a><span class="ss">2.  </span>**Generar** redes con los modelos Erdős–Rényi (ER) y Barabási–Albert (BA) en <span class="in">`igraph`</span>.</span>
+<span id="cb40-8"><a href="#cb40-8"></a><span class="ss">3.  </span>**Visualizar y comparar** distribuciones de grado usando histogramas y gráficos log-log.</span>
+<span id="cb40-9"><a href="#cb40-9"></a><span class="ss">4.  </span>**Ajustar** una ley de potencia a datos de grado con el paquete <span class="in">`poweRlaw`</span>.</span>
+<span id="cb40-10"><a href="#cb40-10"></a><span class="ss">5.  </span>**Identificar** *hubs* (nodos altamente conectados) y explicar su importancia en la estructura de la red.</span>
 <span id="cb40-11"><a href="#cb40-11"></a>:::</span>
 <span id="cb40-12"><a href="#cb40-12"></a></span>
 <span id="cb40-13"><a href="#cb40-13"></a><span class="at">&gt; **Pregunta motivadora:** En internet, unos pocos sitios web (Google, Facebook, Wikipedia) reciben miles de millones de visitas, mientras que la inmensa mayoría recibe muy pocas. ¿Por qué esta desigualdad extrema? ¿Es azar o hay un mecanismo detrás?</span></span>
 <span id="cb40-14"><a href="#cb40-14"></a></span>
 <span id="cb40-17"><a href="#cb40-17"></a><span class="in">```{mermaid}</span></span>
 <span id="cb40-18"><a href="#cb40-18"></a>%%| label: fig-mapa-cap2</span>
-<span id="cb40-19"><a href="#cb40-19"></a>%%| fig-cap: <span class="ot">"</span><span class="st">Mapa conceptual del capítulo</span><span class="ot">"</span></span>
+<span id="cb40-19"><a href="#cb40-19"></a>%%| fig-cap: <span class="ot">"</span><span class="st">Mapa conceptual del capítulo: distribuciones de grado en redes</span><span class="ot">"</span></span>
 <span id="cb40-20"><a href="#cb40-20"></a>flowchart TD</span>
-<span id="cb40-21"><a href="#cb40-21"></a>    A[Distribuciones de grado] --&gt; B[Modelo Erdős–Rényi]</span>
-<span id="cb40-22"><a href="#cb40-22"></a>    A --&gt; C[Modelo Barabási–Albert]</span>
-<span id="cb40-23"><a href="#cb40-23"></a>    B --&gt; D[Distribución Poisson]</span>
-<span id="cb40-24"><a href="#cb40-24"></a>    C --&gt; E[Distribución Power-law]</span>
-<span id="cb40-25"><a href="#cb40-25"></a>    D --&gt; F[Grado homogéneo]</span>
-<span id="cb40-26"><a href="#cb40-26"></a>    E --&gt; G[Hubs y colas pesadas]</span>
-<span id="cb40-27"><a href="#cb40-27"></a>    A --&gt; H[Comparación visual]</span>
-<span id="cb40-28"><a href="#cb40-28"></a>    H --&gt; I[Histogramas y gráficos <span class="fu">log</span>-<span class="fu">log</span>]</span>
-<span id="cb40-29"><a href="#cb40-29"></a>    A --&gt; J[Ajuste estadístico]</span>
-<span id="cb40-30"><a href="#cb40-30"></a>    J --&gt; K[Paquete poweRlaw]</span>
-<span id="cb40-31"><a href="#cb40-31"></a><span class="in">```</span></span>
-<span id="cb40-32"><a href="#cb40-32"></a></span>
-<span id="cb40-33"><a href="#cb40-33"></a><span class="fu">## Preparación del entorno</span></span>
+<span id="cb40-21"><a href="#cb40-21"></a>    A([Distribuciones de grado&lt;br/&gt;en redes complejas]):::central</span>
+<span id="cb40-22"><a href="#cb40-22"></a></span>
+<span id="cb40-23"><a href="#cb40-23"></a>    subgraph MOD[<span class="ot">"</span><span class="st">⚙️ Modelos generativos</span><span class="ot">"</span>]</span>
+<span id="cb40-24"><a href="#cb40-24"></a>        direction LR</span>
+<span id="cb40-25"><a href="#cb40-25"></a>        B[Erdős–Rényi&lt;br/&gt;red aleatoria]:::modelo</span>
+<span id="cb40-26"><a href="#cb40-26"></a>        C[Barabási–Albert&lt;br/&gt;crecimiento preferencial]:::modelo</span>
+<span id="cb40-27"><a href="#cb40-27"></a>    end</span>
+<span id="cb40-28"><a href="#cb40-28"></a></span>
+<span id="cb40-29"><a href="#cb40-29"></a>    subgraph DIST[<span class="ot">"</span><span class="st">📐 Distribuciones resultantes</span><span class="ot">"</span>]</span>
+<span id="cb40-30"><a href="#cb40-30"></a>        direction LR</span>
+<span id="cb40-31"><a href="#cb40-31"></a>        D1{{Distribución&lt;br/&gt;Poisson}}:::dist</span>
+<span id="cb40-32"><a href="#cb40-32"></a>        D2{{Distribución&lt;br/&gt;Power-law}}:::dist</span>
+<span id="cb40-33"><a href="#cb40-33"></a>    end</span>
 <span id="cb40-34"><a href="#cb40-34"></a></span>
-<span id="cb40-37"><a href="#cb40-37"></a><span class="in">```{r}</span></span>
-<span id="cb40-38"><a href="#cb40-38"></a><span class="co">#| label: setup-cap2</span></span>
-<span id="cb40-39"><a href="#cb40-39"></a></span>
-<span id="cb40-40"><a href="#cb40-40"></a><span class="fu">library</span>(igraph)</span>
-<span id="cb40-41"><a href="#cb40-41"></a><span class="fu">library</span>(poweRlaw)</span>
-<span id="cb40-42"><a href="#cb40-42"></a><span class="in">```</span></span>
-<span id="cb40-43"><a href="#cb40-43"></a></span>
-<span id="cb40-44"><a href="#cb40-44"></a>::: {.callout-note title="📦 Paquete requerido" collapse="true"}</span>
-<span id="cb40-45"><a href="#cb40-45"></a>Si no tienes instalado <span class="in">`poweRlaw`</span>, ejecuta:</span>
-<span id="cb40-46"><a href="#cb40-46"></a></span>
-<span id="cb40-47"><a href="#cb40-47"></a><span class="in">```r</span></span>
-<span id="cb40-48"><a href="#cb40-48"></a><span class="fu">install.packages</span>(<span class="st">"poweRlaw"</span>)</span>
-<span id="cb40-49"><a href="#cb40-49"></a><span class="in">```</span></span>
-<span id="cb40-50"><a href="#cb40-50"></a></span>
-<span id="cb40-51"><a href="#cb40-51"></a>Este paquete permite ajustar y evaluar distribuciones de ley de potencia sobre datos empíricos.</span>
-<span id="cb40-52"><a href="#cb40-52"></a>:::</span>
-<span id="cb40-53"><a href="#cb40-53"></a></span>
-<span id="cb40-54"><a href="#cb40-54"></a><span class="fu">## Dos modelos, dos mundos</span></span>
-<span id="cb40-55"><a href="#cb40-55"></a></span>
-<span id="cb40-56"><a href="#cb40-56"></a>Antes de sumergirnos en los datos, necesitas entender dos modelos fundamentales de generación de redes. Cada uno produce redes con propiedades radicalmente distintas.</span>
-<span id="cb40-57"><a href="#cb40-57"></a></span>
-<span id="cb40-58"><a href="#cb40-58"></a><span class="fu">### Modelo Erdős–Rényi (ER): redes aleatorias</span></span>
-<span id="cb40-59"><a href="#cb40-59"></a></span>
-<span id="cb40-60"><a href="#cb40-60"></a>En este modelo, cada par de nodos tiene una **probabilidad fija** $p$ de estar conectado, independientemente de todo lo demás. Es como lanzar una moneda (con probabilidad $p$ de "cara") por cada par posible de nodos.</span>
-<span id="cb40-61"><a href="#cb40-61"></a></span>
-<span id="cb40-62"><a href="#cb40-62"></a>$$</span>
-<span id="cb40-63"><a href="#cb40-63"></a>P(\text{arista entre } i \text{ y } j) = p, \quad \forall \, i \neq j</span>
-<span id="cb40-64"><a href="#cb40-64"></a>$$</span>
-<span id="cb40-65"><a href="#cb40-65"></a></span>
-<span id="cb40-66"><a href="#cb40-66"></a>El resultado: la mayoría de los nodos terminan con un grado similar, cercano al promedio $\langle k \rangle \approx p \cdot (n-1)$, y la distribución de grado sigue una **distribución de Poisson** <span class="co">[</span><span class="ot">@erdos1959</span><span class="co">]</span>.</span>
-<span id="cb40-67"><a href="#cb40-67"></a></span>
-<span id="cb40-68"><a href="#cb40-68"></a>::: {.callout-tip title="💡 Concepto clave"}</span>
-<span id="cb40-69"><a href="#cb40-69"></a>En una red Erdős–Rényi, la distribución de grado es tipo **Poisson**: la mayoría de los nodos tienen un grado parecido al promedio y es muy raro encontrar nodos con grado extremadamente alto o bajo. Es una red "democrática".</span>
-<span id="cb40-70"><a href="#cb40-70"></a>:::</span>
-<span id="cb40-71"><a href="#cb40-71"></a></span>
-<span id="cb40-72"><a href="#cb40-72"></a><span class="fu">### Modelo Barabási–Albert (BA): enlace preferencial</span></span>
-<span id="cb40-73"><a href="#cb40-73"></a></span>
-<span id="cb40-74"><a href="#cb40-74"></a>Este modelo introduce un mecanismo más realista: **los nodos nuevos prefieren conectarse a nodos que ya tienen muchas conexiones** ("los ricos se hacen más ricos"). Esto se llama *preferential attachment* (enlace preferencial).</span>
-<span id="cb40-75"><a href="#cb40-75"></a></span>
-<span id="cb40-76"><a href="#cb40-76"></a>$$</span>
-<span id="cb40-77"><a href="#cb40-77"></a>P(\text{conectar a nodo } i) = \frac{k_i}{\sum_j k_j}</span>
-<span id="cb40-78"><a href="#cb40-78"></a>$$</span>
-<span id="cb40-79"><a href="#cb40-79"></a></span>
-<span id="cb40-80"><a href="#cb40-80"></a>donde $k_i$ es el grado del nodo $i$. El resultado: una distribución de grado tipo **ley de potencia** (*power-law*) donde unos pocos nodos (*hubs*) acumulan una cantidad desproporcionada de conexiones <span class="co">[</span><span class="ot">@barabasi2016; @albert2002</span><span class="co">]</span>.</span>
+<span id="cb40-35"><a href="#cb40-35"></a>    subgraph PROP[<span class="ot">"</span><span class="st">🔎 Propiedades estructurales</span><span class="ot">"</span>]</span>
+<span id="cb40-36"><a href="#cb40-36"></a>        direction LR</span>
+<span id="cb40-37"><a href="#cb40-37"></a>        F[<span class="ot">/Grado homogéneo&lt;br/</span>&gt;nodos similares/]:::prop</span>
+<span id="cb40-38"><a href="#cb40-38"></a>        G[<span class="ot">/Hubs y colas pesadas&lt;br/</span>&gt;alta conectividad/]:::prop</span>
+<span id="cb40-39"><a href="#cb40-39"></a>    end</span>
+<span id="cb40-40"><a href="#cb40-40"></a></span>
+<span id="cb40-41"><a href="#cb40-41"></a>    subgraph ANAL[<span class="ot">"</span><span class="st">📊 Análisis y comparación</span><span class="ot">"</span>]</span>
+<span id="cb40-42"><a href="#cb40-42"></a>        direction LR</span>
+<span id="cb40-43"><a href="#cb40-43"></a>        H[Comparación&lt;br/&gt;visual]:::anal</span>
+<span id="cb40-44"><a href="#cb40-44"></a>        I[Histogramas <span class="ot">y</span>&lt;br/&gt;gráficas <span class="fu">log</span>-<span class="fu">log</span>]:::anal</span>
+<span id="cb40-45"><a href="#cb40-45"></a>        J[Ajuste&lt;br/&gt;estadístico]:::anal</span>
+<span id="cb40-46"><a href="#cb40-46"></a>        K[(poweRlaw&lt;br/&gt;en R)]:::anal</span>
+<span id="cb40-47"><a href="#cb40-47"></a>    end</span>
+<span id="cb40-48"><a href="#cb40-48"></a></span>
+<span id="cb40-49"><a href="#cb40-49"></a>    A --&gt;|genera| B</span>
+<span id="cb40-50"><a href="#cb40-50"></a>    A --&gt;|genera| C</span>
+<span id="cb40-51"><a href="#cb40-51"></a>    A --&gt;|se analiza con| H</span>
+<span id="cb40-52"><a href="#cb40-52"></a>    A --&gt;|se ajusta con| J</span>
+<span id="cb40-53"><a href="#cb40-53"></a>    B --&gt;|produce| D1</span>
+<span id="cb40-54"><a href="#cb40-54"></a>    C --&gt;|produce| D2</span>
+<span id="cb40-55"><a href="#cb40-55"></a>    D1 --&gt;|implica| F</span>
+<span id="cb40-56"><a href="#cb40-56"></a>    D2 --&gt;|implica| G</span>
+<span id="cb40-57"><a href="#cb40-57"></a>    H --&gt; I</span>
+<span id="cb40-58"><a href="#cb40-58"></a>    J --&gt; K</span>
+<span id="cb40-59"><a href="#cb40-59"></a>    D1 -. se compara .-&gt; H</span>
+<span id="cb40-60"><a href="#cb40-60"></a>    D2 -. se compara .-&gt; H</span>
+<span id="cb40-61"><a href="#cb40-61"></a>    F -. se ajusta .-&gt; J</span>
+<span id="cb40-62"><a href="#cb40-62"></a>    G -. se ajusta .-&gt; J</span>
+<span id="cb40-63"><a href="#cb40-63"></a></span>
+<span id="cb40-64"><a href="#cb40-64"></a>    classDef central fill:<span class="co">#F39C12,stroke:#D68910,color:#fff,font-weight:bold</span></span>
+<span id="cb40-65"><a href="#cb40-65"></a>    classDef modelo fill:<span class="co">#2E86C1,stroke:#1A5276,color:#fff,font-weight:bold</span></span>
+<span id="cb40-66"><a href="#cb40-66"></a>    classDef dist fill:<span class="co">#1E8449,stroke:#145A32,color:#fff,font-weight:bold</span></span>
+<span id="cb40-67"><a href="#cb40-67"></a>    classDef prop fill:<span class="co">#7D3C98,stroke:#6C3483,color:#fff,font-weight:bold</span></span>
+<span id="cb40-68"><a href="#cb40-68"></a>    classDef anal fill:<span class="co">#C0392B,stroke:#922B21,color:#fff,font-weight:bold</span></span>
+<span id="cb40-69"><a href="#cb40-69"></a><span class="in">```</span></span>
+<span id="cb40-70"><a href="#cb40-70"></a></span>
+<span id="cb40-71"><a href="#cb40-71"></a><span class="fu">## Preparación del entorno</span></span>
+<span id="cb40-72"><a href="#cb40-72"></a></span>
+<span id="cb40-75"><a href="#cb40-75"></a><span class="in">```{r}</span></span>
+<span id="cb40-76"><a href="#cb40-76"></a><span class="co">#| label: setup-cap2</span></span>
+<span id="cb40-77"><a href="#cb40-77"></a></span>
+<span id="cb40-78"><a href="#cb40-78"></a><span class="fu">library</span>(igraph)</span>
+<span id="cb40-79"><a href="#cb40-79"></a><span class="fu">library</span>(poweRlaw)</span>
+<span id="cb40-80"><a href="#cb40-80"></a><span class="in">```</span></span>
 <span id="cb40-81"><a href="#cb40-81"></a></span>
-<span id="cb40-82"><a href="#cb40-82"></a>::: {.callout-tip title="💡 Concepto clave"}</span>
-<span id="cb40-83"><a href="#cb40-83"></a>En una red Barabási–Albert, la distribución de grado sigue una **ley de potencia**: $P(k) \sim k^{-\gamma}$. Esto significa que hay muchos nodos con pocas conexiones y unos pocos *hubs* con muchísimas. Es una red "desigual".</span>
-<span id="cb40-84"><a href="#cb40-84"></a>:::</span>
-<span id="cb40-85"><a href="#cb40-85"></a></span>
-<span id="cb40-86"><a href="#cb40-86"></a><span class="fu">### Comparación rápida</span></span>
-<span id="cb40-87"><a href="#cb40-87"></a></span>
-<span id="cb40-88"><a href="#cb40-88"></a><span class="pp">|</span> Característica <span class="pp">|</span> Erdős–Rényi (ER) <span class="pp">|</span> Barabási–Albert (BA) <span class="pp">|</span></span>
-<span id="cb40-89"><a href="#cb40-89"></a><span class="pp">|:---------------|:------------------|:---------------------|</span></span>
-<span id="cb40-90"><a href="#cb40-90"></a><span class="pp">|</span> Mecanismo <span class="pp">|</span> Conexión aleatoria con prob. $p$ <span class="pp">|</span> Enlace preferencial <span class="pp">|</span></span>
-<span id="cb40-91"><a href="#cb40-91"></a><span class="pp">|</span> Distribución de grado <span class="pp">|</span> Poisson <span class="pp">|</span> *Power-law* <span class="pp">|</span></span>
-<span id="cb40-92"><a href="#cb40-92"></a><span class="pp">|</span> Presencia de *hubs* <span class="pp">|</span> Muy improbable <span class="pp">|</span> Sí, emergentes <span class="pp">|</span></span>
-<span id="cb40-93"><a href="#cb40-93"></a><span class="pp">|</span> Ejemplo real <span class="pp">|</span> Red de carreteras <span class="pp">|</span> Internet, redes sociales <span class="pp">|</span></span>
-<span id="cb40-94"><a href="#cb40-94"></a><span class="pp">|</span> Función en igraph <span class="pp">|</span> <span class="in">`sample_gnp()`</span> <span class="pp">|</span> <span class="in">`sample_pa()`</span> <span class="pp">|</span></span>
+<span id="cb40-82"><a href="#cb40-82"></a>::: {.callout-note title="📦 Paquete requerido" collapse="true"}</span>
+<span id="cb40-83"><a href="#cb40-83"></a>Si no tienes instalado <span class="in">`poweRlaw`</span>, ejecuta:</span>
+<span id="cb40-84"><a href="#cb40-84"></a></span>
+<span id="cb40-85"><a href="#cb40-85"></a><span class="in">``` r</span></span>
+<span id="cb40-86"><a href="#cb40-86"></a><span class="fu">install.packages</span>(<span class="st">"poweRlaw"</span>)</span>
+<span id="cb40-87"><a href="#cb40-87"></a><span class="in">```</span></span>
+<span id="cb40-88"><a href="#cb40-88"></a></span>
+<span id="cb40-89"><a href="#cb40-89"></a>Este paquete permite ajustar y evaluar distribuciones de ley de potencia sobre datos empíricos.</span>
+<span id="cb40-90"><a href="#cb40-90"></a>:::</span>
+<span id="cb40-91"><a href="#cb40-91"></a></span>
+<span id="cb40-92"><a href="#cb40-92"></a><span class="fu">## Dos modelos, dos mundos</span></span>
+<span id="cb40-93"><a href="#cb40-93"></a></span>
+<span id="cb40-94"><a href="#cb40-94"></a>Antes de sumergirnos en los datos, necesitas entender dos modelos fundamentales de generación de redes. Cada uno produce redes con propiedades radicalmente distintas.</span>
 <span id="cb40-95"><a href="#cb40-95"></a></span>
-<span id="cb40-96"><a href="#cb40-96"></a>: Comparación entre modelos de redes {.striped .hover}</span>
+<span id="cb40-96"><a href="#cb40-96"></a><span class="fu">### Modelo Erdős–Rényi (ER): redes aleatorias</span></span>
 <span id="cb40-97"><a href="#cb40-97"></a></span>
-<span id="cb40-98"><a href="#cb40-98"></a><span class="fu">## Crear y visualizar ambas redes</span></span>
+<span id="cb40-98"><a href="#cb40-98"></a>En este modelo, cada par de nodos tiene una **probabilidad fija** $p$ de estar conectado, independientemente de todo lo demás. Es como lanzar una moneda (con probabilidad $p$ de "cara") por cada par posible de nodos.</span>
 <span id="cb40-99"><a href="#cb40-99"></a></span>
-<span id="cb40-100"><a href="#cb40-100"></a>Vamos a generar una red de cada tipo con 100 nodos y compararlas visualmente.</span>
-<span id="cb40-101"><a href="#cb40-101"></a></span>
-<span id="cb40-104"><a href="#cb40-104"></a><span class="in">```{r}</span></span>
-<span id="cb40-105"><a href="#cb40-105"></a><span class="co">#| label: crear-redes-er-ba</span></span>
-<span id="cb40-106"><a href="#cb40-106"></a></span>
-<span id="cb40-107"><a href="#cb40-107"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
-<span id="cb40-108"><a href="#cb40-108"></a></span>
-<span id="cb40-109"><a href="#cb40-109"></a><span class="co"># Red Erdős–Rényi: 100 nodos, probabilidad de conexión 0.04</span></span>
-<span id="cb40-110"><a href="#cb40-110"></a>g_er <span class="ot">&lt;-</span> <span class="fu">sample_gnp</span>(<span class="dv">100</span>, <span class="at">p =</span> <span class="fl">0.04</span>)</span>
-<span id="cb40-111"><a href="#cb40-111"></a><span class="fu">V</span>(g_er)<span class="sc">$</span>name <span class="ot">&lt;-</span> <span class="fu">paste0</span>(<span class="st">"ER_"</span>, <span class="dv">1</span><span class="sc">:</span><span class="fu">vcount</span>(g_er))</span>
-<span id="cb40-112"><a href="#cb40-112"></a></span>
-<span id="cb40-113"><a href="#cb40-113"></a><span class="co"># Red Barabási–Albert: 100 nodos, enlace preferencial</span></span>
-<span id="cb40-114"><a href="#cb40-114"></a>g_ba <span class="ot">&lt;-</span> <span class="fu">sample_pa</span>(<span class="dv">100</span>, <span class="at">directed =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb40-115"><a href="#cb40-115"></a><span class="fu">V</span>(g_ba)<span class="sc">$</span>name <span class="ot">&lt;-</span> <span class="fu">paste0</span>(<span class="st">"BA_"</span>, <span class="dv">1</span><span class="sc">:</span><span class="fu">vcount</span>(g_ba))</span>
-<span id="cb40-116"><a href="#cb40-116"></a><span class="in">```</span></span>
+<span id="cb40-100"><a href="#cb40-100"></a>$$</span>
+<span id="cb40-101"><a href="#cb40-101"></a>P(\text{arista entre } i \text{ y } j) = p, \quad \forall \, i \neq j</span>
+<span id="cb40-102"><a href="#cb40-102"></a>$$</span>
+<span id="cb40-103"><a href="#cb40-103"></a></span>
+<span id="cb40-104"><a href="#cb40-104"></a>El resultado: la mayoría de los nodos terminan con un grado similar, cercano al promedio $\langle k \rangle \approx p \cdot (n-1)$, y la distribución de grado sigue una **distribución de Poisson** <span class="co">[</span><span class="ot">@erdos1959</span><span class="co">]</span>.</span>
+<span id="cb40-105"><a href="#cb40-105"></a></span>
+<span id="cb40-106"><a href="#cb40-106"></a>::: {.callout-tip title="💡 Concepto clave"}</span>
+<span id="cb40-107"><a href="#cb40-107"></a>En una red Erdős–Rényi, la distribución de grado es tipo **Poisson**: la mayoría de los nodos tienen un grado parecido al promedio y es muy raro encontrar nodos con grado extremadamente alto o bajo. Es una red "democrática".</span>
+<span id="cb40-108"><a href="#cb40-108"></a>:::</span>
+<span id="cb40-109"><a href="#cb40-109"></a></span>
+<span id="cb40-110"><a href="#cb40-110"></a><span class="fu">### Modelo Barabási–Albert (BA): enlace preferencial</span></span>
+<span id="cb40-111"><a href="#cb40-111"></a></span>
+<span id="cb40-112"><a href="#cb40-112"></a>Este modelo introduce un mecanismo más realista: **los nodos nuevos prefieren conectarse a nodos que ya tienen muchas conexiones** ("los ricos se hacen más ricos"). Esto se llama *preferential attachment* (enlace preferencial).</span>
+<span id="cb40-113"><a href="#cb40-113"></a></span>
+<span id="cb40-114"><a href="#cb40-114"></a>$$</span>
+<span id="cb40-115"><a href="#cb40-115"></a>P(\text{conectar a nodo } i) = \frac{k_i}{\sum_j k_j}</span>
+<span id="cb40-116"><a href="#cb40-116"></a>$$</span>
 <span id="cb40-117"><a href="#cb40-117"></a></span>
-<span id="cb40-120"><a href="#cb40-120"></a><span class="in">```{r}</span></span>
-<span id="cb40-121"><a href="#cb40-121"></a><span class="co">#| label: fig-comparar-redes</span></span>
-<span id="cb40-122"><a href="#cb40-122"></a><span class="co">#| fig-cap: "Comparación visual: red aleatoria (ER) vs. red de enlace preferencial (BA)"</span></span>
-<span id="cb40-123"><a href="#cb40-123"></a><span class="co">#| fig-alt: "Dos redes lado a lado: la ER muestra nodos de tamaño similar, la BA muestra unos pocos nodos muy grandes (hubs)"</span></span>
-<span id="cb40-124"><a href="#cb40-124"></a><span class="co">#| fig-width: 12</span></span>
-<span id="cb40-125"><a href="#cb40-125"></a><span class="co">#| fig-height: 6</span></span>
-<span id="cb40-126"><a href="#cb40-126"></a></span>
-<span id="cb40-127"><a href="#cb40-127"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>), <span class="at">mar =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">3</span>, <span class="dv">1</span>))</span>
-<span id="cb40-128"><a href="#cb40-128"></a></span>
-<span id="cb40-129"><a href="#cb40-129"></a><span class="co"># Red ER</span></span>
-<span id="cb40-130"><a href="#cb40-130"></a><span class="fu">plot</span>(g_er, </span>
-<span id="cb40-131"><a href="#cb40-131"></a>     <span class="at">vertex.size =</span> <span class="fu">degree</span>(g_er) <span class="sc">*</span> <span class="fl">1.5</span> <span class="sc">+</span> <span class="dv">3</span>,</span>
-<span id="cb40-132"><a href="#cb40-132"></a>     <span class="at">vertex.label =</span> <span class="cn">NA</span>,</span>
-<span id="cb40-133"><a href="#cb40-133"></a>     <span class="at">vertex.color =</span> <span class="st">"skyblue"</span>,</span>
-<span id="cb40-134"><a href="#cb40-134"></a>     <span class="at">edge.color =</span> <span class="fu">adjustcolor</span>(<span class="st">"gray50"</span>, <span class="at">alpha =</span> <span class="fl">0.4</span>),</span>
-<span id="cb40-135"><a href="#cb40-135"></a>     <span class="at">main =</span> <span class="st">"Red Aleatoria (Erdős–Rényi)"</span>)</span>
-<span id="cb40-136"><a href="#cb40-136"></a></span>
-<span id="cb40-137"><a href="#cb40-137"></a><span class="co"># Red BA</span></span>
-<span id="cb40-138"><a href="#cb40-138"></a><span class="fu">plot</span>(g_ba, </span>
-<span id="cb40-139"><a href="#cb40-139"></a>     <span class="at">vertex.size =</span> <span class="fu">degree</span>(g_ba) <span class="sc">*</span> <span class="fl">1.5</span> <span class="sc">+</span> <span class="dv">3</span>,</span>
-<span id="cb40-140"><a href="#cb40-140"></a>     <span class="at">vertex.label =</span> <span class="cn">NA</span>,</span>
-<span id="cb40-141"><a href="#cb40-141"></a>     <span class="at">vertex.color =</span> <span class="st">"tomato"</span>,</span>
-<span id="cb40-142"><a href="#cb40-142"></a>     <span class="at">edge.color =</span> <span class="fu">adjustcolor</span>(<span class="st">"gray50"</span>, <span class="at">alpha =</span> <span class="fl">0.4</span>),</span>
-<span id="cb40-143"><a href="#cb40-143"></a>     <span class="at">main =</span> <span class="st">"Red Power-law (Barabási–Albert)"</span>)</span>
-<span id="cb40-144"><a href="#cb40-144"></a><span class="in">```</span></span>
-<span id="cb40-145"><a href="#cb40-145"></a></span>
-<span id="cb40-146"><a href="#cb40-146"></a>Observa la diferencia: en la red ER los nodos tienen tamaños similares, mientras que en la red BA unos pocos nodos destacan por ser mucho más grandes (más conectados).</span>
-<span id="cb40-147"><a href="#cb40-147"></a></span>
-<span id="cb40-148"><a href="#cb40-148"></a><span class="fu">## Distribuciones de grado</span></span>
-<span id="cb40-149"><a href="#cb40-149"></a></span>
-<span id="cb40-150"><a href="#cb40-150"></a>Ahora veamos la distribución de grado de cada red. Aquí es donde la diferencia se vuelve evidente numéricamente.</span>
-<span id="cb40-151"><a href="#cb40-151"></a></span>
-<span id="cb40-152"><a href="#cb40-152"></a><span class="fu">### Histogramas</span></span>
-<span id="cb40-153"><a href="#cb40-153"></a></span>
-<span id="cb40-156"><a href="#cb40-156"></a><span class="in">```{r}</span></span>
-<span id="cb40-157"><a href="#cb40-157"></a><span class="co">#| label: fig-histogramas-grado</span></span>
-<span id="cb40-158"><a href="#cb40-158"></a><span class="co">#| fig-cap: "Histogramas de grado: Poisson (ER) vs. cola pesada (BA)"</span></span>
-<span id="cb40-159"><a href="#cb40-159"></a><span class="co">#| fig-alt: "Dos histogramas: el ER muestra una campana simétrica, el BA muestra una cola larga hacia la derecha"</span></span>
-<span id="cb40-160"><a href="#cb40-160"></a><span class="co">#| fig-width: 12</span></span>
-<span id="cb40-161"><a href="#cb40-161"></a><span class="co">#| fig-height: 5</span></span>
-<span id="cb40-162"><a href="#cb40-162"></a></span>
-<span id="cb40-163"><a href="#cb40-163"></a>deg_er <span class="ot">&lt;-</span> <span class="fu">degree</span>(g_er)</span>
-<span id="cb40-164"><a href="#cb40-164"></a>deg_ba <span class="ot">&lt;-</span> <span class="fu">degree</span>(g_ba)</span>
-<span id="cb40-165"><a href="#cb40-165"></a></span>
-<span id="cb40-166"><a href="#cb40-166"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>), <span class="at">mar =</span> <span class="fu">c</span>(<span class="dv">4</span>, <span class="dv">4</span>, <span class="dv">3</span>, <span class="dv">1</span>))</span>
-<span id="cb40-167"><a href="#cb40-167"></a></span>
-<span id="cb40-168"><a href="#cb40-168"></a><span class="fu">hist</span>(deg_er, </span>
-<span id="cb40-169"><a href="#cb40-169"></a>     <span class="at">breaks =</span> <span class="fu">seq</span>(<span class="sc">-</span><span class="fl">0.5</span>, <span class="fu">max</span>(deg_er) <span class="sc">+</span> <span class="fl">0.5</span>, <span class="at">by =</span> <span class="dv">1</span>),</span>
-<span id="cb40-170"><a href="#cb40-170"></a>     <span class="at">col =</span> <span class="st">"skyblue"</span>, <span class="at">border =</span> <span class="st">"white"</span>,</span>
-<span id="cb40-171"><a href="#cb40-171"></a>     <span class="at">main =</span> <span class="st">"Grado — Red ER"</span>,</span>
-<span id="cb40-172"><a href="#cb40-172"></a>     <span class="at">xlab =</span> <span class="st">"Grado (k)"</span>, <span class="at">ylab =</span> <span class="st">"Frecuencia"</span>)</span>
-<span id="cb40-173"><a href="#cb40-173"></a><span class="fu">abline</span>(<span class="at">v =</span> <span class="fu">mean</span>(deg_er), <span class="at">col =</span> <span class="st">"navy"</span>, <span class="at">lwd =</span> <span class="dv">2</span>, <span class="at">lty =</span> <span class="dv">2</span>)</span>
-<span id="cb40-174"><a href="#cb40-174"></a><span class="fu">legend</span>(<span class="st">"topright"</span>, <span class="fu">paste</span>(<span class="st">"Media ="</span>, <span class="fu">round</span>(<span class="fu">mean</span>(deg_er), <span class="dv">1</span>)), </span>
-<span id="cb40-175"><a href="#cb40-175"></a>       <span class="at">col =</span> <span class="st">"navy"</span>, <span class="at">lty =</span> <span class="dv">2</span>, <span class="at">lwd =</span> <span class="dv">2</span>, <span class="at">bty =</span> <span class="st">"n"</span>)</span>
-<span id="cb40-176"><a href="#cb40-176"></a></span>
-<span id="cb40-177"><a href="#cb40-177"></a><span class="fu">hist</span>(deg_ba, </span>
-<span id="cb40-178"><a href="#cb40-178"></a>     <span class="at">breaks =</span> <span class="fu">seq</span>(<span class="sc">-</span><span class="fl">0.5</span>, <span class="fu">max</span>(deg_ba) <span class="sc">+</span> <span class="fl">0.5</span>, <span class="at">by =</span> <span class="dv">1</span>),</span>
-<span id="cb40-179"><a href="#cb40-179"></a>     <span class="at">col =</span> <span class="st">"tomato"</span>, <span class="at">border =</span> <span class="st">"white"</span>,</span>
-<span id="cb40-180"><a href="#cb40-180"></a>     <span class="at">main =</span> <span class="st">"Grado — Red BA"</span>,</span>
-<span id="cb40-181"><a href="#cb40-181"></a>     <span class="at">xlab =</span> <span class="st">"Grado (k)"</span>, <span class="at">ylab =</span> <span class="st">"Frecuencia"</span>)</span>
-<span id="cb40-182"><a href="#cb40-182"></a><span class="fu">abline</span>(<span class="at">v =</span> <span class="fu">mean</span>(deg_ba), <span class="at">col =</span> <span class="st">"darkred"</span>, <span class="at">lwd =</span> <span class="dv">2</span>, <span class="at">lty =</span> <span class="dv">2</span>)</span>
-<span id="cb40-183"><a href="#cb40-183"></a><span class="fu">legend</span>(<span class="st">"topright"</span>, <span class="fu">paste</span>(<span class="st">"Media ="</span>, <span class="fu">round</span>(<span class="fu">mean</span>(deg_ba), <span class="dv">1</span>)), </span>
-<span id="cb40-184"><a href="#cb40-184"></a>       <span class="at">col =</span> <span class="st">"darkred"</span>, <span class="at">lty =</span> <span class="dv">2</span>, <span class="at">lwd =</span> <span class="dv">2</span>, <span class="at">bty =</span> <span class="st">"n"</span>)</span>
-<span id="cb40-185"><a href="#cb40-185"></a><span class="in">```</span></span>
-<span id="cb40-186"><a href="#cb40-186"></a></span>
-<span id="cb40-187"><a href="#cb40-187"></a>::: {.callout-tip title="💡 Concepto clave"}</span>
-<span id="cb40-188"><a href="#cb40-188"></a>La distribución de Poisson (ER) es simétrica y concentrada alrededor de la media. La distribución *power-law* (BA) tiene una **cola pesada** (*heavy tail*): la mayoría de nodos tienen grado bajo, pero unos pocos alcanzan grados extremadamente altos.</span>
-<span id="cb40-189"><a href="#cb40-189"></a>:::</span>
-<span id="cb40-190"><a href="#cb40-190"></a></span>
-<span id="cb40-191"><a href="#cb40-191"></a><span class="fu">### Gráfico log-log</span></span>
-<span id="cb40-192"><a href="#cb40-192"></a></span>
-<span id="cb40-193"><a href="#cb40-193"></a>La forma más clara de identificar una ley de potencia es graficar la distribución de grado en **escala logarítmica** en ambos ejes. Si la distribución es *power-law*, los puntos se alinean aproximadamente en una recta.</span>
-<span id="cb40-194"><a href="#cb40-194"></a></span>
-<span id="cb40-195"><a href="#cb40-195"></a>$$</span>
-<span id="cb40-196"><a href="#cb40-196"></a>\log P(k) = -\gamma \log k + C \quad \Rightarrow \quad \text{recta en escala log-log}</span>
-<span id="cb40-197"><a href="#cb40-197"></a>$$</span>
-<span id="cb40-198"><a href="#cb40-198"></a></span>
-<span id="cb40-201"><a href="#cb40-201"></a><span class="in">```{r}</span></span>
-<span id="cb40-202"><a href="#cb40-202"></a><span class="co">#| label: fig-loglog</span></span>
-<span id="cb40-203"><a href="#cb40-203"></a><span class="co">#| fig-cap: "Distribución de grado en escala log-log: solo la BA muestra un patrón lineal"</span></span>
-<span id="cb40-204"><a href="#cb40-204"></a><span class="co">#| fig-alt: "Dos gráficos log-log: el ER muestra puntos curvados, el BA muestra una tendencia lineal"</span></span>
-<span id="cb40-205"><a href="#cb40-205"></a><span class="co">#| fig-width: 12</span></span>
-<span id="cb40-206"><a href="#cb40-206"></a><span class="co">#| fig-height: 5</span></span>
-<span id="cb40-207"><a href="#cb40-207"></a></span>
-<span id="cb40-208"><a href="#cb40-208"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>), <span class="at">mar =</span> <span class="fu">c</span>(<span class="dv">4</span>, <span class="dv">4</span>, <span class="dv">3</span>, <span class="dv">1</span>))</span>
-<span id="cb40-209"><a href="#cb40-209"></a></span>
-<span id="cb40-210"><a href="#cb40-210"></a><span class="co"># ER en log-log</span></span>
-<span id="cb40-211"><a href="#cb40-211"></a>dd_er <span class="ot">&lt;-</span> <span class="fu">degree_distribution</span>(g_er)</span>
-<span id="cb40-212"><a href="#cb40-212"></a>k_er <span class="ot">&lt;-</span> <span class="fu">which</span>(dd_er <span class="sc">&gt;</span> <span class="dv">0</span>) <span class="sc">-</span> <span class="dv">1</span>  <span class="co"># grados con frecuencia &gt; 0</span></span>
-<span id="cb40-213"><a href="#cb40-213"></a>pk_er <span class="ot">&lt;-</span> dd_er[dd_er <span class="sc">&gt;</span> <span class="dv">0</span>]</span>
+<span id="cb40-118"><a href="#cb40-118"></a>donde $k_i$ es el grado del nodo $i$. El resultado: una distribución de grado tipo **ley de potencia** (*power-law*) donde unos pocos nodos (*hubs*) acumulan una cantidad desproporcionada de conexiones <span class="co">[</span><span class="ot">@barabasi2016; @albert2002</span><span class="co">]</span>.</span>
+<span id="cb40-119"><a href="#cb40-119"></a></span>
+<span id="cb40-120"><a href="#cb40-120"></a>::: {.callout-tip title="💡 Concepto clave"}</span>
+<span id="cb40-121"><a href="#cb40-121"></a>En una red Barabási–Albert, la distribución de grado sigue una **ley de potencia**: $P(k) \sim k^{-\gamma}$. Esto significa que hay muchos nodos con pocas conexiones y unos pocos *hubs* con muchísimas. Es una red "desigual".</span>
+<span id="cb40-122"><a href="#cb40-122"></a>:::</span>
+<span id="cb40-123"><a href="#cb40-123"></a></span>
+<span id="cb40-124"><a href="#cb40-124"></a><span class="fu">### Comparación rápida</span></span>
+<span id="cb40-125"><a href="#cb40-125"></a></span>
+<span id="cb40-126"><a href="#cb40-126"></a><span class="pp">|</span> Característica <span class="pp">|</span> Erdős–Rényi (ER) <span class="pp">|</span> Barabási–Albert (BA) <span class="pp">|</span></span>
+<span id="cb40-127"><a href="#cb40-127"></a><span class="pp">|:---|:---|:---|</span></span>
+<span id="cb40-128"><a href="#cb40-128"></a><span class="pp">|</span> Mecanismo <span class="pp">|</span> Conexión aleatoria con prob. $p$ <span class="pp">|</span> Enlace preferencial <span class="pp">|</span></span>
+<span id="cb40-129"><a href="#cb40-129"></a><span class="pp">|</span> Distribución de grado <span class="pp">|</span> Poisson <span class="pp">|</span> *Power-law* <span class="pp">|</span></span>
+<span id="cb40-130"><a href="#cb40-130"></a><span class="pp">|</span> Presencia de *hubs* <span class="pp">|</span> Muy improbable <span class="pp">|</span> Sí, emergentes <span class="pp">|</span></span>
+<span id="cb40-131"><a href="#cb40-131"></a><span class="pp">|</span> Ejemplo real <span class="pp">|</span> Red de carreteras <span class="pp">|</span> Internet, redes sociales <span class="pp">|</span></span>
+<span id="cb40-132"><a href="#cb40-132"></a><span class="pp">|</span> Función en igraph <span class="pp">|</span> <span class="in">`sample_gnp()`</span> <span class="pp">|</span> <span class="in">`sample_pa()`</span> <span class="pp">|</span></span>
+<span id="cb40-133"><a href="#cb40-133"></a></span>
+<span id="cb40-134"><a href="#cb40-134"></a>: Comparación entre modelos de redes {.striped .hover}</span>
+<span id="cb40-135"><a href="#cb40-135"></a></span>
+<span id="cb40-136"><a href="#cb40-136"></a><span class="fu">## Crear y visualizar ambas redes</span></span>
+<span id="cb40-137"><a href="#cb40-137"></a></span>
+<span id="cb40-138"><a href="#cb40-138"></a>Vamos a generar una red de cada tipo con 100 nodos y compararlas visualmente.</span>
+<span id="cb40-139"><a href="#cb40-139"></a></span>
+<span id="cb40-142"><a href="#cb40-142"></a><span class="in">```{r}</span></span>
+<span id="cb40-143"><a href="#cb40-143"></a><span class="co">#| label: crear-redes-er-ba</span></span>
+<span id="cb40-144"><a href="#cb40-144"></a></span>
+<span id="cb40-145"><a href="#cb40-145"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
+<span id="cb40-146"><a href="#cb40-146"></a></span>
+<span id="cb40-147"><a href="#cb40-147"></a><span class="co"># Red Erdős–Rényi: 100 nodos, probabilidad de conexión 0.04</span></span>
+<span id="cb40-148"><a href="#cb40-148"></a>g_er <span class="ot">&lt;-</span> <span class="fu">sample_gnp</span>(<span class="dv">100</span>, <span class="at">p =</span> <span class="fl">0.04</span>)</span>
+<span id="cb40-149"><a href="#cb40-149"></a><span class="fu">V</span>(g_er)<span class="sc">$</span>name <span class="ot">&lt;-</span> <span class="fu">paste0</span>(<span class="st">"ER_"</span>, <span class="dv">1</span><span class="sc">:</span><span class="fu">vcount</span>(g_er))</span>
+<span id="cb40-150"><a href="#cb40-150"></a></span>
+<span id="cb40-151"><a href="#cb40-151"></a><span class="co"># Red Barabási–Albert: 100 nodos, enlace preferencial</span></span>
+<span id="cb40-152"><a href="#cb40-152"></a>g_ba <span class="ot">&lt;-</span> <span class="fu">sample_pa</span>(<span class="dv">100</span>, <span class="at">directed =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb40-153"><a href="#cb40-153"></a><span class="fu">V</span>(g_ba)<span class="sc">$</span>name <span class="ot">&lt;-</span> <span class="fu">paste0</span>(<span class="st">"BA_"</span>, <span class="dv">1</span><span class="sc">:</span><span class="fu">vcount</span>(g_ba))</span>
+<span id="cb40-154"><a href="#cb40-154"></a><span class="in">```</span></span>
+<span id="cb40-155"><a href="#cb40-155"></a></span>
+<span id="cb40-158"><a href="#cb40-158"></a><span class="in">```{r}</span></span>
+<span id="cb40-159"><a href="#cb40-159"></a><span class="co">#| label: fig-comparar-redes</span></span>
+<span id="cb40-160"><a href="#cb40-160"></a><span class="co">#| fig-cap: "Comparación visual: red aleatoria (ER) vs. red de enlace preferencial (BA)"</span></span>
+<span id="cb40-161"><a href="#cb40-161"></a><span class="co">#| fig-alt: "Dos redes lado a lado: la ER muestra nodos de tamaño similar, la BA muestra unos pocos nodos muy grandes (hubs)"</span></span>
+<span id="cb40-162"><a href="#cb40-162"></a><span class="co">#| fig-width: 12</span></span>
+<span id="cb40-163"><a href="#cb40-163"></a><span class="co">#| fig-height: 6</span></span>
+<span id="cb40-164"><a href="#cb40-164"></a></span>
+<span id="cb40-165"><a href="#cb40-165"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>), <span class="at">mar =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">3</span>, <span class="dv">1</span>))</span>
+<span id="cb40-166"><a href="#cb40-166"></a></span>
+<span id="cb40-167"><a href="#cb40-167"></a><span class="co"># Red ER</span></span>
+<span id="cb40-168"><a href="#cb40-168"></a><span class="fu">plot</span>(g_er, </span>
+<span id="cb40-169"><a href="#cb40-169"></a>     <span class="at">vertex.size =</span> <span class="fu">degree</span>(g_er) <span class="sc">*</span> <span class="fl">1.5</span> <span class="sc">+</span> <span class="dv">3</span>,</span>
+<span id="cb40-170"><a href="#cb40-170"></a>     <span class="at">vertex.label =</span> <span class="cn">NA</span>,</span>
+<span id="cb40-171"><a href="#cb40-171"></a>     <span class="at">vertex.color =</span> <span class="st">"skyblue"</span>,</span>
+<span id="cb40-172"><a href="#cb40-172"></a>     <span class="at">edge.color =</span> <span class="fu">adjustcolor</span>(<span class="st">"gray50"</span>, <span class="at">alpha =</span> <span class="fl">0.4</span>),</span>
+<span id="cb40-173"><a href="#cb40-173"></a>     <span class="at">main =</span> <span class="st">"Red Aleatoria (Erdős–Rényi)"</span>)</span>
+<span id="cb40-174"><a href="#cb40-174"></a></span>
+<span id="cb40-175"><a href="#cb40-175"></a><span class="co"># Red BA</span></span>
+<span id="cb40-176"><a href="#cb40-176"></a><span class="fu">plot</span>(g_ba, </span>
+<span id="cb40-177"><a href="#cb40-177"></a>     <span class="at">vertex.size =</span> <span class="fu">degree</span>(g_ba) <span class="sc">*</span> <span class="fl">1.5</span> <span class="sc">+</span> <span class="dv">3</span>,</span>
+<span id="cb40-178"><a href="#cb40-178"></a>     <span class="at">vertex.label =</span> <span class="cn">NA</span>,</span>
+<span id="cb40-179"><a href="#cb40-179"></a>     <span class="at">vertex.color =</span> <span class="st">"tomato"</span>,</span>
+<span id="cb40-180"><a href="#cb40-180"></a>     <span class="at">edge.color =</span> <span class="fu">adjustcolor</span>(<span class="st">"gray50"</span>, <span class="at">alpha =</span> <span class="fl">0.4</span>),</span>
+<span id="cb40-181"><a href="#cb40-181"></a>     <span class="at">main =</span> <span class="st">"Red Power-law (Barabási–Albert)"</span>)</span>
+<span id="cb40-182"><a href="#cb40-182"></a><span class="in">```</span></span>
+<span id="cb40-183"><a href="#cb40-183"></a></span>
+<span id="cb40-184"><a href="#cb40-184"></a>Observa la diferencia: en la red ER los nodos tienen tamaños similares, mientras que en la red BA unos pocos nodos destacan por ser mucho más grandes (más conectados).</span>
+<span id="cb40-185"><a href="#cb40-185"></a></span>
+<span id="cb40-186"><a href="#cb40-186"></a><span class="fu">## Distribuciones de grado</span></span>
+<span id="cb40-187"><a href="#cb40-187"></a></span>
+<span id="cb40-188"><a href="#cb40-188"></a>Ahora veamos la distribución de grado de cada red. Aquí es donde la diferencia se vuelve evidente numéricamente.</span>
+<span id="cb40-189"><a href="#cb40-189"></a></span>
+<span id="cb40-190"><a href="#cb40-190"></a><span class="fu">### Histogramas</span></span>
+<span id="cb40-191"><a href="#cb40-191"></a></span>
+<span id="cb40-194"><a href="#cb40-194"></a><span class="in">```{r}</span></span>
+<span id="cb40-195"><a href="#cb40-195"></a><span class="co">#| label: fig-histogramas-grado</span></span>
+<span id="cb40-196"><a href="#cb40-196"></a><span class="co">#| fig-cap: "Histogramas de grado: Poisson (ER) vs. cola pesada (BA)"</span></span>
+<span id="cb40-197"><a href="#cb40-197"></a><span class="co">#| fig-alt: "Dos histogramas: el ER muestra una campana simétrica, el BA muestra una cola larga hacia la derecha"</span></span>
+<span id="cb40-198"><a href="#cb40-198"></a><span class="co">#| fig-width: 12</span></span>
+<span id="cb40-199"><a href="#cb40-199"></a><span class="co">#| fig-height: 5</span></span>
+<span id="cb40-200"><a href="#cb40-200"></a></span>
+<span id="cb40-201"><a href="#cb40-201"></a>deg_er <span class="ot">&lt;-</span> <span class="fu">degree</span>(g_er)</span>
+<span id="cb40-202"><a href="#cb40-202"></a>deg_ba <span class="ot">&lt;-</span> <span class="fu">degree</span>(g_ba)</span>
+<span id="cb40-203"><a href="#cb40-203"></a></span>
+<span id="cb40-204"><a href="#cb40-204"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>), <span class="at">mar =</span> <span class="fu">c</span>(<span class="dv">4</span>, <span class="dv">4</span>, <span class="dv">3</span>, <span class="dv">1</span>))</span>
+<span id="cb40-205"><a href="#cb40-205"></a></span>
+<span id="cb40-206"><a href="#cb40-206"></a><span class="fu">hist</span>(deg_er, </span>
+<span id="cb40-207"><a href="#cb40-207"></a>     <span class="at">breaks =</span> <span class="fu">seq</span>(<span class="sc">-</span><span class="fl">0.5</span>, <span class="fu">max</span>(deg_er) <span class="sc">+</span> <span class="fl">0.5</span>, <span class="at">by =</span> <span class="dv">1</span>),</span>
+<span id="cb40-208"><a href="#cb40-208"></a>     <span class="at">col =</span> <span class="st">"skyblue"</span>, <span class="at">border =</span> <span class="st">"white"</span>,</span>
+<span id="cb40-209"><a href="#cb40-209"></a>     <span class="at">main =</span> <span class="st">"Grado — Red ER"</span>,</span>
+<span id="cb40-210"><a href="#cb40-210"></a>     <span class="at">xlab =</span> <span class="st">"Grado (k)"</span>, <span class="at">ylab =</span> <span class="st">"Frecuencia"</span>)</span>
+<span id="cb40-211"><a href="#cb40-211"></a><span class="fu">abline</span>(<span class="at">v =</span> <span class="fu">mean</span>(deg_er), <span class="at">col =</span> <span class="st">"navy"</span>, <span class="at">lwd =</span> <span class="dv">2</span>, <span class="at">lty =</span> <span class="dv">2</span>)</span>
+<span id="cb40-212"><a href="#cb40-212"></a><span class="fu">legend</span>(<span class="st">"topright"</span>, <span class="fu">paste</span>(<span class="st">"Media ="</span>, <span class="fu">round</span>(<span class="fu">mean</span>(deg_er), <span class="dv">1</span>)), </span>
+<span id="cb40-213"><a href="#cb40-213"></a>       <span class="at">col =</span> <span class="st">"navy"</span>, <span class="at">lty =</span> <span class="dv">2</span>, <span class="at">lwd =</span> <span class="dv">2</span>, <span class="at">bty =</span> <span class="st">"n"</span>)</span>
 <span id="cb40-214"><a href="#cb40-214"></a></span>
-<span id="cb40-215"><a href="#cb40-215"></a><span class="fu">plot</span>(k_er, pk_er, </span>
-<span id="cb40-216"><a href="#cb40-216"></a>     <span class="at">log =</span> <span class="st">"xy"</span>, <span class="at">pch =</span> <span class="dv">19</span>, <span class="at">col =</span> <span class="st">"skyblue"</span>, <span class="at">cex =</span> <span class="fl">1.5</span>,</span>
-<span id="cb40-217"><a href="#cb40-217"></a>     <span class="at">main =</span> <span class="st">"Log-log — Red ER"</span>,</span>
-<span id="cb40-218"><a href="#cb40-218"></a>     <span class="at">xlab =</span> <span class="st">"log(k)"</span>, <span class="at">ylab =</span> <span class="st">"log(P(k))"</span>)</span>
-<span id="cb40-219"><a href="#cb40-219"></a></span>
-<span id="cb40-220"><a href="#cb40-220"></a><span class="co"># BA en log-log</span></span>
-<span id="cb40-221"><a href="#cb40-221"></a>dd_ba <span class="ot">&lt;-</span> <span class="fu">degree_distribution</span>(g_ba)</span>
-<span id="cb40-222"><a href="#cb40-222"></a>k_ba <span class="ot">&lt;-</span> <span class="fu">which</span>(dd_ba <span class="sc">&gt;</span> <span class="dv">0</span>) <span class="sc">-</span> <span class="dv">1</span></span>
-<span id="cb40-223"><a href="#cb40-223"></a>pk_ba <span class="ot">&lt;-</span> dd_ba[dd_ba <span class="sc">&gt;</span> <span class="dv">0</span>]</span>
+<span id="cb40-215"><a href="#cb40-215"></a><span class="fu">hist</span>(deg_ba, </span>
+<span id="cb40-216"><a href="#cb40-216"></a>     <span class="at">breaks =</span> <span class="fu">seq</span>(<span class="sc">-</span><span class="fl">0.5</span>, <span class="fu">max</span>(deg_ba) <span class="sc">+</span> <span class="fl">0.5</span>, <span class="at">by =</span> <span class="dv">1</span>),</span>
+<span id="cb40-217"><a href="#cb40-217"></a>     <span class="at">col =</span> <span class="st">"tomato"</span>, <span class="at">border =</span> <span class="st">"white"</span>,</span>
+<span id="cb40-218"><a href="#cb40-218"></a>     <span class="at">main =</span> <span class="st">"Grado — Red BA"</span>,</span>
+<span id="cb40-219"><a href="#cb40-219"></a>     <span class="at">xlab =</span> <span class="st">"Grado (k)"</span>, <span class="at">ylab =</span> <span class="st">"Frecuencia"</span>)</span>
+<span id="cb40-220"><a href="#cb40-220"></a><span class="fu">abline</span>(<span class="at">v =</span> <span class="fu">mean</span>(deg_ba), <span class="at">col =</span> <span class="st">"darkred"</span>, <span class="at">lwd =</span> <span class="dv">2</span>, <span class="at">lty =</span> <span class="dv">2</span>)</span>
+<span id="cb40-221"><a href="#cb40-221"></a><span class="fu">legend</span>(<span class="st">"topright"</span>, <span class="fu">paste</span>(<span class="st">"Media ="</span>, <span class="fu">round</span>(<span class="fu">mean</span>(deg_ba), <span class="dv">1</span>)), </span>
+<span id="cb40-222"><a href="#cb40-222"></a>       <span class="at">col =</span> <span class="st">"darkred"</span>, <span class="at">lty =</span> <span class="dv">2</span>, <span class="at">lwd =</span> <span class="dv">2</span>, <span class="at">bty =</span> <span class="st">"n"</span>)</span>
+<span id="cb40-223"><a href="#cb40-223"></a><span class="in">```</span></span>
 <span id="cb40-224"><a href="#cb40-224"></a></span>
-<span id="cb40-225"><a href="#cb40-225"></a><span class="fu">plot</span>(k_ba, pk_ba, </span>
-<span id="cb40-226"><a href="#cb40-226"></a>     <span class="at">log =</span> <span class="st">"xy"</span>, <span class="at">pch =</span> <span class="dv">19</span>, <span class="at">col =</span> <span class="st">"tomato"</span>, <span class="at">cex =</span> <span class="fl">1.5</span>,</span>
-<span id="cb40-227"><a href="#cb40-227"></a>     <span class="at">main =</span> <span class="st">"Log-log — Red BA"</span>,</span>
-<span id="cb40-228"><a href="#cb40-228"></a>     <span class="at">xlab =</span> <span class="st">"log(k)"</span>, <span class="at">ylab =</span> <span class="st">"log(P(k))"</span>)</span>
-<span id="cb40-229"><a href="#cb40-229"></a><span class="in">```</span></span>
+<span id="cb40-225"><a href="#cb40-225"></a>::: {.callout-tip title="💡 Concepto clave"}</span>
+<span id="cb40-226"><a href="#cb40-226"></a>La distribución de Poisson (ER) es simétrica y concentrada alrededor de la media. La distribución *power-law* (BA) tiene una **cola pesada** (*heavy tail*): la mayoría de nodos tienen grado bajo, pero unos pocos alcanzan grados extremadamente altos.</span>
+<span id="cb40-227"><a href="#cb40-227"></a>:::</span>
+<span id="cb40-228"><a href="#cb40-228"></a></span>
+<span id="cb40-229"><a href="#cb40-229"></a><span class="fu">### Gráfico log-log</span></span>
 <span id="cb40-230"><a href="#cb40-230"></a></span>
-<span id="cb40-231"><a href="#cb40-231"></a>::: {.callout-warning title="⚠️ Error frecuente"}</span>
-<span id="cb40-232"><a href="#cb40-232"></a>No confundas "parece una recta en log-log" con "es una ley de potencia". Para confirmar se necesita un **ajuste estadístico formal**, que veremos en la siguiente sección. Muchas distribuciones con cola pesada (log-normal, exponencial estirada) pueden *parecer* lineales en log-log con pocos datos.</span>
-<span id="cb40-233"><a href="#cb40-233"></a>:::</span>
-<span id="cb40-234"><a href="#cb40-234"></a></span>
-<span id="cb40-235"><a href="#cb40-235"></a><span class="fu">## Ajuste de ley de potencia con `poweRlaw`</span></span>
+<span id="cb40-231"><a href="#cb40-231"></a>La forma más clara de identificar una ley de potencia es graficar la distribución de grado en **escala logarítmica** en ambos ejes. Si la distribución es *power-law*, los puntos se alinean aproximadamente en una recta.</span>
+<span id="cb40-232"><a href="#cb40-232"></a></span>
+<span id="cb40-233"><a href="#cb40-233"></a>$$</span>
+<span id="cb40-234"><a href="#cb40-234"></a>\log P(k) = -\gamma \log k + C \quad \Rightarrow \quad \text{recta en escala log-log}</span>
+<span id="cb40-235"><a href="#cb40-235"></a>$$</span>
 <span id="cb40-236"><a href="#cb40-236"></a></span>
-<span id="cb40-237"><a href="#cb40-237"></a>El paquete <span class="in">`poweRlaw`</span> implementa el método riguroso de Clauset, Shalizi y Newman para ajustar distribuciones *power-law* y estimar sus parámetros.</span>
-<span id="cb40-238"><a href="#cb40-238"></a></span>
-<span id="cb40-239"><a href="#cb40-239"></a>El proceso tiene tres pasos:</span>
-<span id="cb40-240"><a href="#cb40-240"></a></span>
-<span id="cb40-241"><a href="#cb40-241"></a>::: {.panel-tabset}</span>
-<span id="cb40-242"><a href="#cb40-242"></a></span>
-<span id="cb40-243"><a href="#cb40-243"></a><span class="fu">### Paso 1: Crear el modelo</span></span>
-<span id="cb40-244"><a href="#cb40-244"></a></span>
-<span id="cb40-247"><a href="#cb40-247"></a><span class="in">```{r}</span></span>
-<span id="cb40-248"><a href="#cb40-248"></a><span class="co">#| label: powerlaw-paso1</span></span>
-<span id="cb40-249"><a href="#cb40-249"></a></span>
-<span id="cb40-250"><a href="#cb40-250"></a><span class="co"># Obtener los grados de la red BA</span></span>
-<span id="cb40-251"><a href="#cb40-251"></a>deg_ba <span class="ot">&lt;-</span> <span class="fu">degree</span>(g_ba)</span>
+<span id="cb40-239"><a href="#cb40-239"></a><span class="in">```{r}</span></span>
+<span id="cb40-240"><a href="#cb40-240"></a><span class="co">#| label: fig-loglog</span></span>
+<span id="cb40-241"><a href="#cb40-241"></a><span class="co">#| fig-cap: "Distribución de grado en escala log-log: solo la BA muestra un patrón lineal"</span></span>
+<span id="cb40-242"><a href="#cb40-242"></a><span class="co">#| fig-alt: "Dos gráficos log-log: el ER muestra puntos curvados, el BA muestra una tendencia lineal"</span></span>
+<span id="cb40-243"><a href="#cb40-243"></a><span class="co">#| fig-width: 12</span></span>
+<span id="cb40-244"><a href="#cb40-244"></a><span class="co">#| fig-height: 5</span></span>
+<span id="cb40-245"><a href="#cb40-245"></a></span>
+<span id="cb40-246"><a href="#cb40-246"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>), <span class="at">mar =</span> <span class="fu">c</span>(<span class="dv">4</span>, <span class="dv">4</span>, <span class="dv">3</span>, <span class="dv">1</span>))</span>
+<span id="cb40-247"><a href="#cb40-247"></a></span>
+<span id="cb40-248"><a href="#cb40-248"></a><span class="co"># ER en log-log</span></span>
+<span id="cb40-249"><a href="#cb40-249"></a>dd_er <span class="ot">&lt;-</span> <span class="fu">degree_distribution</span>(g_er)</span>
+<span id="cb40-250"><a href="#cb40-250"></a>k_er <span class="ot">&lt;-</span> <span class="fu">which</span>(dd_er <span class="sc">&gt;</span> <span class="dv">0</span>) <span class="sc">-</span> <span class="dv">1</span>  <span class="co"># grados con frecuencia &gt; 0</span></span>
+<span id="cb40-251"><a href="#cb40-251"></a>pk_er <span class="ot">&lt;-</span> dd_er[dd_er <span class="sc">&gt;</span> <span class="dv">0</span>]</span>
 <span id="cb40-252"><a href="#cb40-252"></a></span>
-<span id="cb40-253"><a href="#cb40-253"></a><span class="co"># Crear un objeto de distribución discreta power-law</span></span>
-<span id="cb40-254"><a href="#cb40-254"></a>m <span class="ot">&lt;-</span> displ<span class="sc">$</span><span class="fu">new</span>(deg_ba)</span>
-<span id="cb40-255"><a href="#cb40-255"></a></span>
-<span id="cb40-256"><a href="#cb40-256"></a><span class="fu">cat</span>(<span class="st">"Modelo creado con"</span>, <span class="fu">length</span>(deg_ba), <span class="st">"observaciones</span><span class="sc">\n</span><span class="st">"</span>)</span>
-<span id="cb40-257"><a href="#cb40-257"></a><span class="in">```</span></span>
-<span id="cb40-258"><a href="#cb40-258"></a></span>
-<span id="cb40-259"><a href="#cb40-259"></a><span class="fu">### Paso 2: Estimar parámetros</span></span>
-<span id="cb40-260"><a href="#cb40-260"></a></span>
-<span id="cb40-263"><a href="#cb40-263"></a><span class="in">```{r}</span></span>
-<span id="cb40-264"><a href="#cb40-264"></a><span class="co">#| label: powerlaw-paso2</span></span>
-<span id="cb40-265"><a href="#cb40-265"></a></span>
-<span id="cb40-266"><a href="#cb40-266"></a><span class="co"># Estimar el valor mínimo de k a partir del cual aplica la ley de potencia</span></span>
-<span id="cb40-267"><a href="#cb40-267"></a>est <span class="ot">&lt;-</span> <span class="fu">estimate_xmin</span>(m)</span>
-<span id="cb40-268"><a href="#cb40-268"></a>m<span class="sc">$</span><span class="fu">setXmin</span>(est)</span>
-<span id="cb40-269"><a href="#cb40-269"></a></span>
-<span id="cb40-270"><a href="#cb40-270"></a><span class="co"># Estimar el exponente gamma</span></span>
-<span id="cb40-271"><a href="#cb40-271"></a>m<span class="sc">$</span><span class="fu">setPars</span>(<span class="fu">estimate_pars</span>(m))</span>
+<span id="cb40-253"><a href="#cb40-253"></a><span class="fu">plot</span>(k_er, pk_er, </span>
+<span id="cb40-254"><a href="#cb40-254"></a>     <span class="at">log =</span> <span class="st">"xy"</span>, <span class="at">pch =</span> <span class="dv">19</span>, <span class="at">col =</span> <span class="st">"skyblue"</span>, <span class="at">cex =</span> <span class="fl">1.5</span>,</span>
+<span id="cb40-255"><a href="#cb40-255"></a>     <span class="at">main =</span> <span class="st">"Log-log — Red ER"</span>,</span>
+<span id="cb40-256"><a href="#cb40-256"></a>     <span class="at">xlab =</span> <span class="st">"log(k)"</span>, <span class="at">ylab =</span> <span class="st">"log(P(k))"</span>)</span>
+<span id="cb40-257"><a href="#cb40-257"></a></span>
+<span id="cb40-258"><a href="#cb40-258"></a><span class="co"># BA en log-log</span></span>
+<span id="cb40-259"><a href="#cb40-259"></a>dd_ba <span class="ot">&lt;-</span> <span class="fu">degree_distribution</span>(g_ba)</span>
+<span id="cb40-260"><a href="#cb40-260"></a>k_ba <span class="ot">&lt;-</span> <span class="fu">which</span>(dd_ba <span class="sc">&gt;</span> <span class="dv">0</span>) <span class="sc">-</span> <span class="dv">1</span></span>
+<span id="cb40-261"><a href="#cb40-261"></a>pk_ba <span class="ot">&lt;-</span> dd_ba[dd_ba <span class="sc">&gt;</span> <span class="dv">0</span>]</span>
+<span id="cb40-262"><a href="#cb40-262"></a></span>
+<span id="cb40-263"><a href="#cb40-263"></a><span class="fu">plot</span>(k_ba, pk_ba, </span>
+<span id="cb40-264"><a href="#cb40-264"></a>     <span class="at">log =</span> <span class="st">"xy"</span>, <span class="at">pch =</span> <span class="dv">19</span>, <span class="at">col =</span> <span class="st">"tomato"</span>, <span class="at">cex =</span> <span class="fl">1.5</span>,</span>
+<span id="cb40-265"><a href="#cb40-265"></a>     <span class="at">main =</span> <span class="st">"Log-log — Red BA"</span>,</span>
+<span id="cb40-266"><a href="#cb40-266"></a>     <span class="at">xlab =</span> <span class="st">"log(k)"</span>, <span class="at">ylab =</span> <span class="st">"log(P(k))"</span>)</span>
+<span id="cb40-267"><a href="#cb40-267"></a><span class="in">```</span></span>
+<span id="cb40-268"><a href="#cb40-268"></a></span>
+<span id="cb40-269"><a href="#cb40-269"></a>::: {.callout-warning title="⚠️ Error frecuente"}</span>
+<span id="cb40-270"><a href="#cb40-270"></a>No confundas "parece una recta en log-log" con "es una ley de potencia". Para confirmar se necesita un **ajuste estadístico formal**, que veremos en la siguiente sección. Muchas distribuciones con cola pesada (log-normal, exponencial estirada) pueden *parecer* lineales en log-log con pocos datos.</span>
+<span id="cb40-271"><a href="#cb40-271"></a>:::</span>
 <span id="cb40-272"><a href="#cb40-272"></a></span>
-<span id="cb40-273"><a href="#cb40-273"></a><span class="fu">cat</span>(<span class="st">"x_min estimado:"</span>, m<span class="sc">$</span><span class="fu">getXmin</span>(), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span>
-<span id="cb40-274"><a href="#cb40-274"></a><span class="fu">cat</span>(<span class="st">"Exponente gamma:"</span>, <span class="fu">round</span>(m<span class="sc">$</span><span class="fu">getPars</span>(), <span class="dv">3</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span>
-<span id="cb40-275"><a href="#cb40-275"></a><span class="in">```</span></span>
+<span id="cb40-273"><a href="#cb40-273"></a><span class="fu">## Ajuste de ley de potencia con `poweRlaw`</span></span>
+<span id="cb40-274"><a href="#cb40-274"></a></span>
+<span id="cb40-275"><a href="#cb40-275"></a>El paquete <span class="in">`poweRlaw`</span> implementa el método riguroso de Clauset, Shalizi y Newman para ajustar distribuciones *power-law* y estimar sus parámetros.</span>
 <span id="cb40-276"><a href="#cb40-276"></a></span>
-<span id="cb40-277"><a href="#cb40-277"></a>::: {.callout-tip title="💡 Concepto clave"}</span>
-<span id="cb40-278"><a href="#cb40-278"></a>El parámetro <span class="in">`x_min`</span> indica el grado mínimo a partir del cual la distribución se comporta como ley de potencia. Los nodos con grado menor a <span class="in">`x_min`</span> no siguen este patrón. El exponente $\gamma$ típicamente está entre 2 y 3 en redes reales.</span>
-<span id="cb40-279"><a href="#cb40-279"></a>:::</span>
-<span id="cb40-280"><a href="#cb40-280"></a></span>
-<span id="cb40-281"><a href="#cb40-281"></a><span class="fu">### Paso 3: Visualizar el ajuste</span></span>
-<span id="cb40-282"><a href="#cb40-282"></a></span>
-<span id="cb40-285"><a href="#cb40-285"></a><span class="in">```{r}</span></span>
-<span id="cb40-286"><a href="#cb40-286"></a><span class="co">#| label: fig-powerlaw-ajuste</span></span>
-<span id="cb40-287"><a href="#cb40-287"></a><span class="co">#| fig-cap: "Ajuste de ley de potencia sobre la distribución de grado de la red BA"</span></span>
-<span id="cb40-288"><a href="#cb40-288"></a><span class="co">#| fig-alt: "Gráfico log-log con puntos empíricos y línea roja del ajuste power-law"</span></span>
+<span id="cb40-277"><a href="#cb40-277"></a>El proceso tiene tres pasos:</span>
+<span id="cb40-278"><a href="#cb40-278"></a></span>
+<span id="cb40-279"><a href="#cb40-279"></a>:::: panel-tabset</span>
+<span id="cb40-280"><a href="#cb40-280"></a><span class="fu">### Paso 1: Crear el modelo</span></span>
+<span id="cb40-281"><a href="#cb40-281"></a></span>
+<span id="cb40-284"><a href="#cb40-284"></a><span class="in">```{r}</span></span>
+<span id="cb40-285"><a href="#cb40-285"></a><span class="co">#| label: powerlaw-paso1</span></span>
+<span id="cb40-286"><a href="#cb40-286"></a></span>
+<span id="cb40-287"><a href="#cb40-287"></a><span class="co"># Obtener los grados de la red BA</span></span>
+<span id="cb40-288"><a href="#cb40-288"></a>deg_ba <span class="ot">&lt;-</span> <span class="fu">degree</span>(g_ba)</span>
 <span id="cb40-289"><a href="#cb40-289"></a></span>
-<span id="cb40-290"><a href="#cb40-290"></a><span class="fu">plot</span>(m, </span>
-<span id="cb40-291"><a href="#cb40-291"></a>     <span class="at">pch =</span> <span class="dv">19</span>, <span class="at">col =</span> <span class="st">"gray40"</span>,</span>
-<span id="cb40-292"><a href="#cb40-292"></a>     <span class="at">xlab =</span> <span class="st">"Grado (k)"</span>, <span class="at">ylab =</span> <span class="st">"P(X ≥ k)"</span>,</span>
-<span id="cb40-293"><a href="#cb40-293"></a>     <span class="at">main =</span> <span class="st">"Ajuste Power-law — Red BA"</span>)</span>
-<span id="cb40-294"><a href="#cb40-294"></a><span class="fu">lines</span>(m, <span class="at">col =</span> <span class="st">"red"</span>, <span class="at">lwd =</span> <span class="dv">2</span>)</span>
-<span id="cb40-295"><a href="#cb40-295"></a><span class="fu">legend</span>(<span class="st">"bottomleft"</span>, </span>
-<span id="cb40-296"><a href="#cb40-296"></a>       <span class="at">legend =</span> <span class="fu">paste0</span>(<span class="st">"γ = "</span>, <span class="fu">round</span>(m<span class="sc">$</span><span class="fu">getPars</span>(), <span class="dv">2</span>), </span>
-<span id="cb40-297"><a href="#cb40-297"></a>                       <span class="st">", x_min = "</span>, m<span class="sc">$</span><span class="fu">getXmin</span>()),</span>
-<span id="cb40-298"><a href="#cb40-298"></a>       <span class="at">col =</span> <span class="st">"red"</span>, <span class="at">lwd =</span> <span class="dv">2</span>, <span class="at">bty =</span> <span class="st">"n"</span>)</span>
-<span id="cb40-299"><a href="#cb40-299"></a><span class="in">```</span></span>
-<span id="cb40-300"><a href="#cb40-300"></a></span>
-<span id="cb40-301"><a href="#cb40-301"></a>:::</span>
+<span id="cb40-290"><a href="#cb40-290"></a><span class="co"># Crear un objeto de distribución discreta power-law</span></span>
+<span id="cb40-291"><a href="#cb40-291"></a>m <span class="ot">&lt;-</span> displ<span class="sc">$</span><span class="fu">new</span>(deg_ba)</span>
+<span id="cb40-292"><a href="#cb40-292"></a></span>
+<span id="cb40-293"><a href="#cb40-293"></a><span class="fu">cat</span>(<span class="st">"Modelo creado con"</span>, <span class="fu">length</span>(deg_ba), <span class="st">"observaciones</span><span class="sc">\n</span><span class="st">"</span>)</span>
+<span id="cb40-294"><a href="#cb40-294"></a><span class="in">```</span></span>
+<span id="cb40-295"><a href="#cb40-295"></a></span>
+<span id="cb40-296"><a href="#cb40-296"></a><span class="fu">### Paso 2: Estimar parámetros</span></span>
+<span id="cb40-297"><a href="#cb40-297"></a></span>
+<span id="cb40-300"><a href="#cb40-300"></a><span class="in">```{r}</span></span>
+<span id="cb40-301"><a href="#cb40-301"></a><span class="co">#| label: powerlaw-paso2</span></span>
 <span id="cb40-302"><a href="#cb40-302"></a></span>
-<span id="cb40-303"><a href="#cb40-303"></a>::: {.callout-important title="🔑 Recuerda"}</span>
-<span id="cb40-304"><a href="#cb40-304"></a>El gráfico del ajuste muestra la **función de distribución acumulada complementaria** (CCDF), es decir, $P(X \geq k)$, no el histograma. La CCDF es más estable y confiable para evaluar colas pesadas que el histograma, especialmente con pocos datos.</span>
-<span id="cb40-305"><a href="#cb40-305"></a>:::</span>
+<span id="cb40-303"><a href="#cb40-303"></a><span class="co"># Estimar el valor mínimo de k a partir del cual aplica la ley de potencia</span></span>
+<span id="cb40-304"><a href="#cb40-304"></a>est <span class="ot">&lt;-</span> <span class="fu">estimate_xmin</span>(m)</span>
+<span id="cb40-305"><a href="#cb40-305"></a>m<span class="sc">$</span><span class="fu">setXmin</span>(est)</span>
 <span id="cb40-306"><a href="#cb40-306"></a></span>
-<span id="cb40-307"><a href="#cb40-307"></a><span class="fu">## Identificar *hubs*</span></span>
-<span id="cb40-308"><a href="#cb40-308"></a></span>
-<span id="cb40-309"><a href="#cb40-309"></a>Los *hubs* son los nodos con grado extremadamente alto en una red *power-law*. Actúan como conectores centrales y su eliminación puede fragmentar la red (esto lo veremos a fondo en el @sec-robustez).</span>
-<span id="cb40-310"><a href="#cb40-310"></a></span>
-<span id="cb40-313"><a href="#cb40-313"></a><span class="in">```{r}</span></span>
-<span id="cb40-314"><a href="#cb40-314"></a><span class="co">#| label: identificar-hubs</span></span>
-<span id="cb40-315"><a href="#cb40-315"></a></span>
-<span id="cb40-316"><a href="#cb40-316"></a><span class="co"># Top 5 nodos más conectados en la red BA</span></span>
-<span id="cb40-317"><a href="#cb40-317"></a>top_hubs <span class="ot">&lt;-</span> <span class="fu">sort</span>(<span class="fu">degree</span>(g_ba), <span class="at">decreasing =</span> <span class="cn">TRUE</span>)[<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>]</span>
-<span id="cb40-318"><a href="#cb40-318"></a></span>
-<span id="cb40-319"><a href="#cb40-319"></a><span class="co"># Mostrar como tabla</span></span>
-<span id="cb40-320"><a href="#cb40-320"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(</span>
-<span id="cb40-321"><a href="#cb40-321"></a>  <span class="fu">data.frame</span>(</span>
-<span id="cb40-322"><a href="#cb40-322"></a>    <span class="at">Nodo =</span> <span class="fu">names</span>(top_hubs),</span>
-<span id="cb40-323"><a href="#cb40-323"></a>    <span class="at">Grado =</span> <span class="fu">as.integer</span>(top_hubs)</span>
-<span id="cb40-324"><a href="#cb40-324"></a>  ),</span>
-<span id="cb40-325"><a href="#cb40-325"></a>  <span class="at">caption =</span> <span class="st">"Los 5 hubs de la red Barabási–Albert"</span>,</span>
-<span id="cb40-326"><a href="#cb40-326"></a>  <span class="at">col.names =</span> <span class="fu">c</span>(<span class="st">"Nodo"</span>, <span class="st">"Grado"</span>)</span>
-<span id="cb40-327"><a href="#cb40-327"></a>)</span>
-<span id="cb40-328"><a href="#cb40-328"></a><span class="in">```</span></span>
-<span id="cb40-329"><a href="#cb40-329"></a></span>
-<span id="cb40-332"><a href="#cb40-332"></a><span class="in">```{r}</span></span>
-<span id="cb40-333"><a href="#cb40-333"></a><span class="co">#| label: fig-hubs-destacados</span></span>
-<span id="cb40-334"><a href="#cb40-334"></a><span class="co">#| fig-cap: "Red BA con los 5 hubs destacados en rojo y mayor tamaño"</span></span>
-<span id="cb40-335"><a href="#cb40-335"></a><span class="co">#| fig-alt: "Red donde 5 nodos rojos grandes representan los hubs más conectados"</span></span>
-<span id="cb40-336"><a href="#cb40-336"></a></span>
-<span id="cb40-337"><a href="#cb40-337"></a><span class="co"># Colores: rojo para hubs, gris para el resto</span></span>
-<span id="cb40-338"><a href="#cb40-338"></a>es_hub <span class="ot">&lt;-</span> <span class="fu">degree</span>(g_ba) <span class="sc">&gt;=</span> <span class="fu">min</span>(top_hubs)</span>
-<span id="cb40-339"><a href="#cb40-339"></a><span class="fu">V</span>(g_ba)<span class="sc">$</span>color <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(es_hub, <span class="st">"tomato"</span>, <span class="st">"gray80"</span>)</span>
-<span id="cb40-340"><a href="#cb40-340"></a><span class="fu">V</span>(g_ba)<span class="sc">$</span>size <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(es_hub, <span class="dv">15</span>, <span class="dv">3</span>)</span>
-<span id="cb40-341"><a href="#cb40-341"></a></span>
-<span id="cb40-342"><a href="#cb40-342"></a><span class="fu">plot</span>(g_ba,</span>
-<span id="cb40-343"><a href="#cb40-343"></a>     <span class="at">vertex.label =</span> <span class="fu">ifelse</span>(es_hub, <span class="fu">V</span>(g_ba)<span class="sc">$</span>name, <span class="cn">NA</span>),</span>
-<span id="cb40-344"><a href="#cb40-344"></a>     <span class="at">vertex.label.cex =</span> <span class="fl">0.7</span>,</span>
-<span id="cb40-345"><a href="#cb40-345"></a>     <span class="at">edge.color =</span> <span class="fu">adjustcolor</span>(<span class="st">"gray60"</span>, <span class="at">alpha =</span> <span class="fl">0.3</span>),</span>
-<span id="cb40-346"><a href="#cb40-346"></a>     <span class="at">main =</span> <span class="st">"Red BA — Hubs destacados"</span>)</span>
-<span id="cb40-347"><a href="#cb40-347"></a><span class="in">```</span></span>
-<span id="cb40-348"><a href="#cb40-348"></a></span>
-<span id="cb40-349"><a href="#cb40-349"></a><span class="fu">## Comparación completa: ER vs. BA vs. *Small-World*</span></span>
-<span id="cb40-350"><a href="#cb40-350"></a></span>
-<span id="cb40-351"><a href="#cb40-351"></a>Agreguemos un tercer modelo: la red *small-world* de Watts y Strogatz <span class="co">[</span><span class="ot">@watts1998</span><span class="co">]</span>, que combina alto clustering con distancias cortas.</span>
-<span id="cb40-352"><a href="#cb40-352"></a></span>
-<span id="cb40-355"><a href="#cb40-355"></a><span class="in">```{r}</span></span>
-<span id="cb40-356"><a href="#cb40-356"></a><span class="co">#| label: crear-tres-redes</span></span>
-<span id="cb40-357"><a href="#cb40-357"></a></span>
-<span id="cb40-358"><a href="#cb40-358"></a><span class="fu">set.seed</span>(<span class="dv">42</span>)</span>
-<span id="cb40-359"><a href="#cb40-359"></a></span>
-<span id="cb40-360"><a href="#cb40-360"></a>redes <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
-<span id="cb40-361"><a href="#cb40-361"></a>  <span class="st">"Erdős–Rényi"</span>     <span class="ot">=</span> <span class="fu">sample_gnp</span>(<span class="dv">100</span>, <span class="at">p =</span> <span class="fl">0.04</span>),</span>
-<span id="cb40-362"><a href="#cb40-362"></a>  <span class="st">"Barabási–Albert"</span>  <span class="ot">=</span> <span class="fu">sample_pa</span>(<span class="dv">100</span>, <span class="at">directed =</span> <span class="cn">FALSE</span>),</span>
-<span id="cb40-363"><a href="#cb40-363"></a>  <span class="st">"Small-World (WS)"</span> <span class="ot">=</span> <span class="fu">sample_smallworld</span>(<span class="dv">1</span>, <span class="dv">100</span>, <span class="at">nei =</span> <span class="dv">3</span>, <span class="at">p =</span> <span class="fl">0.1</span>)</span>
-<span id="cb40-364"><a href="#cb40-364"></a>)</span>
-<span id="cb40-365"><a href="#cb40-365"></a><span class="in">```</span></span>
-<span id="cb40-366"><a href="#cb40-366"></a></span>
-<span id="cb40-369"><a href="#cb40-369"></a><span class="in">```{r}</span></span>
-<span id="cb40-370"><a href="#cb40-370"></a><span class="co">#| label: fig-tres-histogramas</span></span>
-<span id="cb40-371"><a href="#cb40-371"></a><span class="co">#| fig-cap: "Distribuciones de grado de tres modelos de red con 100 nodos"</span></span>
-<span id="cb40-372"><a href="#cb40-372"></a><span class="co">#| fig-alt: "Tres histogramas: ER simétrico, BA con cola larga, Small-World concentrado"</span></span>
-<span id="cb40-373"><a href="#cb40-373"></a><span class="co">#| fig-width: 14</span></span>
-<span id="cb40-374"><a href="#cb40-374"></a><span class="co">#| fig-height: 5</span></span>
-<span id="cb40-375"><a href="#cb40-375"></a></span>
-<span id="cb40-376"><a href="#cb40-376"></a>colores <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"skyblue"</span>, <span class="st">"tomato"</span>, <span class="st">"mediumpurple"</span>)</span>
+<span id="cb40-307"><a href="#cb40-307"></a><span class="co"># Estimar el exponente gamma</span></span>
+<span id="cb40-308"><a href="#cb40-308"></a>m<span class="sc">$</span><span class="fu">setPars</span>(<span class="fu">estimate_pars</span>(m))</span>
+<span id="cb40-309"><a href="#cb40-309"></a></span>
+<span id="cb40-310"><a href="#cb40-310"></a><span class="fu">cat</span>(<span class="st">"x_min estimado:"</span>, m<span class="sc">$</span><span class="fu">getXmin</span>(), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span>
+<span id="cb40-311"><a href="#cb40-311"></a><span class="fu">cat</span>(<span class="st">"Exponente gamma:"</span>, <span class="fu">round</span>(m<span class="sc">$</span><span class="fu">getPars</span>(), <span class="dv">3</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span>
+<span id="cb40-312"><a href="#cb40-312"></a><span class="in">```</span></span>
+<span id="cb40-313"><a href="#cb40-313"></a></span>
+<span id="cb40-314"><a href="#cb40-314"></a>::: {.callout-tip title="💡 Concepto clave"}</span>
+<span id="cb40-315"><a href="#cb40-315"></a>El parámetro <span class="in">`x_min`</span> indica el grado mínimo a partir del cual la distribución se comporta como ley de potencia. Los nodos con grado menor a <span class="in">`x_min`</span> no siguen este patrón. El exponente $\gamma$ típicamente está entre 2 y 3 en redes reales.</span>
+<span id="cb40-316"><a href="#cb40-316"></a>:::</span>
+<span id="cb40-317"><a href="#cb40-317"></a></span>
+<span id="cb40-318"><a href="#cb40-318"></a><span class="fu">### Paso 3: Visualizar el ajuste</span></span>
+<span id="cb40-319"><a href="#cb40-319"></a></span>
+<span id="cb40-322"><a href="#cb40-322"></a><span class="in">```{r}</span></span>
+<span id="cb40-323"><a href="#cb40-323"></a><span class="co">#| label: fig-powerlaw-ajuste</span></span>
+<span id="cb40-324"><a href="#cb40-324"></a><span class="co">#| fig-cap: "Ajuste de ley de potencia sobre la distribución de grado de la red BA"</span></span>
+<span id="cb40-325"><a href="#cb40-325"></a><span class="co">#| fig-alt: "Gráfico log-log con puntos empíricos y línea roja del ajuste power-law"</span></span>
+<span id="cb40-326"><a href="#cb40-326"></a></span>
+<span id="cb40-327"><a href="#cb40-327"></a><span class="fu">plot</span>(m, </span>
+<span id="cb40-328"><a href="#cb40-328"></a>     <span class="at">pch =</span> <span class="dv">19</span>, <span class="at">col =</span> <span class="st">"gray40"</span>,</span>
+<span id="cb40-329"><a href="#cb40-329"></a>     <span class="at">xlab =</span> <span class="st">"Grado (k)"</span>, <span class="at">ylab =</span> <span class="st">"P(X ≥ k)"</span>,</span>
+<span id="cb40-330"><a href="#cb40-330"></a>     <span class="at">main =</span> <span class="st">"Ajuste Power-law — Red BA"</span>)</span>
+<span id="cb40-331"><a href="#cb40-331"></a><span class="fu">lines</span>(m, <span class="at">col =</span> <span class="st">"red"</span>, <span class="at">lwd =</span> <span class="dv">2</span>)</span>
+<span id="cb40-332"><a href="#cb40-332"></a><span class="fu">legend</span>(<span class="st">"bottomleft"</span>, </span>
+<span id="cb40-333"><a href="#cb40-333"></a>       <span class="at">legend =</span> <span class="fu">paste0</span>(<span class="st">"γ = "</span>, <span class="fu">round</span>(m<span class="sc">$</span><span class="fu">getPars</span>(), <span class="dv">2</span>), </span>
+<span id="cb40-334"><a href="#cb40-334"></a>                       <span class="st">", x_min = "</span>, m<span class="sc">$</span><span class="fu">getXmin</span>()),</span>
+<span id="cb40-335"><a href="#cb40-335"></a>       <span class="at">col =</span> <span class="st">"red"</span>, <span class="at">lwd =</span> <span class="dv">2</span>, <span class="at">bty =</span> <span class="st">"n"</span>)</span>
+<span id="cb40-336"><a href="#cb40-336"></a><span class="in">```</span></span>
+<span id="cb40-337"><a href="#cb40-337"></a>::::</span>
+<span id="cb40-338"><a href="#cb40-338"></a></span>
+<span id="cb40-339"><a href="#cb40-339"></a>::: {.callout-important title="🔑 Recuerda"}</span>
+<span id="cb40-340"><a href="#cb40-340"></a>El gráfico del ajuste muestra la **función de distribución acumulada complementaria** (CCDF), es decir, $P(X \geq k)$, no el histograma. La CCDF es más estable y confiable para evaluar colas pesadas que el histograma, especialmente con pocos datos.</span>
+<span id="cb40-341"><a href="#cb40-341"></a>:::</span>
+<span id="cb40-342"><a href="#cb40-342"></a></span>
+<span id="cb40-343"><a href="#cb40-343"></a><span class="fu">## Identificar *hubs*</span></span>
+<span id="cb40-344"><a href="#cb40-344"></a></span>
+<span id="cb40-345"><a href="#cb40-345"></a>Los *hubs* son los nodos con grado extremadamente alto en una red *power-law*. Actúan como conectores centrales y su eliminación puede fragmentar la red (esto lo veremos a fondo en el @sec-robustez).</span>
+<span id="cb40-346"><a href="#cb40-346"></a></span>
+<span id="cb40-349"><a href="#cb40-349"></a><span class="in">```{r}</span></span>
+<span id="cb40-350"><a href="#cb40-350"></a><span class="co">#| label: identificar-hubs</span></span>
+<span id="cb40-351"><a href="#cb40-351"></a></span>
+<span id="cb40-352"><a href="#cb40-352"></a><span class="co"># Top 5 nodos más conectados en la red BA</span></span>
+<span id="cb40-353"><a href="#cb40-353"></a>top_hubs <span class="ot">&lt;-</span> <span class="fu">sort</span>(<span class="fu">degree</span>(g_ba), <span class="at">decreasing =</span> <span class="cn">TRUE</span>)[<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>]</span>
+<span id="cb40-354"><a href="#cb40-354"></a></span>
+<span id="cb40-355"><a href="#cb40-355"></a><span class="co"># Mostrar como tabla</span></span>
+<span id="cb40-356"><a href="#cb40-356"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(</span>
+<span id="cb40-357"><a href="#cb40-357"></a>  <span class="fu">data.frame</span>(</span>
+<span id="cb40-358"><a href="#cb40-358"></a>    <span class="at">Nodo =</span> <span class="fu">names</span>(top_hubs),</span>
+<span id="cb40-359"><a href="#cb40-359"></a>    <span class="at">Grado =</span> <span class="fu">as.integer</span>(top_hubs)</span>
+<span id="cb40-360"><a href="#cb40-360"></a>  ),</span>
+<span id="cb40-361"><a href="#cb40-361"></a>  <span class="at">caption =</span> <span class="st">"Los 5 hubs de la red Barabási–Albert"</span>,</span>
+<span id="cb40-362"><a href="#cb40-362"></a>  <span class="at">col.names =</span> <span class="fu">c</span>(<span class="st">"Nodo"</span>, <span class="st">"Grado"</span>)</span>
+<span id="cb40-363"><a href="#cb40-363"></a>)</span>
+<span id="cb40-364"><a href="#cb40-364"></a><span class="in">```</span></span>
+<span id="cb40-365"><a href="#cb40-365"></a></span>
+<span id="cb40-368"><a href="#cb40-368"></a><span class="in">```{r}</span></span>
+<span id="cb40-369"><a href="#cb40-369"></a><span class="co">#| label: fig-hubs-destacados</span></span>
+<span id="cb40-370"><a href="#cb40-370"></a><span class="co">#| fig-cap: "Red BA con los 5 hubs destacados en rojo y mayor tamaño"</span></span>
+<span id="cb40-371"><a href="#cb40-371"></a><span class="co">#| fig-alt: "Red donde 5 nodos rojos grandes representan los hubs más conectados"</span></span>
+<span id="cb40-372"><a href="#cb40-372"></a></span>
+<span id="cb40-373"><a href="#cb40-373"></a><span class="co"># Colores: rojo para hubs, gris para el resto</span></span>
+<span id="cb40-374"><a href="#cb40-374"></a>es_hub <span class="ot">&lt;-</span> <span class="fu">degree</span>(g_ba) <span class="sc">&gt;=</span> <span class="fu">min</span>(top_hubs)</span>
+<span id="cb40-375"><a href="#cb40-375"></a><span class="fu">V</span>(g_ba)<span class="sc">$</span>color <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(es_hub, <span class="st">"tomato"</span>, <span class="st">"gray80"</span>)</span>
+<span id="cb40-376"><a href="#cb40-376"></a><span class="fu">V</span>(g_ba)<span class="sc">$</span>size <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(es_hub, <span class="dv">15</span>, <span class="dv">3</span>)</span>
 <span id="cb40-377"><a href="#cb40-377"></a></span>
-<span id="cb40-378"><a href="#cb40-378"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">3</span>), <span class="at">mar =</span> <span class="fu">c</span>(<span class="dv">4</span>, <span class="dv">4</span>, <span class="dv">3</span>, <span class="dv">1</span>))</span>
-<span id="cb40-379"><a href="#cb40-379"></a></span>
-<span id="cb40-380"><a href="#cb40-380"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="fu">seq_along</span>(redes)) {</span>
-<span id="cb40-381"><a href="#cb40-381"></a>  deg <span class="ot">&lt;-</span> <span class="fu">degree</span>(redes[[i]])</span>
-<span id="cb40-382"><a href="#cb40-382"></a>  <span class="fu">hist</span>(deg,</span>
-<span id="cb40-383"><a href="#cb40-383"></a>       <span class="at">breaks =</span> <span class="fu">seq</span>(<span class="sc">-</span><span class="fl">0.5</span>, <span class="fu">max</span>(deg) <span class="sc">+</span> <span class="fl">0.5</span>, <span class="at">by =</span> <span class="dv">1</span>),</span>
-<span id="cb40-384"><a href="#cb40-384"></a>       <span class="at">col =</span> colores[i], <span class="at">border =</span> <span class="st">"white"</span>,</span>
-<span id="cb40-385"><a href="#cb40-385"></a>       <span class="at">main =</span> <span class="fu">names</span>(redes)[i],</span>
-<span id="cb40-386"><a href="#cb40-386"></a>       <span class="at">xlab =</span> <span class="st">"Grado (k)"</span>, <span class="at">ylab =</span> <span class="st">"Frecuencia"</span>)</span>
-<span id="cb40-387"><a href="#cb40-387"></a>  <span class="fu">abline</span>(<span class="at">v =</span> <span class="fu">mean</span>(deg), <span class="at">col =</span> <span class="st">"black"</span>, <span class="at">lwd =</span> <span class="dv">2</span>, <span class="at">lty =</span> <span class="dv">2</span>)</span>
-<span id="cb40-388"><a href="#cb40-388"></a>}</span>
-<span id="cb40-389"><a href="#cb40-389"></a><span class="in">```</span></span>
-<span id="cb40-390"><a href="#cb40-390"></a></span>
-<span id="cb40-393"><a href="#cb40-393"></a><span class="in">```{r}</span></span>
-<span id="cb40-394"><a href="#cb40-394"></a><span class="co">#| label: tabla-comparativa-modelos</span></span>
+<span id="cb40-378"><a href="#cb40-378"></a><span class="fu">plot</span>(g_ba,</span>
+<span id="cb40-379"><a href="#cb40-379"></a>     <span class="at">vertex.label =</span> <span class="fu">ifelse</span>(es_hub, <span class="fu">V</span>(g_ba)<span class="sc">$</span>name, <span class="cn">NA</span>),</span>
+<span id="cb40-380"><a href="#cb40-380"></a>     <span class="at">vertex.label.cex =</span> <span class="fl">0.7</span>,</span>
+<span id="cb40-381"><a href="#cb40-381"></a>     <span class="at">edge.color =</span> <span class="fu">adjustcolor</span>(<span class="st">"gray60"</span>, <span class="at">alpha =</span> <span class="fl">0.3</span>),</span>
+<span id="cb40-382"><a href="#cb40-382"></a>     <span class="at">main =</span> <span class="st">"Red BA — Hubs destacados"</span>)</span>
+<span id="cb40-383"><a href="#cb40-383"></a><span class="in">```</span></span>
+<span id="cb40-384"><a href="#cb40-384"></a></span>
+<span id="cb40-385"><a href="#cb40-385"></a><span class="fu">## Comparación completa: ER vs. BA vs. *Small-World*</span></span>
+<span id="cb40-386"><a href="#cb40-386"></a></span>
+<span id="cb40-387"><a href="#cb40-387"></a>Agreguemos un tercer modelo: la red *small-world* de Watts y Strogatz <span class="co">[</span><span class="ot">@watts1998</span><span class="co">]</span>, que combina alto clustering con distancias cortas.</span>
+<span id="cb40-388"><a href="#cb40-388"></a></span>
+<span id="cb40-391"><a href="#cb40-391"></a><span class="in">```{r}</span></span>
+<span id="cb40-392"><a href="#cb40-392"></a><span class="co">#| label: crear-tres-redes</span></span>
+<span id="cb40-393"><a href="#cb40-393"></a></span>
+<span id="cb40-394"><a href="#cb40-394"></a><span class="fu">set.seed</span>(<span class="dv">42</span>)</span>
 <span id="cb40-395"><a href="#cb40-395"></a></span>
-<span id="cb40-396"><a href="#cb40-396"></a><span class="co"># Resumen de métricas</span></span>
-<span id="cb40-397"><a href="#cb40-397"></a>resumen <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
-<span id="cb40-398"><a href="#cb40-398"></a>  <span class="at">Modelo =</span> <span class="fu">names</span>(redes),</span>
-<span id="cb40-399"><a href="#cb40-399"></a>  <span class="at">Nodos =</span> <span class="fu">sapply</span>(redes, vcount),</span>
-<span id="cb40-400"><a href="#cb40-400"></a>  <span class="at">Aristas =</span> <span class="fu">sapply</span>(redes, ecount),</span>
-<span id="cb40-401"><a href="#cb40-401"></a>  <span class="at">Grado_medio =</span> <span class="fu">round</span>(<span class="fu">sapply</span>(redes, <span class="cf">function</span>(g) <span class="fu">mean</span>(<span class="fu">degree</span>(g))), <span class="dv">2</span>),</span>
-<span id="cb40-402"><a href="#cb40-402"></a>  <span class="at">Grado_max =</span> <span class="fu">sapply</span>(redes, <span class="cf">function</span>(g) <span class="fu">max</span>(<span class="fu">degree</span>(g))),</span>
-<span id="cb40-403"><a href="#cb40-403"></a>  <span class="at">Grado_min =</span> <span class="fu">sapply</span>(redes, <span class="cf">function</span>(g) <span class="fu">min</span>(<span class="fu">degree</span>(g))),</span>
-<span id="cb40-404"><a href="#cb40-404"></a>  <span class="at">Densidad =</span> <span class="fu">round</span>(<span class="fu">sapply</span>(redes, edge_density), <span class="dv">4</span>)</span>
-<span id="cb40-405"><a href="#cb40-405"></a>)</span>
-<span id="cb40-406"><a href="#cb40-406"></a></span>
-<span id="cb40-407"><a href="#cb40-407"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(resumen, </span>
-<span id="cb40-408"><a href="#cb40-408"></a>             <span class="at">caption =</span> <span class="st">"Comparación de métricas básicas entre tres modelos de red"</span>,</span>
-<span id="cb40-409"><a href="#cb40-409"></a>             <span class="at">col.names =</span> <span class="fu">c</span>(<span class="st">"Modelo"</span>, <span class="st">"Nodos"</span>, <span class="st">"Aristas"</span>, <span class="st">"Grado medio"</span>, </span>
-<span id="cb40-410"><a href="#cb40-410"></a>                           <span class="st">"Grado máx."</span>, <span class="st">"Grado mín."</span>, <span class="st">"Densidad"</span>))</span>
-<span id="cb40-411"><a href="#cb40-411"></a><span class="in">```</span></span>
-<span id="cb40-412"><a href="#cb40-412"></a></span>
-<span id="cb40-413"><a href="#cb40-413"></a>::: {.callout-warning title="⚠️ Error frecuente"}</span>
-<span id="cb40-414"><a href="#cb40-414"></a>No compares distribuciones de grado entre redes con diferente número de aristas sin tener en cuenta la **densidad**. Una red con el doble de aristas naturalmente tendrá grados más altos, sin que eso indique un mecanismo diferente.</span>
-<span id="cb40-415"><a href="#cb40-415"></a>:::</span>
-<span id="cb40-416"><a href="#cb40-416"></a></span>
-<span id="cb40-417"><a href="#cb40-417"></a><span class="fu">## Ejercicios</span></span>
-<span id="cb40-418"><a href="#cb40-418"></a></span>
-<span id="cb40-419"><a href="#cb40-419"></a><span class="fu">### Ejercicios resueltos {.unnumbered}</span></span>
-<span id="cb40-420"><a href="#cb40-420"></a></span>
-<span id="cb40-421"><a href="#cb40-421"></a>**Ejercicio resuelto 1:** Genera una red ER con 500 nodos y $p = 0.01$. Calcula el grado medio teórico y compáralo con el empírico. Visualiza la distribución de grado superpuesta con la distribución de Poisson teórica.</span>
-<span id="cb40-422"><a href="#cb40-422"></a></span>
-<span id="cb40-423"><a href="#cb40-423"></a>::: {.callout-tip title="📝 Solución" collapse="true"}</span>
-<span id="cb40-424"><a href="#cb40-424"></a></span>
-<span id="cb40-425"><a href="#cb40-425"></a>**Paso 1:** Generar la red y calcular los grados.</span>
+<span id="cb40-396"><a href="#cb40-396"></a>redes <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
+<span id="cb40-397"><a href="#cb40-397"></a>  <span class="st">"Erdős–Rényi"</span>     <span class="ot">=</span> <span class="fu">sample_gnp</span>(<span class="dv">100</span>, <span class="at">p =</span> <span class="fl">0.04</span>),</span>
+<span id="cb40-398"><a href="#cb40-398"></a>  <span class="st">"Barabási–Albert"</span>  <span class="ot">=</span> <span class="fu">sample_pa</span>(<span class="dv">100</span>, <span class="at">directed =</span> <span class="cn">FALSE</span>),</span>
+<span id="cb40-399"><a href="#cb40-399"></a>  <span class="st">"Small-World (WS)"</span> <span class="ot">=</span> <span class="fu">sample_smallworld</span>(<span class="dv">1</span>, <span class="dv">100</span>, <span class="at">nei =</span> <span class="dv">3</span>, <span class="at">p =</span> <span class="fl">0.1</span>)</span>
+<span id="cb40-400"><a href="#cb40-400"></a>)</span>
+<span id="cb40-401"><a href="#cb40-401"></a><span class="in">```</span></span>
+<span id="cb40-402"><a href="#cb40-402"></a></span>
+<span id="cb40-405"><a href="#cb40-405"></a><span class="in">```{r}</span></span>
+<span id="cb40-406"><a href="#cb40-406"></a><span class="co">#| label: fig-tres-histogramas</span></span>
+<span id="cb40-407"><a href="#cb40-407"></a><span class="co">#| fig-cap: "Distribuciones de grado de tres modelos de red con 100 nodos"</span></span>
+<span id="cb40-408"><a href="#cb40-408"></a><span class="co">#| fig-alt: "Tres histogramas: ER simétrico, BA con cola larga, Small-World concentrado"</span></span>
+<span id="cb40-409"><a href="#cb40-409"></a><span class="co">#| fig-width: 14</span></span>
+<span id="cb40-410"><a href="#cb40-410"></a><span class="co">#| fig-height: 5</span></span>
+<span id="cb40-411"><a href="#cb40-411"></a></span>
+<span id="cb40-412"><a href="#cb40-412"></a>colores <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"skyblue"</span>, <span class="st">"tomato"</span>, <span class="st">"mediumpurple"</span>)</span>
+<span id="cb40-413"><a href="#cb40-413"></a></span>
+<span id="cb40-414"><a href="#cb40-414"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">3</span>), <span class="at">mar =</span> <span class="fu">c</span>(<span class="dv">4</span>, <span class="dv">4</span>, <span class="dv">3</span>, <span class="dv">1</span>))</span>
+<span id="cb40-415"><a href="#cb40-415"></a></span>
+<span id="cb40-416"><a href="#cb40-416"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="fu">seq_along</span>(redes)) {</span>
+<span id="cb40-417"><a href="#cb40-417"></a>  deg <span class="ot">&lt;-</span> <span class="fu">degree</span>(redes[[i]])</span>
+<span id="cb40-418"><a href="#cb40-418"></a>  <span class="fu">hist</span>(deg,</span>
+<span id="cb40-419"><a href="#cb40-419"></a>       <span class="at">breaks =</span> <span class="fu">seq</span>(<span class="sc">-</span><span class="fl">0.5</span>, <span class="fu">max</span>(deg) <span class="sc">+</span> <span class="fl">0.5</span>, <span class="at">by =</span> <span class="dv">1</span>),</span>
+<span id="cb40-420"><a href="#cb40-420"></a>       <span class="at">col =</span> colores[i], <span class="at">border =</span> <span class="st">"white"</span>,</span>
+<span id="cb40-421"><a href="#cb40-421"></a>       <span class="at">main =</span> <span class="fu">names</span>(redes)[i],</span>
+<span id="cb40-422"><a href="#cb40-422"></a>       <span class="at">xlab =</span> <span class="st">"Grado (k)"</span>, <span class="at">ylab =</span> <span class="st">"Frecuencia"</span>)</span>
+<span id="cb40-423"><a href="#cb40-423"></a>  <span class="fu">abline</span>(<span class="at">v =</span> <span class="fu">mean</span>(deg), <span class="at">col =</span> <span class="st">"black"</span>, <span class="at">lwd =</span> <span class="dv">2</span>, <span class="at">lty =</span> <span class="dv">2</span>)</span>
+<span id="cb40-424"><a href="#cb40-424"></a>}</span>
+<span id="cb40-425"><a href="#cb40-425"></a><span class="in">```</span></span>
 <span id="cb40-426"><a href="#cb40-426"></a></span>
 <span id="cb40-429"><a href="#cb40-429"></a><span class="in">```{r}</span></span>
-<span id="cb40-430"><a href="#cb40-430"></a><span class="co">#| label: ej-res-cap2-1a</span></span>
+<span id="cb40-430"><a href="#cb40-430"></a><span class="co">#| label: tabla-comparativa-modelos</span></span>
 <span id="cb40-431"><a href="#cb40-431"></a></span>
-<span id="cb40-432"><a href="#cb40-432"></a><span class="fu">set.seed</span>(<span class="dv">99</span>)</span>
-<span id="cb40-433"><a href="#cb40-433"></a></span>
-<span id="cb40-434"><a href="#cb40-434"></a>n <span class="ot">&lt;-</span> <span class="dv">500</span></span>
-<span id="cb40-435"><a href="#cb40-435"></a>p <span class="ot">&lt;-</span> <span class="fl">0.01</span></span>
-<span id="cb40-436"><a href="#cb40-436"></a></span>
-<span id="cb40-437"><a href="#cb40-437"></a>g_er500 <span class="ot">&lt;-</span> <span class="fu">sample_gnp</span>(n, p)</span>
-<span id="cb40-438"><a href="#cb40-438"></a>deg <span class="ot">&lt;-</span> <span class="fu">degree</span>(g_er500)</span>
-<span id="cb40-439"><a href="#cb40-439"></a></span>
-<span id="cb40-440"><a href="#cb40-440"></a><span class="co"># Grado medio teórico vs empírico</span></span>
-<span id="cb40-441"><a href="#cb40-441"></a>grado_teorico <span class="ot">&lt;-</span> p <span class="sc">*</span> (n <span class="sc">-</span> <span class="dv">1</span>)</span>
-<span id="cb40-442"><a href="#cb40-442"></a>grado_empirico <span class="ot">&lt;-</span> <span class="fu">mean</span>(deg)</span>
-<span id="cb40-443"><a href="#cb40-443"></a></span>
-<span id="cb40-444"><a href="#cb40-444"></a><span class="fu">cat</span>(<span class="st">"Grado medio teórico: "</span>, <span class="fu">round</span>(grado_teorico, <span class="dv">2</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span>
-<span id="cb40-445"><a href="#cb40-445"></a><span class="fu">cat</span>(<span class="st">"Grado medio empírico:"</span>, <span class="fu">round</span>(grado_empirico, <span class="dv">2</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span>
-<span id="cb40-446"><a href="#cb40-446"></a><span class="in">```</span></span>
-<span id="cb40-447"><a href="#cb40-447"></a></span>
-<span id="cb40-448"><a href="#cb40-448"></a>**Paso 2:** Superponer la distribución empírica con la Poisson teórica.</span>
-<span id="cb40-449"><a href="#cb40-449"></a></span>
-<span id="cb40-452"><a href="#cb40-452"></a><span class="in">```{r}</span></span>
-<span id="cb40-453"><a href="#cb40-453"></a><span class="co">#| label: fig-ej-res-cap2-1</span></span>
-<span id="cb40-454"><a href="#cb40-454"></a><span class="co">#| fig-cap: "Distribución empírica de grado vs. Poisson teórica"</span></span>
-<span id="cb40-455"><a href="#cb40-455"></a><span class="co">#| fig-alt: "Histograma de grados con curva de Poisson superpuesta"</span></span>
+<span id="cb40-432"><a href="#cb40-432"></a><span class="co"># Resumen de métricas</span></span>
+<span id="cb40-433"><a href="#cb40-433"></a>resumen <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb40-434"><a href="#cb40-434"></a>  <span class="at">Modelo =</span> <span class="fu">names</span>(redes),</span>
+<span id="cb40-435"><a href="#cb40-435"></a>  <span class="at">Nodos =</span> <span class="fu">sapply</span>(redes, vcount),</span>
+<span id="cb40-436"><a href="#cb40-436"></a>  <span class="at">Aristas =</span> <span class="fu">sapply</span>(redes, ecount),</span>
+<span id="cb40-437"><a href="#cb40-437"></a>  <span class="at">Grado_medio =</span> <span class="fu">round</span>(<span class="fu">sapply</span>(redes, <span class="cf">function</span>(g) <span class="fu">mean</span>(<span class="fu">degree</span>(g))), <span class="dv">2</span>),</span>
+<span id="cb40-438"><a href="#cb40-438"></a>  <span class="at">Grado_max =</span> <span class="fu">sapply</span>(redes, <span class="cf">function</span>(g) <span class="fu">max</span>(<span class="fu">degree</span>(g))),</span>
+<span id="cb40-439"><a href="#cb40-439"></a>  <span class="at">Grado_min =</span> <span class="fu">sapply</span>(redes, <span class="cf">function</span>(g) <span class="fu">min</span>(<span class="fu">degree</span>(g))),</span>
+<span id="cb40-440"><a href="#cb40-440"></a>  <span class="at">Densidad =</span> <span class="fu">round</span>(<span class="fu">sapply</span>(redes, edge_density), <span class="dv">4</span>)</span>
+<span id="cb40-441"><a href="#cb40-441"></a>)</span>
+<span id="cb40-442"><a href="#cb40-442"></a></span>
+<span id="cb40-443"><a href="#cb40-443"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(resumen, </span>
+<span id="cb40-444"><a href="#cb40-444"></a>             <span class="at">caption =</span> <span class="st">"Comparación de métricas básicas entre tres modelos de red"</span>,</span>
+<span id="cb40-445"><a href="#cb40-445"></a>             <span class="at">col.names =</span> <span class="fu">c</span>(<span class="st">"Modelo"</span>, <span class="st">"Nodos"</span>, <span class="st">"Aristas"</span>, <span class="st">"Grado medio"</span>, </span>
+<span id="cb40-446"><a href="#cb40-446"></a>                           <span class="st">"Grado máx."</span>, <span class="st">"Grado mín."</span>, <span class="st">"Densidad"</span>))</span>
+<span id="cb40-447"><a href="#cb40-447"></a><span class="in">```</span></span>
+<span id="cb40-448"><a href="#cb40-448"></a></span>
+<span id="cb40-449"><a href="#cb40-449"></a>::: {.callout-warning title="⚠️ Error frecuente"}</span>
+<span id="cb40-450"><a href="#cb40-450"></a>No compares distribuciones de grado entre redes con diferente número de aristas sin tener en cuenta la **densidad**. Una red con el doble de aristas naturalmente tendrá grados más altos, sin que eso indique un mecanismo diferente.</span>
+<span id="cb40-451"><a href="#cb40-451"></a>:::</span>
+<span id="cb40-452"><a href="#cb40-452"></a></span>
+<span id="cb40-453"><a href="#cb40-453"></a><span class="fu">## Ejercicios</span></span>
+<span id="cb40-454"><a href="#cb40-454"></a></span>
+<span id="cb40-455"><a href="#cb40-455"></a><span class="fu">### Ejercicios resueltos {.unnumbered}</span></span>
 <span id="cb40-456"><a href="#cb40-456"></a></span>
-<span id="cb40-457"><a href="#cb40-457"></a><span class="co"># Histograma normalizado (densidad)</span></span>
-<span id="cb40-458"><a href="#cb40-458"></a><span class="fu">hist</span>(deg,</span>
-<span id="cb40-459"><a href="#cb40-459"></a>     <span class="at">breaks =</span> <span class="fu">seq</span>(<span class="sc">-</span><span class="fl">0.5</span>, <span class="fu">max</span>(deg) <span class="sc">+</span> <span class="fl">0.5</span>, <span class="at">by =</span> <span class="dv">1</span>),</span>
-<span id="cb40-460"><a href="#cb40-460"></a>     <span class="at">col =</span> <span class="fu">adjustcolor</span>(<span class="st">"skyblue"</span>, <span class="at">alpha =</span> <span class="fl">0.6</span>), <span class="at">border =</span> <span class="st">"white"</span>,</span>
-<span id="cb40-461"><a href="#cb40-461"></a>     <span class="at">probability =</span> <span class="cn">TRUE</span>,</span>
-<span id="cb40-462"><a href="#cb40-462"></a>     <span class="at">main =</span> <span class="st">"Red ER (n=500, p=0.01): Empírico vs. Poisson"</span>,</span>
-<span id="cb40-463"><a href="#cb40-463"></a>     <span class="at">xlab =</span> <span class="st">"Grado (k)"</span>, <span class="at">ylab =</span> <span class="st">"Densidad de probabilidad"</span>,</span>
-<span id="cb40-464"><a href="#cb40-464"></a>     <span class="at">xlim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="fu">max</span>(deg) <span class="sc">+</span> <span class="dv">2</span>))</span>
-<span id="cb40-465"><a href="#cb40-465"></a></span>
-<span id="cb40-466"><a href="#cb40-466"></a><span class="co"># Curva de Poisson teórica</span></span>
-<span id="cb40-467"><a href="#cb40-467"></a>k_vals <span class="ot">&lt;-</span> <span class="dv">0</span><span class="sc">:</span><span class="fu">max</span>(deg)</span>
-<span id="cb40-468"><a href="#cb40-468"></a><span class="fu">lines</span>(k_vals, <span class="fu">dpois</span>(k_vals, <span class="at">lambda =</span> grado_teorico), </span>
-<span id="cb40-469"><a href="#cb40-469"></a>      <span class="at">col =</span> <span class="st">"navy"</span>, <span class="at">lwd =</span> <span class="fl">2.5</span>, <span class="at">type =</span> <span class="st">"b"</span>, <span class="at">pch =</span> <span class="dv">16</span>, <span class="at">cex =</span> <span class="fl">0.8</span>)</span>
-<span id="cb40-470"><a href="#cb40-470"></a></span>
-<span id="cb40-471"><a href="#cb40-471"></a><span class="fu">legend</span>(<span class="st">"topright"</span>, </span>
-<span id="cb40-472"><a href="#cb40-472"></a>       <span class="at">legend =</span> <span class="fu">c</span>(<span class="st">"Empírico"</span>, <span class="fu">paste0</span>(<span class="st">"Poisson(λ="</span>, <span class="fu">round</span>(grado_teorico, <span class="dv">1</span>), <span class="st">")"</span>)),</span>
-<span id="cb40-473"><a href="#cb40-473"></a>       <span class="at">fill =</span> <span class="fu">c</span>(<span class="fu">adjustcolor</span>(<span class="st">"skyblue"</span>, <span class="fl">0.6</span>), <span class="cn">NA</span>),</span>
-<span id="cb40-474"><a href="#cb40-474"></a>       <span class="at">border =</span> <span class="fu">c</span>(<span class="st">"white"</span>, <span class="cn">NA</span>),</span>
-<span id="cb40-475"><a href="#cb40-475"></a>       <span class="at">col =</span> <span class="fu">c</span>(<span class="cn">NA</span>, <span class="st">"navy"</span>), <span class="at">lwd =</span> <span class="fu">c</span>(<span class="cn">NA</span>, <span class="fl">2.5</span>), <span class="at">pch =</span> <span class="fu">c</span>(<span class="cn">NA</span>, <span class="dv">16</span>),</span>
-<span id="cb40-476"><a href="#cb40-476"></a>       <span class="at">bty =</span> <span class="st">"n"</span>, <span class="at">merge =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb40-477"><a href="#cb40-477"></a><span class="in">```</span></span>
+<span id="cb40-457"><a href="#cb40-457"></a>**Ejercicio resuelto 1:** Genera una red ER con 500 nodos y $p = 0.01$. Calcula el grado medio teórico y compáralo con el empírico. Visualiza la distribución de grado superpuesta con la distribución de Poisson teórica.</span>
+<span id="cb40-458"><a href="#cb40-458"></a></span>
+<span id="cb40-459"><a href="#cb40-459"></a>::: {.callout-tip title="📝 Solución" collapse="true"}</span>
+<span id="cb40-460"><a href="#cb40-460"></a>**Paso 1:** Generar la red y calcular los grados.</span>
+<span id="cb40-461"><a href="#cb40-461"></a></span>
+<span id="cb40-464"><a href="#cb40-464"></a><span class="in">```{r}</span></span>
+<span id="cb40-465"><a href="#cb40-465"></a><span class="co">#| label: ej-res-cap2-1a</span></span>
+<span id="cb40-466"><a href="#cb40-466"></a></span>
+<span id="cb40-467"><a href="#cb40-467"></a><span class="fu">set.seed</span>(<span class="dv">99</span>)</span>
+<span id="cb40-468"><a href="#cb40-468"></a></span>
+<span id="cb40-469"><a href="#cb40-469"></a>n <span class="ot">&lt;-</span> <span class="dv">500</span></span>
+<span id="cb40-470"><a href="#cb40-470"></a>p <span class="ot">&lt;-</span> <span class="fl">0.01</span></span>
+<span id="cb40-471"><a href="#cb40-471"></a></span>
+<span id="cb40-472"><a href="#cb40-472"></a>g_er500 <span class="ot">&lt;-</span> <span class="fu">sample_gnp</span>(n, p)</span>
+<span id="cb40-473"><a href="#cb40-473"></a>deg <span class="ot">&lt;-</span> <span class="fu">degree</span>(g_er500)</span>
+<span id="cb40-474"><a href="#cb40-474"></a></span>
+<span id="cb40-475"><a href="#cb40-475"></a><span class="co"># Grado medio teórico vs empírico</span></span>
+<span id="cb40-476"><a href="#cb40-476"></a>grado_teorico <span class="ot">&lt;-</span> p <span class="sc">*</span> (n <span class="sc">-</span> <span class="dv">1</span>)</span>
+<span id="cb40-477"><a href="#cb40-477"></a>grado_empirico <span class="ot">&lt;-</span> <span class="fu">mean</span>(deg)</span>
 <span id="cb40-478"><a href="#cb40-478"></a></span>
-<span id="cb40-479"><a href="#cb40-479"></a>**Interpretación:** El grado medio empírico es muy cercano al teórico $\lambda = p(n-1) \approx 5$. La curva de Poisson se ajusta bien al histograma, confirmando que la distribución de grado en redes ER es efectivamente Poisson.</span>
-<span id="cb40-480"><a href="#cb40-480"></a>:::</span>
-<span id="cb40-481"><a href="#cb40-481"></a></span>
-<span id="cb40-482"><a href="#cb40-482"></a>---</span>
-<span id="cb40-483"><a href="#cb40-483"></a></span>
-<span id="cb40-484"><a href="#cb40-484"></a>**Ejercicio resuelto 2:** Genera una red BA con 1000 nodos y ajusta una ley de potencia con <span class="in">`poweRlaw`</span>. Reporta el exponente $\gamma$ y el valor de $x_{\min}$.</span>
-<span id="cb40-485"><a href="#cb40-485"></a></span>
-<span id="cb40-486"><a href="#cb40-486"></a>::: {.callout-tip title="📝 Solución" collapse="true"}</span>
-<span id="cb40-487"><a href="#cb40-487"></a></span>
-<span id="cb40-488"><a href="#cb40-488"></a>**Paso 1:** Generar la red y extraer los grados.</span>
-<span id="cb40-489"><a href="#cb40-489"></a></span>
-<span id="cb40-492"><a href="#cb40-492"></a><span class="in">```{r}</span></span>
-<span id="cb40-493"><a href="#cb40-493"></a><span class="co">#| label: ej-res-cap2-2a</span></span>
-<span id="cb40-494"><a href="#cb40-494"></a></span>
-<span id="cb40-495"><a href="#cb40-495"></a><span class="fu">set.seed</span>(<span class="dv">77</span>)</span>
-<span id="cb40-496"><a href="#cb40-496"></a></span>
-<span id="cb40-497"><a href="#cb40-497"></a>g_ba1000 <span class="ot">&lt;-</span> <span class="fu">sample_pa</span>(<span class="dv">1000</span>, <span class="at">directed =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb40-498"><a href="#cb40-498"></a>deg_ba1000 <span class="ot">&lt;-</span> <span class="fu">degree</span>(g_ba1000)</span>
-<span id="cb40-499"><a href="#cb40-499"></a></span>
-<span id="cb40-500"><a href="#cb40-500"></a><span class="fu">cat</span>(<span class="st">"Nodos:"</span>, <span class="fu">vcount</span>(g_ba1000), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span>
-<span id="cb40-501"><a href="#cb40-501"></a><span class="fu">cat</span>(<span class="st">"Aristas:"</span>, <span class="fu">ecount</span>(g_ba1000), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span>
-<span id="cb40-502"><a href="#cb40-502"></a><span class="fu">cat</span>(<span class="st">"Grado máximo:"</span>, <span class="fu">max</span>(deg_ba1000), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span>
-<span id="cb40-503"><a href="#cb40-503"></a><span class="in">```</span></span>
-<span id="cb40-504"><a href="#cb40-504"></a></span>
-<span id="cb40-505"><a href="#cb40-505"></a>**Paso 2:** Ajustar la ley de potencia.</span>
-<span id="cb40-506"><a href="#cb40-506"></a></span>
-<span id="cb40-509"><a href="#cb40-509"></a><span class="in">```{r}</span></span>
-<span id="cb40-510"><a href="#cb40-510"></a><span class="co">#| label: ej-res-cap2-2b</span></span>
-<span id="cb40-511"><a href="#cb40-511"></a></span>
-<span id="cb40-512"><a href="#cb40-512"></a>m_1000 <span class="ot">&lt;-</span> displ<span class="sc">$</span><span class="fu">new</span>(deg_ba1000)</span>
-<span id="cb40-513"><a href="#cb40-513"></a>est_1000 <span class="ot">&lt;-</span> <span class="fu">estimate_xmin</span>(m_1000)</span>
-<span id="cb40-514"><a href="#cb40-514"></a>m_1000<span class="sc">$</span><span class="fu">setXmin</span>(est_1000)</span>
-<span id="cb40-515"><a href="#cb40-515"></a>m_1000<span class="sc">$</span><span class="fu">setPars</span>(<span class="fu">estimate_pars</span>(m_1000))</span>
+<span id="cb40-479"><a href="#cb40-479"></a><span class="fu">cat</span>(<span class="st">"Grado medio teórico: "</span>, <span class="fu">round</span>(grado_teorico, <span class="dv">2</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span>
+<span id="cb40-480"><a href="#cb40-480"></a><span class="fu">cat</span>(<span class="st">"Grado medio empírico:"</span>, <span class="fu">round</span>(grado_empirico, <span class="dv">2</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span>
+<span id="cb40-481"><a href="#cb40-481"></a><span class="in">```</span></span>
+<span id="cb40-482"><a href="#cb40-482"></a></span>
+<span id="cb40-483"><a href="#cb40-483"></a>**Paso 2:** Superponer la distribución empírica con la Poisson teórica.</span>
+<span id="cb40-484"><a href="#cb40-484"></a></span>
+<span id="cb40-487"><a href="#cb40-487"></a><span class="in">```{r}</span></span>
+<span id="cb40-488"><a href="#cb40-488"></a><span class="co">#| label: fig-ej-res-cap2-1</span></span>
+<span id="cb40-489"><a href="#cb40-489"></a><span class="co">#| fig-cap: "Distribución empírica de grado vs. Poisson teórica"</span></span>
+<span id="cb40-490"><a href="#cb40-490"></a><span class="co">#| fig-alt: "Histograma de grados con curva de Poisson superpuesta"</span></span>
+<span id="cb40-491"><a href="#cb40-491"></a></span>
+<span id="cb40-492"><a href="#cb40-492"></a><span class="co"># Histograma normalizado (densidad)</span></span>
+<span id="cb40-493"><a href="#cb40-493"></a><span class="fu">hist</span>(deg,</span>
+<span id="cb40-494"><a href="#cb40-494"></a>     <span class="at">breaks =</span> <span class="fu">seq</span>(<span class="sc">-</span><span class="fl">0.5</span>, <span class="fu">max</span>(deg) <span class="sc">+</span> <span class="fl">0.5</span>, <span class="at">by =</span> <span class="dv">1</span>),</span>
+<span id="cb40-495"><a href="#cb40-495"></a>     <span class="at">col =</span> <span class="fu">adjustcolor</span>(<span class="st">"skyblue"</span>, <span class="at">alpha =</span> <span class="fl">0.6</span>), <span class="at">border =</span> <span class="st">"white"</span>,</span>
+<span id="cb40-496"><a href="#cb40-496"></a>     <span class="at">probability =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb40-497"><a href="#cb40-497"></a>     <span class="at">main =</span> <span class="st">"Red ER (n=500, p=0.01): Empírico vs. Poisson"</span>,</span>
+<span id="cb40-498"><a href="#cb40-498"></a>     <span class="at">xlab =</span> <span class="st">"Grado (k)"</span>, <span class="at">ylab =</span> <span class="st">"Densidad de probabilidad"</span>,</span>
+<span id="cb40-499"><a href="#cb40-499"></a>     <span class="at">xlim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="fu">max</span>(deg) <span class="sc">+</span> <span class="dv">2</span>))</span>
+<span id="cb40-500"><a href="#cb40-500"></a></span>
+<span id="cb40-501"><a href="#cb40-501"></a><span class="co"># Curva de Poisson teórica</span></span>
+<span id="cb40-502"><a href="#cb40-502"></a>k_vals <span class="ot">&lt;-</span> <span class="dv">0</span><span class="sc">:</span><span class="fu">max</span>(deg)</span>
+<span id="cb40-503"><a href="#cb40-503"></a><span class="fu">lines</span>(k_vals, <span class="fu">dpois</span>(k_vals, <span class="at">lambda =</span> grado_teorico), </span>
+<span id="cb40-504"><a href="#cb40-504"></a>      <span class="at">col =</span> <span class="st">"navy"</span>, <span class="at">lwd =</span> <span class="fl">2.5</span>, <span class="at">type =</span> <span class="st">"b"</span>, <span class="at">pch =</span> <span class="dv">16</span>, <span class="at">cex =</span> <span class="fl">0.8</span>)</span>
+<span id="cb40-505"><a href="#cb40-505"></a></span>
+<span id="cb40-506"><a href="#cb40-506"></a><span class="fu">legend</span>(<span class="st">"topright"</span>, </span>
+<span id="cb40-507"><a href="#cb40-507"></a>       <span class="at">legend =</span> <span class="fu">c</span>(<span class="st">"Empírico"</span>, <span class="fu">paste0</span>(<span class="st">"Poisson(λ="</span>, <span class="fu">round</span>(grado_teorico, <span class="dv">1</span>), <span class="st">")"</span>)),</span>
+<span id="cb40-508"><a href="#cb40-508"></a>       <span class="at">fill =</span> <span class="fu">c</span>(<span class="fu">adjustcolor</span>(<span class="st">"skyblue"</span>, <span class="fl">0.6</span>), <span class="cn">NA</span>),</span>
+<span id="cb40-509"><a href="#cb40-509"></a>       <span class="at">border =</span> <span class="fu">c</span>(<span class="st">"white"</span>, <span class="cn">NA</span>),</span>
+<span id="cb40-510"><a href="#cb40-510"></a>       <span class="at">col =</span> <span class="fu">c</span>(<span class="cn">NA</span>, <span class="st">"navy"</span>), <span class="at">lwd =</span> <span class="fu">c</span>(<span class="cn">NA</span>, <span class="fl">2.5</span>), <span class="at">pch =</span> <span class="fu">c</span>(<span class="cn">NA</span>, <span class="dv">16</span>),</span>
+<span id="cb40-511"><a href="#cb40-511"></a>       <span class="at">bty =</span> <span class="st">"n"</span>, <span class="at">merge =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb40-512"><a href="#cb40-512"></a><span class="in">```</span></span>
+<span id="cb40-513"><a href="#cb40-513"></a></span>
+<span id="cb40-514"><a href="#cb40-514"></a>**Interpretación:** El grado medio empírico es muy cercano al teórico $\lambda = p(n-1) \approx 5$. La curva de Poisson se ajusta bien al histograma, confirmando que la distribución de grado en redes ER es efectivamente Poisson.</span>
+<span id="cb40-515"><a href="#cb40-515"></a>:::</span>
 <span id="cb40-516"><a href="#cb40-516"></a></span>
-<span id="cb40-517"><a href="#cb40-517"></a><span class="fu">cat</span>(<span class="st">"x_min estimado:"</span>, m_1000<span class="sc">$</span><span class="fu">getXmin</span>(), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span>
-<span id="cb40-518"><a href="#cb40-518"></a><span class="fu">cat</span>(<span class="st">"Exponente γ:"</span>, <span class="fu">round</span>(m_1000<span class="sc">$</span><span class="fu">getPars</span>(), <span class="dv">3</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span>
-<span id="cb40-519"><a href="#cb40-519"></a><span class="in">```</span></span>
+<span id="cb40-517"><a href="#cb40-517"></a>------------------------------------------------------------------------</span>
+<span id="cb40-518"><a href="#cb40-518"></a></span>
+<span id="cb40-519"><a href="#cb40-519"></a>**Ejercicio resuelto 2:** Genera una red BA con 1000 nodos y ajusta una ley de potencia con <span class="in">`poweRlaw`</span>. Reporta el exponente $\gamma$ y el valor de $x_{\min}$.</span>
 <span id="cb40-520"><a href="#cb40-520"></a></span>
-<span id="cb40-521"><a href="#cb40-521"></a>**Paso 3:** Visualizar.</span>
-<span id="cb40-522"><a href="#cb40-522"></a></span>
-<span id="cb40-525"><a href="#cb40-525"></a><span class="in">```{r}</span></span>
-<span id="cb40-526"><a href="#cb40-526"></a><span class="co">#| label: fig-ej-res-cap2-2</span></span>
-<span id="cb40-527"><a href="#cb40-527"></a><span class="co">#| fig-cap: "Ajuste power-law sobre red BA de 1000 nodos"</span></span>
-<span id="cb40-528"><a href="#cb40-528"></a><span class="co">#| fig-alt: "Gráfico CCDF con puntos empíricos y línea de ajuste power-law"</span></span>
-<span id="cb40-529"><a href="#cb40-529"></a></span>
-<span id="cb40-530"><a href="#cb40-530"></a><span class="fu">plot</span>(m_1000, <span class="at">pch =</span> <span class="dv">19</span>, <span class="at">col =</span> <span class="st">"gray40"</span>,</span>
-<span id="cb40-531"><a href="#cb40-531"></a>     <span class="at">xlab =</span> <span class="st">"Grado (k)"</span>, <span class="at">ylab =</span> <span class="st">"P(X ≥ k)"</span>,</span>
-<span id="cb40-532"><a href="#cb40-532"></a>     <span class="at">main =</span> <span class="st">"Ajuste Power-law — BA (n=1000)"</span>)</span>
-<span id="cb40-533"><a href="#cb40-533"></a><span class="fu">lines</span>(m_1000, <span class="at">col =</span> <span class="st">"red"</span>, <span class="at">lwd =</span> <span class="dv">2</span>)</span>
-<span id="cb40-534"><a href="#cb40-534"></a><span class="fu">legend</span>(<span class="st">"bottomleft"</span>,</span>
-<span id="cb40-535"><a href="#cb40-535"></a>       <span class="at">legend =</span> <span class="fu">paste0</span>(<span class="st">"γ = "</span>, <span class="fu">round</span>(m_1000<span class="sc">$</span><span class="fu">getPars</span>(), <span class="dv">2</span>),</span>
-<span id="cb40-536"><a href="#cb40-536"></a>                       <span class="st">", x_min = "</span>, m_1000<span class="sc">$</span><span class="fu">getXmin</span>()),</span>
-<span id="cb40-537"><a href="#cb40-537"></a>       <span class="at">col =</span> <span class="st">"red"</span>, <span class="at">lwd =</span> <span class="dv">2</span>, <span class="at">bty =</span> <span class="st">"n"</span>)</span>
-<span id="cb40-538"><a href="#cb40-538"></a><span class="in">```</span></span>
-<span id="cb40-539"><a href="#cb40-539"></a></span>
-<span id="cb40-540"><a href="#cb40-540"></a>**Interpretación:** El exponente $\gamma$ debería estar cerca de 3 (el valor teórico para redes BA generadas con $m = 1$). El ajuste visual muestra que la cola de la distribución sigue razonablemente bien la recta en escala log-log a partir de $x_{\min}$.</span>
-<span id="cb40-541"><a href="#cb40-541"></a>:::</span>
-<span id="cb40-542"><a href="#cb40-542"></a></span>
-<span id="cb40-543"><a href="#cb40-543"></a><span class="fu">### Ejercicios con pistas {.unnumbered}</span></span>
-<span id="cb40-544"><a href="#cb40-544"></a></span>
-<span id="cb40-545"><a href="#cb40-545"></a>**Ejercicio 1:** Genera redes BA con 100, 500, 1000 y 5000 nodos. ¿Cómo cambia el grado del *hub* más conectado a medida que crece la red? Haz un gráfico de dispersión de $n$ (tamaño de red) vs. grado máximo.</span>
-<span id="cb40-546"><a href="#cb40-546"></a></span>
-<span id="cb40-547"><a href="#cb40-547"></a>::: {.callout-note title="💡 Pista 1" collapse="true"}</span>
-<span id="cb40-548"><a href="#cb40-548"></a>Usa un <span class="in">`for`</span> o <span class="in">`sapply()`</span> sobre un vector de tamaños: <span class="in">`tamanos &lt;- c(100, 500, 1000, 5000)`</span>. Para cada tamaño, genera la red y extrae <span class="in">`max(degree(g))`</span>.</span>
-<span id="cb40-549"><a href="#cb40-549"></a>:::</span>
+<span id="cb40-521"><a href="#cb40-521"></a>::: {.callout-tip title="📝 Solución" collapse="true"}</span>
+<span id="cb40-522"><a href="#cb40-522"></a>**Paso 1:** Generar la red y extraer los grados.</span>
+<span id="cb40-523"><a href="#cb40-523"></a></span>
+<span id="cb40-526"><a href="#cb40-526"></a><span class="in">```{r}</span></span>
+<span id="cb40-527"><a href="#cb40-527"></a><span class="co">#| label: ej-res-cap2-2a</span></span>
+<span id="cb40-528"><a href="#cb40-528"></a></span>
+<span id="cb40-529"><a href="#cb40-529"></a><span class="fu">set.seed</span>(<span class="dv">77</span>)</span>
+<span id="cb40-530"><a href="#cb40-530"></a></span>
+<span id="cb40-531"><a href="#cb40-531"></a>g_ba1000 <span class="ot">&lt;-</span> <span class="fu">sample_pa</span>(<span class="dv">1000</span>, <span class="at">directed =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb40-532"><a href="#cb40-532"></a>deg_ba1000 <span class="ot">&lt;-</span> <span class="fu">degree</span>(g_ba1000)</span>
+<span id="cb40-533"><a href="#cb40-533"></a></span>
+<span id="cb40-534"><a href="#cb40-534"></a><span class="fu">cat</span>(<span class="st">"Nodos:"</span>, <span class="fu">vcount</span>(g_ba1000), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span>
+<span id="cb40-535"><a href="#cb40-535"></a><span class="fu">cat</span>(<span class="st">"Aristas:"</span>, <span class="fu">ecount</span>(g_ba1000), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span>
+<span id="cb40-536"><a href="#cb40-536"></a><span class="fu">cat</span>(<span class="st">"Grado máximo:"</span>, <span class="fu">max</span>(deg_ba1000), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span>
+<span id="cb40-537"><a href="#cb40-537"></a><span class="in">```</span></span>
+<span id="cb40-538"><a href="#cb40-538"></a></span>
+<span id="cb40-539"><a href="#cb40-539"></a>**Paso 2:** Ajustar la ley de potencia.</span>
+<span id="cb40-540"><a href="#cb40-540"></a></span>
+<span id="cb40-543"><a href="#cb40-543"></a><span class="in">```{r}</span></span>
+<span id="cb40-544"><a href="#cb40-544"></a><span class="co">#| label: ej-res-cap2-2b</span></span>
+<span id="cb40-545"><a href="#cb40-545"></a></span>
+<span id="cb40-546"><a href="#cb40-546"></a>m_1000 <span class="ot">&lt;-</span> displ<span class="sc">$</span><span class="fu">new</span>(deg_ba1000)</span>
+<span id="cb40-547"><a href="#cb40-547"></a>est_1000 <span class="ot">&lt;-</span> <span class="fu">estimate_xmin</span>(m_1000)</span>
+<span id="cb40-548"><a href="#cb40-548"></a>m_1000<span class="sc">$</span><span class="fu">setXmin</span>(est_1000)</span>
+<span id="cb40-549"><a href="#cb40-549"></a>m_1000<span class="sc">$</span><span class="fu">setPars</span>(<span class="fu">estimate_pars</span>(m_1000))</span>
 <span id="cb40-550"><a href="#cb40-550"></a></span>
-<span id="cb40-551"><a href="#cb40-551"></a>::: {.callout-note title="💡 Pista 2" collapse="true"}</span>
-<span id="cb40-552"><a href="#cb40-552"></a>Teóricamente, el grado máximo en una red BA crece como $k_{\max} \sim \sqrt{n}$. Puedes superponer esta curva teórica sobre tus datos empíricos.</span>
-<span id="cb40-553"><a href="#cb40-553"></a>:::</span>
+<span id="cb40-551"><a href="#cb40-551"></a><span class="fu">cat</span>(<span class="st">"x_min estimado:"</span>, m_1000<span class="sc">$</span><span class="fu">getXmin</span>(), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span>
+<span id="cb40-552"><a href="#cb40-552"></a><span class="fu">cat</span>(<span class="st">"Exponente γ:"</span>, <span class="fu">round</span>(m_1000<span class="sc">$</span><span class="fu">getPars</span>(), <span class="dv">3</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span>
+<span id="cb40-553"><a href="#cb40-553"></a><span class="in">```</span></span>
 <span id="cb40-554"><a href="#cb40-554"></a></span>
-<span id="cb40-555"><a href="#cb40-555"></a>::: {.callout-note title="💡 Pista 3 — Pseudocódigo" collapse="true"}</span>
-<span id="cb40-556"><a href="#cb40-556"></a><span class="in">```</span></span>
-<span id="cb40-557"><a href="#cb40-557"></a><span class="in">1. tamanos &lt;- c(100, 500, 1000, 5000)</span></span>
-<span id="cb40-558"><a href="#cb40-558"></a><span class="in">2. set.seed(42)</span></span>
-<span id="cb40-559"><a href="#cb40-559"></a><span class="in">3. grado_max &lt;- sapply(tamanos, function(n) {</span></span>
-<span id="cb40-560"><a href="#cb40-560"></a><span class="in">4.     g &lt;- sample_pa(n, directed = FALSE)</span></span>
-<span id="cb40-561"><a href="#cb40-561"></a><span class="in">5.     max(degree(g))</span></span>
-<span id="cb40-562"><a href="#cb40-562"></a><span class="in">6. })</span></span>
-<span id="cb40-563"><a href="#cb40-563"></a><span class="in">7. plot(tamanos, grado_max, type = "b", log = "xy")</span></span>
-<span id="cb40-564"><a href="#cb40-564"></a><span class="in">8. # Superponer curva teórica: sqrt(n)</span></span>
-<span id="cb40-565"><a href="#cb40-565"></a><span class="in">```</span></span>
-<span id="cb40-566"><a href="#cb40-566"></a>:::</span>
-<span id="cb40-567"><a href="#cb40-567"></a></span>
-<span id="cb40-568"><a href="#cb40-568"></a>---</span>
-<span id="cb40-569"><a href="#cb40-569"></a></span>
-<span id="cb40-570"><a href="#cb40-570"></a>**Ejercicio 2:** Crea una red ER con 200 nodos y $p = 0.03$. Identifica los nodos con grado mayor al promedio + 2 desviaciones estándar. ¿Cuántos son? Coloréalos de rojo en la visualización.</span>
-<span id="cb40-571"><a href="#cb40-571"></a></span>
-<span id="cb40-572"><a href="#cb40-572"></a>::: {.callout-note title="💡 Pista 1" collapse="true"}</span>
-<span id="cb40-573"><a href="#cb40-573"></a>Calcula el umbral como <span class="in">`mean(deg) + 2 * sd(deg)`</span>. Luego usa <span class="in">`which(deg &gt; umbral)`</span> para identificar los nodos.</span>
-<span id="cb40-574"><a href="#cb40-574"></a>:::</span>
-<span id="cb40-575"><a href="#cb40-575"></a></span>
-<span id="cb40-576"><a href="#cb40-576"></a>::: {.callout-note title="💡 Pista 2" collapse="true"}</span>
-<span id="cb40-577"><a href="#cb40-577"></a>En una distribución Poisson, aproximadamente el 2.5% de los valores están por encima de $\mu + 2\sigma$. Para 200 nodos, espera alrededor de 5 nodos "extremos".</span>
-<span id="cb40-578"><a href="#cb40-578"></a>:::</span>
-<span id="cb40-579"><a href="#cb40-579"></a></span>
-<span id="cb40-580"><a href="#cb40-580"></a>::: {.callout-note title="💡 Pista 3 — Pseudocódigo" collapse="true"}</span>
-<span id="cb40-581"><a href="#cb40-581"></a><span class="in">```</span></span>
-<span id="cb40-582"><a href="#cb40-582"></a><span class="in">1. set.seed(10)</span></span>
-<span id="cb40-583"><a href="#cb40-583"></a><span class="in">2. g &lt;- sample_gnp(200, 0.03)</span></span>
-<span id="cb40-584"><a href="#cb40-584"></a><span class="in">3. deg &lt;- degree(g)</span></span>
-<span id="cb40-585"><a href="#cb40-585"></a><span class="in">4. umbral &lt;- mean(deg) + 2 * sd(deg)</span></span>
-<span id="cb40-586"><a href="#cb40-586"></a><span class="in">5. extremos &lt;- which(deg &gt; umbral)</span></span>
-<span id="cb40-587"><a href="#cb40-587"></a><span class="in">6. V(g)$color &lt;- ifelse(deg &gt; umbral, "red", "gray80")</span></span>
-<span id="cb40-588"><a href="#cb40-588"></a><span class="in">7. V(g)$size &lt;- ifelse(deg &gt; umbral, 10, 3)</span></span>
-<span id="cb40-589"><a href="#cb40-589"></a><span class="in">8. plot(g, vertex.label = NA)</span></span>
-<span id="cb40-590"><a href="#cb40-590"></a><span class="in">```</span></span>
-<span id="cb40-591"><a href="#cb40-591"></a>:::</span>
-<span id="cb40-592"><a href="#cb40-592"></a></span>
-<span id="cb40-593"><a href="#cb40-593"></a>---</span>
-<span id="cb40-594"><a href="#cb40-594"></a></span>
-<span id="cb40-595"><a href="#cb40-595"></a>**Ejercicio 3:** Compara visualmente la distribución de grado de una red BA y una red *small-world* (Watts-Strogatz) en un **gráfico log-log**. ¿Cuál muestra un patrón más lineal? ¿Por qué?</span>
-<span id="cb40-596"><a href="#cb40-596"></a></span>
-<span id="cb40-597"><a href="#cb40-597"></a>::: {.callout-note title="💡 Pista 1" collapse="true"}</span>
-<span id="cb40-598"><a href="#cb40-598"></a>Genera ambas redes con <span class="in">`sample_pa(500)`</span> y <span class="in">`sample_smallworld(1, 500, nei = 3, p = 0.1)`</span>. Calcula <span class="in">`degree_distribution()`</span> para cada una.</span>
-<span id="cb40-599"><a href="#cb40-599"></a>:::</span>
-<span id="cb40-600"><a href="#cb40-600"></a></span>
-<span id="cb40-601"><a href="#cb40-601"></a>::: {.callout-note title="💡 Pista 2" collapse="true"}</span>
-<span id="cb40-602"><a href="#cb40-602"></a>Para graficar en log-log, usa <span class="in">`plot(k, pk, log = "xy")`</span>. Recuerda filtrar los valores donde $P(k) &gt; 0$ para evitar <span class="in">`log(0)`</span>.</span>
-<span id="cb40-603"><a href="#cb40-603"></a>:::</span>
-<span id="cb40-604"><a href="#cb40-604"></a></span>
-<span id="cb40-605"><a href="#cb40-605"></a>::: {.callout-note title="💡 Pista 3 — Pseudocódigo" collapse="true"}</span>
-<span id="cb40-606"><a href="#cb40-606"></a><span class="in">```</span></span>
-<span id="cb40-607"><a href="#cb40-607"></a><span class="in">1. par(mfrow = c(1, 2))</span></span>
-<span id="cb40-608"><a href="#cb40-608"></a><span class="in">2. Para cada red:</span></span>
-<span id="cb40-609"><a href="#cb40-609"></a><span class="in">3.   dd &lt;- degree_distribution(g)</span></span>
-<span id="cb40-610"><a href="#cb40-610"></a><span class="in">4.   k &lt;- which(dd &gt; 0) - 1</span></span>
-<span id="cb40-611"><a href="#cb40-611"></a><span class="in">5.   pk &lt;- dd[dd &gt; 0]</span></span>
-<span id="cb40-612"><a href="#cb40-612"></a><span class="in">6.   plot(k, pk, log = "xy", pch = 19)</span></span>
-<span id="cb40-613"><a href="#cb40-613"></a><span class="in">```</span></span>
-<span id="cb40-614"><a href="#cb40-614"></a></span>
-<span id="cb40-615"><a href="#cb40-615"></a>La red BA debería mostrar un patrón más lineal porque su distribución es *power-law*. La *small-world* tiene distribución más acotada (similar a Poisson desplazada).</span>
-<span id="cb40-616"><a href="#cb40-616"></a>:::</span>
-<span id="cb40-617"><a href="#cb40-617"></a></span>
-<span id="cb40-618"><a href="#cb40-618"></a><span class="fu">### Ejercicios propuestos {.unnumbered}</span></span>
-<span id="cb40-619"><a href="#cb40-619"></a></span>
-<span id="cb40-620"><a href="#cb40-620"></a>**Ejercicio propuesto 1** ⭐</span>
-<span id="cb40-621"><a href="#cb40-621"></a></span>
-<span id="cb40-622"><a href="#cb40-622"></a>Genera 5 redes ER de 100 nodos con $p \in <span class="sc">\{</span>0.01, 0.05, 0.10, 0.20, 0.50<span class="sc">\}</span>$. Para cada una, calcula el grado medio y grafícalo contra $p$. ¿La relación es lineal?</span>
-<span id="cb40-623"><a href="#cb40-623"></a></span>
-<span id="cb40-624"><a href="#cb40-624"></a><span class="at">&gt; **Autoevaluación:** El grado medio teórico es $\langle k \rangle = p(n-1) = 99p$. Para $p = 0.50$, el grado medio debe ser cercano a 49.5.</span></span>
-<span id="cb40-625"><a href="#cb40-625"></a></span>
-<span id="cb40-626"><a href="#cb40-626"></a>---</span>
-<span id="cb40-627"><a href="#cb40-627"></a></span>
-<span id="cb40-628"><a href="#cb40-628"></a>**Ejercicio propuesto 2** ⭐⭐</span>
-<span id="cb40-629"><a href="#cb40-629"></a></span>
-<span id="cb40-630"><a href="#cb40-630"></a>Usa <span class="in">`poweRlaw`</span> para ajustar una ley de potencia a una red BA de 2000 nodos. Luego, intenta ajustar la misma distribución a una red ER de 2000 nodos con $p = 0.01$. Compara los gráficos de ajuste. ¿Tiene sentido el ajuste *power-law* para la red ER?</span>
-<span id="cb40-631"><a href="#cb40-631"></a></span>
-<span id="cb40-632"><a href="#cb40-632"></a><span class="at">&gt; **Autoevaluación:** El ajuste sobre la red ER debería ser visualmente pobre (la línea roja no sigue los puntos). Si el $x_{\min}$ estimado es muy cercano al grado máximo, es señal de que la *power-law* no es un buen modelo para esos datos.</span></span>
-<span id="cb40-633"><a href="#cb40-633"></a></span>
-<span id="cb40-634"><a href="#cb40-634"></a>---</span>
-<span id="cb40-635"><a href="#cb40-635"></a></span>
-<span id="cb40-636"><a href="#cb40-636"></a>**Ejercicio propuesto 3** ⭐⭐</span>
-<span id="cb40-637"><a href="#cb40-637"></a></span>
-<span id="cb40-638"><a href="#cb40-638"></a>Genera una red BA con 500 nodos. Encuentra los 10 *hubs* más conectados. Luego, crea un subgrafo que contenga **solo** esos 10 hubs y las aristas entre ellos (`induced_subgraph()`). ¿Están los *hubs* conectados entre sí?</span>
-<span id="cb40-639"><a href="#cb40-639"></a></span>
-<span id="cb40-640"><a href="#cb40-640"></a><span class="at">&gt; **Autoevaluación:** En una red BA, los *hubs* suelen estar conectados entre sí (el hub más antiguo se conecta con los más nuevos). El subgrafo debería ser conexo o tener muy pocos componentes.</span></span>
-<span id="cb40-641"><a href="#cb40-641"></a></span>
-<span id="cb40-642"><a href="#cb40-642"></a>---</span>
-<span id="cb40-643"><a href="#cb40-643"></a></span>
-<span id="cb40-644"><a href="#cb40-644"></a>**Ejercicio propuesto 4** ⭐⭐⭐</span>
-<span id="cb40-645"><a href="#cb40-645"></a></span>
-<span id="cb40-646"><a href="#cb40-646"></a>Diseña un experimento numérico: genera 50 redes BA de 500 nodos cada una (con diferentes semillas). Para cada red, ajusta la ley de potencia y guarda el exponente $\gamma$. Grafica un histograma de los 50 valores de $\gamma$. ¿Alrededor de qué valor se concentran? ¿Cuál es la varianza?</span>
-<span id="cb40-647"><a href="#cb40-647"></a></span>
-<span id="cb40-648"><a href="#cb40-648"></a><span class="at">&gt; **Autoevaluación:** Los valores de $\gamma$ deberían concentrarse alrededor de 3 (el valor teórico para el modelo BA clásico con $m = 1$). La varianza debería ser pequeña pero no nula, debido a la aleatoriedad finita.</span></span>
-<span id="cb40-649"><a href="#cb40-649"></a></span>
-<span id="cb40-650"><a href="#cb40-650"></a>---</span>
+<span id="cb40-555"><a href="#cb40-555"></a>**Paso 3:** Visualizar.</span>
+<span id="cb40-556"><a href="#cb40-556"></a></span>
+<span id="cb40-559"><a href="#cb40-559"></a><span class="in">```{r}</span></span>
+<span id="cb40-560"><a href="#cb40-560"></a><span class="co">#| label: fig-ej-res-cap2-2</span></span>
+<span id="cb40-561"><a href="#cb40-561"></a><span class="co">#| fig-cap: "Ajuste power-law sobre red BA de 1000 nodos"</span></span>
+<span id="cb40-562"><a href="#cb40-562"></a><span class="co">#| fig-alt: "Gráfico CCDF con puntos empíricos y línea de ajuste power-law"</span></span>
+<span id="cb40-563"><a href="#cb40-563"></a></span>
+<span id="cb40-564"><a href="#cb40-564"></a><span class="fu">plot</span>(m_1000, <span class="at">pch =</span> <span class="dv">19</span>, <span class="at">col =</span> <span class="st">"gray40"</span>,</span>
+<span id="cb40-565"><a href="#cb40-565"></a>     <span class="at">xlab =</span> <span class="st">"Grado (k)"</span>, <span class="at">ylab =</span> <span class="st">"P(X ≥ k)"</span>,</span>
+<span id="cb40-566"><a href="#cb40-566"></a>     <span class="at">main =</span> <span class="st">"Ajuste Power-law — BA (n=1000)"</span>)</span>
+<span id="cb40-567"><a href="#cb40-567"></a><span class="fu">lines</span>(m_1000, <span class="at">col =</span> <span class="st">"red"</span>, <span class="at">lwd =</span> <span class="dv">2</span>)</span>
+<span id="cb40-568"><a href="#cb40-568"></a><span class="fu">legend</span>(<span class="st">"bottomleft"</span>,</span>
+<span id="cb40-569"><a href="#cb40-569"></a>       <span class="at">legend =</span> <span class="fu">paste0</span>(<span class="st">"γ = "</span>, <span class="fu">round</span>(m_1000<span class="sc">$</span><span class="fu">getPars</span>(), <span class="dv">2</span>),</span>
+<span id="cb40-570"><a href="#cb40-570"></a>                       <span class="st">", x_min = "</span>, m_1000<span class="sc">$</span><span class="fu">getXmin</span>()),</span>
+<span id="cb40-571"><a href="#cb40-571"></a>       <span class="at">col =</span> <span class="st">"red"</span>, <span class="at">lwd =</span> <span class="dv">2</span>, <span class="at">bty =</span> <span class="st">"n"</span>)</span>
+<span id="cb40-572"><a href="#cb40-572"></a><span class="in">```</span></span>
+<span id="cb40-573"><a href="#cb40-573"></a></span>
+<span id="cb40-574"><a href="#cb40-574"></a>**Interpretación:** El exponente $\gamma$ debería estar cerca de 3 (el valor teórico para redes BA generadas con $m = 1$). El ajuste visual muestra que la cola de la distribución sigue razonablemente bien la recta en escala log-log a partir de $x_{\min}$.</span>
+<span id="cb40-575"><a href="#cb40-575"></a>:::</span>
+<span id="cb40-576"><a href="#cb40-576"></a></span>
+<span id="cb40-577"><a href="#cb40-577"></a><span class="fu">### Ejercicios con pistas {.unnumbered}</span></span>
+<span id="cb40-578"><a href="#cb40-578"></a></span>
+<span id="cb40-579"><a href="#cb40-579"></a>**Ejercicio 1:** Genera redes BA con 100, 500, 1000 y 5000 nodos. ¿Cómo cambia el grado del *hub* más conectado a medida que crece la red? Haz un gráfico de dispersión de $n$ (tamaño de red) vs. grado máximo.</span>
+<span id="cb40-580"><a href="#cb40-580"></a></span>
+<span id="cb40-581"><a href="#cb40-581"></a>::: {.callout-note title="💡 Pista 1" collapse="true"}</span>
+<span id="cb40-582"><a href="#cb40-582"></a>Usa un <span class="in">`for`</span> o <span class="in">`sapply()`</span> sobre un vector de tamaños: <span class="in">`tamanos &lt;- c(100, 500, 1000, 5000)`</span>. Para cada tamaño, genera la red y extrae <span class="in">`max(degree(g))`</span>.</span>
+<span id="cb40-583"><a href="#cb40-583"></a>:::</span>
+<span id="cb40-584"><a href="#cb40-584"></a></span>
+<span id="cb40-585"><a href="#cb40-585"></a>::: {.callout-note title="💡 Pista 2" collapse="true"}</span>
+<span id="cb40-586"><a href="#cb40-586"></a>Teóricamente, el grado máximo en una red BA crece como $k_{\max} \sim \sqrt{n}$. Puedes superponer esta curva teórica sobre tus datos empíricos.</span>
+<span id="cb40-587"><a href="#cb40-587"></a>:::</span>
+<span id="cb40-588"><a href="#cb40-588"></a></span>
+<span id="cb40-589"><a href="#cb40-589"></a>::: {.callout-note title="💡 Pista 3 — Pseudocódigo" collapse="true"}</span>
+<span id="cb40-590"><a href="#cb40-590"></a><span class="in">```         </span></span>
+<span id="cb40-591"><a href="#cb40-591"></a><span class="in">1. tamanos &lt;- c(100, 500, 1000, 5000)</span></span>
+<span id="cb40-592"><a href="#cb40-592"></a><span class="in">2. set.seed(42)</span></span>
+<span id="cb40-593"><a href="#cb40-593"></a><span class="in">3. grado_max &lt;- sapply(tamanos, function(n) {</span></span>
+<span id="cb40-594"><a href="#cb40-594"></a><span class="in">4.     g &lt;- sample_pa(n, directed = FALSE)</span></span>
+<span id="cb40-595"><a href="#cb40-595"></a><span class="in">5.     max(degree(g))</span></span>
+<span id="cb40-596"><a href="#cb40-596"></a><span class="in">6. })</span></span>
+<span id="cb40-597"><a href="#cb40-597"></a><span class="in">7. plot(tamanos, grado_max, type = "b", log = "xy")</span></span>
+<span id="cb40-598"><a href="#cb40-598"></a><span class="in">8. # Superponer curva teórica: sqrt(n)</span></span>
+<span id="cb40-599"><a href="#cb40-599"></a><span class="in">```</span></span>
+<span id="cb40-600"><a href="#cb40-600"></a>:::</span>
+<span id="cb40-601"><a href="#cb40-601"></a></span>
+<span id="cb40-602"><a href="#cb40-602"></a>------------------------------------------------------------------------</span>
+<span id="cb40-603"><a href="#cb40-603"></a></span>
+<span id="cb40-604"><a href="#cb40-604"></a>**Ejercicio 2:** Crea una red ER con 200 nodos y $p = 0.03$. Identifica los nodos con grado mayor al promedio + 2 desviaciones estándar. ¿Cuántos son? Coloréalos de rojo en la visualización.</span>
+<span id="cb40-605"><a href="#cb40-605"></a></span>
+<span id="cb40-606"><a href="#cb40-606"></a>::: {.callout-note title="💡 Pista 1" collapse="true"}</span>
+<span id="cb40-607"><a href="#cb40-607"></a>Calcula el umbral como <span class="in">`mean(deg) + 2 * sd(deg)`</span>. Luego usa <span class="in">`which(deg &gt; umbral)`</span> para identificar los nodos.</span>
+<span id="cb40-608"><a href="#cb40-608"></a>:::</span>
+<span id="cb40-609"><a href="#cb40-609"></a></span>
+<span id="cb40-610"><a href="#cb40-610"></a>::: {.callout-note title="💡 Pista 2" collapse="true"}</span>
+<span id="cb40-611"><a href="#cb40-611"></a>En una distribución Poisson, aproximadamente el 2.5% de los valores están por encima de $\mu + 2\sigma$. Para 200 nodos, espera alrededor de 5 nodos "extremos".</span>
+<span id="cb40-612"><a href="#cb40-612"></a>:::</span>
+<span id="cb40-613"><a href="#cb40-613"></a></span>
+<span id="cb40-614"><a href="#cb40-614"></a>::: {.callout-note title="💡 Pista 3 — Pseudocódigo" collapse="true"}</span>
+<span id="cb40-615"><a href="#cb40-615"></a><span class="in">```         </span></span>
+<span id="cb40-616"><a href="#cb40-616"></a><span class="in">1. set.seed(10)</span></span>
+<span id="cb40-617"><a href="#cb40-617"></a><span class="in">2. g &lt;- sample_gnp(200, 0.03)</span></span>
+<span id="cb40-618"><a href="#cb40-618"></a><span class="in">3. deg &lt;- degree(g)</span></span>
+<span id="cb40-619"><a href="#cb40-619"></a><span class="in">4. umbral &lt;- mean(deg) + 2 * sd(deg)</span></span>
+<span id="cb40-620"><a href="#cb40-620"></a><span class="in">5. extremos &lt;- which(deg &gt; umbral)</span></span>
+<span id="cb40-621"><a href="#cb40-621"></a><span class="in">6. V(g)$color &lt;- ifelse(deg &gt; umbral, "red", "gray80")</span></span>
+<span id="cb40-622"><a href="#cb40-622"></a><span class="in">7. V(g)$size &lt;- ifelse(deg &gt; umbral, 10, 3)</span></span>
+<span id="cb40-623"><a href="#cb40-623"></a><span class="in">8. plot(g, vertex.label = NA)</span></span>
+<span id="cb40-624"><a href="#cb40-624"></a><span class="in">```</span></span>
+<span id="cb40-625"><a href="#cb40-625"></a>:::</span>
+<span id="cb40-626"><a href="#cb40-626"></a></span>
+<span id="cb40-627"><a href="#cb40-627"></a>------------------------------------------------------------------------</span>
+<span id="cb40-628"><a href="#cb40-628"></a></span>
+<span id="cb40-629"><a href="#cb40-629"></a>**Ejercicio 3:** Compara visualmente la distribución de grado de una red BA y una red *small-world* (Watts-Strogatz) en un **gráfico log-log**. ¿Cuál muestra un patrón más lineal? ¿Por qué?</span>
+<span id="cb40-630"><a href="#cb40-630"></a></span>
+<span id="cb40-631"><a href="#cb40-631"></a>::: {.callout-note title="💡 Pista 1" collapse="true"}</span>
+<span id="cb40-632"><a href="#cb40-632"></a>Genera ambas redes con <span class="in">`sample_pa(500)`</span> y <span class="in">`sample_smallworld(1, 500, nei = 3, p = 0.1)`</span>. Calcula <span class="in">`degree_distribution()`</span> para cada una.</span>
+<span id="cb40-633"><a href="#cb40-633"></a>:::</span>
+<span id="cb40-634"><a href="#cb40-634"></a></span>
+<span id="cb40-635"><a href="#cb40-635"></a>::: {.callout-note title="💡 Pista 2" collapse="true"}</span>
+<span id="cb40-636"><a href="#cb40-636"></a>Para graficar en log-log, usa <span class="in">`plot(k, pk, log = "xy")`</span>. Recuerda filtrar los valores donde $P(k) &gt; 0$ para evitar <span class="in">`log(0)`</span>.</span>
+<span id="cb40-637"><a href="#cb40-637"></a>:::</span>
+<span id="cb40-638"><a href="#cb40-638"></a></span>
+<span id="cb40-639"><a href="#cb40-639"></a>::: {.callout-note title="💡 Pista 3 — Pseudocódigo" collapse="true"}</span>
+<span id="cb40-640"><a href="#cb40-640"></a><span class="in">```         </span></span>
+<span id="cb40-641"><a href="#cb40-641"></a><span class="in">1. par(mfrow = c(1, 2))</span></span>
+<span id="cb40-642"><a href="#cb40-642"></a><span class="in">2. Para cada red:</span></span>
+<span id="cb40-643"><a href="#cb40-643"></a><span class="in">3.   dd &lt;- degree_distribution(g)</span></span>
+<span id="cb40-644"><a href="#cb40-644"></a><span class="in">4.   k &lt;- which(dd &gt; 0) - 1</span></span>
+<span id="cb40-645"><a href="#cb40-645"></a><span class="in">5.   pk &lt;- dd[dd &gt; 0]</span></span>
+<span id="cb40-646"><a href="#cb40-646"></a><span class="in">6.   plot(k, pk, log = "xy", pch = 19)</span></span>
+<span id="cb40-647"><a href="#cb40-647"></a><span class="in">```</span></span>
+<span id="cb40-648"><a href="#cb40-648"></a></span>
+<span id="cb40-649"><a href="#cb40-649"></a>La red BA debería mostrar un patrón más lineal porque su distribución es *power-law*. La *small-world* tiene distribución más acotada (similar a Poisson desplazada).</span>
+<span id="cb40-650"><a href="#cb40-650"></a>:::</span>
 <span id="cb40-651"><a href="#cb40-651"></a></span>
-<span id="cb40-652"><a href="#cb40-652"></a>**Ejercicio propuesto 5** ⭐⭐⭐</span>
+<span id="cb40-652"><a href="#cb40-652"></a><span class="fu">### Ejercicios propuestos {.unnumbered}</span></span>
 <span id="cb40-653"><a href="#cb40-653"></a></span>
-<span id="cb40-654"><a href="#cb40-654"></a>Investiga: ¿Qué pasa con la distribución de grado de una red BA si cambias el parámetro <span class="in">`m`</span> (número de aristas que agrega cada nodo nuevo) de 1 a 3 a 5? Genera las tres variantes con 1000 nodos, compara sus histogramas y ajusta la *power-law* a cada una. ¿Cambia el exponente $\gamma$?</span>
+<span id="cb40-654"><a href="#cb40-654"></a>**Ejercicio propuesto 1** ⭐</span>
 <span id="cb40-655"><a href="#cb40-655"></a></span>
-<span id="cb40-656"><a href="#cb40-656"></a><span class="at">&gt; **Autoevaluación:** El grado medio aumenta ($\langle k \rangle \approx 2m$), pero el exponente teórico $\gamma = 3$ se mantiene independiente de $m$ en el modelo BA estándar. Empíricamente podrías observar variaciones leves.</span></span>
+<span id="cb40-656"><a href="#cb40-656"></a>Genera 5 redes ER de 100 nodos con $p \in <span class="sc">\{</span>0.01, 0.05, 0.10, 0.20, 0.50<span class="sc">\}</span>$. Para cada una, calcula el grado medio y grafícalo contra $p$. ¿La relación es lineal?</span>
 <span id="cb40-657"><a href="#cb40-657"></a></span>
-<span id="cb40-658"><a href="#cb40-658"></a><span class="fu">## Resumen del capítulo</span></span>
+<span id="cb40-658"><a href="#cb40-658"></a><span class="at">&gt; **Autoevaluación:** El grado medio teórico es $\langle k \rangle = p(n-1) = 99p$. Para $p = 0.50$, el grado medio debe ser cercano a 49.5.</span></span>
 <span id="cb40-659"><a href="#cb40-659"></a></span>
-<span id="cb40-662"><a href="#cb40-662"></a><span class="in">```{mermaid}</span></span>
-<span id="cb40-663"><a href="#cb40-663"></a>%%| label: fig-resumen-cap2</span>
-<span id="cb40-664"><a href="#cb40-664"></a>%%| fig-cap: <span class="ot">"</span><span class="st">Resumen visual del capítulo</span><span class="ot">"</span></span>
-<span id="cb40-665"><a href="#cb40-665"></a>flowchart LR</span>
-<span id="cb40-666"><a href="#cb40-666"></a>    A[Modelos de red] --&gt; B[ER → Poisson]</span>
-<span id="cb40-667"><a href="#cb40-667"></a>    A --&gt; C[BA → Power-law]</span>
-<span id="cb40-668"><a href="#cb40-668"></a>    B --&gt; D[Grado homogéneo]</span>
-<span id="cb40-669"><a href="#cb40-669"></a>    C --&gt; E[Hubs emergentes]</span>
-<span id="cb40-670"><a href="#cb40-670"></a>    D --&gt; F[Ajuste con dpois]</span>
-<span id="cb40-671"><a href="#cb40-671"></a>    E --&gt; G[Ajuste con poweRlaw]</span>
-<span id="cb40-672"><a href="#cb40-672"></a>    G --&gt; H[<span class="ot">"</span><span class="st">Siguiente: Distancias →</span><span class="ot">"</span>]</span>
-<span id="cb40-673"><a href="#cb40-673"></a>    style H fill:<span class="co">#e8f4f8,stroke:#3ABEF9</span></span>
-<span id="cb40-674"><a href="#cb40-674"></a><span class="in">```</span></span>
+<span id="cb40-660"><a href="#cb40-660"></a>------------------------------------------------------------------------</span>
+<span id="cb40-661"><a href="#cb40-661"></a></span>
+<span id="cb40-662"><a href="#cb40-662"></a>**Ejercicio propuesto 2** ⭐⭐</span>
+<span id="cb40-663"><a href="#cb40-663"></a></span>
+<span id="cb40-664"><a href="#cb40-664"></a>Usa <span class="in">`poweRlaw`</span> para ajustar una ley de potencia a una red BA de 2000 nodos. Luego, intenta ajustar la misma distribución a una red ER de 2000 nodos con $p = 0.01$. Compara los gráficos de ajuste. ¿Tiene sentido el ajuste *power-law* para la red ER?</span>
+<span id="cb40-665"><a href="#cb40-665"></a></span>
+<span id="cb40-666"><a href="#cb40-666"></a><span class="at">&gt; **Autoevaluación:** El ajuste sobre la red ER debería ser visualmente pobre (la línea roja no sigue los puntos). Si el $x_{\min}$ estimado es muy cercano al grado máximo, es señal de que la *power-law* no es un buen modelo para esos datos.</span></span>
+<span id="cb40-667"><a href="#cb40-667"></a></span>
+<span id="cb40-668"><a href="#cb40-668"></a>------------------------------------------------------------------------</span>
+<span id="cb40-669"><a href="#cb40-669"></a></span>
+<span id="cb40-670"><a href="#cb40-670"></a>**Ejercicio propuesto 3** ⭐⭐</span>
+<span id="cb40-671"><a href="#cb40-671"></a></span>
+<span id="cb40-672"><a href="#cb40-672"></a>Genera una red BA con 500 nodos. Encuentra los 10 *hubs* más conectados. Luego, crea un subgrafo que contenga **solo** esos 10 hubs y las aristas entre ellos (`induced_subgraph()`). ¿Están los *hubs* conectados entre sí?</span>
+<span id="cb40-673"><a href="#cb40-673"></a></span>
+<span id="cb40-674"><a href="#cb40-674"></a><span class="at">&gt; **Autoevaluación:** En una red BA, los *hubs* suelen estar conectados entre sí (el hub más antiguo se conecta con los más nuevos). El subgrafo debería ser conexo o tener muy pocos componentes.</span></span>
 <span id="cb40-675"><a href="#cb40-675"></a></span>
-<span id="cb40-676"><a href="#cb40-676"></a><span class="pp">|</span> Función / Concepto <span class="pp">|</span> Descripción <span class="pp">|</span></span>
-<span id="cb40-677"><a href="#cb40-677"></a><span class="pp">|---------------------|-------------|</span></span>
-<span id="cb40-678"><a href="#cb40-678"></a><span class="pp">|</span> <span class="in">`sample_gnp(n, p)`</span> <span class="pp">|</span> Genera red Erdős–Rényi con $n$ nodos y probabilidad $p$ <span class="pp">|</span></span>
-<span id="cb40-679"><a href="#cb40-679"></a><span class="pp">|</span> <span class="in">`sample_pa(n)`</span> <span class="pp">|</span> Genera red Barabási–Albert con enlace preferencial <span class="pp">|</span></span>
-<span id="cb40-680"><a href="#cb40-680"></a><span class="pp">|</span> <span class="in">`degree_distribution()`</span> <span class="pp">|</span> Calcula la distribución de grado normalizada <span class="pp">|</span></span>
-<span id="cb40-681"><a href="#cb40-681"></a><span class="pp">|</span> <span class="in">`displ$new()`</span> <span class="pp">|</span> Crea modelo *power-law* discreto (paquete <span class="in">`poweRlaw`</span>) <span class="pp">|</span></span>
-<span id="cb40-682"><a href="#cb40-682"></a><span class="pp">|</span> <span class="in">`estimate_xmin()`</span> <span class="pp">|</span> Estima el $x_{\min}$ óptimo para el ajuste <span class="pp">|</span></span>
-<span id="cb40-683"><a href="#cb40-683"></a><span class="pp">|</span> *Hub* <span class="pp">|</span> Nodo con grado desproporcionadamente alto <span class="pp">|</span></span>
-<span id="cb40-684"><a href="#cb40-684"></a><span class="pp">|</span> $\gamma$ (exponente) <span class="pp">|</span> Pendiente del ajuste *power-law*; típicamente $2 &lt; \gamma &lt; 3$ <span class="pp">|</span></span>
+<span id="cb40-676"><a href="#cb40-676"></a>------------------------------------------------------------------------</span>
+<span id="cb40-677"><a href="#cb40-677"></a></span>
+<span id="cb40-678"><a href="#cb40-678"></a>**Ejercicio propuesto 4** ⭐⭐⭐</span>
+<span id="cb40-679"><a href="#cb40-679"></a></span>
+<span id="cb40-680"><a href="#cb40-680"></a>Diseña un experimento numérico: genera 50 redes BA de 500 nodos cada una (con diferentes semillas). Para cada red, ajusta la ley de potencia y guarda el exponente $\gamma$. Grafica un histograma de los 50 valores de $\gamma$. ¿Alrededor de qué valor se concentran? ¿Cuál es la varianza?</span>
+<span id="cb40-681"><a href="#cb40-681"></a></span>
+<span id="cb40-682"><a href="#cb40-682"></a><span class="at">&gt; **Autoevaluación:** Los valores de $\gamma$ deberían concentrarse alrededor de 3 (el valor teórico para el modelo BA clásico con $m = 1$). La varianza debería ser pequeña pero no nula, debido a la aleatoriedad finita.</span></span>
+<span id="cb40-683"><a href="#cb40-683"></a></span>
+<span id="cb40-684"><a href="#cb40-684"></a>------------------------------------------------------------------------</span>
 <span id="cb40-685"><a href="#cb40-685"></a></span>
-<span id="cb40-686"><a href="#cb40-686"></a>: Funciones y conceptos clave del capítulo {.striped .hover}</span>
+<span id="cb40-686"><a href="#cb40-686"></a>**Ejercicio propuesto 5** ⭐⭐⭐</span>
 <span id="cb40-687"><a href="#cb40-687"></a></span>
-<span id="cb40-688"><a href="#cb40-688"></a>**Conexión con el siguiente capítulo:** Ahora que sabes cómo se distribuyen las conexiones en distintos tipos de red, en el @sec-distancias exploraremos *qué tan lejos* están los nodos entre sí: distancias, caminos más cortos y eficiencia de la red.</span>
+<span id="cb40-688"><a href="#cb40-688"></a>Investiga: ¿Qué pasa con la distribución de grado de una red BA si cambias el parámetro <span class="in">`m`</span> (número de aristas que agrega cada nodo nuevo) de 1 a 3 a 5? Genera las tres variantes con 1000 nodos, compara sus histogramas y ajusta la *power-law* a cada una. ¿Cambia el exponente $\gamma$?</span>
 <span id="cb40-689"><a href="#cb40-689"></a></span>
-<span id="cb40-690"><a href="#cb40-690"></a><span class="fu">## Autoevaluación {.unnumbered}</span></span>
+<span id="cb40-690"><a href="#cb40-690"></a><span class="at">&gt; **Autoevaluación:** El grado medio aumenta ($\langle k \rangle \approx 2m$), pero el exponente teórico $\gamma = 3$ se mantiene independiente de $m$ en el modelo BA estándar. Empíricamente podrías observar variaciones leves.</span></span>
 <span id="cb40-691"><a href="#cb40-691"></a></span>
-<span id="cb40-692"><a href="#cb40-692"></a>::: {.callout-caution title="Pregunta 1" collapse="true"}</span>
-<span id="cb40-693"><a href="#cb40-693"></a>**¿Qué modelo de red produce una distribución de grado tipo ley de potencia?**</span>
-<span id="cb40-694"><a href="#cb40-694"></a></span>
-<span id="cb40-695"><a href="#cb40-695"></a>a) Erdős–Rényi</span>
-<span id="cb40-696"><a href="#cb40-696"></a>b) Barabási–Albert ✅</span>
-<span id="cb40-697"><a href="#cb40-697"></a>c) Lattice regular</span>
-<span id="cb40-698"><a href="#cb40-698"></a>d) Anillo</span>
-<span id="cb40-699"><a href="#cb40-699"></a></span>
-<span id="cb40-700"><a href="#cb40-700"></a>El modelo Barabási–Albert usa enlace preferencial, lo que genera distribuciones *power-law*.</span>
-<span id="cb40-701"><a href="#cb40-701"></a>:::</span>
-<span id="cb40-702"><a href="#cb40-702"></a></span>
-<span id="cb40-703"><a href="#cb40-703"></a>::: {.callout-caution title="Pregunta 2" collapse="true"}</span>
-<span id="cb40-704"><a href="#cb40-704"></a>**Verdadero o Falso:** En una red ER con $n = 100$ y $p = 0.10$, el grado medio esperado es 10.</span>
-<span id="cb40-705"><a href="#cb40-705"></a></span>
-<span id="cb40-706"><a href="#cb40-706"></a>✅ **Verdadero.** El grado medio teórico es $\langle k \rangle = p(n-1) = 0.10 \times 99 \approx 9.9 \approx 10$.</span>
-<span id="cb40-707"><a href="#cb40-707"></a>:::</span>
-<span id="cb40-708"><a href="#cb40-708"></a></span>
-<span id="cb40-709"><a href="#cb40-709"></a>::: {.callout-caution title="Pregunta 3" collapse="true"}</span>
-<span id="cb40-710"><a href="#cb40-710"></a>**¿Qué representa el parámetro $x_{\min}$ en un ajuste de ley de potencia?**</span>
-<span id="cb40-711"><a href="#cb40-711"></a></span>
-<span id="cb40-712"><a href="#cb40-712"></a>Es el valor de grado mínimo a partir del cual la distribución se comporta como *power-law*. Los nodos con grado menor a $x_{\min}$ no siguen este patrón.</span>
-<span id="cb40-713"><a href="#cb40-713"></a>:::</span>
-<span id="cb40-714"><a href="#cb40-714"></a></span>
-<span id="cb40-715"><a href="#cb40-715"></a>::: {.callout-caution title="Pregunta 4" collapse="true"}</span>
-<span id="cb40-716"><a href="#cb40-716"></a>**¿Qué tipo de gráfico es el más adecuado para identificar visualmente una ley de potencia?**</span>
-<span id="cb40-717"><a href="#cb40-717"></a></span>
-<span id="cb40-718"><a href="#cb40-718"></a>a) Histograma con ejes lineales</span>
-<span id="cb40-719"><a href="#cb40-719"></a>b) Gráfico de barras</span>
-<span id="cb40-720"><a href="#cb40-720"></a>c) Gráfico log-log ✅</span>
-<span id="cb40-721"><a href="#cb40-721"></a>d) Diagrama de caja (*boxplot*)</span>
-<span id="cb40-722"><a href="#cb40-722"></a></span>
-<span id="cb40-723"><a href="#cb40-723"></a>En escala log-log, una *power-law* aparece como una línea recta con pendiente $-\gamma$.</span>
-<span id="cb40-724"><a href="#cb40-724"></a>:::</span>
+<span id="cb40-692"><a href="#cb40-692"></a><span class="fu">## Resumen del capítulo</span></span>
+<span id="cb40-693"><a href="#cb40-693"></a></span>
+<span id="cb40-696"><a href="#cb40-696"></a><span class="in">```{mermaid}</span></span>
+<span id="cb40-697"><a href="#cb40-697"></a>%%| label: fig-resumen-cap2</span>
+<span id="cb40-698"><a href="#cb40-698"></a>%%| fig-cap: <span class="ot">"</span><span class="st">Resumen visual del capítulo</span><span class="ot">"</span></span>
+<span id="cb40-699"><a href="#cb40-699"></a>flowchart LR</span>
+<span id="cb40-700"><a href="#cb40-700"></a>    A[Modelos de red] --&gt; B[ER → Poisson]</span>
+<span id="cb40-701"><a href="#cb40-701"></a>    A --&gt; C[BA → Power-law]</span>
+<span id="cb40-702"><a href="#cb40-702"></a>    B --&gt; D[Grado homogéneo]</span>
+<span id="cb40-703"><a href="#cb40-703"></a>    C --&gt; E[Hubs emergentes]</span>
+<span id="cb40-704"><a href="#cb40-704"></a>    D --&gt; F[Ajuste con dpois]</span>
+<span id="cb40-705"><a href="#cb40-705"></a>    E --&gt; G[Ajuste con poweRlaw]</span>
+<span id="cb40-706"><a href="#cb40-706"></a>    G --&gt; H[<span class="ot">"</span><span class="st">Siguiente: Distancias →</span><span class="ot">"</span>]</span>
+<span id="cb40-707"><a href="#cb40-707"></a>    style H fill:<span class="co">#e8f4f8,stroke:#3ABEF9</span></span>
+<span id="cb40-708"><a href="#cb40-708"></a><span class="in">```</span></span>
+<span id="cb40-709"><a href="#cb40-709"></a></span>
+<span id="cb40-710"><a href="#cb40-710"></a><span class="pp">|</span> Función / Concepto <span class="pp">|</span> Descripción <span class="pp">|</span></span>
+<span id="cb40-711"><a href="#cb40-711"></a><span class="pp">|--------------------------------------------|----------------------------|</span></span>
+<span id="cb40-712"><a href="#cb40-712"></a><span class="pp">|</span> <span class="in">`sample_gnp(n, p)`</span> <span class="pp">|</span> Genera red Erdős–Rényi con $n$ nodos y probabilidad $p$ <span class="pp">|</span></span>
+<span id="cb40-713"><a href="#cb40-713"></a><span class="pp">|</span> <span class="in">`sample_pa(n)`</span> <span class="pp">|</span> Genera red Barabási–Albert con enlace preferencial <span class="pp">|</span></span>
+<span id="cb40-714"><a href="#cb40-714"></a><span class="pp">|</span> <span class="in">`degree_distribution()`</span> <span class="pp">|</span> Calcula la distribución de grado normalizada <span class="pp">|</span></span>
+<span id="cb40-715"><a href="#cb40-715"></a><span class="pp">|</span> <span class="in">`displ$new()`</span> <span class="pp">|</span> Crea modelo *power-law* discreto (paquete <span class="in">`poweRlaw`</span>) <span class="pp">|</span></span>
+<span id="cb40-716"><a href="#cb40-716"></a><span class="pp">|</span> <span class="in">`estimate_xmin()`</span> <span class="pp">|</span> Estima el $x_{\min}$ óptimo para el ajuste <span class="pp">|</span></span>
+<span id="cb40-717"><a href="#cb40-717"></a><span class="pp">|</span> *Hub* <span class="pp">|</span> Nodo con grado desproporcionadamente alto <span class="pp">|</span></span>
+<span id="cb40-718"><a href="#cb40-718"></a><span class="pp">|</span> $\gamma$ (exponente) <span class="pp">|</span> Pendiente del ajuste *power-law*; típicamente $2 &lt; \gamma &lt; 3$ <span class="pp">|</span></span>
+<span id="cb40-719"><a href="#cb40-719"></a></span>
+<span id="cb40-720"><a href="#cb40-720"></a>: Funciones y conceptos clave del capítulo {.striped .hover}</span>
+<span id="cb40-721"><a href="#cb40-721"></a></span>
+<span id="cb40-722"><a href="#cb40-722"></a>**Conexión con el siguiente capítulo:** Ahora que sabes cómo se distribuyen las conexiones en distintos tipos de red, en el @sec-distancias exploraremos *qué tan lejos* están los nodos entre sí: distancias, caminos más cortos y eficiencia de la red.</span>
+<span id="cb40-723"><a href="#cb40-723"></a></span>
+<span id="cb40-724"><a href="#cb40-724"></a><span class="fu">## Autoevaluación {.unnumbered}</span></span>
 <span id="cb40-725"><a href="#cb40-725"></a></span>
-<span id="cb40-726"><a href="#cb40-726"></a>::: {.callout-caution title="Pregunta 5" collapse="true"}</span>
-<span id="cb40-727"><a href="#cb40-727"></a>**Verdadero o Falso:** Los *hubs* son igual de probables en redes ER que en redes BA.</span>
+<span id="cb40-726"><a href="#cb40-726"></a>::: {.callout-caution title="Pregunta 1" collapse="true"}</span>
+<span id="cb40-727"><a href="#cb40-727"></a>**¿Qué modelo de red produce una distribución de grado tipo ley de potencia?**</span>
 <span id="cb40-728"><a href="#cb40-728"></a></span>
-<span id="cb40-729"><a href="#cb40-729"></a>❌ **Falso.** En redes ER la probabilidad de encontrar un nodo con grado extremo es exponencialmente baja (distribución Poisson). En redes BA, los *hubs* emergen naturalmente por el mecanismo de enlace preferencial.</span>
-<span id="cb40-730"><a href="#cb40-730"></a>:::</span>
+<span id="cb40-729"><a href="#cb40-729"></a>a)  Erdős–Rényi</span>
+<span id="cb40-730"><a href="#cb40-730"></a>b)  Barabási–Albert ✅</span>
+<span id="cb40-731"><a href="#cb40-731"></a>c)  Lattice regular</span>
+<span id="cb40-732"><a href="#cb40-732"></a>d)  Anillo</span>
+<span id="cb40-733"><a href="#cb40-733"></a></span>
+<span id="cb40-734"><a href="#cb40-734"></a>El modelo Barabási–Albert usa enlace preferencial, lo que genera distribuciones *power-law*.</span>
+<span id="cb40-735"><a href="#cb40-735"></a>:::</span>
+<span id="cb40-736"><a href="#cb40-736"></a></span>
+<span id="cb40-737"><a href="#cb40-737"></a>::: {.callout-caution title="Pregunta 2" collapse="true"}</span>
+<span id="cb40-738"><a href="#cb40-738"></a>**Verdadero o Falso:** En una red ER con $n = 100$ y $p = 0.10$, el grado medio esperado es 10.</span>
+<span id="cb40-739"><a href="#cb40-739"></a></span>
+<span id="cb40-740"><a href="#cb40-740"></a>✅ **Verdadero.** El grado medio teórico es $\langle k \rangle = p(n-1) = 0.10 \times 99 \approx 9.9 \approx 10$.</span>
+<span id="cb40-741"><a href="#cb40-741"></a>:::</span>
+<span id="cb40-742"><a href="#cb40-742"></a></span>
+<span id="cb40-743"><a href="#cb40-743"></a>::: {.callout-caution title="Pregunta 3" collapse="true"}</span>
+<span id="cb40-744"><a href="#cb40-744"></a>**¿Qué representa el parámetro** $x_{\min}$ en un ajuste de ley de potencia?</span>
+<span id="cb40-745"><a href="#cb40-745"></a></span>
+<span id="cb40-746"><a href="#cb40-746"></a>Es el valor de grado mínimo a partir del cual la distribución se comporta como *power-law*. Los nodos con grado menor a $x_{\min}$ no siguen este patrón.</span>
+<span id="cb40-747"><a href="#cb40-747"></a>:::</span>
+<span id="cb40-748"><a href="#cb40-748"></a></span>
+<span id="cb40-749"><a href="#cb40-749"></a>::: {.callout-caution title="Pregunta 4" collapse="true"}</span>
+<span id="cb40-750"><a href="#cb40-750"></a>**¿Qué tipo de gráfico es el más adecuado para identificar visualmente una ley de potencia?**</span>
+<span id="cb40-751"><a href="#cb40-751"></a></span>
+<span id="cb40-752"><a href="#cb40-752"></a>a)  Histograma con ejes lineales</span>
+<span id="cb40-753"><a href="#cb40-753"></a>b)  Gráfico de barras</span>
+<span id="cb40-754"><a href="#cb40-754"></a>c)  Gráfico log-log ✅</span>
+<span id="cb40-755"><a href="#cb40-755"></a>d)  Diagrama de caja (*boxplot*)</span>
+<span id="cb40-756"><a href="#cb40-756"></a></span>
+<span id="cb40-757"><a href="#cb40-757"></a>En escala log-log, una *power-law* aparece como una línea recta con pendiente $-\gamma$.</span>
+<span id="cb40-758"><a href="#cb40-758"></a>:::</span>
+<span id="cb40-759"><a href="#cb40-759"></a></span>
+<span id="cb40-760"><a href="#cb40-760"></a>::: {.callout-caution title="Pregunta 5" collapse="true"}</span>
+<span id="cb40-761"><a href="#cb40-761"></a>**Verdadero o Falso:** Los *hubs* son igual de probables en redes ER que en redes BA.</span>
+<span id="cb40-762"><a href="#cb40-762"></a></span>
+<span id="cb40-763"><a href="#cb40-763"></a>❌ **Falso.** En redes ER la probabilidad de encontrar un nodo con grado extremo es exponencialmente baja (distribución Poisson). En redes BA, los *hubs* emergen naturalmente por el mecanismo de enlace preferencial.</span>
+<span id="cb40-764"><a href="#cb40-764"></a>:::</span>
 </code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
 </div></div></div></div></div>
 </div> <!-- /content -->

@@ -16,17 +16,50 @@ Al finalizar este capítulo serás capaz de:
 %%| label: fig-mapa-cap1
 %%| fig-cap: "Mapa conceptual del capítulo"
 flowchart TD
-    A[Fundamentos de igraph] --> B[Crear redes]
-    A --> C[grado (degree) y distribución]
-    A --> D[Matriz de adyacencia]
-    A --> E[Redes especiales]
-    B --> B1[Nodos y conexiones]
-    B --> B2[Atributos]
-    B --> B3[Visualización]
-    C --> C1[grado (degree) de entrada/salida]
-    C --> C2[Histogramas]
-    D --> D1[Heatmap]
-    E --> E1[Estrella / Anillo / Árbol]
+    A([🕸️ Fundamentos de igraph]):::central
+
+    subgraph CREAR["🔧 Crear redes"]
+        direction LR
+        B1[Nodos y<br/>conexiones]:::crear
+        B2[Atributos]:::crear
+        B3[Visualización]:::crear
+    end
+
+    subgraph GRADO["📈 Grado y distribución"]
+        direction LR
+        C1[Grado de<br/>entrada / salida]:::grado
+        C2[Histogramas]:::grado
+    end
+
+    subgraph MATRIZ["🔢 Matriz de adyacencia"]
+        direction LR
+        D1[Heatmap]:::matriz
+    end
+
+    subgraph ESPECIALES["⭐ Redes especiales"]
+        direction LR
+        E1[Estrella]:::esp
+        E2[Anillo]:::esp
+        E3[Árbol]:::esp
+    end
+
+    A -->|define| B1
+    A -->|define| B2
+    A -->|define| B3
+    A -->|calcula| C1
+    A -->|visualiza| C2
+    A -->|representa| D1
+    A -->|incluye| E1
+    A -->|incluye| E2
+    A -->|incluye| E3
+    C1 -.->|se grafica en| C2
+    D1 -.->|refleja| B1
+
+    classDef central  fill:#F39C12,stroke:#D68910,color:#fff,font-weight:bold
+    classDef crear    fill:#2E86C1,stroke:#1A5276,color:#fff
+    classDef grado    fill:#1E8449,stroke:#145A32,color:#fff
+    classDef matriz   fill:#7D3C98,stroke:#6C3483,color:#fff
+    classDef esp      fill:#C0392B,stroke:#922B21,color:#fff
 ```
 
 ## Preparación del entorno

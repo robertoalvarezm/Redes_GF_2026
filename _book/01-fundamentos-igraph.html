@@ -481,17 +481,50 @@ window.Quarto = {
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource default number-lines code-with-copy"><code class="sourceCode default"><span id="cb1-1"><a href="#cb1-1"></a>flowchart TD</span>
-<span id="cb1-2"><a href="#cb1-2"></a>    A[Fundamentos de igraph] --&gt; B[Crear redes]</span>
-<span id="cb1-3"><a href="#cb1-3"></a>    A --&gt; C[grado (degree) y distribución]</span>
-<span id="cb1-4"><a href="#cb1-4"></a>    A --&gt; D[Matriz de adyacencia]</span>
-<span id="cb1-5"><a href="#cb1-5"></a>    A --&gt; E[Redes especiales]</span>
-<span id="cb1-6"><a href="#cb1-6"></a>    B --&gt; B1[Nodos y conexiones]</span>
-<span id="cb1-7"><a href="#cb1-7"></a>    B --&gt; B2[Atributos]</span>
-<span id="cb1-8"><a href="#cb1-8"></a>    B --&gt; B3[Visualización]</span>
-<span id="cb1-9"><a href="#cb1-9"></a>    C --&gt; C1[grado (degree) de entrada/salida]</span>
-<span id="cb1-10"><a href="#cb1-10"></a>    C --&gt; C2[Histogramas]</span>
-<span id="cb1-11"><a href="#cb1-11"></a>    D --&gt; D1[Heatmap]</span>
-<span id="cb1-12"><a href="#cb1-12"></a>    E --&gt; E1[Estrella / Anillo / Árbol]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb1-2"><a href="#cb1-2"></a>    A([🕸️ Fundamentos de igraph]):::central</span>
+<span id="cb1-3"><a href="#cb1-3"></a></span>
+<span id="cb1-4"><a href="#cb1-4"></a>    subgraph CREAR["🔧 Crear redes"]</span>
+<span id="cb1-5"><a href="#cb1-5"></a>        direction LR</span>
+<span id="cb1-6"><a href="#cb1-6"></a>        B1[Nodos y&lt;br/&gt;conexiones]:::crear</span>
+<span id="cb1-7"><a href="#cb1-7"></a>        B2[Atributos]:::crear</span>
+<span id="cb1-8"><a href="#cb1-8"></a>        B3[Visualización]:::crear</span>
+<span id="cb1-9"><a href="#cb1-9"></a>    end</span>
+<span id="cb1-10"><a href="#cb1-10"></a></span>
+<span id="cb1-11"><a href="#cb1-11"></a>    subgraph GRADO["📈 Grado y distribución"]</span>
+<span id="cb1-12"><a href="#cb1-12"></a>        direction LR</span>
+<span id="cb1-13"><a href="#cb1-13"></a>        C1[Grado de&lt;br/&gt;entrada / salida]:::grado</span>
+<span id="cb1-14"><a href="#cb1-14"></a>        C2[Histogramas]:::grado</span>
+<span id="cb1-15"><a href="#cb1-15"></a>    end</span>
+<span id="cb1-16"><a href="#cb1-16"></a></span>
+<span id="cb1-17"><a href="#cb1-17"></a>    subgraph MATRIZ["🔢 Matriz de adyacencia"]</span>
+<span id="cb1-18"><a href="#cb1-18"></a>        direction LR</span>
+<span id="cb1-19"><a href="#cb1-19"></a>        D1[Heatmap]:::matriz</span>
+<span id="cb1-20"><a href="#cb1-20"></a>    end</span>
+<span id="cb1-21"><a href="#cb1-21"></a></span>
+<span id="cb1-22"><a href="#cb1-22"></a>    subgraph ESPECIALES["⭐ Redes especiales"]</span>
+<span id="cb1-23"><a href="#cb1-23"></a>        direction LR</span>
+<span id="cb1-24"><a href="#cb1-24"></a>        E1[Estrella]:::esp</span>
+<span id="cb1-25"><a href="#cb1-25"></a>        E2[Anillo]:::esp</span>
+<span id="cb1-26"><a href="#cb1-26"></a>        E3[Árbol]:::esp</span>
+<span id="cb1-27"><a href="#cb1-27"></a>    end</span>
+<span id="cb1-28"><a href="#cb1-28"></a></span>
+<span id="cb1-29"><a href="#cb1-29"></a>    A --&gt;|define| B1</span>
+<span id="cb1-30"><a href="#cb1-30"></a>    A --&gt;|define| B2</span>
+<span id="cb1-31"><a href="#cb1-31"></a>    A --&gt;|define| B3</span>
+<span id="cb1-32"><a href="#cb1-32"></a>    A --&gt;|calcula| C1</span>
+<span id="cb1-33"><a href="#cb1-33"></a>    A --&gt;|visualiza| C2</span>
+<span id="cb1-34"><a href="#cb1-34"></a>    A --&gt;|representa| D1</span>
+<span id="cb1-35"><a href="#cb1-35"></a>    A --&gt;|incluye| E1</span>
+<span id="cb1-36"><a href="#cb1-36"></a>    A --&gt;|incluye| E2</span>
+<span id="cb1-37"><a href="#cb1-37"></a>    A --&gt;|incluye| E3</span>
+<span id="cb1-38"><a href="#cb1-38"></a>    C1 -.-&gt;|se grafica en| C2</span>
+<span id="cb1-39"><a href="#cb1-39"></a>    D1 -.-&gt;|refleja| B1</span>
+<span id="cb1-40"><a href="#cb1-40"></a></span>
+<span id="cb1-41"><a href="#cb1-41"></a>    classDef central  fill:#F39C12,stroke:#D68910,color:#fff,font-weight:bold</span>
+<span id="cb1-42"><a href="#cb1-42"></a>    classDef crear    fill:#2E86C1,stroke:#1A5276,color:#fff</span>
+<span id="cb1-43"><a href="#cb1-43"></a>    classDef grado    fill:#1E8449,stroke:#145A32,color:#fff</span>
+<span id="cb1-44"><a href="#cb1-44"></a>    classDef matriz   fill:#7D3C98,stroke:#6C3483,color:#fff</span>
+<span id="cb1-45"><a href="#cb1-45"></a>    classDef esp      fill:#C0392B,stroke:#922B21,color:#fff</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output-display">
 <div id="fig-mapa-cap1" class="quarto-float quarto-figure quarto-figure-center anchored">
@@ -499,17 +532,50 @@ window.Quarto = {
 <div aria-describedby="fig-mapa-cap1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <div>
 <pre class="mermaid mermaid-js" data-label="fig-mapa-cap1">flowchart TD
-    A[Fundamentos de igraph] --&gt; B[Crear redes]
-    A --&gt; C[grado (degree) y distribución]
-    A --&gt; D[Matriz de adyacencia]
-    A --&gt; E[Redes especiales]
-    B --&gt; B1[Nodos y conexiones]
-    B --&gt; B2[Atributos]
-    B --&gt; B3[Visualización]
-    C --&gt; C1[grado (degree) de entrada/salida]
-    C --&gt; C2[Histogramas]
-    D --&gt; D1[Heatmap]
-    E --&gt; E1[Estrella / Anillo / Árbol]
+    A([🕸️ Fundamentos de igraph]):::central
+
+    subgraph CREAR["🔧 Crear redes"]
+        direction LR
+        B1[Nodos y&lt;br/&gt;conexiones]:::crear
+        B2[Atributos]:::crear
+        B3[Visualización]:::crear
+    end
+
+    subgraph GRADO["📈 Grado y distribución"]
+        direction LR
+        C1[Grado de&lt;br/&gt;entrada / salida]:::grado
+        C2[Histogramas]:::grado
+    end
+
+    subgraph MATRIZ["🔢 Matriz de adyacencia"]
+        direction LR
+        D1[Heatmap]:::matriz
+    end
+
+    subgraph ESPECIALES["⭐ Redes especiales"]
+        direction LR
+        E1[Estrella]:::esp
+        E2[Anillo]:::esp
+        E3[Árbol]:::esp
+    end
+
+    A --&gt;|define| B1
+    A --&gt;|define| B2
+    A --&gt;|define| B3
+    A --&gt;|calcula| C1
+    A --&gt;|visualiza| C2
+    A --&gt;|representa| D1
+    A --&gt;|incluye| E1
+    A --&gt;|incluye| E2
+    A --&gt;|incluye| E3
+    C1 -.-&gt;|se grafica en| C2
+    D1 -.-&gt;|refleja| B1
+
+    classDef central  fill:#F39C12,stroke:#D68910,color:#fff,font-weight:bold
+    classDef crear    fill:#2E86C1,stroke:#1A5276,color:#fff
+    classDef grado    fill:#1E8449,stroke:#145A32,color:#fff
+    classDef matriz   fill:#7D3C98,stroke:#6C3483,color:#fff
+    classDef esp      fill:#C0392B,stroke:#922B21,color:#fff
 </pre>
 </div>
 </div>
@@ -2092,552 +2158,585 @@ Figure&nbsp;1.9: Resumen visual del capítulo
 <span id="cb40-18"><a href="#cb40-18"></a>%%| label: fig-mapa-cap1</span>
 <span id="cb40-19"><a href="#cb40-19"></a>%%| fig-cap: <span class="ot">"</span><span class="st">Mapa conceptual del capítulo</span><span class="ot">"</span></span>
 <span id="cb40-20"><a href="#cb40-20"></a>flowchart TD</span>
-<span id="cb40-21"><a href="#cb40-21"></a>    A[Fundamentos de igraph] --&gt; B[Crear redes]</span>
-<span id="cb40-22"><a href="#cb40-22"></a>    A --&gt; C[grado (degree) y distribución]</span>
-<span id="cb40-23"><a href="#cb40-23"></a>    A --&gt; D[Matriz de adyacencia]</span>
-<span id="cb40-24"><a href="#cb40-24"></a>    A --&gt; E[Redes especiales]</span>
-<span id="cb40-25"><a href="#cb40-25"></a>    B --&gt; B1[Nodos y conexiones]</span>
-<span id="cb40-26"><a href="#cb40-26"></a>    B --&gt; B2[Atributos]</span>
-<span id="cb40-27"><a href="#cb40-27"></a>    B --&gt; B3[Visualización]</span>
-<span id="cb40-28"><a href="#cb40-28"></a>    C --&gt; C1[grado (degree) de entrada/salida]</span>
-<span id="cb40-29"><a href="#cb40-29"></a>    C --&gt; C2[Histogramas]</span>
-<span id="cb40-30"><a href="#cb40-30"></a>    D --&gt; D1[Heatmap]</span>
-<span id="cb40-31"><a href="#cb40-31"></a>    E --&gt; E1[Estrella / Anillo / Árbol]</span>
-<span id="cb40-32"><a href="#cb40-32"></a><span class="in">```</span></span>
-<span id="cb40-33"><a href="#cb40-33"></a></span>
-<span id="cb40-34"><a href="#cb40-34"></a><span class="fu">## Preparación del entorno</span></span>
+<span id="cb40-21"><a href="#cb40-21"></a>    A([🕸️ Fundamentos de igraph]):::central</span>
+<span id="cb40-22"><a href="#cb40-22"></a></span>
+<span id="cb40-23"><a href="#cb40-23"></a>    subgraph CREAR[<span class="ot">"</span><span class="st">🔧 Crear redes</span><span class="ot">"</span>]</span>
+<span id="cb40-24"><a href="#cb40-24"></a>        direction LR</span>
+<span id="cb40-25"><a href="#cb40-25"></a>        B1[Nodos <span class="ot">y</span>&lt;br/&gt;conexiones]:::crear</span>
+<span id="cb40-26"><a href="#cb40-26"></a>        B2[Atributos]:::crear</span>
+<span id="cb40-27"><a href="#cb40-27"></a>        B3[Visualización]:::crear</span>
+<span id="cb40-28"><a href="#cb40-28"></a>    end</span>
+<span id="cb40-29"><a href="#cb40-29"></a></span>
+<span id="cb40-30"><a href="#cb40-30"></a>    subgraph GRADO[<span class="ot">"</span><span class="st">📈 Grado y distribución</span><span class="ot">"</span>]</span>
+<span id="cb40-31"><a href="#cb40-31"></a>        direction LR</span>
+<span id="cb40-32"><a href="#cb40-32"></a>        C1[Grado de&lt;br/&gt;entrada / salida]:::grado</span>
+<span id="cb40-33"><a href="#cb40-33"></a>        C2[Histogramas]:::grado</span>
+<span id="cb40-34"><a href="#cb40-34"></a>    end</span>
 <span id="cb40-35"><a href="#cb40-35"></a></span>
-<span id="cb40-38"><a href="#cb40-38"></a><span class="in">```{r}</span></span>
-<span id="cb40-39"><a href="#cb40-39"></a><span class="co">#| label: setup-cap1</span></span>
+<span id="cb40-36"><a href="#cb40-36"></a>    subgraph MATRIZ[<span class="ot">"</span><span class="st">🔢 Matriz de adyacencia</span><span class="ot">"</span>]</span>
+<span id="cb40-37"><a href="#cb40-37"></a>        direction LR</span>
+<span id="cb40-38"><a href="#cb40-38"></a>        D1[Heatmap]:::matriz</span>
+<span id="cb40-39"><a href="#cb40-39"></a>    end</span>
 <span id="cb40-40"><a href="#cb40-40"></a></span>
-<span id="cb40-41"><a href="#cb40-41"></a><span class="fu">library</span>(igraph)</span>
-<span id="cb40-42"><a href="#cb40-42"></a><span class="in">```</span></span>
-<span id="cb40-43"><a href="#cb40-43"></a></span>
-<span id="cb40-44"><a href="#cb40-44"></a>::: {.callout-note title="📦 Paquete requerido" collapse="true"}</span>
-<span id="cb40-45"><a href="#cb40-45"></a>Si no tienes instalado <span class="in">`igraph`</span>, ejecuta:</span>
-<span id="cb40-46"><a href="#cb40-46"></a></span>
-<span id="cb40-47"><a href="#cb40-47"></a><span class="in">```r</span></span>
-<span id="cb40-48"><a href="#cb40-48"></a><span class="fu">install.packages</span>(<span class="st">"igraph"</span>)</span>
-<span id="cb40-49"><a href="#cb40-49"></a><span class="in">```</span></span>
-<span id="cb40-50"><a href="#cb40-50"></a>:::</span>
-<span id="cb40-51"><a href="#cb40-51"></a></span>
-<span id="cb40-52"><a href="#cb40-52"></a><span class="fu">## Crear redes desde cero</span></span>
-<span id="cb40-53"><a href="#cb40-53"></a></span>
-<span id="cb40-54"><a href="#cb40-54"></a>Un **grafo** (o red) se compone de **vértices** (nodos) y **conexiones** (conexiones entre nodos). En <span class="in">`igraph`</span>, todo comienza creando un grafo vacío y luego añadiendo elementos.</span>
-<span id="cb40-55"><a href="#cb40-55"></a></span>
-<span id="cb40-56"><a href="#cb40-56"></a>::: {.callout-tip title="💡 Concepto clave"}</span>
-<span id="cb40-57"><a href="#cb40-57"></a>En <span class="in">`igraph`</span>, los vértices se acceden con <span class="in">`V(g)`</span> y las conexiones con <span class="in">`E(g)`</span>. Piensa en <span class="in">`V`</span> de *vertices* y `E` de *edges*.</span>
-<span id="cb40-58"><a href="#cb40-58"></a>:::</span>
+<span id="cb40-41"><a href="#cb40-41"></a>    subgraph ESPECIALES[<span class="ot">"</span><span class="st">⭐ Redes especiales</span><span class="ot">"</span>]</span>
+<span id="cb40-42"><a href="#cb40-42"></a>        direction LR</span>
+<span id="cb40-43"><a href="#cb40-43"></a>        E1[Estrella]:::esp</span>
+<span id="cb40-44"><a href="#cb40-44"></a>        E2[Anillo]:::esp</span>
+<span id="cb40-45"><a href="#cb40-45"></a>        E3[Árbol]:::esp</span>
+<span id="cb40-46"><a href="#cb40-46"></a>    end</span>
+<span id="cb40-47"><a href="#cb40-47"></a></span>
+<span id="cb40-48"><a href="#cb40-48"></a>    A --&gt;|define| B1</span>
+<span id="cb40-49"><a href="#cb40-49"></a>    A --&gt;|define| B2</span>
+<span id="cb40-50"><a href="#cb40-50"></a>    A --&gt;|define| B3</span>
+<span id="cb40-51"><a href="#cb40-51"></a>    A --&gt;|calcula| C1</span>
+<span id="cb40-52"><a href="#cb40-52"></a>    A --&gt;|visualiza| C2</span>
+<span id="cb40-53"><a href="#cb40-53"></a>    A --&gt;|representa| D1</span>
+<span id="cb40-54"><a href="#cb40-54"></a>    A --&gt;|incluye| E1</span>
+<span id="cb40-55"><a href="#cb40-55"></a>    A --&gt;|incluye| E2</span>
+<span id="cb40-56"><a href="#cb40-56"></a>    A --&gt;|incluye| E3</span>
+<span id="cb40-57"><a href="#cb40-57"></a>    C1 -.-&gt;|se grafica en| C2</span>
+<span id="cb40-58"><a href="#cb40-58"></a>    D1 -.-&gt;|refleja| B1</span>
 <span id="cb40-59"><a href="#cb40-59"></a></span>
-<span id="cb40-60"><a href="#cb40-60"></a><span class="fu">### Paso 1: Grafo vacío</span></span>
-<span id="cb40-61"><a href="#cb40-61"></a></span>
-<span id="cb40-64"><a href="#cb40-64"></a><span class="in">```{r}</span></span>
-<span id="cb40-65"><a href="#cb40-65"></a><span class="co">#| label: crear-grafo-vacio</span></span>
-<span id="cb40-66"><a href="#cb40-66"></a><span class="co">#| fig-cap: "Red vacía con 5 nodos y sin conexiones"</span></span>
-<span id="cb40-67"><a href="#cb40-67"></a><span class="co">#| fig-alt: "Cinco nodos amarillos distribuidos sin conexiones entre ellos"</span></span>
+<span id="cb40-60"><a href="#cb40-60"></a>    classDef central  fill:<span class="co">#F39C12,stroke:#D68910,color:#fff,font-weight:bold</span></span>
+<span id="cb40-61"><a href="#cb40-61"></a>    classDef crear    fill:<span class="co">#2E86C1,stroke:#1A5276,color:#fff</span></span>
+<span id="cb40-62"><a href="#cb40-62"></a>    classDef grado    fill:<span class="co">#1E8449,stroke:#145A32,color:#fff</span></span>
+<span id="cb40-63"><a href="#cb40-63"></a>    classDef matriz   fill:<span class="co">#7D3C98,stroke:#6C3483,color:#fff</span></span>
+<span id="cb40-64"><a href="#cb40-64"></a>    classDef esp      fill:<span class="co">#C0392B,stroke:#922B21,color:#fff</span></span>
+<span id="cb40-65"><a href="#cb40-65"></a><span class="in">```</span></span>
+<span id="cb40-66"><a href="#cb40-66"></a></span>
+<span id="cb40-67"><a href="#cb40-67"></a><span class="fu">## Preparación del entorno</span></span>
 <span id="cb40-68"><a href="#cb40-68"></a></span>
-<span id="cb40-69"><a href="#cb40-69"></a><span class="co"># Crear un grafo dirigido vacío con 5 nodos</span></span>
-<span id="cb40-70"><a href="#cb40-70"></a>g <span class="ot">&lt;-</span> <span class="fu">make_empty_graph</span>(<span class="at">n =</span> <span class="dv">5</span>, <span class="at">directed =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb40-71"><a href="#cb40-71"></a></span>
-<span id="cb40-72"><a href="#cb40-72"></a><span class="co"># Asignar atributos visuales a los nodos</span></span>
-<span id="cb40-73"><a href="#cb40-73"></a><span class="fu">V</span>(g)<span class="sc">$</span>color <span class="ot">&lt;-</span> <span class="st">"yellow"</span></span>
-<span id="cb40-74"><a href="#cb40-74"></a></span>
-<span id="cb40-75"><a href="#cb40-75"></a><span class="co"># Visualizar</span></span>
-<span id="cb40-76"><a href="#cb40-76"></a><span class="fu">plot</span>(g, </span>
-<span id="cb40-77"><a href="#cb40-77"></a>     <span class="at">main =</span> <span class="st">"Red vacía con 5 nodos"</span>,</span>
-<span id="cb40-78"><a href="#cb40-78"></a>     <span class="at">vertex.size =</span> <span class="dv">30</span>)</span>
-<span id="cb40-79"><a href="#cb40-79"></a><span class="in">```</span></span>
-<span id="cb40-80"><a href="#cb40-80"></a></span>
-<span id="cb40-81"><a href="#cb40-81"></a><span class="fu">### Paso 2: Agregar conexiones</span></span>
-<span id="cb40-82"><a href="#cb40-82"></a></span>
-<span id="cb40-83"><a href="#cb40-83"></a>Las conexiones se agregan como un vector de pares: <span class="in">`c(origen1, destino1, origen2, destino2, ...)`</span>.</span>
+<span id="cb40-71"><a href="#cb40-71"></a><span class="in">```{r}</span></span>
+<span id="cb40-72"><a href="#cb40-72"></a><span class="co">#| label: setup-cap1</span></span>
+<span id="cb40-73"><a href="#cb40-73"></a></span>
+<span id="cb40-74"><a href="#cb40-74"></a><span class="fu">library</span>(igraph)</span>
+<span id="cb40-75"><a href="#cb40-75"></a><span class="in">```</span></span>
+<span id="cb40-76"><a href="#cb40-76"></a></span>
+<span id="cb40-77"><a href="#cb40-77"></a>::: {.callout-note title="📦 Paquete requerido" collapse="true"}</span>
+<span id="cb40-78"><a href="#cb40-78"></a>Si no tienes instalado <span class="in">`igraph`</span>, ejecuta:</span>
+<span id="cb40-79"><a href="#cb40-79"></a></span>
+<span id="cb40-80"><a href="#cb40-80"></a><span class="in">```r</span></span>
+<span id="cb40-81"><a href="#cb40-81"></a><span class="fu">install.packages</span>(<span class="st">"igraph"</span>)</span>
+<span id="cb40-82"><a href="#cb40-82"></a><span class="in">```</span></span>
+<span id="cb40-83"><a href="#cb40-83"></a>:::</span>
 <span id="cb40-84"><a href="#cb40-84"></a></span>
-<span id="cb40-87"><a href="#cb40-87"></a><span class="in">```{r}</span></span>
-<span id="cb40-88"><a href="#cb40-88"></a><span class="co">#| label: agregar-conexiones</span></span>
-<span id="cb40-89"><a href="#cb40-89"></a><span class="co">#| fig-cap: "Red con conexiones agregadas manualmente"</span></span>
-<span id="cb40-90"><a href="#cb40-90"></a><span class="co">#| fig-alt: "Cinco nodos conectados por conexiones dirigidas"</span></span>
-<span id="cb40-91"><a href="#cb40-91"></a></span>
-<span id="cb40-92"><a href="#cb40-92"></a><span class="co"># Agregar conexiones: 1→2, 1→3, 2→4, 3→4, 4→5</span></span>
-<span id="cb40-93"><a href="#cb40-93"></a>g <span class="ot">&lt;-</span> <span class="fu">add_edges</span>(g, <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>, <span class="dv">1</span>,<span class="dv">3</span>, <span class="dv">2</span>,<span class="dv">4</span>, <span class="dv">3</span>,<span class="dv">4</span>, <span class="dv">4</span>,<span class="dv">5</span>))</span>
+<span id="cb40-85"><a href="#cb40-85"></a><span class="fu">## Crear redes desde cero</span></span>
+<span id="cb40-86"><a href="#cb40-86"></a></span>
+<span id="cb40-87"><a href="#cb40-87"></a>Un **grafo** (o red) se compone de **vértices** (nodos) y **conexiones** (conexiones entre nodos). En <span class="in">`igraph`</span>, todo comienza creando un grafo vacío y luego añadiendo elementos.</span>
+<span id="cb40-88"><a href="#cb40-88"></a></span>
+<span id="cb40-89"><a href="#cb40-89"></a>::: {.callout-tip title="💡 Concepto clave"}</span>
+<span id="cb40-90"><a href="#cb40-90"></a>En <span class="in">`igraph`</span>, los vértices se acceden con <span class="in">`V(g)`</span> y las conexiones con <span class="in">`E(g)`</span>. Piensa en <span class="in">`V`</span> de *vertices* y `E` de *edges*.</span>
+<span id="cb40-91"><a href="#cb40-91"></a>:::</span>
+<span id="cb40-92"><a href="#cb40-92"></a></span>
+<span id="cb40-93"><a href="#cb40-93"></a><span class="fu">### Paso 1: Grafo vacío</span></span>
 <span id="cb40-94"><a href="#cb40-94"></a></span>
-<span id="cb40-95"><a href="#cb40-95"></a><span class="fu">plot</span>(g, </span>
-<span id="cb40-96"><a href="#cb40-96"></a>     <span class="at">main =</span> <span class="st">"Red con conexiones agregadas"</span>,</span>
-<span id="cb40-97"><a href="#cb40-97"></a>     <span class="at">vertex.size =</span> <span class="dv">30</span>,</span>
-<span id="cb40-98"><a href="#cb40-98"></a>     <span class="at">edge.arrow.size =</span> <span class="fl">0.6</span>)</span>
-<span id="cb40-99"><a href="#cb40-99"></a><span class="in">```</span></span>
-<span id="cb40-100"><a href="#cb40-100"></a></span>
-<span id="cb40-101"><a href="#cb40-101"></a><span class="fu">### Paso 3: Agregar nodos con atributos</span></span>
-<span id="cb40-102"><a href="#cb40-102"></a></span>
-<span id="cb40-105"><a href="#cb40-105"></a><span class="in">```{r}</span></span>
-<span id="cb40-106"><a href="#cb40-106"></a><span class="co">#| label: agregar-nodo</span></span>
-<span id="cb40-107"><a href="#cb40-107"></a><span class="co">#| fig-cap: "Nodo rojo agregado con nuevas conexiones"</span></span>
-<span id="cb40-108"><a href="#cb40-108"></a><span class="co">#| fig-alt: "Seis nodos, uno rojo, con conexiones dirigidas"</span></span>
-<span id="cb40-109"><a href="#cb40-109"></a></span>
-<span id="cb40-110"><a href="#cb40-110"></a><span class="co"># Agregar un nodo nuevo con color rojo</span></span>
-<span id="cb40-111"><a href="#cb40-111"></a>g <span class="ot">&lt;-</span> <span class="fu">add_vertices</span>(g, <span class="dv">1</span>, <span class="at">color =</span> <span class="st">"red"</span>)</span>
-<span id="cb40-112"><a href="#cb40-112"></a></span>
-<span id="cb40-113"><a href="#cb40-113"></a><span class="co"># Conectar el nuevo nodo (nodo 6)</span></span>
-<span id="cb40-114"><a href="#cb40-114"></a>g <span class="ot">&lt;-</span> <span class="fu">add_edges</span>(g, <span class="fu">c</span>(<span class="dv">3</span>,<span class="dv">6</span>, <span class="dv">6</span>,<span class="dv">5</span>))</span>
+<span id="cb40-97"><a href="#cb40-97"></a><span class="in">```{r}</span></span>
+<span id="cb40-98"><a href="#cb40-98"></a><span class="co">#| label: crear-grafo-vacio</span></span>
+<span id="cb40-99"><a href="#cb40-99"></a><span class="co">#| fig-cap: "Red vacía con 5 nodos y sin conexiones"</span></span>
+<span id="cb40-100"><a href="#cb40-100"></a><span class="co">#| fig-alt: "Cinco nodos amarillos distribuidos sin conexiones entre ellos"</span></span>
+<span id="cb40-101"><a href="#cb40-101"></a></span>
+<span id="cb40-102"><a href="#cb40-102"></a><span class="co"># Crear un grafo dirigido vacío con 5 nodos</span></span>
+<span id="cb40-103"><a href="#cb40-103"></a>g <span class="ot">&lt;-</span> <span class="fu">make_empty_graph</span>(<span class="at">n =</span> <span class="dv">5</span>, <span class="at">directed =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb40-104"><a href="#cb40-104"></a></span>
+<span id="cb40-105"><a href="#cb40-105"></a><span class="co"># Asignar atributos visuales a los nodos</span></span>
+<span id="cb40-106"><a href="#cb40-106"></a><span class="fu">V</span>(g)<span class="sc">$</span>color <span class="ot">&lt;-</span> <span class="st">"yellow"</span></span>
+<span id="cb40-107"><a href="#cb40-107"></a></span>
+<span id="cb40-108"><a href="#cb40-108"></a><span class="co"># Visualizar</span></span>
+<span id="cb40-109"><a href="#cb40-109"></a><span class="fu">plot</span>(g, </span>
+<span id="cb40-110"><a href="#cb40-110"></a>     <span class="at">main =</span> <span class="st">"Red vacía con 5 nodos"</span>,</span>
+<span id="cb40-111"><a href="#cb40-111"></a>     <span class="at">vertex.size =</span> <span class="dv">30</span>)</span>
+<span id="cb40-112"><a href="#cb40-112"></a><span class="in">```</span></span>
+<span id="cb40-113"><a href="#cb40-113"></a></span>
+<span id="cb40-114"><a href="#cb40-114"></a><span class="fu">### Paso 2: Agregar conexiones</span></span>
 <span id="cb40-115"><a href="#cb40-115"></a></span>
-<span id="cb40-116"><a href="#cb40-116"></a><span class="fu">plot</span>(g, </span>
-<span id="cb40-117"><a href="#cb40-117"></a>     <span class="at">main =</span> <span class="st">"Nodo rojo y nuevas conexiones"</span>,</span>
-<span id="cb40-118"><a href="#cb40-118"></a>     <span class="at">vertex.size =</span> <span class="dv">30</span>,</span>
-<span id="cb40-119"><a href="#cb40-119"></a>     <span class="at">edge.arrow.size =</span> <span class="fl">0.6</span>)</span>
-<span id="cb40-120"><a href="#cb40-120"></a><span class="in">```</span></span>
-<span id="cb40-121"><a href="#cb40-121"></a></span>
-<span id="cb40-122"><a href="#cb40-122"></a><span class="fu">### Paso 4: Nombrar los nodos</span></span>
-<span id="cb40-123"><a href="#cb40-123"></a></span>
-<span id="cb40-126"><a href="#cb40-126"></a><span class="in">```{r}</span></span>
-<span id="cb40-127"><a href="#cb40-127"></a><span class="co">#| label: renombrar-nodos</span></span>
-<span id="cb40-128"><a href="#cb40-128"></a><span class="co">#| fig-cap: "Red con nodos etiquetados de A a F"</span></span>
-<span id="cb40-129"><a href="#cb40-129"></a><span class="co">#| fig-alt: "Seis nodos etiquetados con letras A a F"</span></span>
-<span id="cb40-130"><a href="#cb40-130"></a></span>
-<span id="cb40-131"><a href="#cb40-131"></a><span class="co"># Asignar nombres a los vértices</span></span>
-<span id="cb40-132"><a href="#cb40-132"></a><span class="fu">V</span>(g)<span class="sc">$</span>name <span class="ot">&lt;-</span> LETTERS[<span class="dv">1</span><span class="sc">:</span><span class="dv">6</span>]</span>
+<span id="cb40-116"><a href="#cb40-116"></a>Las conexiones se agregan como un vector de pares: <span class="in">`c(origen1, destino1, origen2, destino2, ...)`</span>.</span>
+<span id="cb40-117"><a href="#cb40-117"></a></span>
+<span id="cb40-120"><a href="#cb40-120"></a><span class="in">```{r}</span></span>
+<span id="cb40-121"><a href="#cb40-121"></a><span class="co">#| label: agregar-conexiones</span></span>
+<span id="cb40-122"><a href="#cb40-122"></a><span class="co">#| fig-cap: "Red con conexiones agregadas manualmente"</span></span>
+<span id="cb40-123"><a href="#cb40-123"></a><span class="co">#| fig-alt: "Cinco nodos conectados por conexiones dirigidas"</span></span>
+<span id="cb40-124"><a href="#cb40-124"></a></span>
+<span id="cb40-125"><a href="#cb40-125"></a><span class="co"># Agregar conexiones: 1→2, 1→3, 2→4, 3→4, 4→5</span></span>
+<span id="cb40-126"><a href="#cb40-126"></a>g <span class="ot">&lt;-</span> <span class="fu">add_edges</span>(g, <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>, <span class="dv">1</span>,<span class="dv">3</span>, <span class="dv">2</span>,<span class="dv">4</span>, <span class="dv">3</span>,<span class="dv">4</span>, <span class="dv">4</span>,<span class="dv">5</span>))</span>
+<span id="cb40-127"><a href="#cb40-127"></a></span>
+<span id="cb40-128"><a href="#cb40-128"></a><span class="fu">plot</span>(g, </span>
+<span id="cb40-129"><a href="#cb40-129"></a>     <span class="at">main =</span> <span class="st">"Red con conexiones agregadas"</span>,</span>
+<span id="cb40-130"><a href="#cb40-130"></a>     <span class="at">vertex.size =</span> <span class="dv">30</span>,</span>
+<span id="cb40-131"><a href="#cb40-131"></a>     <span class="at">edge.arrow.size =</span> <span class="fl">0.6</span>)</span>
+<span id="cb40-132"><a href="#cb40-132"></a><span class="in">```</span></span>
 <span id="cb40-133"><a href="#cb40-133"></a></span>
-<span id="cb40-134"><a href="#cb40-134"></a><span class="fu">plot</span>(g, </span>
-<span id="cb40-135"><a href="#cb40-135"></a>     <span class="at">main =</span> <span class="st">"Nodos con nombres A–F"</span>,</span>
-<span id="cb40-136"><a href="#cb40-136"></a>     <span class="at">vertex.size =</span> <span class="dv">30</span>,</span>
-<span id="cb40-137"><a href="#cb40-137"></a>     <span class="at">edge.arrow.size =</span> <span class="fl">0.6</span>)</span>
-<span id="cb40-138"><a href="#cb40-138"></a><span class="in">```</span></span>
-<span id="cb40-139"><a href="#cb40-139"></a></span>
-<span id="cb40-140"><a href="#cb40-140"></a><span class="fu">### Paso 5: Modificar conexiones</span></span>
-<span id="cb40-141"><a href="#cb40-141"></a></span>
-<span id="cb40-144"><a href="#cb40-144"></a><span class="in">```{r}</span></span>
-<span id="cb40-145"><a href="#cb40-145"></a><span class="co">#| label: modificar-conexiones</span></span>
-<span id="cb40-146"><a href="#cb40-146"></a><span class="co">#| fig-cap: "Red con dirección de conexión modificada"</span></span>
-<span id="cb40-147"><a href="#cb40-147"></a><span class="co">#| fig-alt: "Red de seis nodos con una conexión cambiada de dirección"</span></span>
+<span id="cb40-134"><a href="#cb40-134"></a><span class="fu">### Paso 3: Agregar nodos con atributos</span></span>
+<span id="cb40-135"><a href="#cb40-135"></a></span>
+<span id="cb40-138"><a href="#cb40-138"></a><span class="in">```{r}</span></span>
+<span id="cb40-139"><a href="#cb40-139"></a><span class="co">#| label: agregar-nodo</span></span>
+<span id="cb40-140"><a href="#cb40-140"></a><span class="co">#| fig-cap: "Nodo rojo agregado con nuevas conexiones"</span></span>
+<span id="cb40-141"><a href="#cb40-141"></a><span class="co">#| fig-alt: "Seis nodos, uno rojo, con conexiones dirigidas"</span></span>
+<span id="cb40-142"><a href="#cb40-142"></a></span>
+<span id="cb40-143"><a href="#cb40-143"></a><span class="co"># Agregar un nodo nuevo con color rojo</span></span>
+<span id="cb40-144"><a href="#cb40-144"></a>g <span class="ot">&lt;-</span> <span class="fu">add_vertices</span>(g, <span class="dv">1</span>, <span class="at">color =</span> <span class="st">"red"</span>)</span>
+<span id="cb40-145"><a href="#cb40-145"></a></span>
+<span id="cb40-146"><a href="#cb40-146"></a><span class="co"># Conectar el nuevo nodo (nodo 6)</span></span>
+<span id="cb40-147"><a href="#cb40-147"></a>g <span class="ot">&lt;-</span> <span class="fu">add_edges</span>(g, <span class="fu">c</span>(<span class="dv">3</span>,<span class="dv">6</span>, <span class="dv">6</span>,<span class="dv">5</span>))</span>
 <span id="cb40-148"><a href="#cb40-148"></a></span>
-<span id="cb40-149"><a href="#cb40-149"></a><span class="co"># Eliminar la segunda conexión (A→C) y agregar C→A</span></span>
-<span id="cb40-150"><a href="#cb40-150"></a>g <span class="ot">&lt;-</span> <span class="fu">delete_edges</span>(g, <span class="dv">2</span>)</span>
-<span id="cb40-151"><a href="#cb40-151"></a>g <span class="ot">&lt;-</span> <span class="fu">add_edges</span>(g, <span class="fu">c</span>(<span class="dv">3</span>, <span class="dv">1</span>))  <span class="co"># C → A</span></span>
-<span id="cb40-152"><a href="#cb40-152"></a></span>
-<span id="cb40-153"><a href="#cb40-153"></a><span class="fu">plot</span>(g, </span>
-<span id="cb40-154"><a href="#cb40-154"></a>     <span class="at">main =</span> <span class="st">"Cambio en dirección de conexión"</span>,</span>
-<span id="cb40-155"><a href="#cb40-155"></a>     <span class="at">vertex.size =</span> <span class="dv">30</span>,</span>
-<span id="cb40-156"><a href="#cb40-156"></a>     <span class="at">edge.arrow.size =</span> <span class="fl">0.6</span>)</span>
-<span id="cb40-157"><a href="#cb40-157"></a><span class="in">```</span></span>
-<span id="cb40-158"><a href="#cb40-158"></a></span>
-<span id="cb40-159"><a href="#cb40-159"></a>::: {.callout-warning title="⚠️ Error frecuente"}</span>
-<span id="cb40-160"><a href="#cb40-160"></a>Cuando eliminas conexiones con <span class="in">`delete_edges()`</span>, los **índices se reorganizan**. Si eliminas la conexión 2, la que antes era la 3 ahora es la 2. Siempre verifica con <span class="in">`E(g)`</span> después de eliminar.</span>
-<span id="cb40-161"><a href="#cb40-161"></a>:::</span>
-<span id="cb40-162"><a href="#cb40-162"></a></span>
-<span id="cb40-163"><a href="#cb40-163"></a><span class="fu">## grado (degree) y distribución de grado (degree) {#sec-grado (degree)-basico}</span></span>
-<span id="cb40-164"><a href="#cb40-164"></a></span>
-<span id="cb40-165"><a href="#cb40-165"></a>El **grado (degree)** de un nodo es el número de conexiones que tiene. En redes dirigidas, distinguimos entre grado (degree) de entrada (*in-degree*) y de salida (*out-degree*).</span>
+<span id="cb40-149"><a href="#cb40-149"></a><span class="fu">plot</span>(g, </span>
+<span id="cb40-150"><a href="#cb40-150"></a>     <span class="at">main =</span> <span class="st">"Nodo rojo y nuevas conexiones"</span>,</span>
+<span id="cb40-151"><a href="#cb40-151"></a>     <span class="at">vertex.size =</span> <span class="dv">30</span>,</span>
+<span id="cb40-152"><a href="#cb40-152"></a>     <span class="at">edge.arrow.size =</span> <span class="fl">0.6</span>)</span>
+<span id="cb40-153"><a href="#cb40-153"></a><span class="in">```</span></span>
+<span id="cb40-154"><a href="#cb40-154"></a></span>
+<span id="cb40-155"><a href="#cb40-155"></a><span class="fu">### Paso 4: Nombrar los nodos</span></span>
+<span id="cb40-156"><a href="#cb40-156"></a></span>
+<span id="cb40-159"><a href="#cb40-159"></a><span class="in">```{r}</span></span>
+<span id="cb40-160"><a href="#cb40-160"></a><span class="co">#| label: renombrar-nodos</span></span>
+<span id="cb40-161"><a href="#cb40-161"></a><span class="co">#| fig-cap: "Red con nodos etiquetados de A a F"</span></span>
+<span id="cb40-162"><a href="#cb40-162"></a><span class="co">#| fig-alt: "Seis nodos etiquetados con letras A a F"</span></span>
+<span id="cb40-163"><a href="#cb40-163"></a></span>
+<span id="cb40-164"><a href="#cb40-164"></a><span class="co"># Asignar nombres a los vértices</span></span>
+<span id="cb40-165"><a href="#cb40-165"></a><span class="fu">V</span>(g)<span class="sc">$</span>name <span class="ot">&lt;-</span> LETTERS[<span class="dv">1</span><span class="sc">:</span><span class="dv">6</span>]</span>
 <span id="cb40-166"><a href="#cb40-166"></a></span>
-<span id="cb40-167"><a href="#cb40-167"></a>::: {.panel-tabset}</span>
-<span id="cb40-168"><a href="#cb40-168"></a></span>
-<span id="cb40-169"><a href="#cb40-169"></a><span class="fu">### grado (degree) total</span></span>
-<span id="cb40-170"><a href="#cb40-170"></a></span>
-<span id="cb40-173"><a href="#cb40-173"></a><span class="in">```{r}</span></span>
-<span id="cb40-174"><a href="#cb40-174"></a><span class="co">#| label: grado (degree)-total</span></span>
-<span id="cb40-175"><a href="#cb40-175"></a></span>
-<span id="cb40-176"><a href="#cb40-176"></a><span class="co"># grado (degree) total de cada nodo</span></span>
-<span id="cb40-177"><a href="#cb40-177"></a><span class="fu">degree</span>(g)</span>
-<span id="cb40-178"><a href="#cb40-178"></a><span class="in">```</span></span>
-<span id="cb40-179"><a href="#cb40-179"></a></span>
-<span id="cb40-180"><a href="#cb40-180"></a><span class="fu">### grado (degree) de entrada</span></span>
+<span id="cb40-167"><a href="#cb40-167"></a><span class="fu">plot</span>(g, </span>
+<span id="cb40-168"><a href="#cb40-168"></a>     <span class="at">main =</span> <span class="st">"Nodos con nombres A–F"</span>,</span>
+<span id="cb40-169"><a href="#cb40-169"></a>     <span class="at">vertex.size =</span> <span class="dv">30</span>,</span>
+<span id="cb40-170"><a href="#cb40-170"></a>     <span class="at">edge.arrow.size =</span> <span class="fl">0.6</span>)</span>
+<span id="cb40-171"><a href="#cb40-171"></a><span class="in">```</span></span>
+<span id="cb40-172"><a href="#cb40-172"></a></span>
+<span id="cb40-173"><a href="#cb40-173"></a><span class="fu">### Paso 5: Modificar conexiones</span></span>
+<span id="cb40-174"><a href="#cb40-174"></a></span>
+<span id="cb40-177"><a href="#cb40-177"></a><span class="in">```{r}</span></span>
+<span id="cb40-178"><a href="#cb40-178"></a><span class="co">#| label: modificar-conexiones</span></span>
+<span id="cb40-179"><a href="#cb40-179"></a><span class="co">#| fig-cap: "Red con dirección de conexión modificada"</span></span>
+<span id="cb40-180"><a href="#cb40-180"></a><span class="co">#| fig-alt: "Red de seis nodos con una conexión cambiada de dirección"</span></span>
 <span id="cb40-181"><a href="#cb40-181"></a></span>
-<span id="cb40-184"><a href="#cb40-184"></a><span class="in">```{r}</span></span>
-<span id="cb40-185"><a href="#cb40-185"></a><span class="co">#| label: grado (degree)-entrada</span></span>
-<span id="cb40-186"><a href="#cb40-186"></a></span>
-<span id="cb40-187"><a href="#cb40-187"></a><span class="co"># ¿Cuántas conexiones llegan a cada nodo?</span></span>
-<span id="cb40-188"><a href="#cb40-188"></a><span class="fu">degree</span>(g, <span class="at">mode =</span> <span class="st">"in"</span>)</span>
-<span id="cb40-189"><a href="#cb40-189"></a><span class="in">```</span></span>
-<span id="cb40-190"><a href="#cb40-190"></a></span>
-<span id="cb40-191"><a href="#cb40-191"></a><span class="fu">### grado (degree) de salida</span></span>
-<span id="cb40-192"><a href="#cb40-192"></a></span>
-<span id="cb40-195"><a href="#cb40-195"></a><span class="in">```{r}</span></span>
-<span id="cb40-196"><a href="#cb40-196"></a><span class="co">#| label: grado (degree)-salida</span></span>
+<span id="cb40-182"><a href="#cb40-182"></a><span class="co"># Eliminar la segunda conexión (A→C) y agregar C→A</span></span>
+<span id="cb40-183"><a href="#cb40-183"></a>g <span class="ot">&lt;-</span> <span class="fu">delete_edges</span>(g, <span class="dv">2</span>)</span>
+<span id="cb40-184"><a href="#cb40-184"></a>g <span class="ot">&lt;-</span> <span class="fu">add_edges</span>(g, <span class="fu">c</span>(<span class="dv">3</span>, <span class="dv">1</span>))  <span class="co"># C → A</span></span>
+<span id="cb40-185"><a href="#cb40-185"></a></span>
+<span id="cb40-186"><a href="#cb40-186"></a><span class="fu">plot</span>(g, </span>
+<span id="cb40-187"><a href="#cb40-187"></a>     <span class="at">main =</span> <span class="st">"Cambio en dirección de conexión"</span>,</span>
+<span id="cb40-188"><a href="#cb40-188"></a>     <span class="at">vertex.size =</span> <span class="dv">30</span>,</span>
+<span id="cb40-189"><a href="#cb40-189"></a>     <span class="at">edge.arrow.size =</span> <span class="fl">0.6</span>)</span>
+<span id="cb40-190"><a href="#cb40-190"></a><span class="in">```</span></span>
+<span id="cb40-191"><a href="#cb40-191"></a></span>
+<span id="cb40-192"><a href="#cb40-192"></a>::: {.callout-warning title="⚠️ Error frecuente"}</span>
+<span id="cb40-193"><a href="#cb40-193"></a>Cuando eliminas conexiones con <span class="in">`delete_edges()`</span>, los **índices se reorganizan**. Si eliminas la conexión 2, la que antes era la 3 ahora es la 2. Siempre verifica con <span class="in">`E(g)`</span> después de eliminar.</span>
+<span id="cb40-194"><a href="#cb40-194"></a>:::</span>
+<span id="cb40-195"><a href="#cb40-195"></a></span>
+<span id="cb40-196"><a href="#cb40-196"></a><span class="fu">## grado (degree) y distribución de grado (degree) {#sec-grado (degree)-basico}</span></span>
 <span id="cb40-197"><a href="#cb40-197"></a></span>
-<span id="cb40-198"><a href="#cb40-198"></a><span class="co"># ¿Cuántas conexiones salen de cada nodo?</span></span>
-<span id="cb40-199"><a href="#cb40-199"></a><span class="fu">degree</span>(g, <span class="at">mode =</span> <span class="st">"out"</span>)</span>
-<span id="cb40-200"><a href="#cb40-200"></a><span class="in">```</span></span>
+<span id="cb40-198"><a href="#cb40-198"></a>El **grado (degree)** de un nodo es el número de conexiones que tiene. En redes dirigidas, distinguimos entre grado (degree) de entrada (*in-degree*) y de salida (*out-degree*).</span>
+<span id="cb40-199"><a href="#cb40-199"></a></span>
+<span id="cb40-200"><a href="#cb40-200"></a>::: {.panel-tabset}</span>
 <span id="cb40-201"><a href="#cb40-201"></a></span>
-<span id="cb40-202"><a href="#cb40-202"></a>:::</span>
+<span id="cb40-202"><a href="#cb40-202"></a><span class="fu">### grado (degree) total</span></span>
 <span id="cb40-203"><a href="#cb40-203"></a></span>
-<span id="cb40-204"><a href="#cb40-204"></a><span class="fu">### Visualizar el grado (degree)</span></span>
-<span id="cb40-205"><a href="#cb40-205"></a></span>
-<span id="cb40-208"><a href="#cb40-208"></a><span class="in">```{r}</span></span>
-<span id="cb40-209"><a href="#cb40-209"></a><span class="co">#| label: fig-tamano-grado (degree)</span></span>
-<span id="cb40-210"><a href="#cb40-210"></a><span class="co">#| fig-cap: "Tamaño de nodos proporcional al grado (degree) de entrada"</span></span>
-<span id="cb40-211"><a href="#cb40-211"></a><span class="co">#| fig-alt: "Red donde los nodos más grandes reciben más conexiones"</span></span>
+<span id="cb40-206"><a href="#cb40-206"></a><span class="in">```{r}</span></span>
+<span id="cb40-207"><a href="#cb40-207"></a><span class="co">#| label: grado (degree)-total</span></span>
+<span id="cb40-208"><a href="#cb40-208"></a></span>
+<span id="cb40-209"><a href="#cb40-209"></a><span class="co"># grado (degree) total de cada nodo</span></span>
+<span id="cb40-210"><a href="#cb40-210"></a><span class="fu">degree</span>(g)</span>
+<span id="cb40-211"><a href="#cb40-211"></a><span class="in">```</span></span>
 <span id="cb40-212"><a href="#cb40-212"></a></span>
-<span id="cb40-213"><a href="#cb40-213"></a><span class="fu">plot</span>(g, </span>
-<span id="cb40-214"><a href="#cb40-214"></a>     <span class="at">layout =</span> <span class="fu">layout_nicely</span>(g),</span>
-<span id="cb40-215"><a href="#cb40-215"></a>     <span class="at">vertex.size =</span> <span class="fu">degree</span>(g, <span class="at">mode =</span> <span class="st">"in"</span>) <span class="sc">*</span> <span class="dv">10</span> <span class="sc">+</span> <span class="dv">10</span>,</span>
-<span id="cb40-216"><a href="#cb40-216"></a>     <span class="at">vertex.label.dist =</span> <span class="fl">0.5</span>,</span>
-<span id="cb40-217"><a href="#cb40-217"></a>     <span class="at">edge.arrow.size =</span> <span class="fl">0.5</span>,</span>
-<span id="cb40-218"><a href="#cb40-218"></a>     <span class="at">main =</span> <span class="st">"Tamaño proporcional al grado (degree) de entrada"</span>)</span>
-<span id="cb40-219"><a href="#cb40-219"></a><span class="in">```</span></span>
-<span id="cb40-220"><a href="#cb40-220"></a></span>
-<span id="cb40-223"><a href="#cb40-223"></a><span class="in">```{r}</span></span>
-<span id="cb40-224"><a href="#cb40-224"></a><span class="co">#| label: fig-histograma-grado (degree)</span></span>
-<span id="cb40-225"><a href="#cb40-225"></a><span class="co">#| fig-cap: "Histograma de la distribución de grado (degree)"</span></span>
-<span id="cb40-226"><a href="#cb40-226"></a><span class="co">#| fig-alt: "Histograma que muestra la frecuencia de cada valor de grado (degree)"</span></span>
-<span id="cb40-227"><a href="#cb40-227"></a></span>
-<span id="cb40-228"><a href="#cb40-228"></a><span class="fu">hist</span>(<span class="fu">degree</span>(g), </span>
-<span id="cb40-229"><a href="#cb40-229"></a>     <span class="at">col =</span> <span class="st">"salmon"</span>, </span>
-<span id="cb40-230"><a href="#cb40-230"></a>     <span class="at">main =</span> <span class="st">"Histograma del grado (degree)"</span>,</span>
-<span id="cb40-231"><a href="#cb40-231"></a>     <span class="at">xlab =</span> <span class="st">"grado (degree)"</span>,</span>
-<span id="cb40-232"><a href="#cb40-232"></a>     <span class="at">ylab =</span> <span class="st">"Frecuencia"</span>,</span>
-<span id="cb40-233"><a href="#cb40-233"></a>     <span class="at">border =</span> <span class="st">"white"</span>)</span>
-<span id="cb40-234"><a href="#cb40-234"></a><span class="in">```</span></span>
-<span id="cb40-235"><a href="#cb40-235"></a></span>
-<span id="cb40-236"><a href="#cb40-236"></a><span class="fu">## Matriz de adyacencia {#sec-matriz-adyacencia}</span></span>
-<span id="cb40-237"><a href="#cb40-237"></a></span>
-<span id="cb40-238"><a href="#cb40-238"></a>La **matriz de adyacencia** es una representación numérica de la red: un 1 en la posición $(i,j)$ indica que existe una conexión del nodo $i$ al nodo $j$.</span>
-<span id="cb40-239"><a href="#cb40-239"></a></span>
-<span id="cb40-240"><a href="#cb40-240"></a>$$</span>
-<span id="cb40-241"><a href="#cb40-241"></a>A_{ij} = \begin{cases} 1 &amp; \text{si existe conexión de } i \text{ a } j <span class="sc">\\</span> 0 &amp; \text{en otro caso} \end{cases}</span>
-<span id="cb40-242"><a href="#cb40-242"></a>$$</span>
-<span id="cb40-243"><a href="#cb40-243"></a></span>
-<span id="cb40-246"><a href="#cb40-246"></a><span class="in">```{r}</span></span>
-<span id="cb40-247"><a href="#cb40-247"></a><span class="co">#| label: matriz-adyacencia</span></span>
-<span id="cb40-248"><a href="#cb40-248"></a></span>
-<span id="cb40-249"><a href="#cb40-249"></a><span class="co"># Obtener la matriz de adyacencia</span></span>
-<span id="cb40-250"><a href="#cb40-250"></a>adj_mat <span class="ot">&lt;-</span> <span class="fu">as.matrix</span>(<span class="fu">get.adjacency</span>(g))</span>
-<span id="cb40-251"><a href="#cb40-251"></a></span>
-<span id="cb40-252"><a href="#cb40-252"></a><span class="co"># Mostrar como tabla</span></span>
-<span id="cb40-253"><a href="#cb40-253"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(adj_mat, <span class="at">caption =</span> <span class="st">"Matriz de adyacencia de la red"</span>)</span>
-<span id="cb40-254"><a href="#cb40-254"></a><span class="in">```</span></span>
-<span id="cb40-255"><a href="#cb40-255"></a></span>
-<span id="cb40-258"><a href="#cb40-258"></a><span class="in">```{r}</span></span>
-<span id="cb40-259"><a href="#cb40-259"></a><span class="co">#| label: fig-heatmap-adj</span></span>
-<span id="cb40-260"><a href="#cb40-260"></a><span class="co">#| fig-cap: "Mapa de calor de la matriz de adyacencia"</span></span>
-<span id="cb40-261"><a href="#cb40-261"></a><span class="co">#| fig-alt: "Heatmap que muestra las conexiones entre nodos como celdas coloreadas"</span></span>
-<span id="cb40-262"><a href="#cb40-262"></a></span>
-<span id="cb40-263"><a href="#cb40-263"></a><span class="fu">heatmap</span>(adj_mat, </span>
-<span id="cb40-264"><a href="#cb40-264"></a>        <span class="at">Rowv =</span> <span class="cn">NA</span>, <span class="at">Colv =</span> <span class="cn">NA</span>, </span>
-<span id="cb40-265"><a href="#cb40-265"></a>        <span class="at">col =</span> <span class="fu">c</span>(<span class="st">"white"</span>, <span class="st">"steelblue"</span>),</span>
-<span id="cb40-266"><a href="#cb40-266"></a>        <span class="at">main =</span> <span class="st">"Mapa de calor — Matriz de adyacencia"</span>,</span>
-<span id="cb40-267"><a href="#cb40-267"></a>        <span class="at">scale =</span> <span class="st">"none"</span>)</span>
-<span id="cb40-268"><a href="#cb40-268"></a><span class="in">```</span></span>
-<span id="cb40-269"><a href="#cb40-269"></a></span>
-<span id="cb40-270"><a href="#cb40-270"></a>::: {.callout-tip title="💡 Concepto clave"}</span>
-<span id="cb40-271"><a href="#cb40-271"></a>En una red **no dirigida**, la matriz de adyacencia es **simétrica** ($A_{ij} = A_{ji}$). En una red dirigida, no necesariamente lo es. Verifica esto convirtiendo la red con <span class="in">`as.undirected(g)`</span>.</span>
-<span id="cb40-272"><a href="#cb40-272"></a>:::</span>
-<span id="cb40-273"><a href="#cb40-273"></a></span>
-<span id="cb40-274"><a href="#cb40-274"></a><span class="fu">## Redes especiales {#sec-redes-especiales}</span></span>
-<span id="cb40-275"><a href="#cb40-275"></a></span>
-<span id="cb40-276"><a href="#cb40-276"></a><span class="in">`igraph`</span> incluye funciones para crear topologías clásicas que aparecen frecuentemente en la teoría de redes.</span>
-<span id="cb40-277"><a href="#cb40-277"></a></span>
-<span id="cb40-278"><a href="#cb40-278"></a>::: {.panel-tabset}</span>
-<span id="cb40-279"><a href="#cb40-279"></a></span>
-<span id="cb40-280"><a href="#cb40-280"></a><span class="fu">### Estrella</span></span>
+<span id="cb40-213"><a href="#cb40-213"></a><span class="fu">### grado (degree) de entrada</span></span>
+<span id="cb40-214"><a href="#cb40-214"></a></span>
+<span id="cb40-217"><a href="#cb40-217"></a><span class="in">```{r}</span></span>
+<span id="cb40-218"><a href="#cb40-218"></a><span class="co">#| label: grado (degree)-entrada</span></span>
+<span id="cb40-219"><a href="#cb40-219"></a></span>
+<span id="cb40-220"><a href="#cb40-220"></a><span class="co"># ¿Cuántas conexiones llegan a cada nodo?</span></span>
+<span id="cb40-221"><a href="#cb40-221"></a><span class="fu">degree</span>(g, <span class="at">mode =</span> <span class="st">"in"</span>)</span>
+<span id="cb40-222"><a href="#cb40-222"></a><span class="in">```</span></span>
+<span id="cb40-223"><a href="#cb40-223"></a></span>
+<span id="cb40-224"><a href="#cb40-224"></a><span class="fu">### grado (degree) de salida</span></span>
+<span id="cb40-225"><a href="#cb40-225"></a></span>
+<span id="cb40-228"><a href="#cb40-228"></a><span class="in">```{r}</span></span>
+<span id="cb40-229"><a href="#cb40-229"></a><span class="co">#| label: grado (degree)-salida</span></span>
+<span id="cb40-230"><a href="#cb40-230"></a></span>
+<span id="cb40-231"><a href="#cb40-231"></a><span class="co"># ¿Cuántas conexiones salen de cada nodo?</span></span>
+<span id="cb40-232"><a href="#cb40-232"></a><span class="fu">degree</span>(g, <span class="at">mode =</span> <span class="st">"out"</span>)</span>
+<span id="cb40-233"><a href="#cb40-233"></a><span class="in">```</span></span>
+<span id="cb40-234"><a href="#cb40-234"></a></span>
+<span id="cb40-235"><a href="#cb40-235"></a>:::</span>
+<span id="cb40-236"><a href="#cb40-236"></a></span>
+<span id="cb40-237"><a href="#cb40-237"></a><span class="fu">### Visualizar el grado (degree)</span></span>
+<span id="cb40-238"><a href="#cb40-238"></a></span>
+<span id="cb40-241"><a href="#cb40-241"></a><span class="in">```{r}</span></span>
+<span id="cb40-242"><a href="#cb40-242"></a><span class="co">#| label: fig-tamano-grado (degree)</span></span>
+<span id="cb40-243"><a href="#cb40-243"></a><span class="co">#| fig-cap: "Tamaño de nodos proporcional al grado (degree) de entrada"</span></span>
+<span id="cb40-244"><a href="#cb40-244"></a><span class="co">#| fig-alt: "Red donde los nodos más grandes reciben más conexiones"</span></span>
+<span id="cb40-245"><a href="#cb40-245"></a></span>
+<span id="cb40-246"><a href="#cb40-246"></a><span class="fu">plot</span>(g, </span>
+<span id="cb40-247"><a href="#cb40-247"></a>     <span class="at">layout =</span> <span class="fu">layout_nicely</span>(g),</span>
+<span id="cb40-248"><a href="#cb40-248"></a>     <span class="at">vertex.size =</span> <span class="fu">degree</span>(g, <span class="at">mode =</span> <span class="st">"in"</span>) <span class="sc">*</span> <span class="dv">10</span> <span class="sc">+</span> <span class="dv">10</span>,</span>
+<span id="cb40-249"><a href="#cb40-249"></a>     <span class="at">vertex.label.dist =</span> <span class="fl">0.5</span>,</span>
+<span id="cb40-250"><a href="#cb40-250"></a>     <span class="at">edge.arrow.size =</span> <span class="fl">0.5</span>,</span>
+<span id="cb40-251"><a href="#cb40-251"></a>     <span class="at">main =</span> <span class="st">"Tamaño proporcional al grado (degree) de entrada"</span>)</span>
+<span id="cb40-252"><a href="#cb40-252"></a><span class="in">```</span></span>
+<span id="cb40-253"><a href="#cb40-253"></a></span>
+<span id="cb40-256"><a href="#cb40-256"></a><span class="in">```{r}</span></span>
+<span id="cb40-257"><a href="#cb40-257"></a><span class="co">#| label: fig-histograma-grado (degree)</span></span>
+<span id="cb40-258"><a href="#cb40-258"></a><span class="co">#| fig-cap: "Histograma de la distribución de grado (degree)"</span></span>
+<span id="cb40-259"><a href="#cb40-259"></a><span class="co">#| fig-alt: "Histograma que muestra la frecuencia de cada valor de grado (degree)"</span></span>
+<span id="cb40-260"><a href="#cb40-260"></a></span>
+<span id="cb40-261"><a href="#cb40-261"></a><span class="fu">hist</span>(<span class="fu">degree</span>(g), </span>
+<span id="cb40-262"><a href="#cb40-262"></a>     <span class="at">col =</span> <span class="st">"salmon"</span>, </span>
+<span id="cb40-263"><a href="#cb40-263"></a>     <span class="at">main =</span> <span class="st">"Histograma del grado (degree)"</span>,</span>
+<span id="cb40-264"><a href="#cb40-264"></a>     <span class="at">xlab =</span> <span class="st">"grado (degree)"</span>,</span>
+<span id="cb40-265"><a href="#cb40-265"></a>     <span class="at">ylab =</span> <span class="st">"Frecuencia"</span>,</span>
+<span id="cb40-266"><a href="#cb40-266"></a>     <span class="at">border =</span> <span class="st">"white"</span>)</span>
+<span id="cb40-267"><a href="#cb40-267"></a><span class="in">```</span></span>
+<span id="cb40-268"><a href="#cb40-268"></a></span>
+<span id="cb40-269"><a href="#cb40-269"></a><span class="fu">## Matriz de adyacencia {#sec-matriz-adyacencia}</span></span>
+<span id="cb40-270"><a href="#cb40-270"></a></span>
+<span id="cb40-271"><a href="#cb40-271"></a>La **matriz de adyacencia** es una representación numérica de la red: un 1 en la posición $(i,j)$ indica que existe una conexión del nodo $i$ al nodo $j$.</span>
+<span id="cb40-272"><a href="#cb40-272"></a></span>
+<span id="cb40-273"><a href="#cb40-273"></a>$$</span>
+<span id="cb40-274"><a href="#cb40-274"></a>A_{ij} = \begin{cases} 1 &amp; \text{si existe conexión de } i \text{ a } j <span class="sc">\\</span> 0 &amp; \text{en otro caso} \end{cases}</span>
+<span id="cb40-275"><a href="#cb40-275"></a>$$</span>
+<span id="cb40-276"><a href="#cb40-276"></a></span>
+<span id="cb40-279"><a href="#cb40-279"></a><span class="in">```{r}</span></span>
+<span id="cb40-280"><a href="#cb40-280"></a><span class="co">#| label: matriz-adyacencia</span></span>
 <span id="cb40-281"><a href="#cb40-281"></a></span>
-<span id="cb40-284"><a href="#cb40-284"></a><span class="in">```{r}</span></span>
-<span id="cb40-285"><a href="#cb40-285"></a><span class="co">#| label: fig-red-estrella</span></span>
-<span id="cb40-286"><a href="#cb40-286"></a><span class="co">#| fig-cap: "Red tipo estrella con 10 nodos"</span></span>
-<span id="cb40-287"><a href="#cb40-287"></a><span class="co">#| fig-alt: "Un nodo central conectado a 9 nodos periféricos"</span></span>
+<span id="cb40-282"><a href="#cb40-282"></a><span class="co"># Obtener la matriz de adyacencia</span></span>
+<span id="cb40-283"><a href="#cb40-283"></a>adj_mat <span class="ot">&lt;-</span> <span class="fu">as.matrix</span>(<span class="fu">get.adjacency</span>(g))</span>
+<span id="cb40-284"><a href="#cb40-284"></a></span>
+<span id="cb40-285"><a href="#cb40-285"></a><span class="co"># Mostrar como tabla</span></span>
+<span id="cb40-286"><a href="#cb40-286"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(adj_mat, <span class="at">caption =</span> <span class="st">"Matriz de adyacencia de la red"</span>)</span>
+<span id="cb40-287"><a href="#cb40-287"></a><span class="in">```</span></span>
 <span id="cb40-288"><a href="#cb40-288"></a></span>
-<span id="cb40-289"><a href="#cb40-289"></a><span class="fu">plot</span>(<span class="fu">make_star</span>(<span class="dv">10</span>), </span>
-<span id="cb40-290"><a href="#cb40-290"></a>     <span class="at">vertex.color =</span> <span class="fu">c</span>(<span class="st">"tomato"</span>, <span class="fu">rep</span>(<span class="st">"gold"</span>, <span class="dv">9</span>)),</span>
-<span id="cb40-291"><a href="#cb40-291"></a>     <span class="at">vertex.size =</span> <span class="dv">20</span>,</span>
-<span id="cb40-292"><a href="#cb40-292"></a>     <span class="at">main =</span> <span class="st">"Red estrella"</span>)</span>
-<span id="cb40-293"><a href="#cb40-293"></a><span class="in">```</span></span>
-<span id="cb40-294"><a href="#cb40-294"></a></span>
-<span id="cb40-295"><a href="#cb40-295"></a><span class="fu">### Anillo</span></span>
-<span id="cb40-296"><a href="#cb40-296"></a></span>
-<span id="cb40-299"><a href="#cb40-299"></a><span class="in">```{r}</span></span>
-<span id="cb40-300"><a href="#cb40-300"></a><span class="co">#| label: fig-red-anillo</span></span>
-<span id="cb40-301"><a href="#cb40-301"></a><span class="co">#| fig-cap: "Red tipo anillo con 10 nodos"</span></span>
-<span id="cb40-302"><a href="#cb40-302"></a><span class="co">#| fig-alt: "Diez nodos formando un círculo conectados secuencialmente"</span></span>
-<span id="cb40-303"><a href="#cb40-303"></a></span>
-<span id="cb40-304"><a href="#cb40-304"></a><span class="fu">plot</span>(<span class="fu">make_ring</span>(<span class="dv">10</span>), </span>
-<span id="cb40-305"><a href="#cb40-305"></a>     <span class="at">vertex.color =</span> <span class="st">"skyblue"</span>,</span>
-<span id="cb40-306"><a href="#cb40-306"></a>     <span class="at">vertex.size =</span> <span class="dv">20</span>,</span>
-<span id="cb40-307"><a href="#cb40-307"></a>     <span class="at">main =</span> <span class="st">"Red anillo"</span>)</span>
-<span id="cb40-308"><a href="#cb40-308"></a><span class="in">```</span></span>
-<span id="cb40-309"><a href="#cb40-309"></a></span>
-<span id="cb40-310"><a href="#cb40-310"></a><span class="fu">### Árbol binario</span></span>
-<span id="cb40-311"><a href="#cb40-311"></a></span>
-<span id="cb40-314"><a href="#cb40-314"></a><span class="in">```{r}</span></span>
-<span id="cb40-315"><a href="#cb40-315"></a><span class="co">#| label: fig-red-arbol</span></span>
-<span id="cb40-316"><a href="#cb40-316"></a><span class="co">#| fig-cap: "Árbol binario con 15 nodos"</span></span>
-<span id="cb40-317"><a href="#cb40-317"></a><span class="co">#| fig-alt: "Estructura jerárquica de 15 nodos donde cada padre tiene 2 hijos"</span></span>
-<span id="cb40-318"><a href="#cb40-318"></a></span>
-<span id="cb40-319"><a href="#cb40-319"></a><span class="fu">plot</span>(<span class="fu">make_tree</span>(<span class="dv">15</span>, <span class="at">children =</span> <span class="dv">2</span>), </span>
-<span id="cb40-320"><a href="#cb40-320"></a>     <span class="at">vertex.color =</span> <span class="st">"lightgreen"</span>,</span>
-<span id="cb40-321"><a href="#cb40-321"></a>     <span class="at">vertex.size =</span> <span class="dv">15</span>,</span>
-<span id="cb40-322"><a href="#cb40-322"></a>     <span class="at">layout =</span> layout_as_tree,</span>
-<span id="cb40-323"><a href="#cb40-323"></a>     <span class="at">main =</span> <span class="st">"Árbol binario"</span>)</span>
-<span id="cb40-324"><a href="#cb40-324"></a><span class="in">```</span></span>
-<span id="cb40-325"><a href="#cb40-325"></a></span>
-<span id="cb40-326"><a href="#cb40-326"></a><span class="fu">### Lattice</span></span>
+<span id="cb40-291"><a href="#cb40-291"></a><span class="in">```{r}</span></span>
+<span id="cb40-292"><a href="#cb40-292"></a><span class="co">#| label: fig-heatmap-adj</span></span>
+<span id="cb40-293"><a href="#cb40-293"></a><span class="co">#| fig-cap: "Mapa de calor de la matriz de adyacencia"</span></span>
+<span id="cb40-294"><a href="#cb40-294"></a><span class="co">#| fig-alt: "Heatmap que muestra las conexiones entre nodos como celdas coloreadas"</span></span>
+<span id="cb40-295"><a href="#cb40-295"></a></span>
+<span id="cb40-296"><a href="#cb40-296"></a><span class="fu">heatmap</span>(adj_mat, </span>
+<span id="cb40-297"><a href="#cb40-297"></a>        <span class="at">Rowv =</span> <span class="cn">NA</span>, <span class="at">Colv =</span> <span class="cn">NA</span>, </span>
+<span id="cb40-298"><a href="#cb40-298"></a>        <span class="at">col =</span> <span class="fu">c</span>(<span class="st">"white"</span>, <span class="st">"steelblue"</span>),</span>
+<span id="cb40-299"><a href="#cb40-299"></a>        <span class="at">main =</span> <span class="st">"Mapa de calor — Matriz de adyacencia"</span>,</span>
+<span id="cb40-300"><a href="#cb40-300"></a>        <span class="at">scale =</span> <span class="st">"none"</span>)</span>
+<span id="cb40-301"><a href="#cb40-301"></a><span class="in">```</span></span>
+<span id="cb40-302"><a href="#cb40-302"></a></span>
+<span id="cb40-303"><a href="#cb40-303"></a>::: {.callout-tip title="💡 Concepto clave"}</span>
+<span id="cb40-304"><a href="#cb40-304"></a>En una red **no dirigida**, la matriz de adyacencia es **simétrica** ($A_{ij} = A_{ji}$). En una red dirigida, no necesariamente lo es. Verifica esto convirtiendo la red con <span class="in">`as.undirected(g)`</span>.</span>
+<span id="cb40-305"><a href="#cb40-305"></a>:::</span>
+<span id="cb40-306"><a href="#cb40-306"></a></span>
+<span id="cb40-307"><a href="#cb40-307"></a><span class="fu">## Redes especiales {#sec-redes-especiales}</span></span>
+<span id="cb40-308"><a href="#cb40-308"></a></span>
+<span id="cb40-309"><a href="#cb40-309"></a><span class="in">`igraph`</span> incluye funciones para crear topologías clásicas que aparecen frecuentemente en la teoría de redes.</span>
+<span id="cb40-310"><a href="#cb40-310"></a></span>
+<span id="cb40-311"><a href="#cb40-311"></a>::: {.panel-tabset}</span>
+<span id="cb40-312"><a href="#cb40-312"></a></span>
+<span id="cb40-313"><a href="#cb40-313"></a><span class="fu">### Estrella</span></span>
+<span id="cb40-314"><a href="#cb40-314"></a></span>
+<span id="cb40-317"><a href="#cb40-317"></a><span class="in">```{r}</span></span>
+<span id="cb40-318"><a href="#cb40-318"></a><span class="co">#| label: fig-red-estrella</span></span>
+<span id="cb40-319"><a href="#cb40-319"></a><span class="co">#| fig-cap: "Red tipo estrella con 10 nodos"</span></span>
+<span id="cb40-320"><a href="#cb40-320"></a><span class="co">#| fig-alt: "Un nodo central conectado a 9 nodos periféricos"</span></span>
+<span id="cb40-321"><a href="#cb40-321"></a></span>
+<span id="cb40-322"><a href="#cb40-322"></a><span class="fu">plot</span>(<span class="fu">make_star</span>(<span class="dv">10</span>), </span>
+<span id="cb40-323"><a href="#cb40-323"></a>     <span class="at">vertex.color =</span> <span class="fu">c</span>(<span class="st">"tomato"</span>, <span class="fu">rep</span>(<span class="st">"gold"</span>, <span class="dv">9</span>)),</span>
+<span id="cb40-324"><a href="#cb40-324"></a>     <span class="at">vertex.size =</span> <span class="dv">20</span>,</span>
+<span id="cb40-325"><a href="#cb40-325"></a>     <span class="at">main =</span> <span class="st">"Red estrella"</span>)</span>
+<span id="cb40-326"><a href="#cb40-326"></a><span class="in">```</span></span>
 <span id="cb40-327"><a href="#cb40-327"></a></span>
-<span id="cb40-330"><a href="#cb40-330"></a><span class="in">```{r}</span></span>
-<span id="cb40-331"><a href="#cb40-331"></a><span class="co">#| label: fig-red-lattice</span></span>
-<span id="cb40-332"><a href="#cb40-332"></a><span class="co">#| fig-cap: "Red tipo rejilla (lattice) de 4×4"</span></span>
-<span id="cb40-333"><a href="#cb40-333"></a><span class="co">#| fig-alt: "16 nodos formando una cuadrícula con conexiones entre vecinos"</span></span>
-<span id="cb40-334"><a href="#cb40-334"></a></span>
-<span id="cb40-335"><a href="#cb40-335"></a><span class="fu">plot</span>(<span class="fu">make_lattice</span>(<span class="fu">c</span>(<span class="dv">4</span>, <span class="dv">4</span>)), </span>
-<span id="cb40-336"><a href="#cb40-336"></a>     <span class="at">vertex.color =</span> <span class="st">"plum"</span>,</span>
-<span id="cb40-337"><a href="#cb40-337"></a>     <span class="at">vertex.size =</span> <span class="dv">20</span>,</span>
-<span id="cb40-338"><a href="#cb40-338"></a>     <span class="at">main =</span> <span class="st">"Lattice 4×4"</span>)</span>
-<span id="cb40-339"><a href="#cb40-339"></a><span class="in">```</span></span>
-<span id="cb40-340"><a href="#cb40-340"></a></span>
-<span id="cb40-341"><a href="#cb40-341"></a>:::</span>
+<span id="cb40-328"><a href="#cb40-328"></a><span class="fu">### Anillo</span></span>
+<span id="cb40-329"><a href="#cb40-329"></a></span>
+<span id="cb40-332"><a href="#cb40-332"></a><span class="in">```{r}</span></span>
+<span id="cb40-333"><a href="#cb40-333"></a><span class="co">#| label: fig-red-anillo</span></span>
+<span id="cb40-334"><a href="#cb40-334"></a><span class="co">#| fig-cap: "Red tipo anillo con 10 nodos"</span></span>
+<span id="cb40-335"><a href="#cb40-335"></a><span class="co">#| fig-alt: "Diez nodos formando un círculo conectados secuencialmente"</span></span>
+<span id="cb40-336"><a href="#cb40-336"></a></span>
+<span id="cb40-337"><a href="#cb40-337"></a><span class="fu">plot</span>(<span class="fu">make_ring</span>(<span class="dv">10</span>), </span>
+<span id="cb40-338"><a href="#cb40-338"></a>     <span class="at">vertex.color =</span> <span class="st">"skyblue"</span>,</span>
+<span id="cb40-339"><a href="#cb40-339"></a>     <span class="at">vertex.size =</span> <span class="dv">20</span>,</span>
+<span id="cb40-340"><a href="#cb40-340"></a>     <span class="at">main =</span> <span class="st">"Red anillo"</span>)</span>
+<span id="cb40-341"><a href="#cb40-341"></a><span class="in">```</span></span>
 <span id="cb40-342"><a href="#cb40-342"></a></span>
-<span id="cb40-343"><a href="#cb40-343"></a><span class="fu">## Ejercicios</span></span>
+<span id="cb40-343"><a href="#cb40-343"></a><span class="fu">### Árbol binario</span></span>
 <span id="cb40-344"><a href="#cb40-344"></a></span>
-<span id="cb40-345"><a href="#cb40-345"></a><span class="fu">### Ejercicios resueltos {.unnumbered}</span></span>
-<span id="cb40-346"><a href="#cb40-346"></a></span>
-<span id="cb40-347"><a href="#cb40-347"></a>**Ejercicio resuelto 1:** Crea una red no dirigida de 7 nodos con colores aleatorios de una paleta, conéctalos formando una cadena (*path*), y visualiza el resultado.</span>
-<span id="cb40-348"><a href="#cb40-348"></a></span>
-<span id="cb40-349"><a href="#cb40-349"></a>::: {.callout-tip title="📝 Solución" collapse="true"}</span>
-<span id="cb40-350"><a href="#cb40-350"></a></span>
-<span id="cb40-351"><a href="#cb40-351"></a>**Paso 1:** Crear el grafo tipo cadena y asignar colores.</span>
-<span id="cb40-352"><a href="#cb40-352"></a></span>
-<span id="cb40-355"><a href="#cb40-355"></a><span class="in">```{r}</span></span>
-<span id="cb40-356"><a href="#cb40-356"></a><span class="co">#| label: ej-resuelto-1</span></span>
-<span id="cb40-357"><a href="#cb40-357"></a></span>
-<span id="cb40-358"><a href="#cb40-358"></a><span class="fu">set.seed</span>(<span class="dv">42</span>)</span>
-<span id="cb40-359"><a href="#cb40-359"></a></span>
-<span id="cb40-360"><a href="#cb40-360"></a><span class="co"># Crear cadena de 7 nodos</span></span>
-<span id="cb40-361"><a href="#cb40-361"></a><span class="co">#g_cadena &lt;- make_graph(~ 1-2-3-4-5-6-7, directed = FALSE)</span></span>
-<span id="cb40-362"><a href="#cb40-362"></a>g_cadena <span class="ot">&lt;-</span> <span class="fu">graph_from_literal</span>(<span class="dv">1-2-3-4-5-6-7</span>)</span>
-<span id="cb40-363"><a href="#cb40-363"></a><span class="co"># Asignar colores aleatorios de una paleta</span></span>
-<span id="cb40-364"><a href="#cb40-364"></a>paleta <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"tomato"</span>, <span class="st">"gold"</span>, <span class="st">"skyblue"</span>, <span class="st">"lightgreen"</span>, <span class="st">"plum"</span>, <span class="st">"salmon"</span>, <span class="st">"steelblue"</span>)</span>
-<span id="cb40-365"><a href="#cb40-365"></a><span class="fu">V</span>(g_cadena)<span class="sc">$</span>color <span class="ot">&lt;-</span> <span class="fu">sample</span>(paleta, <span class="dv">7</span>)</span>
-<span id="cb40-366"><a href="#cb40-366"></a><span class="fu">V</span>(g_cadena)<span class="sc">$</span>name <span class="ot">&lt;-</span> <span class="fu">paste0</span>(<span class="st">"N"</span>, <span class="dv">1</span><span class="sc">:</span><span class="dv">7</span>)</span>
-<span id="cb40-367"><a href="#cb40-367"></a><span class="in">```</span></span>
-<span id="cb40-368"><a href="#cb40-368"></a></span>
-<span id="cb40-369"><a href="#cb40-369"></a>**Paso 2:** Visualizar la red.</span>
-<span id="cb40-370"><a href="#cb40-370"></a></span>
-<span id="cb40-373"><a href="#cb40-373"></a><span class="in">```{r}</span></span>
-<span id="cb40-374"><a href="#cb40-374"></a><span class="co">#| label: fig-ej-resuelto-1</span></span>
-<span id="cb40-375"><a href="#cb40-375"></a><span class="co">#| fig-cap: "Red tipo cadena con 7 nodos y colores aleatorios"</span></span>
-<span id="cb40-376"><a href="#cb40-376"></a></span>
-<span id="cb40-377"><a href="#cb40-377"></a><span class="fu">plot</span>(g_cadena, </span>
-<span id="cb40-378"><a href="#cb40-378"></a>     <span class="at">vertex.size =</span> <span class="dv">30</span>, </span>
-<span id="cb40-379"><a href="#cb40-379"></a>     <span class="at">main =</span> <span class="st">"Red tipo cadena (path)"</span>)</span>
-<span id="cb40-380"><a href="#cb40-380"></a><span class="in">```</span></span>
+<span id="cb40-347"><a href="#cb40-347"></a><span class="in">```{r}</span></span>
+<span id="cb40-348"><a href="#cb40-348"></a><span class="co">#| label: fig-red-arbol</span></span>
+<span id="cb40-349"><a href="#cb40-349"></a><span class="co">#| fig-cap: "Árbol binario con 15 nodos"</span></span>
+<span id="cb40-350"><a href="#cb40-350"></a><span class="co">#| fig-alt: "Estructura jerárquica de 15 nodos donde cada padre tiene 2 hijos"</span></span>
+<span id="cb40-351"><a href="#cb40-351"></a></span>
+<span id="cb40-352"><a href="#cb40-352"></a><span class="fu">plot</span>(<span class="fu">make_tree</span>(<span class="dv">15</span>, <span class="at">children =</span> <span class="dv">2</span>), </span>
+<span id="cb40-353"><a href="#cb40-353"></a>     <span class="at">vertex.color =</span> <span class="st">"lightgreen"</span>,</span>
+<span id="cb40-354"><a href="#cb40-354"></a>     <span class="at">vertex.size =</span> <span class="dv">15</span>,</span>
+<span id="cb40-355"><a href="#cb40-355"></a>     <span class="at">layout =</span> layout_as_tree,</span>
+<span id="cb40-356"><a href="#cb40-356"></a>     <span class="at">main =</span> <span class="st">"Árbol binario"</span>)</span>
+<span id="cb40-357"><a href="#cb40-357"></a><span class="in">```</span></span>
+<span id="cb40-358"><a href="#cb40-358"></a></span>
+<span id="cb40-359"><a href="#cb40-359"></a><span class="fu">### Lattice</span></span>
+<span id="cb40-360"><a href="#cb40-360"></a></span>
+<span id="cb40-363"><a href="#cb40-363"></a><span class="in">```{r}</span></span>
+<span id="cb40-364"><a href="#cb40-364"></a><span class="co">#| label: fig-red-lattice</span></span>
+<span id="cb40-365"><a href="#cb40-365"></a><span class="co">#| fig-cap: "Red tipo rejilla (lattice) de 4×4"</span></span>
+<span id="cb40-366"><a href="#cb40-366"></a><span class="co">#| fig-alt: "16 nodos formando una cuadrícula con conexiones entre vecinos"</span></span>
+<span id="cb40-367"><a href="#cb40-367"></a></span>
+<span id="cb40-368"><a href="#cb40-368"></a><span class="fu">plot</span>(<span class="fu">make_lattice</span>(<span class="fu">c</span>(<span class="dv">4</span>, <span class="dv">4</span>)), </span>
+<span id="cb40-369"><a href="#cb40-369"></a>     <span class="at">vertex.color =</span> <span class="st">"plum"</span>,</span>
+<span id="cb40-370"><a href="#cb40-370"></a>     <span class="at">vertex.size =</span> <span class="dv">20</span>,</span>
+<span id="cb40-371"><a href="#cb40-371"></a>     <span class="at">main =</span> <span class="st">"Lattice 4×4"</span>)</span>
+<span id="cb40-372"><a href="#cb40-372"></a><span class="in">```</span></span>
+<span id="cb40-373"><a href="#cb40-373"></a></span>
+<span id="cb40-374"><a href="#cb40-374"></a>:::</span>
+<span id="cb40-375"><a href="#cb40-375"></a></span>
+<span id="cb40-376"><a href="#cb40-376"></a><span class="fu">## Ejercicios</span></span>
+<span id="cb40-377"><a href="#cb40-377"></a></span>
+<span id="cb40-378"><a href="#cb40-378"></a><span class="fu">### Ejercicios resueltos {.unnumbered}</span></span>
+<span id="cb40-379"><a href="#cb40-379"></a></span>
+<span id="cb40-380"><a href="#cb40-380"></a>**Ejercicio resuelto 1:** Crea una red no dirigida de 7 nodos con colores aleatorios de una paleta, conéctalos formando una cadena (*path*), y visualiza el resultado.</span>
 <span id="cb40-381"><a href="#cb40-381"></a></span>
-<span id="cb40-382"><a href="#cb40-382"></a>**Paso 3:** Verificar propiedades.</span>
+<span id="cb40-382"><a href="#cb40-382"></a>::: {.callout-tip title="📝 Solución" collapse="true"}</span>
 <span id="cb40-383"><a href="#cb40-383"></a></span>
-<span id="cb40-386"><a href="#cb40-386"></a><span class="in">```{r}</span></span>
-<span id="cb40-387"><a href="#cb40-387"></a><span class="co">#| label: ej-resuelto-1-props</span></span>
-<span id="cb40-388"><a href="#cb40-388"></a></span>
-<span id="cb40-389"><a href="#cb40-389"></a><span class="fu">cat</span>(<span class="st">"Número de nodos:"</span>, <span class="fu">vcount</span>(g_cadena), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span>
-<span id="cb40-390"><a href="#cb40-390"></a><span class="fu">cat</span>(<span class="st">"Número de conexiones:"</span>, <span class="fu">ecount</span>(g_cadena), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span>
-<span id="cb40-391"><a href="#cb40-391"></a><span class="fu">cat</span>(<span class="st">"grado (degree) de cada nodo:"</span>, <span class="fu">degree</span>(g_cadena), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span>
-<span id="cb40-392"><a href="#cb40-392"></a><span class="fu">cat</span>(<span class="st">"¿Es conexa?"</span>, <span class="fu">is_connected</span>(g_cadena), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span>
-<span id="cb40-393"><a href="#cb40-393"></a><span class="in">```</span></span>
-<span id="cb40-394"><a href="#cb40-394"></a></span>
-<span id="cb40-395"><a href="#cb40-395"></a>**Interpretación:** La cadena tiene 7 nodos y 6 conexiones. Los nodos extremos tienen grado (degree) 1 y los internos grado (degree) 2. La red es conexa (todos los nodos se pueden alcanzar entre sí).</span>
-<span id="cb40-396"><a href="#cb40-396"></a>:::</span>
-<span id="cb40-397"><a href="#cb40-397"></a></span>
-<span id="cb40-398"><a href="#cb40-398"></a>---</span>
-<span id="cb40-399"><a href="#cb40-399"></a></span>
-<span id="cb40-400"><a href="#cb40-400"></a>**Ejercicio resuelto 2:** Construye manualmente una red donde los nodos representen 5 ciudades mexicanas y las conexiones indiquen si comparten frontera estatal. Muestra la matriz de adyacencia.</span>
+<span id="cb40-384"><a href="#cb40-384"></a>**Paso 1:** Crear el grafo tipo cadena y asignar colores.</span>
+<span id="cb40-385"><a href="#cb40-385"></a></span>
+<span id="cb40-388"><a href="#cb40-388"></a><span class="in">```{r}</span></span>
+<span id="cb40-389"><a href="#cb40-389"></a><span class="co">#| label: ej-resuelto-1</span></span>
+<span id="cb40-390"><a href="#cb40-390"></a></span>
+<span id="cb40-391"><a href="#cb40-391"></a><span class="fu">set.seed</span>(<span class="dv">42</span>)</span>
+<span id="cb40-392"><a href="#cb40-392"></a></span>
+<span id="cb40-393"><a href="#cb40-393"></a><span class="co"># Crear cadena de 7 nodos</span></span>
+<span id="cb40-394"><a href="#cb40-394"></a><span class="co">#g_cadena &lt;- make_graph(~ 1-2-3-4-5-6-7, directed = FALSE)</span></span>
+<span id="cb40-395"><a href="#cb40-395"></a>g_cadena <span class="ot">&lt;-</span> <span class="fu">graph_from_literal</span>(<span class="dv">1-2-3-4-5-6-7</span>)</span>
+<span id="cb40-396"><a href="#cb40-396"></a><span class="co"># Asignar colores aleatorios de una paleta</span></span>
+<span id="cb40-397"><a href="#cb40-397"></a>paleta <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"tomato"</span>, <span class="st">"gold"</span>, <span class="st">"skyblue"</span>, <span class="st">"lightgreen"</span>, <span class="st">"plum"</span>, <span class="st">"salmon"</span>, <span class="st">"steelblue"</span>)</span>
+<span id="cb40-398"><a href="#cb40-398"></a><span class="fu">V</span>(g_cadena)<span class="sc">$</span>color <span class="ot">&lt;-</span> <span class="fu">sample</span>(paleta, <span class="dv">7</span>)</span>
+<span id="cb40-399"><a href="#cb40-399"></a><span class="fu">V</span>(g_cadena)<span class="sc">$</span>name <span class="ot">&lt;-</span> <span class="fu">paste0</span>(<span class="st">"N"</span>, <span class="dv">1</span><span class="sc">:</span><span class="dv">7</span>)</span>
+<span id="cb40-400"><a href="#cb40-400"></a><span class="in">```</span></span>
 <span id="cb40-401"><a href="#cb40-401"></a></span>
-<span id="cb40-402"><a href="#cb40-402"></a>::: {.callout-tip title="📝 Solución" collapse="true"}</span>
+<span id="cb40-402"><a href="#cb40-402"></a>**Paso 2:** Visualizar la red.</span>
 <span id="cb40-403"><a href="#cb40-403"></a></span>
-<span id="cb40-404"><a href="#cb40-404"></a>**Paso 1:** Definir las ciudades y sus conexiones fronterizas.</span>
-<span id="cb40-405"><a href="#cb40-405"></a></span>
-<span id="cb40-408"><a href="#cb40-408"></a><span class="in">```{r}</span></span>
-<span id="cb40-409"><a href="#cb40-409"></a><span class="co">#| label: ej-resuelto-2</span></span>
-<span id="cb40-410"><a href="#cb40-410"></a></span>
-<span id="cb40-411"><a href="#cb40-411"></a><span class="co"># Crear la red</span></span>
-<span id="cb40-412"><a href="#cb40-412"></a>ciudades <span class="ot">&lt;-</span> <span class="fu">graph_from_literal</span>(</span>
-<span id="cb40-413"><a href="#cb40-413"></a>  Querétaro <span class="sc">--</span> Guanajuato,</span>
-<span id="cb40-414"><a href="#cb40-414"></a>  Querétaro <span class="sc">--</span> <span class="st">"San Luis Potosí"</span>,</span>
-<span id="cb40-415"><a href="#cb40-415"></a>  Querétaro <span class="sc">--</span> Hidalgo,</span>
-<span id="cb40-416"><a href="#cb40-416"></a>  Guanajuato <span class="sc">--</span> <span class="st">"San Luis Potosí"</span>,</span>
-<span id="cb40-417"><a href="#cb40-417"></a>  Hidalgo <span class="sc">--</span> <span class="st">"Estado de México"</span></span>
-<span id="cb40-418"><a href="#cb40-418"></a>)</span>
-<span id="cb40-419"><a href="#cb40-419"></a></span>
-<span id="cb40-420"><a href="#cb40-420"></a><span class="fu">V</span>(ciudades)<span class="sc">$</span>color <span class="ot">&lt;-</span> <span class="st">"gold"</span></span>
-<span id="cb40-421"><a href="#cb40-421"></a><span class="fu">V</span>(ciudades)<span class="sc">$</span>size <span class="ot">&lt;-</span> <span class="dv">25</span></span>
-<span id="cb40-422"><a href="#cb40-422"></a><span class="in">```</span></span>
-<span id="cb40-423"><a href="#cb40-423"></a></span>
-<span id="cb40-424"><a href="#cb40-424"></a>**Paso 2:** Visualizar y mostrar la matriz.</span>
-<span id="cb40-425"><a href="#cb40-425"></a></span>
-<span id="cb40-428"><a href="#cb40-428"></a><span class="in">```{r}</span></span>
-<span id="cb40-429"><a href="#cb40-429"></a><span class="co">#| label: fig-ej-resuelto-2</span></span>
-<span id="cb40-430"><a href="#cb40-430"></a><span class="co">#| fig-cap: "Red de ciudades que comparten frontera estatal"</span></span>
-<span id="cb40-431"><a href="#cb40-431"></a></span>
-<span id="cb40-432"><a href="#cb40-432"></a><span class="fu">plot</span>(ciudades, </span>
-<span id="cb40-433"><a href="#cb40-433"></a>     <span class="at">vertex.label.cex =</span> <span class="fl">0.8</span>,</span>
-<span id="cb40-434"><a href="#cb40-434"></a>     <span class="at">main =</span> <span class="st">"Red de vecindad entre estados"</span>)</span>
-<span id="cb40-435"><a href="#cb40-435"></a><span class="in">```</span></span>
+<span id="cb40-406"><a href="#cb40-406"></a><span class="in">```{r}</span></span>
+<span id="cb40-407"><a href="#cb40-407"></a><span class="co">#| label: fig-ej-resuelto-1</span></span>
+<span id="cb40-408"><a href="#cb40-408"></a><span class="co">#| fig-cap: "Red tipo cadena con 7 nodos y colores aleatorios"</span></span>
+<span id="cb40-409"><a href="#cb40-409"></a></span>
+<span id="cb40-410"><a href="#cb40-410"></a><span class="fu">plot</span>(g_cadena, </span>
+<span id="cb40-411"><a href="#cb40-411"></a>     <span class="at">vertex.size =</span> <span class="dv">30</span>, </span>
+<span id="cb40-412"><a href="#cb40-412"></a>     <span class="at">main =</span> <span class="st">"Red tipo cadena (path)"</span>)</span>
+<span id="cb40-413"><a href="#cb40-413"></a><span class="in">```</span></span>
+<span id="cb40-414"><a href="#cb40-414"></a></span>
+<span id="cb40-415"><a href="#cb40-415"></a>**Paso 3:** Verificar propiedades.</span>
+<span id="cb40-416"><a href="#cb40-416"></a></span>
+<span id="cb40-419"><a href="#cb40-419"></a><span class="in">```{r}</span></span>
+<span id="cb40-420"><a href="#cb40-420"></a><span class="co">#| label: ej-resuelto-1-props</span></span>
+<span id="cb40-421"><a href="#cb40-421"></a></span>
+<span id="cb40-422"><a href="#cb40-422"></a><span class="fu">cat</span>(<span class="st">"Número de nodos:"</span>, <span class="fu">vcount</span>(g_cadena), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span>
+<span id="cb40-423"><a href="#cb40-423"></a><span class="fu">cat</span>(<span class="st">"Número de conexiones:"</span>, <span class="fu">ecount</span>(g_cadena), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span>
+<span id="cb40-424"><a href="#cb40-424"></a><span class="fu">cat</span>(<span class="st">"grado (degree) de cada nodo:"</span>, <span class="fu">degree</span>(g_cadena), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span>
+<span id="cb40-425"><a href="#cb40-425"></a><span class="fu">cat</span>(<span class="st">"¿Es conexa?"</span>, <span class="fu">is_connected</span>(g_cadena), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span>
+<span id="cb40-426"><a href="#cb40-426"></a><span class="in">```</span></span>
+<span id="cb40-427"><a href="#cb40-427"></a></span>
+<span id="cb40-428"><a href="#cb40-428"></a>**Interpretación:** La cadena tiene 7 nodos y 6 conexiones. Los nodos extremos tienen grado (degree) 1 y los internos grado (degree) 2. La red es conexa (todos los nodos se pueden alcanzar entre sí).</span>
+<span id="cb40-429"><a href="#cb40-429"></a>:::</span>
+<span id="cb40-430"><a href="#cb40-430"></a></span>
+<span id="cb40-431"><a href="#cb40-431"></a>---</span>
+<span id="cb40-432"><a href="#cb40-432"></a></span>
+<span id="cb40-433"><a href="#cb40-433"></a>**Ejercicio resuelto 2:** Construye manualmente una red donde los nodos representen 5 ciudades mexicanas y las conexiones indiquen si comparten frontera estatal. Muestra la matriz de adyacencia.</span>
+<span id="cb40-434"><a href="#cb40-434"></a></span>
+<span id="cb40-435"><a href="#cb40-435"></a>::: {.callout-tip title="📝 Solución" collapse="true"}</span>
 <span id="cb40-436"><a href="#cb40-436"></a></span>
-<span id="cb40-439"><a href="#cb40-439"></a><span class="in">```{r}</span></span>
-<span id="cb40-440"><a href="#cb40-440"></a><span class="co">#| label: ej-resuelto-2-mat</span></span>
-<span id="cb40-441"><a href="#cb40-441"></a></span>
-<span id="cb40-442"><a href="#cb40-442"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(</span>
-<span id="cb40-443"><a href="#cb40-443"></a>  <span class="fu">as.matrix</span>(<span class="fu">get.adjacency</span>(ciudades)),</span>
-<span id="cb40-444"><a href="#cb40-444"></a>  <span class="at">caption =</span> <span class="st">"Matriz de adyacencia de la red de estados"</span></span>
-<span id="cb40-445"><a href="#cb40-445"></a>)</span>
-<span id="cb40-446"><a href="#cb40-446"></a><span class="in">```</span></span>
-<span id="cb40-447"><a href="#cb40-447"></a></span>
-<span id="cb40-448"><a href="#cb40-448"></a>**Interpretación:** Querétaro es el nodo más conectado (grado (degree) 3) porque comparte frontera con tres estados. La matriz es simétrica porque la red es no dirigida.</span>
-<span id="cb40-449"><a href="#cb40-449"></a>:::</span>
-<span id="cb40-450"><a href="#cb40-450"></a></span>
-<span id="cb40-451"><a href="#cb40-451"></a><span class="fu">### Ejercicios con pistas {.unnumbered}</span></span>
+<span id="cb40-437"><a href="#cb40-437"></a>**Paso 1:** Definir las ciudades y sus conexiones fronterizas.</span>
+<span id="cb40-438"><a href="#cb40-438"></a></span>
+<span id="cb40-441"><a href="#cb40-441"></a><span class="in">```{r}</span></span>
+<span id="cb40-442"><a href="#cb40-442"></a><span class="co">#| label: ej-resuelto-2</span></span>
+<span id="cb40-443"><a href="#cb40-443"></a></span>
+<span id="cb40-444"><a href="#cb40-444"></a><span class="co"># Crear la red</span></span>
+<span id="cb40-445"><a href="#cb40-445"></a>ciudades <span class="ot">&lt;-</span> <span class="fu">graph_from_literal</span>(</span>
+<span id="cb40-446"><a href="#cb40-446"></a>  Querétaro <span class="sc">--</span> Guanajuato,</span>
+<span id="cb40-447"><a href="#cb40-447"></a>  Querétaro <span class="sc">--</span> <span class="st">"San Luis Potosí"</span>,</span>
+<span id="cb40-448"><a href="#cb40-448"></a>  Querétaro <span class="sc">--</span> Hidalgo,</span>
+<span id="cb40-449"><a href="#cb40-449"></a>  Guanajuato <span class="sc">--</span> <span class="st">"San Luis Potosí"</span>,</span>
+<span id="cb40-450"><a href="#cb40-450"></a>  Hidalgo <span class="sc">--</span> <span class="st">"Estado de México"</span></span>
+<span id="cb40-451"><a href="#cb40-451"></a>)</span>
 <span id="cb40-452"><a href="#cb40-452"></a></span>
-<span id="cb40-453"><a href="#cb40-453"></a>**Ejercicio 1:** Crea una red vacía de 7 nodos no dirigidos. Agrega conexiones para formar un triángulo entre los nodos 1, 2 y 3, y otro triángulo entre 5, 6 y 7. Conecta ambos triángulos con una conexión entre 3 y 5. Visualiza el resultado y calcula el grado (degree) de cada nodo.</span>
-<span id="cb40-454"><a href="#cb40-454"></a></span>
-<span id="cb40-455"><a href="#cb40-455"></a>::: {.callout-note title="💡 Pista 1" collapse="true"}</span>
-<span id="cb40-456"><a href="#cb40-456"></a>Usa <span class="in">`make_empty_graph(n = 7, directed = FALSE)`</span> y luego <span class="in">`add_edges()`</span> con el vector de pares.</span>
-<span id="cb40-457"><a href="#cb40-457"></a>:::</span>
+<span id="cb40-453"><a href="#cb40-453"></a><span class="fu">V</span>(ciudades)<span class="sc">$</span>color <span class="ot">&lt;-</span> <span class="st">"gold"</span></span>
+<span id="cb40-454"><a href="#cb40-454"></a><span class="fu">V</span>(ciudades)<span class="sc">$</span>size <span class="ot">&lt;-</span> <span class="dv">25</span></span>
+<span id="cb40-455"><a href="#cb40-455"></a><span class="in">```</span></span>
+<span id="cb40-456"><a href="#cb40-456"></a></span>
+<span id="cb40-457"><a href="#cb40-457"></a>**Paso 2:** Visualizar y mostrar la matriz.</span>
 <span id="cb40-458"><a href="#cb40-458"></a></span>
-<span id="cb40-459"><a href="#cb40-459"></a>::: {.callout-note title="💡 Pista 2" collapse="true"}</span>
-<span id="cb40-460"><a href="#cb40-460"></a>El vector de conexiones sería: <span class="in">`c(1,2, 2,3, 1,3, 5,6, 6,7, 5,7, 3,5)`</span>. Son 7 conexiones en total.</span>
-<span id="cb40-461"><a href="#cb40-461"></a>:::</span>
-<span id="cb40-462"><a href="#cb40-462"></a></span>
-<span id="cb40-463"><a href="#cb40-463"></a>::: {.callout-note title="💡 Pista 3 — Pseudocódigo" collapse="true"}</span>
-<span id="cb40-464"><a href="#cb40-464"></a><span class="in">```</span></span>
-<span id="cb40-465"><a href="#cb40-465"></a><span class="in">1. g &lt;- make_empty_graph(7, directed = FALSE)</span></span>
-<span id="cb40-466"><a href="#cb40-466"></a><span class="in">2. g &lt;- add_edges(g, c(1,2, 2,3, ...))</span></span>
-<span id="cb40-467"><a href="#cb40-467"></a><span class="in">3. plot(g)</span></span>
-<span id="cb40-468"><a href="#cb40-468"></a><span class="in">4. degree(g)</span></span>
-<span id="cb40-469"><a href="#cb40-469"></a><span class="in">```</span></span>
-<span id="cb40-470"><a href="#cb40-470"></a>:::</span>
-<span id="cb40-471"><a href="#cb40-471"></a></span>
-<span id="cb40-472"><a href="#cb40-472"></a>---</span>
-<span id="cb40-473"><a href="#cb40-473"></a></span>
-<span id="cb40-474"><a href="#cb40-474"></a>**Ejercicio 2:** Genera un <span class="in">`make_tree()`</span> con 3 hijos por nodo y profundidad suficiente para tener al menos 40 nodos. ¿Cuántos nodos tiene exactamente? ¿Cuántas hojas (nodos con grado (degree) 1)?</span>
-<span id="cb40-475"><a href="#cb40-475"></a></span>
-<span id="cb40-476"><a href="#cb40-476"></a>::: {.callout-note title="💡 Pista 1" collapse="true"}</span>
-<span id="cb40-477"><a href="#cb40-477"></a>En <span class="in">`make_tree(n, children)`</span>, <span class="in">`n`</span> es el número total de nodos. Un árbol con 3 hijos y <span class="in">`n = 40`</span> tendrá exactamente 40 nodos.</span>
-<span id="cb40-478"><a href="#cb40-478"></a>:::</span>
-<span id="cb40-479"><a href="#cb40-479"></a></span>
-<span id="cb40-480"><a href="#cb40-480"></a>::: {.callout-note title="💡 Pista 2" collapse="true"}</span>
-<span id="cb40-481"><a href="#cb40-481"></a>Las hojas son los nodos con grado (degree) 1. Filtra con: <span class="in">`sum(degree(arbol) == 1)`</span>.</span>
+<span id="cb40-461"><a href="#cb40-461"></a><span class="in">```{r}</span></span>
+<span id="cb40-462"><a href="#cb40-462"></a><span class="co">#| label: fig-ej-resuelto-2</span></span>
+<span id="cb40-463"><a href="#cb40-463"></a><span class="co">#| fig-cap: "Red de ciudades que comparten frontera estatal"</span></span>
+<span id="cb40-464"><a href="#cb40-464"></a></span>
+<span id="cb40-465"><a href="#cb40-465"></a><span class="fu">plot</span>(ciudades, </span>
+<span id="cb40-466"><a href="#cb40-466"></a>     <span class="at">vertex.label.cex =</span> <span class="fl">0.8</span>,</span>
+<span id="cb40-467"><a href="#cb40-467"></a>     <span class="at">main =</span> <span class="st">"Red de vecindad entre estados"</span>)</span>
+<span id="cb40-468"><a href="#cb40-468"></a><span class="in">```</span></span>
+<span id="cb40-469"><a href="#cb40-469"></a></span>
+<span id="cb40-472"><a href="#cb40-472"></a><span class="in">```{r}</span></span>
+<span id="cb40-473"><a href="#cb40-473"></a><span class="co">#| label: ej-resuelto-2-mat</span></span>
+<span id="cb40-474"><a href="#cb40-474"></a></span>
+<span id="cb40-475"><a href="#cb40-475"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(</span>
+<span id="cb40-476"><a href="#cb40-476"></a>  <span class="fu">as.matrix</span>(<span class="fu">get.adjacency</span>(ciudades)),</span>
+<span id="cb40-477"><a href="#cb40-477"></a>  <span class="at">caption =</span> <span class="st">"Matriz de adyacencia de la red de estados"</span></span>
+<span id="cb40-478"><a href="#cb40-478"></a>)</span>
+<span id="cb40-479"><a href="#cb40-479"></a><span class="in">```</span></span>
+<span id="cb40-480"><a href="#cb40-480"></a></span>
+<span id="cb40-481"><a href="#cb40-481"></a>**Interpretación:** Querétaro es el nodo más conectado (grado (degree) 3) porque comparte frontera con tres estados. La matriz es simétrica porque la red es no dirigida.</span>
 <span id="cb40-482"><a href="#cb40-482"></a>:::</span>
 <span id="cb40-483"><a href="#cb40-483"></a></span>
-<span id="cb40-484"><a href="#cb40-484"></a>::: {.callout-note title="💡 Pista 3 — Pseudocódigo" collapse="true"}</span>
-<span id="cb40-485"><a href="#cb40-485"></a><span class="in">```</span></span>
-<span id="cb40-486"><a href="#cb40-486"></a><span class="in">1. arbol &lt;- make_tree(40, children = 3)</span></span>
-<span id="cb40-487"><a href="#cb40-487"></a><span class="in">2. vcount(arbol)</span></span>
-<span id="cb40-488"><a href="#cb40-488"></a><span class="in">3. sum(degree(arbol) == 1)</span></span>
-<span id="cb40-489"><a href="#cb40-489"></a><span class="in">4. plot(arbol, layout = layout_as_tree, vertex.size = 5)</span></span>
-<span id="cb40-490"><a href="#cb40-490"></a><span class="in">```</span></span>
-<span id="cb40-491"><a href="#cb40-491"></a>:::</span>
-<span id="cb40-492"><a href="#cb40-492"></a></span>
-<span id="cb40-493"><a href="#cb40-493"></a>---</span>
-<span id="cb40-494"><a href="#cb40-494"></a></span>
-<span id="cb40-495"><a href="#cb40-495"></a>**Ejercicio 3:** ¿Qué pasa si agregas un *self-loop* (conexión de un nodo a sí mismo) y una conexión duplicada? Crea una red, agrégalos, visualiza, y luego "limpia" la red con <span class="in">`simplify()`</span>. Compara el antes y después.</span>
-<span id="cb40-496"><a href="#cb40-496"></a></span>
-<span id="cb40-497"><a href="#cb40-497"></a>::: {.callout-note title="💡 Pista 1" collapse="true"}</span>
-<span id="cb40-498"><a href="#cb40-498"></a>Usa <span class="in">`add_edges(g, c(1,1))`</span> para un *self-loop* y repite una conexión existente para duplicarla.</span>
-<span id="cb40-499"><a href="#cb40-499"></a>:::</span>
-<span id="cb40-500"><a href="#cb40-500"></a></span>
-<span id="cb40-501"><a href="#cb40-501"></a>::: {.callout-note title="💡 Pista 2" collapse="true"}</span>
-<span id="cb40-502"><a href="#cb40-502"></a><span class="in">`simplify(g, remove.multiple = TRUE, remove.loops = TRUE)`</span> elimina duplicados y *self-loops*.</span>
+<span id="cb40-484"><a href="#cb40-484"></a><span class="fu">### Ejercicios con pistas {.unnumbered}</span></span>
+<span id="cb40-485"><a href="#cb40-485"></a></span>
+<span id="cb40-486"><a href="#cb40-486"></a>**Ejercicio 1:** Crea una red vacía de 7 nodos no dirigidos. Agrega conexiones para formar un triángulo entre los nodos 1, 2 y 3, y otro triángulo entre 5, 6 y 7. Conecta ambos triángulos con una conexión entre 3 y 5. Visualiza el resultado y calcula el grado (degree) de cada nodo.</span>
+<span id="cb40-487"><a href="#cb40-487"></a></span>
+<span id="cb40-488"><a href="#cb40-488"></a>::: {.callout-note title="💡 Pista 1" collapse="true"}</span>
+<span id="cb40-489"><a href="#cb40-489"></a>Usa <span class="in">`make_empty_graph(n = 7, directed = FALSE)`</span> y luego <span class="in">`add_edges()`</span> con el vector de pares.</span>
+<span id="cb40-490"><a href="#cb40-490"></a>:::</span>
+<span id="cb40-491"><a href="#cb40-491"></a></span>
+<span id="cb40-492"><a href="#cb40-492"></a>::: {.callout-note title="💡 Pista 2" collapse="true"}</span>
+<span id="cb40-493"><a href="#cb40-493"></a>El vector de conexiones sería: <span class="in">`c(1,2, 2,3, 1,3, 5,6, 6,7, 5,7, 3,5)`</span>. Son 7 conexiones en total.</span>
+<span id="cb40-494"><a href="#cb40-494"></a>:::</span>
+<span id="cb40-495"><a href="#cb40-495"></a></span>
+<span id="cb40-496"><a href="#cb40-496"></a>::: {.callout-note title="💡 Pista 3 — Pseudocódigo" collapse="true"}</span>
+<span id="cb40-497"><a href="#cb40-497"></a><span class="in">```</span></span>
+<span id="cb40-498"><a href="#cb40-498"></a><span class="in">1. g &lt;- make_empty_graph(7, directed = FALSE)</span></span>
+<span id="cb40-499"><a href="#cb40-499"></a><span class="in">2. g &lt;- add_edges(g, c(1,2, 2,3, ...))</span></span>
+<span id="cb40-500"><a href="#cb40-500"></a><span class="in">3. plot(g)</span></span>
+<span id="cb40-501"><a href="#cb40-501"></a><span class="in">4. degree(g)</span></span>
+<span id="cb40-502"><a href="#cb40-502"></a><span class="in">```</span></span>
 <span id="cb40-503"><a href="#cb40-503"></a>:::</span>
 <span id="cb40-504"><a href="#cb40-504"></a></span>
-<span id="cb40-505"><a href="#cb40-505"></a>::: {.callout-note title="💡 Pista 3 — Pseudocódigo" collapse="true"}</span>
-<span id="cb40-506"><a href="#cb40-506"></a><span class="in">```</span></span>
-<span id="cb40-507"><a href="#cb40-507"></a><span class="in">1. g &lt;- make_ring(5)</span></span>
-<span id="cb40-508"><a href="#cb40-508"></a><span class="in">2. g &lt;- add_edges(g, c(1,1, 1,2))  # loop + duplicada</span></span>
-<span id="cb40-509"><a href="#cb40-509"></a><span class="in">3. ecount(g)  # contar conexiones antes</span></span>
-<span id="cb40-510"><a href="#cb40-510"></a><span class="in">4. plot(g)</span></span>
-<span id="cb40-511"><a href="#cb40-511"></a><span class="in">5. g_limpio &lt;- simplify(g)</span></span>
-<span id="cb40-512"><a href="#cb40-512"></a><span class="in">6. ecount(g_limpio)  # contar conexiones después</span></span>
-<span id="cb40-513"><a href="#cb40-513"></a><span class="in">7. plot(g_limpio)</span></span>
-<span id="cb40-514"><a href="#cb40-514"></a><span class="in">```</span></span>
+<span id="cb40-505"><a href="#cb40-505"></a>---</span>
+<span id="cb40-506"><a href="#cb40-506"></a></span>
+<span id="cb40-507"><a href="#cb40-507"></a>**Ejercicio 2:** Genera un <span class="in">`make_tree()`</span> con 3 hijos por nodo y profundidad suficiente para tener al menos 40 nodos. ¿Cuántos nodos tiene exactamente? ¿Cuántas hojas (nodos con grado (degree) 1)?</span>
+<span id="cb40-508"><a href="#cb40-508"></a></span>
+<span id="cb40-509"><a href="#cb40-509"></a>::: {.callout-note title="💡 Pista 1" collapse="true"}</span>
+<span id="cb40-510"><a href="#cb40-510"></a>En <span class="in">`make_tree(n, children)`</span>, <span class="in">`n`</span> es el número total de nodos. Un árbol con 3 hijos y <span class="in">`n = 40`</span> tendrá exactamente 40 nodos.</span>
+<span id="cb40-511"><a href="#cb40-511"></a>:::</span>
+<span id="cb40-512"><a href="#cb40-512"></a></span>
+<span id="cb40-513"><a href="#cb40-513"></a>::: {.callout-note title="💡 Pista 2" collapse="true"}</span>
+<span id="cb40-514"><a href="#cb40-514"></a>Las hojas son los nodos con grado (degree) 1. Filtra con: <span class="in">`sum(degree(arbol) == 1)`</span>.</span>
 <span id="cb40-515"><a href="#cb40-515"></a>:::</span>
 <span id="cb40-516"><a href="#cb40-516"></a></span>
-<span id="cb40-517"><a href="#cb40-517"></a><span class="fu">### Ejercicios propuestos {.unnumbered}</span></span>
-<span id="cb40-518"><a href="#cb40-518"></a></span>
-<span id="cb40-519"><a href="#cb40-519"></a>**Ejercicio propuesto 1** ⭐</span>
-<span id="cb40-520"><a href="#cb40-520"></a></span>
-<span id="cb40-521"><a href="#cb40-521"></a>Crea una red estrella de 15 nodos. Calcula su grado (degree) máximo y mínimo. ¿Cuál es la densidad de conexiones (<span class="in">`edge_density()`</span>)?</span>
-<span id="cb40-522"><a href="#cb40-522"></a></span>
-<span id="cb40-523"><a href="#cb40-523"></a><span class="at">&gt; **Autoevaluación:** El grado (degree) máximo debe ser 14 (el nodo central) y el mínimo 1 (nodos periféricos).</span></span>
-<span id="cb40-524"><a href="#cb40-524"></a></span>
-<span id="cb40-525"><a href="#cb40-525"></a>---</span>
-<span id="cb40-526"><a href="#cb40-526"></a></span>
-<span id="cb40-527"><a href="#cb40-527"></a>**Ejercicio propuesto 2** ⭐⭐</span>
-<span id="cb40-528"><a href="#cb40-528"></a></span>
-<span id="cb40-529"><a href="#cb40-529"></a>Genera tres redes con <span class="in">`sample_gnp(50, p)`</span> usando $p = 0.05$, $p = 0.20$ y $p = 0.50$. Compara sus histogramas de grado (degree) en un gráfico con <span class="in">`par(mfrow = c(1, 3))`</span>. ¿Qué patrón observas a medida que $p$ aumenta?</span>
-<span id="cb40-530"><a href="#cb40-530"></a></span>
-<span id="cb40-531"><a href="#cb40-531"></a><span class="at">&gt; **Autoevaluación:** A mayor $p$, la distribución de grado (degree) se desplaza a la derecha y se vuelve más concentrada. Con $p = 0.50$ el grado (degree) medio debe estar cerca de 25.</span></span>
-<span id="cb40-532"><a href="#cb40-532"></a></span>
-<span id="cb40-533"><a href="#cb40-533"></a>---</span>
-<span id="cb40-534"><a href="#cb40-534"></a></span>
-<span id="cb40-535"><a href="#cb40-535"></a>**Ejercicio propuesto 3** ⭐⭐</span>
-<span id="cb40-536"><a href="#cb40-536"></a></span>
-<span id="cb40-537"><a href="#cb40-537"></a>Diseña una red hipotética de 8 ingredientes de cocina donde las conexiones representen que dos ingredientes aparecen juntos en una misma receta. Usa <span class="in">`graph_from_literal()`</span> para definirla. Visualízala y calcula la matriz de distancias entre todos los pares.</span>
-<span id="cb40-538"><a href="#cb40-538"></a></span>
-<span id="cb40-539"><a href="#cb40-539"></a><span class="at">&gt; **Autoevaluación:** Todos los nodos deben ser alcanzables entre sí (la red debe ser conexa). Si alguna distancia es </span><span class="in">`Inf`</span><span class="at">, tienes componentes desconectados.</span></span>
-<span id="cb40-540"><a href="#cb40-540"></a></span>
-<span id="cb40-541"><a href="#cb40-541"></a>---</span>
-<span id="cb40-542"><a href="#cb40-542"></a></span>
-<span id="cb40-543"><a href="#cb40-543"></a>**Ejercicio propuesto 4** ⭐⭐⭐</span>
-<span id="cb40-544"><a href="#cb40-544"></a></span>
-<span id="cb40-545"><a href="#cb40-545"></a>Crea una función en R llamada <span class="in">`resumen_red()`</span> que reciba un grafo <span class="in">`g`</span> y devuelva un *data frame* con las columnas: <span class="in">`nodo`</span>, <span class="in">`grado_total`</span>, <span class="in">`grado_entrada`</span>, <span class="in">`grado_salida`</span>. Pruébala con una red dirigida de al menos 10 nodos.</span>
-<span id="cb40-546"><a href="#cb40-546"></a></span>
-<span id="cb40-547"><a href="#cb40-547"></a><span class="at">&gt; **Autoevaluación:** Tu función debe manejar correctamente tanto redes dirigidas como no dirigidas (en las no dirigidas, los tres grados son iguales).</span></span>
-<span id="cb40-548"><a href="#cb40-548"></a></span>
-<span id="cb40-549"><a href="#cb40-549"></a><span class="fu">## Resumen del capítulo</span></span>
-<span id="cb40-550"><a href="#cb40-550"></a></span>
-<span id="cb40-553"><a href="#cb40-553"></a><span class="in">```{mermaid}</span></span>
-<span id="cb40-554"><a href="#cb40-554"></a>%%| label: fig-resumen-cap1</span>
-<span id="cb40-555"><a href="#cb40-555"></a>%%| fig-cap: <span class="ot">"</span><span class="st">Resumen visual del capítulo</span><span class="ot">"</span></span>
-<span id="cb40-556"><a href="#cb40-556"></a>flowchart LR</span>
-<span id="cb40-557"><a href="#cb40-557"></a>    A[Crear redes] --&gt; B[Manipular nodos y conexiones]</span>
-<span id="cb40-558"><a href="#cb40-558"></a>    B --&gt; C[Calcular grado (degree)]</span>
-<span id="cb40-559"><a href="#cb40-559"></a>    C --&gt; D[Matriz de adyacencia]</span>
-<span id="cb40-560"><a href="#cb40-560"></a>    D --&gt; E[Redes especiales]</span>
-<span id="cb40-561"><a href="#cb40-561"></a>    E --&gt; F[<span class="ot">"</span><span class="st">Siguiente: Distribuciones de grado (degree) →</span><span class="ot">"</span>]</span>
-<span id="cb40-562"><a href="#cb40-562"></a>    style F fill:<span class="co">#e8f4f8,stroke:#3ABEF9</span></span>
-<span id="cb40-563"><a href="#cb40-563"></a><span class="in">```</span></span>
-<span id="cb40-564"><a href="#cb40-564"></a></span>
-<span id="cb40-565"><a href="#cb40-565"></a><span class="pp">|</span> Función <span class="pp">|</span> Descripción <span class="pp">|</span></span>
-<span id="cb40-566"><a href="#cb40-566"></a><span class="pp">|---------|-------------|</span></span>
-<span id="cb40-567"><a href="#cb40-567"></a><span class="pp">|</span> <span class="in">`make_empty_graph()`</span> <span class="pp">|</span> Crear grafo vacío <span class="pp">|</span></span>
-<span id="cb40-568"><a href="#cb40-568"></a><span class="pp">|</span> <span class="in">`add_vertices()`</span> / <span class="in">`add_edges()`</span> <span class="pp">|</span> Agregar nodos / conexiones <span class="pp">|</span></span>
-<span id="cb40-569"><a href="#cb40-569"></a><span class="pp">|</span> <span class="in">`delete_vertices()`</span> / <span class="in">`delete_edges()`</span> <span class="pp">|</span> Eliminar nodos / conexiones <span class="pp">|</span></span>
-<span id="cb40-570"><a href="#cb40-570"></a><span class="pp">|</span> <span class="in">`V(g)`</span> / <span class="in">`E(g)`</span> <span class="pp">|</span> Acceder a vértices / conexiones <span class="pp">|</span></span>
-<span id="cb40-571"><a href="#cb40-571"></a><span class="pp">|</span> <span class="in">`degree()`</span> <span class="pp">|</span> Calcular grado (degree) <span class="pp">|</span></span>
-<span id="cb40-572"><a href="#cb40-572"></a><span class="pp">|</span> <span class="in">`get.adjacency()`</span> <span class="pp">|</span> Obtener matriz de adyacencia <span class="pp">|</span></span>
-<span id="cb40-573"><a href="#cb40-573"></a><span class="pp">|</span> <span class="in">`make_star()`</span>, <span class="in">`make_ring()`</span>, <span class="in">`make_tree()`</span> <span class="pp">|</span> Crear redes especiales <span class="pp">|</span></span>
-<span id="cb40-574"><a href="#cb40-574"></a></span>
-<span id="cb40-575"><a href="#cb40-575"></a>: Funciones clave del capítulo {.striped .hover}</span>
-<span id="cb40-576"><a href="#cb40-576"></a></span>
-<span id="cb40-577"><a href="#cb40-577"></a>**Conexión con el siguiente capítulo:** Ahora que sabes crear redes y calcular grados, en el @sec-grado (degree)-distribuciones exploraremos *cómo se distribuyen* esos grados y por qué algunas redes producen "superhubs" mientras que otras son más homogéneas.</span>
-<span id="cb40-578"><a href="#cb40-578"></a></span>
-<span id="cb40-579"><a href="#cb40-579"></a><span class="fu">## Autoevaluación {.unnumbered}</span></span>
-<span id="cb40-580"><a href="#cb40-580"></a></span>
-<span id="cb40-581"><a href="#cb40-581"></a>::: {.callout-caution title="Pregunta 1" collapse="true"}</span>
-<span id="cb40-582"><a href="#cb40-582"></a>**Verdadero o Falso:** En una red no dirigida, la matriz de adyacencia siempre es simétrica.</span>
+<span id="cb40-517"><a href="#cb40-517"></a>::: {.callout-note title="💡 Pista 3 — Pseudocódigo" collapse="true"}</span>
+<span id="cb40-518"><a href="#cb40-518"></a><span class="in">```</span></span>
+<span id="cb40-519"><a href="#cb40-519"></a><span class="in">1. arbol &lt;- make_tree(40, children = 3)</span></span>
+<span id="cb40-520"><a href="#cb40-520"></a><span class="in">2. vcount(arbol)</span></span>
+<span id="cb40-521"><a href="#cb40-521"></a><span class="in">3. sum(degree(arbol) == 1)</span></span>
+<span id="cb40-522"><a href="#cb40-522"></a><span class="in">4. plot(arbol, layout = layout_as_tree, vertex.size = 5)</span></span>
+<span id="cb40-523"><a href="#cb40-523"></a><span class="in">```</span></span>
+<span id="cb40-524"><a href="#cb40-524"></a>:::</span>
+<span id="cb40-525"><a href="#cb40-525"></a></span>
+<span id="cb40-526"><a href="#cb40-526"></a>---</span>
+<span id="cb40-527"><a href="#cb40-527"></a></span>
+<span id="cb40-528"><a href="#cb40-528"></a>**Ejercicio 3:** ¿Qué pasa si agregas un *self-loop* (conexión de un nodo a sí mismo) y una conexión duplicada? Crea una red, agrégalos, visualiza, y luego "limpia" la red con <span class="in">`simplify()`</span>. Compara el antes y después.</span>
+<span id="cb40-529"><a href="#cb40-529"></a></span>
+<span id="cb40-530"><a href="#cb40-530"></a>::: {.callout-note title="💡 Pista 1" collapse="true"}</span>
+<span id="cb40-531"><a href="#cb40-531"></a>Usa <span class="in">`add_edges(g, c(1,1))`</span> para un *self-loop* y repite una conexión existente para duplicarla.</span>
+<span id="cb40-532"><a href="#cb40-532"></a>:::</span>
+<span id="cb40-533"><a href="#cb40-533"></a></span>
+<span id="cb40-534"><a href="#cb40-534"></a>::: {.callout-note title="💡 Pista 2" collapse="true"}</span>
+<span id="cb40-535"><a href="#cb40-535"></a><span class="in">`simplify(g, remove.multiple = TRUE, remove.loops = TRUE)`</span> elimina duplicados y *self-loops*.</span>
+<span id="cb40-536"><a href="#cb40-536"></a>:::</span>
+<span id="cb40-537"><a href="#cb40-537"></a></span>
+<span id="cb40-538"><a href="#cb40-538"></a>::: {.callout-note title="💡 Pista 3 — Pseudocódigo" collapse="true"}</span>
+<span id="cb40-539"><a href="#cb40-539"></a><span class="in">```</span></span>
+<span id="cb40-540"><a href="#cb40-540"></a><span class="in">1. g &lt;- make_ring(5)</span></span>
+<span id="cb40-541"><a href="#cb40-541"></a><span class="in">2. g &lt;- add_edges(g, c(1,1, 1,2))  # loop + duplicada</span></span>
+<span id="cb40-542"><a href="#cb40-542"></a><span class="in">3. ecount(g)  # contar conexiones antes</span></span>
+<span id="cb40-543"><a href="#cb40-543"></a><span class="in">4. plot(g)</span></span>
+<span id="cb40-544"><a href="#cb40-544"></a><span class="in">5. g_limpio &lt;- simplify(g)</span></span>
+<span id="cb40-545"><a href="#cb40-545"></a><span class="in">6. ecount(g_limpio)  # contar conexiones después</span></span>
+<span id="cb40-546"><a href="#cb40-546"></a><span class="in">7. plot(g_limpio)</span></span>
+<span id="cb40-547"><a href="#cb40-547"></a><span class="in">```</span></span>
+<span id="cb40-548"><a href="#cb40-548"></a>:::</span>
+<span id="cb40-549"><a href="#cb40-549"></a></span>
+<span id="cb40-550"><a href="#cb40-550"></a><span class="fu">### Ejercicios propuestos {.unnumbered}</span></span>
+<span id="cb40-551"><a href="#cb40-551"></a></span>
+<span id="cb40-552"><a href="#cb40-552"></a>**Ejercicio propuesto 1** ⭐</span>
+<span id="cb40-553"><a href="#cb40-553"></a></span>
+<span id="cb40-554"><a href="#cb40-554"></a>Crea una red estrella de 15 nodos. Calcula su grado (degree) máximo y mínimo. ¿Cuál es la densidad de conexiones (<span class="in">`edge_density()`</span>)?</span>
+<span id="cb40-555"><a href="#cb40-555"></a></span>
+<span id="cb40-556"><a href="#cb40-556"></a><span class="at">&gt; **Autoevaluación:** El grado (degree) máximo debe ser 14 (el nodo central) y el mínimo 1 (nodos periféricos).</span></span>
+<span id="cb40-557"><a href="#cb40-557"></a></span>
+<span id="cb40-558"><a href="#cb40-558"></a>---</span>
+<span id="cb40-559"><a href="#cb40-559"></a></span>
+<span id="cb40-560"><a href="#cb40-560"></a>**Ejercicio propuesto 2** ⭐⭐</span>
+<span id="cb40-561"><a href="#cb40-561"></a></span>
+<span id="cb40-562"><a href="#cb40-562"></a>Genera tres redes con <span class="in">`sample_gnp(50, p)`</span> usando $p = 0.05$, $p = 0.20$ y $p = 0.50$. Compara sus histogramas de grado (degree) en un gráfico con <span class="in">`par(mfrow = c(1, 3))`</span>. ¿Qué patrón observas a medida que $p$ aumenta?</span>
+<span id="cb40-563"><a href="#cb40-563"></a></span>
+<span id="cb40-564"><a href="#cb40-564"></a><span class="at">&gt; **Autoevaluación:** A mayor $p$, la distribución de grado (degree) se desplaza a la derecha y se vuelve más concentrada. Con $p = 0.50$ el grado (degree) medio debe estar cerca de 25.</span></span>
+<span id="cb40-565"><a href="#cb40-565"></a></span>
+<span id="cb40-566"><a href="#cb40-566"></a>---</span>
+<span id="cb40-567"><a href="#cb40-567"></a></span>
+<span id="cb40-568"><a href="#cb40-568"></a>**Ejercicio propuesto 3** ⭐⭐</span>
+<span id="cb40-569"><a href="#cb40-569"></a></span>
+<span id="cb40-570"><a href="#cb40-570"></a>Diseña una red hipotética de 8 ingredientes de cocina donde las conexiones representen que dos ingredientes aparecen juntos en una misma receta. Usa <span class="in">`graph_from_literal()`</span> para definirla. Visualízala y calcula la matriz de distancias entre todos los pares.</span>
+<span id="cb40-571"><a href="#cb40-571"></a></span>
+<span id="cb40-572"><a href="#cb40-572"></a><span class="at">&gt; **Autoevaluación:** Todos los nodos deben ser alcanzables entre sí (la red debe ser conexa). Si alguna distancia es </span><span class="in">`Inf`</span><span class="at">, tienes componentes desconectados.</span></span>
+<span id="cb40-573"><a href="#cb40-573"></a></span>
+<span id="cb40-574"><a href="#cb40-574"></a>---</span>
+<span id="cb40-575"><a href="#cb40-575"></a></span>
+<span id="cb40-576"><a href="#cb40-576"></a>**Ejercicio propuesto 4** ⭐⭐⭐</span>
+<span id="cb40-577"><a href="#cb40-577"></a></span>
+<span id="cb40-578"><a href="#cb40-578"></a>Crea una función en R llamada <span class="in">`resumen_red()`</span> que reciba un grafo <span class="in">`g`</span> y devuelva un *data frame* con las columnas: <span class="in">`nodo`</span>, <span class="in">`grado_total`</span>, <span class="in">`grado_entrada`</span>, <span class="in">`grado_salida`</span>. Pruébala con una red dirigida de al menos 10 nodos.</span>
+<span id="cb40-579"><a href="#cb40-579"></a></span>
+<span id="cb40-580"><a href="#cb40-580"></a><span class="at">&gt; **Autoevaluación:** Tu función debe manejar correctamente tanto redes dirigidas como no dirigidas (en las no dirigidas, los tres grados son iguales).</span></span>
+<span id="cb40-581"><a href="#cb40-581"></a></span>
+<span id="cb40-582"><a href="#cb40-582"></a><span class="fu">## Resumen del capítulo</span></span>
 <span id="cb40-583"><a href="#cb40-583"></a></span>
-<span id="cb40-584"><a href="#cb40-584"></a>✅ **Verdadero.** Si $i$ está conectado con $j$, entonces $j$ también está conectado con $i$.</span>
-<span id="cb40-585"><a href="#cb40-585"></a>:::</span>
-<span id="cb40-586"><a href="#cb40-586"></a></span>
-<span id="cb40-587"><a href="#cb40-587"></a>::: {.callout-caution title="Pregunta 2" collapse="true"}</span>
-<span id="cb40-588"><a href="#cb40-588"></a>**¿Cuál es el grado (degree) del nodo central en una red estrella de $n$ nodos?**</span>
-<span id="cb40-589"><a href="#cb40-589"></a></span>
-<span id="cb40-590"><a href="#cb40-590"></a>a) $1$</span>
-<span id="cb40-591"><a href="#cb40-591"></a>b) $n$</span>
-<span id="cb40-592"><a href="#cb40-592"></a>c) $n - 1$ ✅</span>
-<span id="cb40-593"><a href="#cb40-593"></a>d) $2$</span>
-<span id="cb40-594"><a href="#cb40-594"></a></span>
-<span id="cb40-595"><a href="#cb40-595"></a>El nodo central se conecta con todos los demás, así que su grado (degree) es $n - 1$.</span>
-<span id="cb40-596"><a href="#cb40-596"></a>:::</span>
+<span id="cb40-586"><a href="#cb40-586"></a><span class="in">```{mermaid}</span></span>
+<span id="cb40-587"><a href="#cb40-587"></a>%%| label: fig-resumen-cap1</span>
+<span id="cb40-588"><a href="#cb40-588"></a>%%| fig-cap: <span class="ot">"</span><span class="st">Resumen visual del capítulo</span><span class="ot">"</span></span>
+<span id="cb40-589"><a href="#cb40-589"></a>flowchart LR</span>
+<span id="cb40-590"><a href="#cb40-590"></a>    A[Crear redes] --&gt; B[Manipular nodos y conexiones]</span>
+<span id="cb40-591"><a href="#cb40-591"></a>    B --&gt; C[Calcular grado (degree)]</span>
+<span id="cb40-592"><a href="#cb40-592"></a>    C --&gt; D[Matriz de adyacencia]</span>
+<span id="cb40-593"><a href="#cb40-593"></a>    D --&gt; E[Redes especiales]</span>
+<span id="cb40-594"><a href="#cb40-594"></a>    E --&gt; F[<span class="ot">"</span><span class="st">Siguiente: Distribuciones de grado (degree) →</span><span class="ot">"</span>]</span>
+<span id="cb40-595"><a href="#cb40-595"></a>    style F fill:<span class="co">#e8f4f8,stroke:#3ABEF9</span></span>
+<span id="cb40-596"><a href="#cb40-596"></a><span class="in">```</span></span>
 <span id="cb40-597"><a href="#cb40-597"></a></span>
-<span id="cb40-598"><a href="#cb40-598"></a>::: {.callout-caution title="Pregunta 3" collapse="true"}</span>
-<span id="cb40-599"><a href="#cb40-599"></a>**¿Qué función usarías para eliminar *self-loops* y conexiones duplicadas de una red?**</span>
-<span id="cb40-600"><a href="#cb40-600"></a></span>
-<span id="cb40-601"><a href="#cb40-601"></a><span class="in">`simplify()`</span> con los parámetros <span class="in">`remove.multiple = TRUE`</span> y <span class="in">`remove.loops = TRUE`</span>.</span>
-<span id="cb40-602"><a href="#cb40-602"></a>:::</span>
-<span id="cb40-603"><a href="#cb40-603"></a></span>
-<span id="cb40-604"><a href="#cb40-604"></a>::: {.callout-caution title="Pregunta 4" collapse="true"}</span>
-<span id="cb40-605"><a href="#cb40-605"></a>**Verdadero o Falso:** <span class="in">`add_edges(g, c(1,2,3))`</span> agrega tres conexiones.</span>
-<span id="cb40-606"><a href="#cb40-606"></a></span>
-<span id="cb40-607"><a href="#cb40-607"></a>❌ **Falso.** El vector debe tener un número par de elementos (pares origen-destino). Este código produciría un error.</span>
-<span id="cb40-608"><a href="#cb40-608"></a>:::</span>
+<span id="cb40-598"><a href="#cb40-598"></a><span class="pp">|</span> Función <span class="pp">|</span> Descripción <span class="pp">|</span></span>
+<span id="cb40-599"><a href="#cb40-599"></a><span class="pp">|---------|-------------|</span></span>
+<span id="cb40-600"><a href="#cb40-600"></a><span class="pp">|</span> <span class="in">`make_empty_graph()`</span> <span class="pp">|</span> Crear grafo vacío <span class="pp">|</span></span>
+<span id="cb40-601"><a href="#cb40-601"></a><span class="pp">|</span> <span class="in">`add_vertices()`</span> / <span class="in">`add_edges()`</span> <span class="pp">|</span> Agregar nodos / conexiones <span class="pp">|</span></span>
+<span id="cb40-602"><a href="#cb40-602"></a><span class="pp">|</span> <span class="in">`delete_vertices()`</span> / <span class="in">`delete_edges()`</span> <span class="pp">|</span> Eliminar nodos / conexiones <span class="pp">|</span></span>
+<span id="cb40-603"><a href="#cb40-603"></a><span class="pp">|</span> <span class="in">`V(g)`</span> / <span class="in">`E(g)`</span> <span class="pp">|</span> Acceder a vértices / conexiones <span class="pp">|</span></span>
+<span id="cb40-604"><a href="#cb40-604"></a><span class="pp">|</span> <span class="in">`degree()`</span> <span class="pp">|</span> Calcular grado (degree) <span class="pp">|</span></span>
+<span id="cb40-605"><a href="#cb40-605"></a><span class="pp">|</span> <span class="in">`get.adjacency()`</span> <span class="pp">|</span> Obtener matriz de adyacencia <span class="pp">|</span></span>
+<span id="cb40-606"><a href="#cb40-606"></a><span class="pp">|</span> <span class="in">`make_star()`</span>, <span class="in">`make_ring()`</span>, <span class="in">`make_tree()`</span> <span class="pp">|</span> Crear redes especiales <span class="pp">|</span></span>
+<span id="cb40-607"><a href="#cb40-607"></a></span>
+<span id="cb40-608"><a href="#cb40-608"></a>: Funciones clave del capítulo {.striped .hover}</span>
 <span id="cb40-609"><a href="#cb40-609"></a></span>
-<span id="cb40-610"><a href="#cb40-610"></a>::: {.callout-caution title="Pregunta 5" collapse="true"}</span>
-<span id="cb40-611"><a href="#cb40-611"></a>**¿Cuántas conexiones tiene un `make_ring(10)`?**</span>
-<span id="cb40-612"><a href="#cb40-612"></a></span>
-<span id="cb40-613"><a href="#cb40-613"></a>Exactamente **10**: cada nodo se conecta con su vecino y el último se conecta con el primero, formando un ciclo.</span>
-<span id="cb40-614"><a href="#cb40-614"></a>:::</span>
+<span id="cb40-610"><a href="#cb40-610"></a>**Conexión con el siguiente capítulo:** Ahora que sabes crear redes y calcular grados, en el @sec-grado (degree)-distribuciones exploraremos *cómo se distribuyen* esos grados y por qué algunas redes producen "superhubs" mientras que otras son más homogéneas.</span>
+<span id="cb40-611"><a href="#cb40-611"></a></span>
+<span id="cb40-612"><a href="#cb40-612"></a><span class="fu">## Autoevaluación {.unnumbered}</span></span>
+<span id="cb40-613"><a href="#cb40-613"></a></span>
+<span id="cb40-614"><a href="#cb40-614"></a>::: {.callout-caution title="Pregunta 1" collapse="true"}</span>
+<span id="cb40-615"><a href="#cb40-615"></a>**Verdadero o Falso:** En una red no dirigida, la matriz de adyacencia siempre es simétrica.</span>
+<span id="cb40-616"><a href="#cb40-616"></a></span>
+<span id="cb40-617"><a href="#cb40-617"></a>✅ **Verdadero.** Si $i$ está conectado con $j$, entonces $j$ también está conectado con $i$.</span>
+<span id="cb40-618"><a href="#cb40-618"></a>:::</span>
+<span id="cb40-619"><a href="#cb40-619"></a></span>
+<span id="cb40-620"><a href="#cb40-620"></a>::: {.callout-caution title="Pregunta 2" collapse="true"}</span>
+<span id="cb40-621"><a href="#cb40-621"></a>**¿Cuál es el grado (degree) del nodo central en una red estrella de $n$ nodos?**</span>
+<span id="cb40-622"><a href="#cb40-622"></a></span>
+<span id="cb40-623"><a href="#cb40-623"></a>a) $1$</span>
+<span id="cb40-624"><a href="#cb40-624"></a>b) $n$</span>
+<span id="cb40-625"><a href="#cb40-625"></a>c) $n - 1$ ✅</span>
+<span id="cb40-626"><a href="#cb40-626"></a>d) $2$</span>
+<span id="cb40-627"><a href="#cb40-627"></a></span>
+<span id="cb40-628"><a href="#cb40-628"></a>El nodo central se conecta con todos los demás, así que su grado (degree) es $n - 1$.</span>
+<span id="cb40-629"><a href="#cb40-629"></a>:::</span>
+<span id="cb40-630"><a href="#cb40-630"></a></span>
+<span id="cb40-631"><a href="#cb40-631"></a>::: {.callout-caution title="Pregunta 3" collapse="true"}</span>
+<span id="cb40-632"><a href="#cb40-632"></a>**¿Qué función usarías para eliminar *self-loops* y conexiones duplicadas de una red?**</span>
+<span id="cb40-633"><a href="#cb40-633"></a></span>
+<span id="cb40-634"><a href="#cb40-634"></a><span class="in">`simplify()`</span> con los parámetros <span class="in">`remove.multiple = TRUE`</span> y <span class="in">`remove.loops = TRUE`</span>.</span>
+<span id="cb40-635"><a href="#cb40-635"></a>:::</span>
+<span id="cb40-636"><a href="#cb40-636"></a></span>
+<span id="cb40-637"><a href="#cb40-637"></a>::: {.callout-caution title="Pregunta 4" collapse="true"}</span>
+<span id="cb40-638"><a href="#cb40-638"></a>**Verdadero o Falso:** <span class="in">`add_edges(g, c(1,2,3))`</span> agrega tres conexiones.</span>
+<span id="cb40-639"><a href="#cb40-639"></a></span>
+<span id="cb40-640"><a href="#cb40-640"></a>❌ **Falso.** El vector debe tener un número par de elementos (pares origen-destino). Este código produciría un error.</span>
+<span id="cb40-641"><a href="#cb40-641"></a>:::</span>
+<span id="cb40-642"><a href="#cb40-642"></a></span>
+<span id="cb40-643"><a href="#cb40-643"></a>::: {.callout-caution title="Pregunta 5" collapse="true"}</span>
+<span id="cb40-644"><a href="#cb40-644"></a>**¿Cuántas conexiones tiene un `make_ring(10)`?**</span>
+<span id="cb40-645"><a href="#cb40-645"></a></span>
+<span id="cb40-646"><a href="#cb40-646"></a>Exactamente **10**: cada nodo se conecta con su vecino y el último se conecta con el primero, formando un ciclo.</span>
+<span id="cb40-647"><a href="#cb40-647"></a>:::</span>
 </code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
 </div></div></div></div></div>
 </div> <!-- /content -->

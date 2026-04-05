@@ -3,29 +3,67 @@
 ::: {.callout-note title="🎯 Objetivos de aprendizaje"}
 Al finalizar este capítulo serás capaz de:
 
-1. **Diferenciar** entre distribuciones de grado tipo Poisson y *power-law* (ley de potencia).
-2. **Generar** redes con los modelos Erdős–Rényi (ER) y Barabási–Albert (BA) en `igraph`.
-3. **Visualizar y comparar** distribuciones de grado usando histogramas y gráficos log-log.
-4. **Ajustar** una ley de potencia a datos de grado con el paquete `poweRlaw`.
-5. **Identificar** *hubs* (nodos altamente conectados) y explicar su importancia en la estructura de la red.
+1.  **Diferenciar** entre distribuciones de grado tipo Poisson y *power-law* (ley de potencia).
+2.  **Generar** redes con los modelos Erdős–Rényi (ER) y Barabási–Albert (BA) en `igraph`.
+3.  **Visualizar y comparar** distribuciones de grado usando histogramas y gráficos log-log.
+4.  **Ajustar** una ley de potencia a datos de grado con el paquete `poweRlaw`.
+5.  **Identificar** *hubs* (nodos altamente conectados) y explicar su importancia en la estructura de la red.
 :::
 
 > **Pregunta motivadora:** En internet, unos pocos sitios web (Google, Facebook, Wikipedia) reciben miles de millones de visitas, mientras que la inmensa mayoría recibe muy pocas. ¿Por qué esta desigualdad extrema? ¿Es azar o hay un mecanismo detrás?
 
 ```{mermaid}
 %%| label: fig-mapa-cap2
-%%| fig-cap: "Mapa conceptual del capítulo"
+%%| fig-cap: "Mapa conceptual del capítulo: distribuciones de grado en redes"
 flowchart TD
-    A[Distribuciones de grado] --> B[Modelo Erdős–Rényi]
-    A --> C[Modelo Barabási–Albert]
-    B --> D[Distribución Poisson]
-    C --> E[Distribución Power-law]
-    D --> F[Grado homogéneo]
-    E --> G[Hubs y colas pesadas]
-    A --> H[Comparación visual]
-    H --> I[Histogramas y gráficos log-log]
-    A --> J[Ajuste estadístico]
-    J --> K[Paquete poweRlaw]
+    A([Distribuciones de grado<br/>en redes complejas]):::central
+
+    subgraph MOD["⚙️ Modelos generativos"]
+        direction LR
+        B[Erdős–Rényi<br/>red aleatoria]:::modelo
+        C[Barabási–Albert<br/>crecimiento preferencial]:::modelo
+    end
+
+    subgraph DIST["📐 Distribuciones resultantes"]
+        direction LR
+        D1{{Distribución<br/>Poisson}}:::dist
+        D2{{Distribución<br/>Power-law}}:::dist
+    end
+
+    subgraph PROP["🔎 Propiedades estructurales"]
+        direction LR
+        F[/Grado homogéneo<br/>nodos similares/]:::prop
+        G[/Hubs y colas pesadas<br/>alta conectividad/]:::prop
+    end
+
+    subgraph ANAL["📊 Análisis y comparación"]
+        direction LR
+        H[Comparación<br/>visual]:::anal
+        I[Histogramas y<br/>gráficas log-log]:::anal
+        J[Ajuste<br/>estadístico]:::anal
+        K[(poweRlaw<br/>en R)]:::anal
+    end
+
+    A -->|genera| B
+    A -->|genera| C
+    A -->|se analiza con| H
+    A -->|se ajusta con| J
+    B -->|produce| D1
+    C -->|produce| D2
+    D1 -->|implica| F
+    D2 -->|implica| G
+    H --> I
+    J --> K
+    D1 -. se compara .-> H
+    D2 -. se compara .-> H
+    F -. se ajusta .-> J
+    G -. se ajusta .-> J
+
+    classDef central fill:#F39C12,stroke:#D68910,color:#fff,font-weight:bold
+    classDef modelo fill:#2E86C1,stroke:#1A5276,color:#fff,font-weight:bold
+    classDef dist fill:#1E8449,stroke:#145A32,color:#fff,font-weight:bold
+    classDef prop fill:#7D3C98,stroke:#6C3483,color:#fff,font-weight:bold
+    classDef anal fill:#C0392B,stroke:#922B21,color:#fff,font-weight:bold
 ```
 
 ## Preparación del entorno
@@ -40,7 +78,7 @@ library(poweRlaw)
 ::: {.callout-note title="📦 Paquete requerido" collapse="true"}
 Si no tienes instalado `poweRlaw`, ejecuta:
 
-```r
+``` r
 install.packages("poweRlaw")
 ```
 
@@ -82,7 +120,7 @@ En una red Barabási–Albert, la distribución de grado sigue una **ley de pote
 ### Comparación rápida
 
 | Característica | Erdős–Rényi (ER) | Barabási–Albert (BA) |
-|:---------------|:------------------|:---------------------|
+|:---|:---|:---|
 | Mecanismo | Conexión aleatoria con prob. $p$ | Enlace preferencial |
 | Distribución de grado | Poisson | *Power-law* |
 | Presencia de *hubs* | Muy improbable | Sí, emergentes |
@@ -226,8 +264,7 @@ El paquete `poweRlaw` implementa el método riguroso de Clauset, Shalizi y Newma
 
 El proceso tiene tres pasos:
 
-::: {.panel-tabset}
-
+:::: panel-tabset
 ### Paso 1: Crear el modelo
 
 ```{r}
@@ -279,8 +316,7 @@ legend("bottomleft",
                        ", x_min = ", m$getXmin()),
        col = "red", lwd = 2, bty = "n")
 ```
-
-:::
+::::
 
 ::: {.callout-important title="🔑 Recuerda"}
 El gráfico del ajuste muestra la **función de distribución acumulada complementaria** (CCDF), es decir, $P(X \geq k)$, no el histograma. La CCDF es más estable y confiable para evaluar colas pesadas que el histograma, especialmente con pocos datos.
@@ -393,7 +429,6 @@ No compares distribuciones de grado entre redes con diferente número de aristas
 **Ejercicio resuelto 1:** Genera una red ER con 500 nodos y $p = 0.01$. Calcula el grado medio teórico y compáralo con el empírico. Visualiza la distribución de grado superpuesta con la distribución de Poisson teórica.
 
 ::: {.callout-tip title="📝 Solución" collapse="true"}
-
 **Paso 1:** Generar la red y calcular los grados.
 
 ```{r}
@@ -447,12 +482,11 @@ legend("topright",
 **Interpretación:** El grado medio empírico es muy cercano al teórico $\lambda = p(n-1) \approx 5$. La curva de Poisson se ajusta bien al histograma, confirmando que la distribución de grado en redes ER es efectivamente Poisson.
 :::
 
----
+------------------------------------------------------------------------
 
 **Ejercicio resuelto 2:** Genera una red BA con 1000 nodos y ajusta una ley de potencia con `poweRlaw`. Reporta el exponente $\gamma$ y el valor de $x_{\min}$.
 
 ::: {.callout-tip title="📝 Solución" collapse="true"}
-
 **Paso 1:** Generar la red y extraer los grados.
 
 ```{r}
@@ -515,7 +549,7 @@ Teóricamente, el grado máximo en una red BA crece como $k_{\max} \sim \sqrt{n}
 :::
 
 ::: {.callout-note title="💡 Pista 3 — Pseudocódigo" collapse="true"}
-```
+```         
 1. tamanos <- c(100, 500, 1000, 5000)
 2. set.seed(42)
 3. grado_max <- sapply(tamanos, function(n) {
@@ -527,7 +561,7 @@ Teóricamente, el grado máximo en una red BA crece como $k_{\max} \sim \sqrt{n}
 ```
 :::
 
----
+------------------------------------------------------------------------
 
 **Ejercicio 2:** Crea una red ER con 200 nodos y $p = 0.03$. Identifica los nodos con grado mayor al promedio + 2 desviaciones estándar. ¿Cuántos son? Coloréalos de rojo en la visualización.
 
@@ -540,7 +574,7 @@ En una distribución Poisson, aproximadamente el 2.5% de los valores están por 
 :::
 
 ::: {.callout-note title="💡 Pista 3 — Pseudocódigo" collapse="true"}
-```
+```         
 1. set.seed(10)
 2. g <- sample_gnp(200, 0.03)
 3. deg <- degree(g)
@@ -552,7 +586,7 @@ En una distribución Poisson, aproximadamente el 2.5% de los valores están por 
 ```
 :::
 
----
+------------------------------------------------------------------------
 
 **Ejercicio 3:** Compara visualmente la distribución de grado de una red BA y una red *small-world* (Watts-Strogatz) en un **gráfico log-log**. ¿Cuál muestra un patrón más lineal? ¿Por qué?
 
@@ -565,7 +599,7 @@ Para graficar en log-log, usa `plot(k, pk, log = "xy")`. Recuerda filtrar los va
 :::
 
 ::: {.callout-note title="💡 Pista 3 — Pseudocódigo" collapse="true"}
-```
+```         
 1. par(mfrow = c(1, 2))
 2. Para cada red:
 3.   dd <- degree_distribution(g)
@@ -585,7 +619,7 @@ Genera 5 redes ER de 100 nodos con $p \in \{0.01, 0.05, 0.10, 0.20, 0.50\}$. Par
 
 > **Autoevaluación:** El grado medio teórico es $\langle k \rangle = p(n-1) = 99p$. Para $p = 0.50$, el grado medio debe ser cercano a 49.5.
 
----
+------------------------------------------------------------------------
 
 **Ejercicio propuesto 2** ⭐⭐
 
@@ -593,7 +627,7 @@ Usa `poweRlaw` para ajustar una ley de potencia a una red BA de 2000 nodos. Lueg
 
 > **Autoevaluación:** El ajuste sobre la red ER debería ser visualmente pobre (la línea roja no sigue los puntos). Si el $x_{\min}$ estimado es muy cercano al grado máximo, es señal de que la *power-law* no es un buen modelo para esos datos.
 
----
+------------------------------------------------------------------------
 
 **Ejercicio propuesto 3** ⭐⭐
 
@@ -601,7 +635,7 @@ Genera una red BA con 500 nodos. Encuentra los 10 *hubs* más conectados. Luego,
 
 > **Autoevaluación:** En una red BA, los *hubs* suelen estar conectados entre sí (el hub más antiguo se conecta con los más nuevos). El subgrafo debería ser conexo o tener muy pocos componentes.
 
----
+------------------------------------------------------------------------
 
 **Ejercicio propuesto 4** ⭐⭐⭐
 
@@ -609,7 +643,7 @@ Diseña un experimento numérico: genera 50 redes BA de 500 nodos cada una (con 
 
 > **Autoevaluación:** Los valores de $\gamma$ deberían concentrarse alrededor de 3 (el valor teórico para el modelo BA clásico con $m = 1$). La varianza debería ser pequeña pero no nula, debido a la aleatoriedad finita.
 
----
+------------------------------------------------------------------------
 
 **Ejercicio propuesto 5** ⭐⭐⭐
 
@@ -634,7 +668,7 @@ flowchart LR
 ```
 
 | Función / Concepto | Descripción |
-|---------------------|-------------|
+|--------------------------------------------|----------------------------|
 | `sample_gnp(n, p)` | Genera red Erdős–Rényi con $n$ nodos y probabilidad $p$ |
 | `sample_pa(n)` | Genera red Barabási–Albert con enlace preferencial |
 | `degree_distribution()` | Calcula la distribución de grado normalizada |
@@ -652,10 +686,10 @@ flowchart LR
 ::: {.callout-caution title="Pregunta 1" collapse="true"}
 **¿Qué modelo de red produce una distribución de grado tipo ley de potencia?**
 
-a) Erdős–Rényi
-b) Barabási–Albert ✅
-c) Lattice regular
-d) Anillo
+a)  Erdős–Rényi
+b)  Barabási–Albert ✅
+c)  Lattice regular
+d)  Anillo
 
 El modelo Barabási–Albert usa enlace preferencial, lo que genera distribuciones *power-law*.
 :::
@@ -667,7 +701,7 @@ El modelo Barabási–Albert usa enlace preferencial, lo que genera distribucion
 :::
 
 ::: {.callout-caution title="Pregunta 3" collapse="true"}
-**¿Qué representa el parámetro $x_{\min}$ en un ajuste de ley de potencia?**
+**¿Qué representa el parámetro** $x_{\min}$ en un ajuste de ley de potencia?
 
 Es el valor de grado mínimo a partir del cual la distribución se comporta como *power-law*. Los nodos con grado menor a $x_{\min}$ no siguen este patrón.
 :::
@@ -675,10 +709,10 @@ Es el valor de grado mínimo a partir del cual la distribución se comporta como
 ::: {.callout-caution title="Pregunta 4" collapse="true"}
 **¿Qué tipo de gráfico es el más adecuado para identificar visualmente una ley de potencia?**
 
-a) Histograma con ejes lineales
-b) Gráfico de barras
-c) Gráfico log-log ✅
-d) Diagrama de caja (*boxplot*)
+a)  Histograma con ejes lineales
+b)  Gráfico de barras
+c)  Gráfico log-log ✅
+d)  Diagrama de caja (*boxplot*)
 
 En escala log-log, una *power-law* aparece como una línea recta con pendiente $-\gamma$.
 :::
