@@ -1,0 +1,969 @@
+# Medidas de centralidad {#sec-centralidad}
+
+::: {.callout-note title="🎯 Objetivos de aprendizaje"}
+Al finalizar este capítulo serás capaz de:
+
+1. **Definir** qué es la centralidad y por qué existen múltiples formas de medirla.
+2. **Calcular e interpretar** las cuatro medidas clásicas: grado, cercanía, intermediación y vector propio.
+3. **Aplicar** medidas avanzadas de centralidad disponibles en `igraph`: PageRank, HITS, centralidad armónica, de subgrafo, alpha y de Bonacich.
+4. **Comparar** las diferentes medidas sobre una misma red y analizar sus correlaciones.
+5. **Evaluar** la centralización de una red completa (nivel macro) y no solo de nodos individuales.
+:::
+
+> **Pregunta motivadora:** En una organización, ¿quién es la persona más "importante"? ¿La que tiene más contactos? ¿La que conecta departamentos? ¿La que está más cerca de todos? ¿O aquella cuyos contactos también son importantes? Cada respuesta lleva a una medida de centralidad diferente.
+
+```{mermaid}
+%%| label: fig-mapa-cap6
+%%| fig-cap: "Mapa conceptual del capítulo"
+flowchart TD
+    A[Centralidad] --> B[Medidas clásicas]
+    A --> C[Medidas avanzadas]
+    A --> D[Centralización]
+    B --> B1[Grado]
+    B --> B2[Cercanía / Closeness]
+    B --> B3[Intermediación / Betweenness]
+    B --> B4[Vector propio / Eigenvector]
+    C --> C1[PageRank]
+    C --> C2[HITS: Hubs & Authorities]
+    C --> C3[Centralidad armónica]
+    C --> C4[Subgraph centrality]
+    C --> C5[Alpha & Bonacich Power]
+    D --> D1[centr_degree / centr_betw / centr_clo / centr_eigen]
+```
+
+## Preparación del entorno
+
+```{r}
+#| label: setup-cap6
+
+library(igraph)
+```
+
+## ¿Qué es la centralidad?
+
+La **centralidad** es un concepto que asigna un valor numérico a cada nodo de una red según su "importancia". Pero la importancia depende del criterio:
+
+| Pregunta | Medida de centralidad | Función en igraph |
+|:---------|:---------------------|:------------------|
+| ¿Quién tiene más conexiones? | Grado (*degree*) | `degree()` |
+| ¿Quién está más cerca de todos? | Cercanía (*closeness*) | `closeness()` |
+| ¿Quién controla el flujo de información? | Intermediación (*betweenness*) | `betweenness()` |
+| ¿Quién está conectado a nodos importantes? | Vector propio (*eigenvector*) | `eigen_centrality()` |
+| ¿Quién recibe más "votos" de otros nodos? | PageRank | `page_rank()` |
+| ¿Quién es buen hub o buena autoridad? | HITS | `hub_score()` / `authority_score()` |
+| ¿Quién está cerca incluso en redes desconectadas? | Armónica (*harmonic*) | `harmonic_centrality()` |
+| ¿Quién participa en más subgrafos? | Subgrafo | `subgraph_centrality()` |
+| ¿Quién tiene influencia exógena + endógena? | Alpha | `alpha_centrality()` |
+| ¿Quién tiene poder según Bonacich? | Poder de Bonacich | `power_centrality()` |
+| ¿Quién tiene más peso en aristas? | Fuerza (*strength*) | `strength()` |
+
+: Medidas de centralidad disponibles en igraph {.striped .hover}
+
+::: {.callout-tip title="💡 Concepto clave"}
+No existe una medida de centralidad "correcta" universal. Cada una captura un aspecto diferente de la importancia. La elección depende de la **pregunta de investigación** y del **contexto** de la red.
+:::
+
+## Red de ejemplo
+
+Usaremos la red de Zachary's Karate Club, un clásico del análisis de redes que representa las amistades entre 34 miembros de un club universitario de karate.
+
+```{r}
+#| label: fig-karate-club
+#| fig-cap: "Red del Club de Karate de Zachary (34 nodos, 78 aristas)"
+#| fig-alt: "Red de 34 nodos representando miembros de un club de karate con aristas de amistad"
+
+g <- make_graph("Zachary")
+V(g)$name <- paste0("M", 1:vcount(g))
+
+# Layout fijo para todas las visualizaciones
+set.seed(42)
+lay <- layout_with_fr(g)
+
+plot(g, layout = lay,
+     vertex.color = "skyblue",
+     vertex.size = 12,
+     vertex.label.cex = 0.6,
+     edge.color = adjustcolor("gray50", 0.5),
+     main = "Club de Karate de Zachary")
+```
+
+```{r}
+#| label: propiedades-karate
+
+cat("Nodos:", vcount(g), "\n")
+cat("Aristas:", ecount(g), "\n")
+cat("Densidad:", round(edge_density(g), 4), "\n")
+cat("¿Conexa?:", is_connected(g), "\n")
+```
+
+---
+
+## Las cuatro medidas clásicas
+
+### 1. Centralidad de grado (*Degree Centrality*)
+
+La más simple: cuenta cuántas conexiones tiene cada nodo.
+
+$$
+C_D(v) = k_v = \text{número de aristas incidentes a } v
+$$
+
+En su versión normalizada: $C_D^{\text{norm}}(v) = \frac{k_v}{n - 1}$
+
+```{r}
+#| label: centralidad-grado
+
+deg <- degree(g)
+deg_norm <- degree(g, normalized = TRUE)
+
+# Top 5
+top_deg <- sort(deg, decreasing = TRUE)[1:5]
+knitr::kable(
+  data.frame(Nodo = names(top_deg), Grado = top_deg, 
+             Normalizado = round(deg_norm[names(top_deg)], 3)),
+  caption = "Top 5 nodos por centralidad de grado",
+  row.names = FALSE
+)
+```
+
+```{r}
+#| label: fig-grado-visual
+#| fig-cap: "Red con nodos escalados por centralidad de grado"
+#| fig-alt: "Red de Zachary donde los nodos más grandes tienen más conexiones"
+
+plot(g, layout = lay,
+     vertex.size = deg * 1.5 + 3,
+     vertex.color = "gold",
+     vertex.label.cex = 0.5,
+     edge.color = adjustcolor("gray50", 0.4),
+     main = "Centralidad de grado")
+```
+
+::: {.callout-tip title="💡 Concepto clave"}
+La centralidad de grado es una medida **local**: solo mira las conexiones inmediatas del nodo, sin considerar la estructura global de la red. Un nodo con muchos contactos aislados puede tener alto grado pero poca influencia real.
+:::
+
+### 2. Centralidad de cercanía (*Closeness Centrality*)
+
+Mide qué tan cerca está un nodo de todos los demás. Un nodo con alta cercanía puede alcanzar rápidamente a cualquier otro.
+
+$$
+C_C(v) = \frac{1}{\sum_{u \neq v} d(v, u)}
+$$
+
+En su versión normalizada: $C_C^{\text{norm}}(v) = \frac{n - 1}{\sum_{u \neq v} d(v, u)}$
+
+```{r}
+#| label: centralidad-closeness
+
+clo <- closeness(g, normalized = TRUE)
+
+top_clo <- sort(clo, decreasing = TRUE)[1:5]
+knitr::kable(
+  data.frame(Nodo = names(top_clo), Closeness = round(top_clo, 4)),
+  caption = "Top 5 nodos por centralidad de cercanía",
+  row.names = FALSE
+)
+```
+
+```{r}
+#| label: fig-closeness-visual
+#| fig-cap: "Red con nodos escalados por centralidad de cercanía"
+#| fig-alt: "Red de Zachary donde los nodos más grandes están más cerca del resto de la red"
+
+# Escalar para visualización
+clo_scaled <- (clo - min(clo)) / (max(clo) - min(clo)) * 20 + 5
+
+plot(g, layout = lay,
+     vertex.size = clo_scaled,
+     vertex.color = "tomato",
+     vertex.label.cex = 0.5,
+     edge.color = adjustcolor("gray50", 0.4),
+     main = "Centralidad de cercanía (closeness)")
+```
+
+::: {.callout-warning title="⚠️ Error frecuente"}
+La cercanía estándar **no funciona bien en redes desconectadas**, porque la distancia a nodos inalcanzables es infinita. En esos casos usa `harmonic_centrality()` (que veremos más adelante), que reemplaza las distancias infinitas por 0 en el cálculo.
+:::
+
+### 3. Centralidad de intermediación (*Betweenness Centrality*)
+
+Mide cuántos **caminos más cortos** entre otros pares de nodos pasan por un nodo dado. Un nodo con alta intermediación actúa como "puente" o "cuello de botella".
+
+$$
+C_B(v) = \sum_{s \neq v \neq t} \frac{\sigma_{st}(v)}{\sigma_{st}}
+$$
+
+donde $\sigma_{st}$ es el número de caminos más cortos entre $s$ y $t$, y $\sigma_{st}(v)$ es cuántos de esos caminos pasan por $v$.
+
+```{r}
+#| label: centralidad-betweenness
+
+btw <- betweenness(g, normalized = TRUE)
+
+top_btw <- sort(btw, decreasing = TRUE)[1:5]
+knitr::kable(
+  data.frame(Nodo = names(top_btw), Betweenness = round(top_btw, 4)),
+  caption = "Top 5 nodos por centralidad de intermediación",
+  row.names = FALSE
+)
+```
+
+```{r}
+#| label: fig-betweenness-visual
+#| fig-cap: "Red con nodos escalados por centralidad de intermediación"
+#| fig-alt: "Red de Zachary donde los nodos puente entre comunidades son los más grandes"
+
+btw_raw <- betweenness(g)
+btw_scaled <- (btw_raw - min(btw_raw)) / (max(btw_raw) - min(btw_raw)) * 20 + 5
+
+plot(g, layout = lay,
+     vertex.size = btw_scaled,
+     vertex.color = "mediumpurple",
+     vertex.label.cex = 0.5,
+     edge.color = adjustcolor("gray50", 0.4),
+     main = "Centralidad de intermediación (betweenness)")
+```
+
+::: {.callout-tip title="💡 Concepto clave"}
+La intermediación identifica a los **intermediarios** de la red: nodos que, si se eliminan, alargan los caminos entre otros nodos o incluso desconectan partes de la red. Es especialmente útil para encontrar puentes entre comunidades.
+:::
+
+#### Intermediación de aristas
+
+`igraph` también permite calcular la intermediación de **aristas** (no solo nodos):
+
+```{r}
+#| label: edge-betweenness
+
+ebtw <- edge_betweenness(g)
+
+# Top 5 aristas más "puente"
+top_edges <- order(ebtw, decreasing = TRUE)[1:5]
+
+knitr::kable(
+  data.frame(
+    Arista = paste(ends(g, top_edges)[,1], "—", ends(g, top_edges)[,2]),
+    Betweenness = round(ebtw[top_edges], 2)
+  ),
+  caption = "Top 5 aristas por intermediación",
+  row.names = FALSE
+)
+```
+
+### 4. Centralidad de vector propio (*Eigenvector Centrality*)
+
+Un nodo es importante si está conectado a **otros nodos importantes**. Es una definición recursiva que se resuelve calculando el vector propio dominante de la matriz de adyacencia.
+
+$$
+C_E(v) = \frac{1}{\lambda} \sum_{u \in N(v)} C_E(u)
+$$
+
+donde $\lambda$ es el mayor valor propio de la matriz de adyacencia.
+
+```{r}
+#| label: centralidad-eigenvector
+
+eig <- eigen_centrality(g)$vector
+
+top_eig <- sort(eig, decreasing = TRUE)[1:5]
+knitr::kable(
+  data.frame(Nodo = names(top_eig), Eigenvector = round(top_eig, 4)),
+  caption = "Top 5 nodos por centralidad de vector propio",
+  row.names = FALSE
+)
+```
+
+```{r}
+#| label: fig-eigenvector-visual
+#| fig-cap: "Red con nodos escalados por centralidad de vector propio"
+#| fig-alt: "Red de Zachary donde los nodos conectados a otros nodos importantes son los más grandes"
+
+eig_scaled <- eig * 20 + 5
+
+plot(g, layout = lay,
+     vertex.size = eig_scaled,
+     vertex.color = "steelblue",
+     vertex.label.cex = 0.5,
+     edge.color = adjustcolor("gray50", 0.4),
+     main = "Centralidad de vector propio (eigenvector)")
+```
+
+::: {.callout-important title="🔑 Recuerda"}
+La diferencia clave entre grado y vector propio: el **grado** cuenta *cuántas* conexiones tienes; el **vector propio** pondera *con quién* estás conectado. Un nodo con pocos amigos pero muy bien conectados puede tener un eigenvector alto y un grado bajo.
+:::
+
+## Comparación visual: las 4 clásicas
+
+```{r}
+#| label: fig-4-centralidades
+#| fig-cap: "Comparación visual de las cuatro medidas clásicas de centralidad"
+#| fig-alt: "Panel de 4 redes, cada una con nodos escalados por una medida de centralidad diferente"
+#| fig-width: 14
+#| fig-height: 12
+
+colores <- c("gold", "tomato", "mediumpurple", "steelblue")
+titulos <- c("Grado", "Cercanía", "Intermediación", "Vector propio")
+
+# Normalizar todas las medidas a [0, 1] para escalar visualmente
+medidas <- list(
+  degree(g, normalized = TRUE),
+  closeness(g, normalized = TRUE),
+  betweenness(g, normalized = TRUE),
+  eigen_centrality(g)$vector
+)
+
+par(mfrow = c(2, 2), mar = c(1, 1, 3, 1))
+
+for (i in 1:4) {
+  m <- medidas[[i]]
+  m_scaled <- m / max(m) * 20 + 5
+  
+  plot(g, layout = lay,
+       vertex.size = m_scaled,
+       vertex.color = colores[i],
+       vertex.label.cex = 0.45,
+       edge.color = adjustcolor("gray50", 0.3),
+       main = titulos[i])
+}
+```
+
+---
+
+## Medidas avanzadas de centralidad
+
+### 5. PageRank
+
+Desarrollado por Google para clasificar páginas web. Similar al eigenvector, pero incluye un factor de "teletransportación" (damping) que evita que los nodos aislados tengan centralidad cero.
+
+$$
+PR(v) = \frac{1 - d}{n} + d \sum_{u \in N_{\text{in}}(v)} \frac{PR(u)}{k_{\text{out}}(u)}
+$$
+
+donde $d$ es el factor de amortiguamiento (por defecto 0.85).
+
+```{r}
+#| label: pagerank
+
+pr <- page_rank(g, damping = 0.85)$vector
+
+top_pr <- sort(pr, decreasing = TRUE)[1:5]
+knitr::kable(
+  data.frame(Nodo = names(top_pr), PageRank = round(top_pr, 4)),
+  caption = "Top 5 nodos por PageRank",
+  row.names = FALSE
+)
+```
+
+::: {.callout-tip title="💡 Concepto clave"}
+La diferencia entre eigenvector y PageRank: el eigenvector puede fallar en redes dirigidas con nodos "sumidero" (sin aristas de salida). El PageRank resuelve esto con el factor de amortiguamiento $d$: con probabilidad $1 - d$, un "caminante aleatorio" salta a un nodo al azar en vez de seguir una arista.
+:::
+
+### 6. HITS: Hubs y Authorities
+
+El algoritmo HITS (*Hyperlink-Induced Topic Search*) asigna **dos** valores a cada nodo:
+
+- **Authority score**: un nodo es buena autoridad si muchos buenos *hubs* apuntan a él.
+- **Hub score**: un nodo es buen *hub* si apunta a muchas buenas autoridades.
+
+```{r}
+#| label: hits-scores
+
+hub <- hub_score(g)$vector
+auth <- authority_score(g)$vector
+
+hits_df <- data.frame(
+  Nodo = V(g)$name,
+  Hub = round(hub, 4),
+  Authority = round(auth, 4)
+)
+
+# Top 5 por cada score
+knitr::kable(
+  head(hits_df[order(hits_df$Hub, decreasing = TRUE), ], 5),
+  caption = "Top 5 nodos por Hub score",
+  row.names = FALSE
+)
+```
+
+```{r}
+#| label: hits-authority-table
+
+knitr::kable(
+  head(hits_df[order(hits_df$Authority, decreasing = TRUE), ], 5),
+  caption = "Top 5 nodos por Authority score",
+  row.names = FALSE
+)
+```
+
+::: {.callout-warning title="⚠️ Error frecuente"}
+En redes **no dirigidas**, los *hub scores* y *authority scores* son idénticos y equivalentes al eigenvector centrality. La distinción hub/authority solo tiene sentido en redes **dirigidas** (como la web: páginas que enlazan vs. páginas enlazadas).
+:::
+
+### 7. Centralidad armónica (*Harmonic Centrality*)
+
+Una alternativa a la cercanía que **funciona en redes desconectadas**. Usa el inverso de cada distancia individualmente:
+
+$$
+C_H(v) = \sum_{u \neq v} \frac{1}{d(v, u)}
+$$
+
+Si $d(v, u) = \infty$ (nodos en diferentes componentes), su contribución es simplemente 0.
+
+```{r}
+#| label: harmonic-centrality
+
+harm <- harmonic_centrality(g, normalized = TRUE)
+
+top_harm <- sort(harm, decreasing = TRUE)[1:5]
+knitr::kable(
+  data.frame(Nodo = names(top_harm), Harmonic = round(top_harm, 4)),
+  caption = "Top 5 nodos por centralidad armónica",
+  row.names = FALSE
+)
+```
+
+::: {.callout-tip title="💡 Concepto clave"}
+Usa `harmonic_centrality()` en lugar de `closeness()` siempre que trabajes con redes que **podrían tener componentes desconectados**. Es matemáticamente más robusta y no produce valores indefinidos.
+:::
+
+### 8. Centralidad de subgrafo (*Subgraph Centrality*)
+
+Mide en cuántos subgrafos cerrados (ciclos, triángulos, etc.) participa un nodo, ponderando por el tamaño del subgrafo. Los subgrafos más grandes reciben menos peso.
+
+$$
+SC(v) = \sum_{k=0}^{\infty} \frac{(\mathbf{A}^k)_{vv}}{k!}
+$$
+
+donde $\mathbf{A}$ es la matriz de adyacencia. Esto equivale a la diagonal de $e^{\mathbf{A}}$.
+
+```{r}
+#| label: subgraph-centrality
+
+sc <- subgraph_centrality(g)
+
+# Asignar nombres
+names(sc) <- V(g)$name
+
+top_sc <- sort(sc, decreasing = TRUE)[1:5]
+knitr::kable(
+  data.frame(Nodo = names(top_sc), Subgraph = round(top_sc, 2)),
+  caption = "Top 5 nodos por centralidad de subgrafo",
+  row.names = FALSE
+)
+```
+
+::: {.callout-warning title="⚠️ Error frecuente"}
+`subgraph_centrality()` calcula todos los valores y vectores propios de la matriz de adyacencia, lo que la hace **muy costosa computacionalmente** para redes grandes (más de ~1000 nodos). Úsala solo en redes pequeñas o medianas.
+:::
+
+### 9. Alpha Centrality
+
+Generaliza la centralidad de eigenvector incorporando una fuente de influencia **exógena** (externa a la red). Cada nodo recibe una influencia base `exo` más la influencia de sus vecinos ponderada por `alpha`.
+
+$$
+\mathbf{x} = \alpha \mathbf{A}^T \mathbf{x} + \mathbf{e}
+$$
+
+donde $\mathbf{e}$ es el vector de influencia exógena.
+
+```{r}
+#| label: alpha-centrality
+
+# alpha debe ser menor que 1/valor_propio_max para convergencia
+lambda_max <- max(Re(eigen(as_adjacency_matrix(g, sparse = FALSE))$values))
+alpha_seguro <- 1 / (lambda_max + 1)
+
+ac <- alpha_centrality(g, alpha = alpha_seguro, exo = 1)
+names(ac) <- V(g)$name
+
+top_ac <- sort(ac, decreasing = TRUE)[1:5]
+knitr::kable(
+  data.frame(Nodo = names(top_ac), Alpha = round(top_ac, 4)),
+  caption = "Top 5 nodos por alpha centrality",
+  row.names = FALSE
+)
+```
+
+### 10. Centralidad de poder de Bonacich (*Power Centrality*)
+
+Similar a la alpha centrality pero con una interpretación diferente del parámetro `exponent` ($\beta$). Cuando $\beta > 0$, estar conectado a nodos bien conectados es ventajoso; cuando $\beta < 0$, estar conectado a nodos **poco** conectados da más poder (modelo de negociación).
+
+```{r}
+#| label: bonacich-power
+
+# El exponente beta debe ser menor que 1/valor_propio_max en valor absoluto
+# para que la matriz (I - beta*A) sea invertible
+lambda_max_bp <- max(Re(eigen(as_adjacency_matrix(g, sparse = FALSE))$values))
+beta_max <- 1 / lambda_max_bp
+
+cat("Valor propio máximo:", round(lambda_max_bp, 3), "\n")
+cat("Rango seguro de β: (", round(-beta_max, 4), ",", round(beta_max, 4), ")\n\n")
+
+# Exponente positivo (dentro del rango seguro)
+beta_pos <- beta_max * 0.5
+pc_pos <- power_centrality(g, exponent = beta_pos)
+names(pc_pos) <- V(g)$name
+
+# Exponente negativo (dentro del rango seguro)
+beta_neg <- -beta_max * 0.5
+pc_neg <- power_centrality(g, exponent = beta_neg)
+names(pc_neg) <- V(g)$name
+
+knitr::kable(
+  data.frame(
+    Nodo = V(g)$name[order(pc_pos, decreasing = TRUE)[1:5]],
+    "Bonacich_pos" = round(sort(pc_pos, decreasing = TRUE)[1:5], 4),
+    Nodo_neg = V(g)$name[order(pc_neg, decreasing = TRUE)[1:5]],
+    "Bonacich_neg" = round(sort(pc_neg, decreasing = TRUE)[1:5], 4)
+  ),
+  caption = paste0("Top 5 nodos: Bonacich con β = ", round(beta_pos, 3), 
+                   " vs. β = ", round(beta_neg, 3)),
+  row.names = FALSE,
+  col.names = c("Nodo (β > 0)", "Power (β > 0)", "Nodo (β < 0)", "Power (β < 0)")
+)
+```
+
+::: {.callout-warning title="⚠️ Error frecuente"}
+`power_centrality()` requiere que $|\beta| < 1/\lambda_{\max}$, donde $\lambda_{\max}$ es el mayor valor propio de la matriz de adyacencia. Si usas un $\beta$ fuera de ese rango, la función falla con un error de "matriz singular". Siempre calcula el rango seguro antes de usarla.
+:::
+
+### 11. Fuerza (*Strength*) — Centralidad para redes ponderadas
+
+Si las aristas tienen peso, `strength()` suma los pesos de las aristas incidentes a cada nodo, generalizando el grado:
+
+$$
+s(v) = \sum_{u \in N(v)} w(v, u)
+$$
+
+```{r}
+#| label: strength-centrality
+
+# Crear una copia con pesos aleatorios para demostración
+set.seed(42)
+g_w <- g
+E(g_w)$weight <- sample(1:10, ecount(g_w), replace = TRUE)
+
+str_val <- strength(g_w)
+
+top_str <- sort(str_val, decreasing = TRUE)[1:5]
+knitr::kable(
+  data.frame(
+    Nodo = names(top_str), 
+    Grado = degree(g_w)[names(top_str)],
+    Fuerza = top_str
+  ),
+  caption = "Top 5 nodos por fuerza (strength) — red con pesos aleatorios",
+  row.names = FALSE
+)
+```
+
+---
+
+## Tabla comparativa completa
+
+Calculemos **todas** las medidas sobre la red de Zachary y comparemos los rankings:
+
+```{r}
+#| label: tabla-completa-centralidades
+
+# Recalcular alpha con parámetro seguro
+lambda_max <- max(Re(eigen(as_adjacency_matrix(g, sparse = FALSE))$values))
+alpha_seguro <- 1 / (lambda_max + 1)
+
+centralidades <- data.frame(
+  Nodo = V(g)$name,
+  Grado = degree(g, normalized = TRUE),
+  Cercanía = closeness(g, normalized = TRUE),
+  Intermediación = betweenness(g, normalized = TRUE),
+  Eigenvector = eigen_centrality(g)$vector,
+  PageRank = page_rank(g)$vector,
+  Armónica = harmonic_centrality(g, normalized = TRUE),
+  Subgrafo = subgraph_centrality(g),
+  Hub = hub_score(g)$vector,
+  Alpha = alpha_centrality(g, alpha = alpha_seguro, exo = 1)
+)
+
+# Mostrar top 10 por grado
+top10 <- order(centralidades$Grado, decreasing = TRUE)[1:10]
+
+tabla_top10 <- centralidades[top10, ]
+tabla_top10[, -1] <- round(tabla_top10[, -1], 4)
+
+knitr::kable(
+  tabla_top10,
+  caption = "Medidas de centralidad para los 10 nodos con mayor grado",
+  row.names = FALSE
+)
+```
+
+## Correlación entre medidas
+
+¿Qué tan de acuerdo están las diferentes medidas? Calculemos la correlación:
+
+```{r}
+#| label: fig-correlacion-centralidades
+#| fig-cap: "Matriz de correlación entre medidas de centralidad"
+#| fig-alt: "Heatmap de correlación donde los valores más altos son azules y los más bajos son rojos"
+#| fig-width: 9
+#| fig-height: 8
+
+# Matriz de correlación (solo columnas numéricas)
+cor_mat <- cor(centralidades[, -1], use = "complete.obs")
+
+# Visualizar como heatmap
+heatmap(cor_mat,
+        col = hcl.colors(20, palette = "RdBu", rev = TRUE),
+        scale = "none",
+        margins = c(10, 10),
+        main = "Correlación entre medidas de centralidad")
+```
+
+```{r}
+#| label: tabla-correlacion
+
+knitr::kable(
+  round(cor_mat, 3),
+  caption = "Matriz de correlación entre medidas de centralidad"
+)
+```
+
+::: {.callout-tip title="💡 Concepto clave"}
+Medidas como grado, eigenvector, hub y PageRank suelen estar **altamente correlacionadas** porque todas se basan en la cantidad o calidad de conexiones directas. La intermediación (*betweenness*) suele ser la más **diferente**, porque mide posición estructural (ser "puente") en vez de popularidad.
+:::
+
+## Centralización: del nodo a la red
+
+Las medidas anteriores dan un valor **por nodo**. La **centralización** resume cuánto se concentra la centralidad en unos pocos nodos a nivel de **toda la red**.
+
+$$
+C_X = \frac{\sum_{v} [C_X^* - C_X(v)]}{\max \sum_{v} [C_X^* - C_X(v)]}
+$$
+
+donde $C_X^*$ es el valor máximo observado. Un valor cercano a 1 indica que la red está dominada por uno o pocos nodos; cercano a 0 indica distribución uniforme.
+
+```{r}
+#| label: centralizacion
+
+centraliz <- data.frame(
+  Medida = c("Grado", "Cercanía", "Intermediación", "Eigenvector"),
+  Centralización = round(c(
+    centr_degree(g)$centralization,
+    centr_clo(g, mode = "all")$centralization,
+    centr_betw(g)$centralization,
+    centr_eigen(g, directed = FALSE)$centralization
+  ), 4)
+)
+
+knitr::kable(centraliz,
+             caption = "Centralización de la red de Zachary por cada medida")
+```
+
+```{r}
+#| label: fig-centralizacion-barplot
+#| fig-cap: "Centralización de la red de Zachary por tipo de medida"
+#| fig-alt: "Gráfico de barras mostrando que la intermediación tiene la mayor centralización"
+
+barplot(centraliz$Centralización,
+        names.arg = centraliz$Medida,
+        col = c("gold", "tomato", "mediumpurple", "steelblue"),
+        main = "Centralización de la red",
+        ylab = "Índice de centralización",
+        ylim = c(0, 0.6),
+        las = 1)
+text(x = c(0.7, 1.9, 3.1, 4.3),
+     y = centraliz$Centralización + 0.02,
+     labels = centraliz$Centralización,
+     cex = 0.9, font = 2)
+```
+
+### Comparación con redes de referencia
+
+Para contextualizar, comparemos la centralización de la red de Zachary con redes extremas:
+
+```{r}
+#| label: centralizacion-referencia
+
+redes_ref <- list(
+  "Zachary"  = g,
+  "Estrella" = make_star(34, mode = "undirected"),
+  "Anillo"   = make_ring(34),
+  "Completa" = make_full_graph(34),
+  "BA"       = sample_pa(34, directed = FALSE)
+)
+
+centr_ref <- data.frame(
+  Red = names(redes_ref),
+  C_grado = round(sapply(redes_ref, function(x) centr_degree(x)$centralization), 4),
+  C_betw = round(sapply(redes_ref, function(x) centr_betw(x)$centralization), 4),
+  C_eigen = round(sapply(redes_ref, function(x) 
+    centr_eigen(x, directed = FALSE)$centralization), 4)
+)
+
+knitr::kable(centr_ref,
+             caption = "Centralización comparada: Zachary vs. redes de referencia",
+             col.names = c("Red", "C. grado", "C. betweenness", "C. eigenvector"))
+```
+
+::: {.callout-important title="🔑 Recuerda"}
+La red **estrella** tiene centralización máxima (un solo nodo domina). El **anillo** y la red **completa** tienen centralización mínima (todos los nodos son iguales). Las redes reales caen en algún punto intermedio.
+:::
+
+---
+
+## Ejercicios
+
+### Ejercicios resueltos {.unnumbered}
+
+**Ejercicio resuelto 1:** Crea un *data frame* con las cuatro centralidades clásicas (grado, cercanía, intermediación, eigenvector) para la red de Zachary. Identifica el nodo que ocupa el top 3 en **todas** las medidas simultáneamente.
+
+::: {.callout-tip title="📝 Solución" collapse="true"}
+
+**Paso 1:** Calcular rankings por cada medida.
+
+```{r}
+#| label: ej-res-cap6-1a
+
+rankings <- data.frame(
+  Nodo = V(g)$name,
+  Rank_grado = rank(-degree(g)),
+  Rank_closeness = rank(-closeness(g)),
+  Rank_betweenness = rank(-betweenness(g)),
+  Rank_eigen = rank(-eigen_centrality(g)$vector)
+)
+
+# Nodos en top 3 en TODAS las medidas
+rankings$Mejor_rank <- pmax(rankings$Rank_grado, rankings$Rank_closeness,
+                            rankings$Rank_betweenness, rankings$Rank_eigen)
+
+top_global <- rankings[rankings$Mejor_rank <= 3, ]
+
+knitr::kable(top_global,
+             caption = "Nodos en el top 3 de todas las medidas simultáneamente",
+             row.names = FALSE)
+```
+
+**Interpretación:** Solo uno o dos nodos suelen estar en el top 3 de las cuatro medidas simultáneamente. M1 y M34 (los líderes del club en la historia real) suelen dominar en grado y eigenvector, pero M1 también destaca en intermediación porque conecta diferentes subgrupos.
+:::
+
+---
+
+**Ejercicio resuelto 2:** Genera una red BA de 200 nodos y compara grado vs. betweenness en un gráfico de dispersión. ¿Los *hubs* siempre tienen alta intermediación?
+
+::: {.callout-tip title="📝 Solución" collapse="true"}
+
+```{r}
+#| label: fig-ej-res-cap6-2
+#| fig-cap: "Grado vs. betweenness en una red BA de 200 nodos"
+#| fig-alt: "Gráfico de dispersión mostrando correlación positiva pero imperfecta entre grado e intermediación"
+
+set.seed(42)
+g_ba <- sample_pa(200, m = 2, directed = FALSE)
+
+deg_ba <- degree(g_ba)
+btw_ba <- betweenness(g_ba, normalized = TRUE)
+
+plot(deg_ba, btw_ba,
+     pch = 19, cex = 0.8,
+     col = adjustcolor("steelblue", 0.6),
+     xlab = "Grado", ylab = "Betweenness (normalizado)",
+     main = "Grado vs. Betweenness — Red BA (n=200)")
+
+# Resaltar hubs
+top5 <- order(deg_ba, decreasing = TRUE)[1:5]
+points(deg_ba[top5], btw_ba[top5], pch = 19, cex = 1.5, col = "red")
+text(deg_ba[top5], btw_ba[top5], labels = top5, pos = 4, cex = 0.7, col = "red")
+
+# Correlación
+legend("topleft",
+       legend = paste("r =", round(cor(deg_ba, btw_ba), 3)),
+       bty = "n", cex = 1.1)
+```
+
+**Interpretación:** La correlación es positiva pero **no perfecta**. Los *hubs* suelen tener alta intermediación porque muchos caminos pasan por ellos, pero un nodo de grado moderado ubicado en una posición "puente" puede tener betweenness más alta que un hub periférico. Grado y betweenness capturan aspectos diferentes de la importancia.
+:::
+
+### Ejercicios con pistas {.unnumbered}
+
+**Ejercicio 1:** Crea una red dirigida simple de 8 nodos (por ejemplo, una cadena alimentaria o un flujo de información). Calcula los scores HITS (hub y authority). ¿Los mejores hubs son también las mejores autoridades? ¿Por qué tiene sentido que sean distintos en una red dirigida?
+
+::: {.callout-note title="💡 Pista 1" collapse="true"}
+Usa `graph_from_literal()` con `+` para aristas dirigidas. Por ejemplo: `graph_from_literal(A -+ B, B -+ C, A -+ C)`.
+:::
+
+::: {.callout-note title="💡 Pista 2" collapse="true"}
+En una cadena alimentaria dirigida, los depredadores (que "apuntan a" presas) deberían tener alto hub score, mientras que las presas (que "reciben" flechas) deberían tener alto authority score.
+:::
+
+::: {.callout-note title="💡 Pista 3 — Pseudocódigo" collapse="true"}
+```
+1. g <- graph_from_literal(Sol -+ Planta, Planta -+ Insecto,
+2.                         Insecto -+ Rana, Rana -+ Serpiente, ...)
+3. hub_score(g)$vector
+4. authority_score(g)$vector
+5. # Comparar lado a lado en un data.frame
+```
+:::
+
+---
+
+**Ejercicio 2:** Compara `closeness()` con `harmonic_centrality()` en una red que **no sea conexa**. Genera una red ER de 100 nodos con $p = 0.01$ (probablemente no sea conexa). ¿Cuál medida produce resultados más informativos?
+
+::: {.callout-note title="💡 Pista 1" collapse="true"}
+Verifica si es conexa con `is_connected(g)`. Si no lo es, `closeness()` puede dar `NaN` para algunos nodos, mientras que `harmonic_centrality()` siempre da un valor finito.
+:::
+
+::: {.callout-note title="💡 Pista 2" collapse="true"}
+Compara cuántos `NaN` produce cada medida: `sum(is.nan(closeness(g)))` vs. `sum(is.nan(harmonic_centrality(g)))`.
+:::
+
+::: {.callout-note title="💡 Pista 3 — Pseudocódigo" collapse="true"}
+```
+1. set.seed(42)
+2. g <- sample_gnp(100, 0.01)
+3. is_connected(g)
+4. components(g)$no
+5. clo <- closeness(g)
+6. harm <- harmonic_centrality(g)
+7. cat("NaN en closeness:", sum(is.nan(clo)))
+8. cat("NaN en harmonic:", sum(is.nan(harm)))
+9. # Graficar ambas
+```
+:::
+
+---
+
+**Ejercicio 3:** Calcula la centralización de grado para redes BA de tamaño creciente ($n = 50, 100, 200, 500, 1000$). ¿La centralización aumenta o disminuye con el tamaño? ¿Por qué?
+
+::: {.callout-note title="💡 Pista 1" collapse="true"}
+Usa `centr_degree(g)$centralization` para cada red. Guarda los resultados en un vector y grafícalos.
+:::
+
+::: {.callout-note title="💡 Pista 2" collapse="true"}
+En redes BA, la centralización de grado tiende a **disminuir** con $n$ porque el hub más grande crece como $\sqrt{n}$ pero el denominador (máximo teórico) crece como $n$. El cociente tiende a 0.
+:::
+
+::: {.callout-note title="💡 Pista 3 — Pseudocódigo" collapse="true"}
+```
+1. tamanos <- c(50, 100, 200, 500, 1000)
+2. set.seed(42)
+3. centr_vals <- sapply(tamanos, function(n) {
+4.     g <- sample_pa(n, m = 2, directed = FALSE)
+5.     centr_degree(g)$centralization
+6. })
+7. plot(tamanos, centr_vals, type = "b", log = "x")
+```
+:::
+
+### Ejercicios propuestos {.unnumbered}
+
+**Ejercicio propuesto 1** ⭐
+
+Calcula las cuatro centralidades clásicas para una red tipo estrella de 20 nodos. ¿El nodo central es siempre el más central en las cuatro medidas? ¿Tiene sentido?
+
+> **Autoevaluación:** El nodo central debe ser #1 en las cuatro medidas. Su grado es 19, su closeness es 1, su betweenness es 1 (normalizado), y su eigenvector es 1.
+
+---
+
+**Ejercicio propuesto 2** ⭐⭐
+
+Genera una red *small-world* de 100 nodos. Encuentra el nodo con mayor betweenness y el nodo con mayor eigenvector. ¿Son el mismo? Visualiza la red coloreando el top-betweenness en rojo y el top-eigenvector en azul.
+
+> **Autoevaluación:** En redes *small-world* homogéneas, los nodos top pueden ser diferentes: el top-betweenness suele ser un "puente" entre clusters, mientras que el top-eigenvector está en el cluster más denso.
+
+---
+
+**Ejercicio propuesto 3** ⭐⭐
+
+Crea una función `perfil_centralidad()` que reciba un grafo y devuelva un *data frame* con todas las medidas de centralidad calculables. Incluye manejo de errores para medidas que no apliquen (por ejemplo, HITS en redes no dirigidas). Pruébala con tres redes diferentes.
+
+> **Autoevaluación:** Tu función debe devolver al menos 8 columnas de centralidad y funcionar sin errores tanto en redes dirigidas como no dirigidas.
+
+---
+
+**Ejercicio propuesto 4** ⭐⭐⭐
+
+Investiga: ¿qué medida de centralidad predice mejor la **robustez** de una red? Genera una red BA de 300 nodos. Ordena los nodos por cada medida de centralidad y elimina los top-10 según cada criterio. ¿Cuál estrategia de ataque (por grado, por betweenness, por eigenvector, por PageRank) fragmenta más rápidamente la red?
+
+> **Autoevaluación:** El ataque por betweenness suele ser el más destructivo porque apunta directamente a los "puentes" de la red. El ataque por grado es un buen segundo lugar.
+
+---
+
+**Ejercicio propuesto 5** ⭐⭐⭐
+
+Calcula el PageRank de una red de Zachary variando el parámetro de amortiguamiento $d \in \{0.5, 0.85, 0.95, 0.99\}$. ¿Cómo cambia el ranking de los nodos? Grafica la correlación entre los rankings para cada par de valores de $d$.
+
+> **Autoevaluación:** Con $d$ bajo (0.5), el PageRank se vuelve más uniforme (todos los nodos reciben más "teletransportación"). Con $d$ alto (0.99), se concentra más en los nodos bien conectados y el ranking se acerca al eigenvector.
+
+## Resumen del capítulo
+
+```{mermaid}
+%%| label: fig-resumen-cap6
+%%| fig-cap: "Resumen visual del capítulo"
+flowchart LR
+    A[Centralidad] --> B[Clásicas: grado, closeness, betweenness, eigenvector]
+    A --> C[Avanzadas: PageRank, HITS, armónica, subgrafo, alpha, Bonacich]
+    B --> D[Comparar rankings]
+    C --> D
+    D --> E[Correlación entre medidas]
+    E --> F[Centralización: nivel de red]
+```
+
+| Función | Medida | Tipo |
+|---------|--------|------|
+| `degree()` | Grado | Local |
+| `closeness()` | Cercanía | Global |
+| `betweenness()` | Intermediación | Global |
+| `eigen_centrality()` | Vector propio | Global |
+| `page_rank()` | PageRank | Global |
+| `hub_score()` / `authority_score()` | HITS | Global (dirigidas) |
+| `harmonic_centrality()` | Armónica | Global (robusta) |
+| `subgraph_centrality()` | Subgrafo | Global (costosa) |
+| `alpha_centrality()` | Alpha | Global (exógena) |
+| `power_centrality()` | Bonacich | Global (negociación) |
+| `strength()` | Fuerza | Local (ponderada) |
+| `centr_degree()` / `centr_betw()` / etc. | Centralización | Nivel de red |
+
+: Resumen de funciones de centralidad en igraph {.striped .hover}
+
+## Autoevaluación {.unnumbered}
+
+::: {.callout-caution title="Pregunta 1" collapse="true"}
+**¿Qué medida de centralidad identifica a los "puentes" de una red?**
+
+a) Grado
+b) Cercanía
+c) Intermediación (*betweenness*) ✅
+d) Vector propio
+
+La intermediación mide cuántos caminos más cortos pasan por un nodo, identificando los conectores entre comunidades.
+:::
+
+::: {.callout-caution title="Pregunta 2" collapse="true"}
+**Verdadero o Falso:** Un nodo con alto grado siempre tiene alta centralidad de vector propio.
+
+❌ **Falso.** Un nodo puede tener muchas conexiones pero a nodos periféricos y poco conectados, lo que le daría un eigenvector bajo. El eigenvector pondera la **calidad** de las conexiones, no solo la cantidad.
+:::
+
+::: {.callout-caution title="Pregunta 3" collapse="true"}
+**¿Por qué `harmonic_centrality()` es preferible a `closeness()` en redes desconectadas?**
+
+Porque `closeness()` usa $\frac{1}{\sum d(v,u)}$ y las distancias infinitas hacen que el denominador sea infinito (resultado = 0 o NaN). La armónica usa $\sum \frac{1}{d(v,u)}$ donde cada distancia infinita simplemente contribuye 0, dando un resultado finito e interpretable.
+:::
+
+::: {.callout-caution title="Pregunta 4" collapse="true"}
+**¿Qué mide la centralización de una red?**
+
+a) La centralidad del nodo más importante
+b) El promedio de centralidad de todos los nodos
+c) Cuánto se concentra la centralidad en unos pocos nodos ✅
+d) El número de nodos centrales
+
+La centralización mide la **desigualdad** en la distribución de centralidad. Una estrella tiene centralización máxima; un anillo tiene centralización mínima.
+:::
+
+::: {.callout-caution title="Pregunta 5" collapse="true"}
+**En una red no dirigida, ¿los hub scores y authority scores son diferentes?**
+
+❌ **No.** En redes no dirigidas, ambos scores son idénticos y equivalentes al eigenvector centrality. La distinción hub/authority solo tiene sentido en redes **dirigidas**.
+:::

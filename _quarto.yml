@@ -20,6 +20,7 @@ book:
     - 03-distancias-eficiencia.qmd
     - 04-clustering.qmd
     - 05-robustez.qmd
+    - 06-centralidad.qmd
     - 99-ejercicios-integradores.qmd
     - references.qmd
 
