@@ -8,6 +8,10 @@ book:
   author:
   - name: Roberto Álvarez
     url: https://sites.google.com/view/robertolvarezmartinez/página-principal
+    open-graph: true
+    twitter-card:
+      creator: "@alvarezrobertoc"
+      card-style: summary_large_image
     orcid: 0000-0002-0821-0067
     email: roberto.alvarez@uaq.mx
     affiliations:
