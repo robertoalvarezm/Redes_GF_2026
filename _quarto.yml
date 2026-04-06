@@ -5,7 +5,17 @@ project:
 book:
   title: "Análisis de Redes con igraph en R"
   subtitle: "Un enfoque práctico y didáctico"
-  author: "Roberto Álvarez"
+  author:
+  - name: Roberto Álvarez
+    url: https://your-website.com
+    orcid: 0000-0002-1234-5678
+    email: roberto.alvarez at uaq.mx
+    affiliations:
+      - name: Laboratorio de Biología Cuantitativa y Sistemas Complejos, Universidad Autónoma de Querétaro
+        address: 440 5th Ave N
+        city: Seattle
+        state: WA
+        postal-code: 98109-4631
   date: today
   language: es
   search: true
