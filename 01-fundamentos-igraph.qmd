@@ -561,14 +561,22 @@ flowchart LR
 
 ## Autoevaluación {.unnumbered}
 
-**Verdadero o Falso:** En una red no dirigida, ¿la matriz de adyacencia siempre es simétrica?
-::: {.callout-caution title="Pregunta 1" collapse="true"}
-**Verdadero o Falso:** En una red no dirigida, la matriz de adyacencia siempre es simétrica.
+**Pregunta 1: Verdadero o Falso:** En una red no dirigida, ¿la matriz de adyacencia siempre es simétrica?
+
+::: {.callout-caution title="Respuesta 1" collapse="true"}
 
 ✅ **Verdadero.** Si $i$ está conectado con $j$, entonces $j$ también está conectado con $i$.
 :::
 
-::: {.callout-caution title="Pregunta 2" collapse="true"}
+**Pregunta 2: ¿Cuál es el grado (degree) del nodo central en una red estrella de $n$ nodos?**
+
+a) $1$
+b) $n$
+c) $n - 1$ 
+d) $2$
+
+
+::: {.callout-caution title="Respuesta 2 " collapse="true"}
 **¿Cuál es el grado (degree) del nodo central en una red estrella de $n$ nodos?**
 
 a) $1$
