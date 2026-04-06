@@ -4,7 +4,7 @@ Bienvenido a **Análisis de redes con igraph en R**, un libro diseñado para que
 
 ## ¿Para quién es este libro? {.unnumbered}
 
-Este material está pensado para **estudiantes universitarios** de ciencias, ingeniería o áreas afines que deseen comprender cómo modelar, analizar y visualizar sistemas conectados: desde redes sociales y biológicas hasta infraestructuras tecnológicas.
+Este material está pensado para **estudiantes universitarios** de ciencias, ingeniería o áreas afines que deseen comprender cómo modelar, analizar y visualizar sistemas conectados: desde redes sociales y biológicas hasta infraestructuras tecnológicas. No se requieren conocimientos previos en teoría de grafos, pero sí es útil tener una base en estadística descriptiva y programación en R.
 
 ## ¿Qué vas a aprender? {.unnumbered}
 

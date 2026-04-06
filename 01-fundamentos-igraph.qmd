@@ -561,6 +561,7 @@ flowchart LR
 
 ## Autoevaluación {.unnumbered}
 
+**Verdadero o Falso:** En una red no dirigida, ¿la matriz de adyacencia siempre es simétrica?
 ::: {.callout-caution title="Pregunta 1" collapse="true"}
 **Verdadero o Falso:** En una red no dirigida, la matriz de adyacencia siempre es simétrica.
 
