@@ -536,13 +536,33 @@ Crea una función en R llamada `resumen_red()` que reciba un grafo `g` y devuelv
 ```{mermaid}
 %%| label: fig-resumen-cap1
 %%| fig-cap: "Resumen visual del capítulo"
-flowchart LR
-    A[Crear redes] --> B[Manipular nodos y conexiones]
-    B --> C[Calcular grado (degree)]
-    C --> D[Matriz de adyacencia]
-    D --> E[Redes especiales]
-    E --> F["Siguiente: Distribuciones de grado (degree) →"]
-    style F fill:#e8f4f8,stroke:#3ABEF9
+%%| fig-width: 8
+flowchart TD
+    subgraph flujo["Flujo de aprendizaje"]
+        A["🔧 1. Crear redes
+        <i>make_empty_graph, add_vertices, add_edges</i>"]
+        B["✏️ 2. Manipular nodos y aristas
+        <i>V(g), E(g), atributos, delete, simplify</i>"]
+        C["📊 3. Calcular grado
+        <i>degree(), in/out, histograma</i>"]
+        D["🔢 4. Matriz de adyacencia
+        <i>get.adjacency(), heatmap</i>"]
+        E["⭐ 5. Redes especiales
+        <i>make_star, make_ring, make_tree</i>"]
+    end
+
+    A --> B --> C --> D --> E
+    E -.->|"Siguiente capítulo"| F
+
+    F["📈 Distribuciones de grado\n<i>Power-law vs Poisson</i>"]
+
+    style A fill:#E1F5EE,stroke:#0F6E56,color:#085041
+    style B fill:#E1F5EE,stroke:#0F6E56,color:#085041
+    style C fill:#EEEDFE,stroke:#534AB7,color:#3C3489
+    style D fill:#FAECE7,stroke:#993C1D,color:#712B13
+    style E fill:#FAECE7,stroke:#993C1D,color:#712B13
+    style F fill:#E6F1FB,stroke:#185FA5,color:#0C447C
+    style flujo fill:transparent,stroke:#B4B2A9,stroke-dasharray: 5 5
 ```
 
 | Función | Descripción |

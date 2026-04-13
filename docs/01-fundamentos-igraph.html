@@ -1508,29 +1508,67 @@ Figure&nbsp;1.8: Red de ciudades que comparten frontera estatal
 </section>
 <section id="resumen-del-capítulo" class="level2" data-number="1.7">
 <h2 data-number="1.7" class="anchored" data-anchor-id="resumen-del-capítulo"><span class="header-section-number">1.7</span> Resumen del capítulo</h2>
-<div class="cell" data-layout-align="center">
+<div class="cell" data-fig-width="8" data-layout-align="center">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb39"><pre class="sourceCode numberSource default number-lines code-with-copy"><code class="sourceCode default"><span id="cb39-1"><a href="#cb39-1"></a>flowchart LR</span>
-<span id="cb39-2"><a href="#cb39-2"></a>    A[Crear redes] --&gt; B[Manipular nodos y conexiones]</span>
-<span id="cb39-3"><a href="#cb39-3"></a>    B --&gt; C[Calcular grado (degree)]</span>
-<span id="cb39-4"><a href="#cb39-4"></a>    C --&gt; D[Matriz de adyacencia]</span>
-<span id="cb39-5"><a href="#cb39-5"></a>    D --&gt; E[Redes especiales]</span>
-<span id="cb39-6"><a href="#cb39-6"></a>    E --&gt; F["Siguiente: Distribuciones de grado (degree) →"]</span>
-<span id="cb39-7"><a href="#cb39-7"></a>    style F fill:#e8f4f8,stroke:#3ABEF9</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb39"><pre class="sourceCode numberSource default number-lines code-with-copy"><code class="sourceCode default"><span id="cb39-1"><a href="#cb39-1"></a>flowchart TD</span>
+<span id="cb39-2"><a href="#cb39-2"></a>    subgraph flujo["Flujo de aprendizaje"]</span>
+<span id="cb39-3"><a href="#cb39-3"></a>        A["🔧 1. Crear redes</span>
+<span id="cb39-4"><a href="#cb39-4"></a>        &lt;i&gt;make_empty_graph, add_vertices, add_edges&lt;/i&gt;"]</span>
+<span id="cb39-5"><a href="#cb39-5"></a>        B["✏️ 2. Manipular nodos y aristas</span>
+<span id="cb39-6"><a href="#cb39-6"></a>        &lt;i&gt;V(g), E(g), atributos, delete, simplify&lt;/i&gt;"]</span>
+<span id="cb39-7"><a href="#cb39-7"></a>        C["📊 3. Calcular grado</span>
+<span id="cb39-8"><a href="#cb39-8"></a>        &lt;i&gt;degree(), in/out, histograma&lt;/i&gt;"]</span>
+<span id="cb39-9"><a href="#cb39-9"></a>        D["🔢 4. Matriz de adyacencia</span>
+<span id="cb39-10"><a href="#cb39-10"></a>        &lt;i&gt;get.adjacency(), heatmap&lt;/i&gt;"]</span>
+<span id="cb39-11"><a href="#cb39-11"></a>        E["⭐ 5. Redes especiales</span>
+<span id="cb39-12"><a href="#cb39-12"></a>        &lt;i&gt;make_star, make_ring, make_tree&lt;/i&gt;"]</span>
+<span id="cb39-13"><a href="#cb39-13"></a>    end</span>
+<span id="cb39-14"><a href="#cb39-14"></a></span>
+<span id="cb39-15"><a href="#cb39-15"></a>    A --&gt; B --&gt; C --&gt; D --&gt; E</span>
+<span id="cb39-16"><a href="#cb39-16"></a>    E -.-&gt;|"Siguiente capítulo"| F</span>
+<span id="cb39-17"><a href="#cb39-17"></a></span>
+<span id="cb39-18"><a href="#cb39-18"></a>    F["📈 Distribuciones de grado\n&lt;i&gt;Power-law vs Poisson&lt;/i&gt;"]</span>
+<span id="cb39-19"><a href="#cb39-19"></a></span>
+<span id="cb39-20"><a href="#cb39-20"></a>    style A fill:#E1F5EE,stroke:#0F6E56,color:#085041</span>
+<span id="cb39-21"><a href="#cb39-21"></a>    style B fill:#E1F5EE,stroke:#0F6E56,color:#085041</span>
+<span id="cb39-22"><a href="#cb39-22"></a>    style C fill:#EEEDFE,stroke:#534AB7,color:#3C3489</span>
+<span id="cb39-23"><a href="#cb39-23"></a>    style D fill:#FAECE7,stroke:#993C1D,color:#712B13</span>
+<span id="cb39-24"><a href="#cb39-24"></a>    style E fill:#FAECE7,stroke:#993C1D,color:#712B13</span>
+<span id="cb39-25"><a href="#cb39-25"></a>    style F fill:#E6F1FB,stroke:#185FA5,color:#0C447C</span>
+<span id="cb39-26"><a href="#cb39-26"></a>    style flujo fill:transparent,stroke:#B4B2A9,stroke-dasharray: 5 5</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output-display">
 <div id="fig-resumen-cap1" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-resumen-cap1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <div>
-<pre class="mermaid mermaid-js" data-label="fig-resumen-cap1">flowchart LR
-    A[Crear redes] --&gt; B[Manipular nodos y conexiones]
-    B --&gt; C[Calcular grado (degree)]
-    C --&gt; D[Matriz de adyacencia]
-    D --&gt; E[Redes especiales]
-    E --&gt; F["Siguiente: Distribuciones de grado (degree) →"]
-    style F fill:#e8f4f8,stroke:#3ABEF9
+<pre class="mermaid mermaid-js" data-label="fig-resumen-cap1">flowchart TD
+    subgraph flujo["Flujo de aprendizaje"]
+        A["🔧 1. Crear redes
+        &lt;i&gt;make_empty_graph, add_vertices, add_edges&lt;/i&gt;"]
+        B["✏️ 2. Manipular nodos y aristas
+        &lt;i&gt;V(g), E(g), atributos, delete, simplify&lt;/i&gt;"]
+        C["📊 3. Calcular grado
+        &lt;i&gt;degree(), in/out, histograma&lt;/i&gt;"]
+        D["🔢 4. Matriz de adyacencia
+        &lt;i&gt;get.adjacency(), heatmap&lt;/i&gt;"]
+        E["⭐ 5. Redes especiales
+        &lt;i&gt;make_star, make_ring, make_tree&lt;/i&gt;"]
+    end
+
+    A --&gt; B --&gt; C --&gt; D --&gt; E
+    E -.-&gt;|"Siguiente capítulo"| F
+
+    F["📈 Distribuciones de grado\n&lt;i&gt;Power-law vs Poisson&lt;/i&gt;"]
+
+    style A fill:#E1F5EE,stroke:#0F6E56,color:#085041
+    style B fill:#E1F5EE,stroke:#0F6E56,color:#085041
+    style C fill:#EEEDFE,stroke:#534AB7,color:#3C3489
+    style D fill:#FAECE7,stroke:#993C1D,color:#712B13
+    style E fill:#FAECE7,stroke:#993C1D,color:#712B13
+    style F fill:#E6F1FB,stroke:#185FA5,color:#0C447C
+    style flujo fill:transparent,stroke:#B4B2A9,stroke-dasharray: 5 5
 </pre>
 </div>
 </div>
@@ -1580,7 +1618,7 @@ Figure&nbsp;1.9: Resumen visual del capítulo
 </tr>
 </tbody>
 </table>
-<p><strong>Conexión con el siguiente capítulo:</strong> Ahora que sabes crear redes y calcular grados, en el <a href="02-grado-distribuciones.html" class="quarto-xref"><span>Chapter 2</span></a> (degree)-distribuciones exploraremos <em>cómo se distribuyen</em> esos grados y por qué algunas redes producen “superhubs” mientras que otras son más homogéneas.</p>
+<p><strong>Conexión con el siguiente capítulo:</strong> Ahora que sabes crear redes y calcular grados, en el <a href="#sec-grado-distribuciones" class="quarto-xref"><span class="quarto-unresolved-ref">sec-grado-distribuciones</span></a> (degree)-distribuciones exploraremos <em>cómo se distribuyen</em> esos grados y por qué algunas redes producen “superhubs” mientras que otras son más homogéneas.</p>
 </section>
 <section id="autoevaluación" class="level2 unnumbered">
 <h2 class="unnumbered anchored" data-anchor-id="autoevaluación">Autoevaluación</h2>
@@ -2703,80 +2741,100 @@ Figure&nbsp;1.9: Resumen visual del capítulo
 <span id="cb40-586"><a href="#cb40-586"></a><span class="in">```{mermaid}</span></span>
 <span id="cb40-587"><a href="#cb40-587"></a>%%| label: fig-resumen-cap1</span>
 <span id="cb40-588"><a href="#cb40-588"></a>%%| fig-cap: <span class="ot">"</span><span class="st">Resumen visual del capítulo</span><span class="ot">"</span></span>
-<span id="cb40-589"><a href="#cb40-589"></a>flowchart LR</span>
-<span id="cb40-590"><a href="#cb40-590"></a>    A[Crear redes] --&gt; B[Manipular nodos y conexiones]</span>
-<span id="cb40-591"><a href="#cb40-591"></a>    B --&gt; C[Calcular grado (degree)]</span>
-<span id="cb40-592"><a href="#cb40-592"></a>    C --&gt; D[Matriz de adyacencia]</span>
-<span id="cb40-593"><a href="#cb40-593"></a>    D --&gt; E[Redes especiales]</span>
-<span id="cb40-594"><a href="#cb40-594"></a>    E --&gt; F[<span class="ot">"</span><span class="st">Siguiente: Distribuciones de grado (degree) →</span><span class="ot">"</span>]</span>
-<span id="cb40-595"><a href="#cb40-595"></a>    style F fill:<span class="co">#e8f4f8,stroke:#3ABEF9</span></span>
-<span id="cb40-596"><a href="#cb40-596"></a><span class="in">```</span></span>
-<span id="cb40-597"><a href="#cb40-597"></a></span>
-<span id="cb40-598"><a href="#cb40-598"></a><span class="pp">|</span> Función <span class="pp">|</span> Descripción <span class="pp">|</span></span>
-<span id="cb40-599"><a href="#cb40-599"></a><span class="pp">|---------|-------------|</span></span>
-<span id="cb40-600"><a href="#cb40-600"></a><span class="pp">|</span> <span class="in">`make_empty_graph()`</span> <span class="pp">|</span> Crear grafo vacío <span class="pp">|</span></span>
-<span id="cb40-601"><a href="#cb40-601"></a><span class="pp">|</span> <span class="in">`add_vertices()`</span> / <span class="in">`add_edges()`</span> <span class="pp">|</span> Agregar nodos / conexiones <span class="pp">|</span></span>
-<span id="cb40-602"><a href="#cb40-602"></a><span class="pp">|</span> <span class="in">`delete_vertices()`</span> / <span class="in">`delete_edges()`</span> <span class="pp">|</span> Eliminar nodos / conexiones <span class="pp">|</span></span>
-<span id="cb40-603"><a href="#cb40-603"></a><span class="pp">|</span> <span class="in">`V(g)`</span> / <span class="in">`E(g)`</span> <span class="pp">|</span> Acceder a vértices / conexiones <span class="pp">|</span></span>
-<span id="cb40-604"><a href="#cb40-604"></a><span class="pp">|</span> <span class="in">`degree()`</span> <span class="pp">|</span> Calcular grado (degree) <span class="pp">|</span></span>
-<span id="cb40-605"><a href="#cb40-605"></a><span class="pp">|</span> <span class="in">`get.adjacency()`</span> <span class="pp">|</span> Obtener matriz de adyacencia <span class="pp">|</span></span>
-<span id="cb40-606"><a href="#cb40-606"></a><span class="pp">|</span> <span class="in">`make_star()`</span>, <span class="in">`make_ring()`</span>, <span class="in">`make_tree()`</span> <span class="pp">|</span> Crear redes especiales <span class="pp">|</span></span>
-<span id="cb40-607"><a href="#cb40-607"></a></span>
-<span id="cb40-608"><a href="#cb40-608"></a>: Funciones clave del capítulo {.striped .hover}</span>
-<span id="cb40-609"><a href="#cb40-609"></a></span>
-<span id="cb40-610"><a href="#cb40-610"></a>**Conexión con el siguiente capítulo:** Ahora que sabes crear redes y calcular grados, en el @sec-grado-distribuciones (degree)-distribuciones exploraremos *cómo se distribuyen* esos grados y por qué algunas redes producen "superhubs" mientras que otras son más homogéneas.</span>
-<span id="cb40-611"><a href="#cb40-611"></a></span>
-<span id="cb40-612"><a href="#cb40-612"></a><span class="fu">## Autoevaluación {.unnumbered}</span></span>
-<span id="cb40-613"><a href="#cb40-613"></a></span>
-<span id="cb40-614"><a href="#cb40-614"></a>**Pregunta 1: Verdadero o Falso:** En una red no dirigida, ¿la matriz de adyacencia siempre es simétrica?</span>
-<span id="cb40-615"><a href="#cb40-615"></a></span>
-<span id="cb40-616"><a href="#cb40-616"></a>::: {.callout-caution title="Respuesta 1" collapse="true"}</span>
+<span id="cb40-589"><a href="#cb40-589"></a>%%| fig-width: <span class="dv">8</span></span>
+<span id="cb40-590"><a href="#cb40-590"></a>flowchart TD</span>
+<span id="cb40-591"><a href="#cb40-591"></a>    subgraph flujo[<span class="ot">"</span><span class="st">Flujo de aprendizaje</span><span class="ot">"</span>]</span>
+<span id="cb40-592"><a href="#cb40-592"></a>        A[<span class="ot">"</span><span class="st">🔧 1. Crear redes</span></span>
+<span id="cb40-593"><a href="#cb40-593"></a><span class="st">        &lt;i&gt;make_empty_graph, add_vertices, add_edges&lt;/i&gt;</span><span class="ot">"</span>]</span>
+<span id="cb40-594"><a href="#cb40-594"></a>        B[<span class="ot">"</span><span class="st">✏️ 2. Manipular nodos y aristas</span></span>
+<span id="cb40-595"><a href="#cb40-595"></a><span class="st">        &lt;i&gt;V(g), E(g), atributos, delete, simplify&lt;/i&gt;</span><span class="ot">"</span>]</span>
+<span id="cb40-596"><a href="#cb40-596"></a>        C[<span class="ot">"</span><span class="st">📊 3. Calcular grado</span></span>
+<span id="cb40-597"><a href="#cb40-597"></a><span class="st">        &lt;i&gt;degree(), in/out, histograma&lt;/i&gt;</span><span class="ot">"</span>]</span>
+<span id="cb40-598"><a href="#cb40-598"></a>        D[<span class="ot">"</span><span class="st">🔢 4. Matriz de adyacencia</span></span>
+<span id="cb40-599"><a href="#cb40-599"></a><span class="st">        &lt;i&gt;get.adjacency(), heatmap&lt;/i&gt;</span><span class="ot">"</span>]</span>
+<span id="cb40-600"><a href="#cb40-600"></a>        E[<span class="ot">"</span><span class="st">⭐ 5. Redes especiales</span></span>
+<span id="cb40-601"><a href="#cb40-601"></a><span class="st">        &lt;i&gt;make_star, make_ring, make_tree&lt;/i&gt;</span><span class="ot">"</span>]</span>
+<span id="cb40-602"><a href="#cb40-602"></a>    end</span>
+<span id="cb40-603"><a href="#cb40-603"></a></span>
+<span id="cb40-604"><a href="#cb40-604"></a>    A --&gt; B --&gt; C --&gt; D --&gt; E</span>
+<span id="cb40-605"><a href="#cb40-605"></a>    E -.-&gt;|<span class="ot">"</span><span class="st">Siguiente capítulo</span><span class="ot">"</span>| F</span>
+<span id="cb40-606"><a href="#cb40-606"></a></span>
+<span id="cb40-607"><a href="#cb40-607"></a>    F[<span class="ot">"</span><span class="st">📈 Distribuciones de grado</span><span class="ch">\n</span><span class="st">&lt;i&gt;Power-law vs Poisson&lt;/i&gt;</span><span class="ot">"</span>]</span>
+<span id="cb40-608"><a href="#cb40-608"></a></span>
+<span id="cb40-609"><a href="#cb40-609"></a>    style A fill:<span class="co">#E1F5EE,stroke:#0F6E56,color:#085041</span></span>
+<span id="cb40-610"><a href="#cb40-610"></a>    style B fill:<span class="co">#E1F5EE,stroke:#0F6E56,color:#085041</span></span>
+<span id="cb40-611"><a href="#cb40-611"></a>    style C fill:<span class="co">#EEEDFE,stroke:#534AB7,color:#3C3489</span></span>
+<span id="cb40-612"><a href="#cb40-612"></a>    style D fill:<span class="co">#FAECE7,stroke:#993C1D,color:#712B13</span></span>
+<span id="cb40-613"><a href="#cb40-613"></a>    style E fill:<span class="co">#FAECE7,stroke:#993C1D,color:#712B13</span></span>
+<span id="cb40-614"><a href="#cb40-614"></a>    style F fill:<span class="co">#E6F1FB,stroke:#185FA5,color:#0C447C</span></span>
+<span id="cb40-615"><a href="#cb40-615"></a>    style flujo fill:transparent,stroke:<span class="co">#B4B2A9,stroke-dasharray: 5 5</span></span>
+<span id="cb40-616"><a href="#cb40-616"></a><span class="in">```</span></span>
 <span id="cb40-617"><a href="#cb40-617"></a></span>
-<span id="cb40-618"><a href="#cb40-618"></a>✅ **Verdadero.** Si $i$ está conectado con $j$, entonces $j$ también está conectado con $i$.</span>
-<span id="cb40-619"><a href="#cb40-619"></a>:::</span>
-<span id="cb40-620"><a href="#cb40-620"></a></span>
-<span id="cb40-621"><a href="#cb40-621"></a>**Pregunta 2: ¿Cuál es el grado (degree) del nodo central en una red estrella de $n$ nodos?**</span>
-<span id="cb40-622"><a href="#cb40-622"></a></span>
-<span id="cb40-623"><a href="#cb40-623"></a>a) $1$</span>
-<span id="cb40-624"><a href="#cb40-624"></a>b) $n$</span>
-<span id="cb40-625"><a href="#cb40-625"></a>c) $n - 1$ </span>
-<span id="cb40-626"><a href="#cb40-626"></a>d) $2$</span>
+<span id="cb40-618"><a href="#cb40-618"></a><span class="pp">|</span> Función <span class="pp">|</span> Descripción <span class="pp">|</span></span>
+<span id="cb40-619"><a href="#cb40-619"></a><span class="pp">|---------|-------------|</span></span>
+<span id="cb40-620"><a href="#cb40-620"></a><span class="pp">|</span> <span class="in">`make_empty_graph()`</span> <span class="pp">|</span> Crear grafo vacío <span class="pp">|</span></span>
+<span id="cb40-621"><a href="#cb40-621"></a><span class="pp">|</span> <span class="in">`add_vertices()`</span> / <span class="in">`add_edges()`</span> <span class="pp">|</span> Agregar nodos / conexiones <span class="pp">|</span></span>
+<span id="cb40-622"><a href="#cb40-622"></a><span class="pp">|</span> <span class="in">`delete_vertices()`</span> / <span class="in">`delete_edges()`</span> <span class="pp">|</span> Eliminar nodos / conexiones <span class="pp">|</span></span>
+<span id="cb40-623"><a href="#cb40-623"></a><span class="pp">|</span> <span class="in">`V(g)`</span> / <span class="in">`E(g)`</span> <span class="pp">|</span> Acceder a vértices / conexiones <span class="pp">|</span></span>
+<span id="cb40-624"><a href="#cb40-624"></a><span class="pp">|</span> <span class="in">`degree()`</span> <span class="pp">|</span> Calcular grado (degree) <span class="pp">|</span></span>
+<span id="cb40-625"><a href="#cb40-625"></a><span class="pp">|</span> <span class="in">`get.adjacency()`</span> <span class="pp">|</span> Obtener matriz de adyacencia <span class="pp">|</span></span>
+<span id="cb40-626"><a href="#cb40-626"></a><span class="pp">|</span> <span class="in">`make_star()`</span>, <span class="in">`make_ring()`</span>, <span class="in">`make_tree()`</span> <span class="pp">|</span> Crear redes especiales <span class="pp">|</span></span>
 <span id="cb40-627"><a href="#cb40-627"></a></span>
-<span id="cb40-628"><a href="#cb40-628"></a></span>
-<span id="cb40-629"><a href="#cb40-629"></a>::: {.callout-caution title="Respuesta 2 " collapse="true"}</span>
-<span id="cb40-630"><a href="#cb40-630"></a>**¿Cuál es el grado (degree) del nodo central en una red estrella de $n$ nodos?**</span>
+<span id="cb40-628"><a href="#cb40-628"></a>: Funciones clave del capítulo {.striped .hover}</span>
+<span id="cb40-629"><a href="#cb40-629"></a></span>
+<span id="cb40-630"><a href="#cb40-630"></a>**Conexión con el siguiente capítulo:** Ahora que sabes crear redes y calcular grados, en el @sec-grado-distribuciones (degree)-distribuciones exploraremos *cómo se distribuyen* esos grados y por qué algunas redes producen "superhubs" mientras que otras son más homogéneas.</span>
 <span id="cb40-631"><a href="#cb40-631"></a></span>
-<span id="cb40-632"><a href="#cb40-632"></a>a) $1$</span>
-<span id="cb40-633"><a href="#cb40-633"></a>b) $n$</span>
-<span id="cb40-634"><a href="#cb40-634"></a>c) $n - 1$ ✅</span>
-<span id="cb40-635"><a href="#cb40-635"></a>d) $2$</span>
-<span id="cb40-636"><a href="#cb40-636"></a></span>
-<span id="cb40-637"><a href="#cb40-637"></a>El nodo central se conecta con todos los demás, así que su grado (degree) es $n - 1$.</span>
-<span id="cb40-638"><a href="#cb40-638"></a>:::</span>
-<span id="cb40-639"><a href="#cb40-639"></a></span>
+<span id="cb40-632"><a href="#cb40-632"></a><span class="fu">## Autoevaluación {.unnumbered}</span></span>
+<span id="cb40-633"><a href="#cb40-633"></a></span>
+<span id="cb40-634"><a href="#cb40-634"></a>**Pregunta 1: Verdadero o Falso:** En una red no dirigida, ¿la matriz de adyacencia siempre es simétrica?</span>
+<span id="cb40-635"><a href="#cb40-635"></a></span>
+<span id="cb40-636"><a href="#cb40-636"></a>::: {.callout-caution title="Respuesta 1" collapse="true"}</span>
+<span id="cb40-637"><a href="#cb40-637"></a></span>
+<span id="cb40-638"><a href="#cb40-638"></a>✅ **Verdadero.** Si $i$ está conectado con $j$, entonces $j$ también está conectado con $i$.</span>
+<span id="cb40-639"><a href="#cb40-639"></a>:::</span>
 <span id="cb40-640"><a href="#cb40-640"></a></span>
-<span id="cb40-641"><a href="#cb40-641"></a>**Pregunta 3: ¿Qué función usarías para eliminar *self-loops* y conexiones duplicadas de una red?**</span>
+<span id="cb40-641"><a href="#cb40-641"></a>**Pregunta 2: ¿Cuál es el grado (degree) del nodo central en una red estrella de $n$ nodos?**</span>
 <span id="cb40-642"><a href="#cb40-642"></a></span>
-<span id="cb40-643"><a href="#cb40-643"></a></span>
-<span id="cb40-644"><a href="#cb40-644"></a>::: {.callout-caution title="Respuesta 3" collapse="true"}</span>
-<span id="cb40-645"><a href="#cb40-645"></a></span>
-<span id="cb40-646"><a href="#cb40-646"></a><span class="in">`simplify()`</span> con los parámetros <span class="in">`remove.multiple = TRUE`</span> y <span class="in">`remove.loops = TRUE`</span>.</span>
-<span id="cb40-647"><a href="#cb40-647"></a>:::</span>
+<span id="cb40-643"><a href="#cb40-643"></a>a) $1$</span>
+<span id="cb40-644"><a href="#cb40-644"></a>b) $n$</span>
+<span id="cb40-645"><a href="#cb40-645"></a>c) $n - 1$ </span>
+<span id="cb40-646"><a href="#cb40-646"></a>d) $2$</span>
+<span id="cb40-647"><a href="#cb40-647"></a></span>
 <span id="cb40-648"><a href="#cb40-648"></a></span>
-<span id="cb40-649"><a href="#cb40-649"></a>**Pregunta 4: Verdadero o Falso:** ¿La función <span class="in">`add_edges(g, c(1,2,3))`</span> agrega tres conexiones?</span>
-<span id="cb40-650"><a href="#cb40-650"></a></span>
-<span id="cb40-651"><a href="#cb40-651"></a>::: {.callout-caution title="Respuesta 4" collapse="true"}</span>
-<span id="cb40-652"><a href="#cb40-652"></a></span>
-<span id="cb40-653"><a href="#cb40-653"></a>❌ **Falso.** El vector debe tener un número par de elementos (pares origen-destino). Este código produciría un error.</span>
-<span id="cb40-654"><a href="#cb40-654"></a>:::</span>
-<span id="cb40-655"><a href="#cb40-655"></a></span>
-<span id="cb40-656"><a href="#cb40-656"></a>**Pregunta 5: ¿Cuántas conexiones tiene un `make_ring(10)`?**</span>
-<span id="cb40-657"><a href="#cb40-657"></a></span>
-<span id="cb40-658"><a href="#cb40-658"></a>::: {.callout-caution title="Respuesta 5" collapse="true"}</span>
+<span id="cb40-649"><a href="#cb40-649"></a>::: {.callout-caution title="Respuesta 2 " collapse="true"}</span>
+<span id="cb40-650"><a href="#cb40-650"></a>**¿Cuál es el grado (degree) del nodo central en una red estrella de $n$ nodos?**</span>
+<span id="cb40-651"><a href="#cb40-651"></a></span>
+<span id="cb40-652"><a href="#cb40-652"></a>a) $1$</span>
+<span id="cb40-653"><a href="#cb40-653"></a>b) $n$</span>
+<span id="cb40-654"><a href="#cb40-654"></a>c) $n - 1$ ✅</span>
+<span id="cb40-655"><a href="#cb40-655"></a>d) $2$</span>
+<span id="cb40-656"><a href="#cb40-656"></a></span>
+<span id="cb40-657"><a href="#cb40-657"></a>El nodo central se conecta con todos los demás, así que su grado (degree) es $n - 1$.</span>
+<span id="cb40-658"><a href="#cb40-658"></a>:::</span>
 <span id="cb40-659"><a href="#cb40-659"></a></span>
 <span id="cb40-660"><a href="#cb40-660"></a></span>
-<span id="cb40-661"><a href="#cb40-661"></a>Exactamente **10**: cada nodo se conecta con su vecino y el último se conecta con el primero, formando un ciclo.</span>
-<span id="cb40-662"><a href="#cb40-662"></a>:::</span>
+<span id="cb40-661"><a href="#cb40-661"></a>**Pregunta 3: ¿Qué función usarías para eliminar *self-loops* y conexiones duplicadas de una red?**</span>
+<span id="cb40-662"><a href="#cb40-662"></a></span>
+<span id="cb40-663"><a href="#cb40-663"></a></span>
+<span id="cb40-664"><a href="#cb40-664"></a>::: {.callout-caution title="Respuesta 3" collapse="true"}</span>
+<span id="cb40-665"><a href="#cb40-665"></a></span>
+<span id="cb40-666"><a href="#cb40-666"></a><span class="in">`simplify()`</span> con los parámetros <span class="in">`remove.multiple = TRUE`</span> y <span class="in">`remove.loops = TRUE`</span>.</span>
+<span id="cb40-667"><a href="#cb40-667"></a>:::</span>
+<span id="cb40-668"><a href="#cb40-668"></a></span>
+<span id="cb40-669"><a href="#cb40-669"></a>**Pregunta 4: Verdadero o Falso:** ¿La función <span class="in">`add_edges(g, c(1,2,3))`</span> agrega tres conexiones?</span>
+<span id="cb40-670"><a href="#cb40-670"></a></span>
+<span id="cb40-671"><a href="#cb40-671"></a>::: {.callout-caution title="Respuesta 4" collapse="true"}</span>
+<span id="cb40-672"><a href="#cb40-672"></a></span>
+<span id="cb40-673"><a href="#cb40-673"></a>❌ **Falso.** El vector debe tener un número par de elementos (pares origen-destino). Este código produciría un error.</span>
+<span id="cb40-674"><a href="#cb40-674"></a>:::</span>
+<span id="cb40-675"><a href="#cb40-675"></a></span>
+<span id="cb40-676"><a href="#cb40-676"></a>**Pregunta 5: ¿Cuántas conexiones tiene un `make_ring(10)`?**</span>
+<span id="cb40-677"><a href="#cb40-677"></a></span>
+<span id="cb40-678"><a href="#cb40-678"></a>::: {.callout-caution title="Respuesta 5" collapse="true"}</span>
+<span id="cb40-679"><a href="#cb40-679"></a></span>
+<span id="cb40-680"><a href="#cb40-680"></a></span>
+<span id="cb40-681"><a href="#cb40-681"></a>Exactamente **10**: cada nodo se conecta con su vecino y el último se conecta con el primero, formando un ciclo.</span>
+<span id="cb40-682"><a href="#cb40-682"></a>:::</span>
 </code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
 </div></div></div></div></div>
 </div> <!-- /content -->

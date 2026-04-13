@@ -10,7 +10,7 @@ Al finalizar este capítulo serás capaz de:
 5.  **Identificar** *hubs* (nodos altamente conectados) y explicar su importancia en la estructura de la red.
 :::
 
-> **Pregunta motivadora:** En internet, unos pocos sitios web (Google, Facebook, Wikipedia) reciben miles de millones de visitas, mientras que la inmensa mayoría recibe muy pocas. ¿Por qué esta desigualdad extrema? ¿Es azar o hay un mecanismo detrás?
+> **Pregunta motivadora:** En internet, unos pocos sitios web (Google, Instagram, ChatGPT, Wikipedia) reciben miles de millones de visitas, mientras que la inmensa mayoría recibe muy pocas. ¿Por qué esta desigualdad extrema? ¿Es azar o hay un mecanismo detrás?
 
 ```{mermaid}
 %%| label: fig-mapa-cap2
@@ -94,7 +94,7 @@ Antes de sumergirnos en los datos, necesitas entender dos modelos fundamentales 
 En este modelo, cada par de nodos tiene una **probabilidad fija** $p$ de estar conectado, independientemente de todo lo demás. Es como lanzar una moneda (con probabilidad $p$ de "cara") por cada par posible de nodos.
 
 $$
-P(\text{arista entre } i \text{ y } j) = p, \quad \forall \, i \neq j
+P(\text{conexión entre } i \text{ y } j) = p, \quad \forall \, i \neq j
 $$
 
 El resultado: la mayoría de los nodos terminan con un grado similar, cercano al promedio $\langle k \rangle \approx p \cdot (n-1)$, y la distribución de grado sigue una **distribución de Poisson** [@erdos1959].
