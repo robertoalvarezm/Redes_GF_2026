@@ -668,7 +668,7 @@ flowchart LR
 ```
 
 | Función / Concepto | Descripción |
-|----|----|
+|------------------------------------|------------------------------------|
 | `sample_gnp(n, p)` | Genera red Erdős–Rényi con $n$ nodos y probabilidad $p$ |
 | `sample_pa(n)` | Genera red Barabási–Albert con enlace preferencial |
 | `degree_distribution()` | Calcula la distribución de grado normalizada |

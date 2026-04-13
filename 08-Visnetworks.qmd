@@ -1,0 +1,40 @@
+## VisNetwork {#Visnetwork}
+
+::: {.callout-note title="🎯 Objetivos de aprendizaje"}
+Al finalizar este capítulo serás capaz de:
+
+1.  **Generar ** redes interactivas usando la librería `visNetwork` 
+2.  **Generar** redes con los modelos Erdős–Rényi (ER) y Barabási–Albert (BA) en `igraph`.
+3.  **Visualizar y comparar** distribuciones de grado usando histogramas y gráficos log-log.
+4.  **Ajustar** una ley de potencia a datos de grado con el paquete `poweRlaw`.
+5.  **Identificar** *hubs* (nodos altamente conectados) y explicar su importancia en la estructura de la red.
+:::
+
+
+visNetwork es una librería de R que permite crear visualizaciones interactivas de redes basado en la biblioteca de javascript **vis.js**  Es especialmente útil para representar relaciones entre entidades, como conexiones entre personas, organizaciones o cualquier tipo de nodos y enlaces. A continuación, se muestra un ejemplo básico de cómo usar `visNetwork` para crear una red simple.
+
+```{r}
+#| message: false
+#| warning: false
+# Instalar y cargar la librería visNetwork
+# install.packages("visNetwork")
+library(visNetwork)
+
+```
+
+**visNetwork** requiere de al menos, como cualquier red, de dos elementos:
+
+- **Nodos**: Representan las entidades en la red. Cada nodo puede tener atributos como un identificador, una etiqueta, un grupo, etc.
+- **Enlaces**: Representan las conexiones entre los nodos. Cada enlace puede tener
+
+```{r}
+# Crear un data frame de nodos
+nodes <- data.frame(id = 1:5)
+# Crear un data frame de conexiones
+edges <- data.frame(from = c(1,2,5), to = c(3,4,5))
+visNetwork(nodes, edges, width = "100%")
+
+```
+En este ejemplo, hemos creado una red con 5 nodos y 3 conexiones entre ellos. La función `visNetwork()` toma los data frames de nodos y enlaces como argumentos y genera una visualización interactiva de la red. Puedes personalizar la apariencia de los nodos y enlaces utilizando diferentes atributos, como colores, tamaños, etiquetas, etc.
+
+

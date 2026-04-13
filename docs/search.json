@@ -2,9 +2,9 @@
   {
     "objectID": "index.html",
     "href": "index.html",
-    "title": "Análisis de Redes con igraph en R",
+    "title": "Análisis de redes en R",
     "section": "",
-    "text": "Prefacio\nBienvenido a Análisis de redes con igraph en R, un libro diseñado para que aprendas, de forma práctica y progresiva, los fundamentos del análisis de redes complejas utilizando el lenguaje R y el paquete igraph.",
+    "text": "Prefacio\nBienvenido a Análisis de redes en R, un libro diseñado para que aprendas, de forma práctica y progresiva, los fundamentos del análisis de redes complejas utilizando el lenguaje R y el paquete igraph y otros como visNetwork .",
     "crumbs": [
       "Prefacio"
     ]
@@ -12,7 +12,7 @@
   {
     "objectID": "index.html#para-quién-es-este-libro",
     "href": "index.html#para-quién-es-este-libro",
-    "title": "Análisis de Redes con igraph en R",
+    "title": "Análisis de redes en R",
     "section": "¿Para quién es este libro?",
     "text": "¿Para quién es este libro?\nEste material está pensado para estudiantes universitarios de ciencias, ingeniería o áreas afines que deseen comprender cómo modelar, analizar y visualizar sistemas conectados: desde redes sociales y biológicas hasta infraestructuras tecnológicas. No se requieren conocimientos previos en teoría de grafos, pero sí es útil tener una base en estadística descriptiva y programación en R.",
     "crumbs": [
@@ -22,7 +22,7 @@
   {
     "objectID": "index.html#qué-vas-a-aprender",
     "href": "index.html#qué-vas-a-aprender",
-    "title": "Análisis de Redes con igraph en R",
+    "title": "Análisis de redes en R",
     "section": "¿Qué vas a aprender?",
     "text": "¿Qué vas a aprender?\n\n\n\n\n\n\nNote🎯 Objetivos generales del libro\n\n\n\nAl finalizar estas notas serás capaz de:\n\nCrear y manipular redes (grafos) en R usando igraph.\nCalcular e interpretar métricas fundamentales: grado, distancia, clustering y centralidad.\nDistinguir modelos de redes (Erdős–Rényi, Barabási–Albert, small-world) y sus propiedades.\nEvaluar la robustez de una red ante fallos aleatorios y ataques dirigidos.\nComunicar hallazgos mediante visualizaciones claras y reproducibles.",
     "crumbs": [
@@ -32,7 +32,7 @@
   {
     "objectID": "index.html#estructura-del-libro",
     "href": "index.html#estructura-del-libro",
-    "title": "Análisis de Redes con igraph en R",
+    "title": "Análisis de redes en R",
     "section": "Estructura del libro",
     "text": "Estructura del libro\n\nMapa del libro\n\n\n\n\n\n\n\nCapítulo\nTema\nPregunta guía\n\n\n\n\n1\nFundamentos de igraph\n¿Cómo se construye y representa una red en R?\n\n\n2\nGrado y distribuciones\n¿Por qué algunas redes tienen “superhubs” y otras no?\n\n\n3\nDistancias y eficiencia\n¿Qué tan fácil es ir de un punto a otro en una red?\n\n\n4\nClustering y transitividad\n¿Los amigos de tus amigos son tus amigos?\n\n\n5\nRobustez de redes\n¿Qué pasa si falla un nodo crítico?\n\n\nIntegradores\nEjercicios finales\n¿Puedes analizar una red completa de principio a fin?",
     "crumbs": [
@@ -42,7 +42,7 @@
   {
     "objectID": "index.html#prerrequisitos",
     "href": "index.html#prerrequisitos",
-    "title": "Análisis de Redes con igraph en R",
+    "title": "Análisis de redes en R",
     "section": "Prerrequisitos",
     "text": "Prerrequisitos\n\n\n\n\n\n\nImportant🔑 Antes de empezar necesitas\n\n\n\n\nR (versión ≥ 4.1) y RStudio instalados.\nConocimientos básicos de R: vectores, funciones, gráficos con plot().\nNociones elementales de estadística descriptiva (media, varianza, histogramas).\nFamiliaridad básica con álgebra de matrices (útil, pero no indispensable).",
     "crumbs": [
@@ -52,7 +52,7 @@
   {
     "objectID": "index.html#paquetes-necesarios",
     "href": "index.html#paquetes-necesarios",
-    "title": "Análisis de Redes con igraph en R",
+    "title": "Análisis de redes en R",
     "section": "Paquetes necesarios",
     "text": "Paquetes necesarios\nEjecuta el siguiente bloque para instalar todos los paquetes que usaremos a lo largo del libro:\n\n\nCode\npaquetes &lt;- c(\"igraph\", \"tidyverse\", \"poweRlaw\", \"gt\", \"knitr\")\n\n# Instalar solo los que no tengas\nnuevos &lt;- paquetes[!(paquetes %in% installed.packages()[, \"Package\"])]\nif (length(nuevos)) install.packages(nuevos)",
     "crumbs": [
@@ -62,7 +62,7 @@
   {
     "objectID": "index.html#convenciones-del-libro",
     "href": "index.html#convenciones-del-libro",
-    "title": "Análisis de Redes con igraph en R",
+    "title": "Análisis de redes en R",
     "section": "Convenciones del libro",
     "text": "Convenciones del libro\nA lo largo del texto encontrarás estos bloques informativos:\n\n\n\n\n\n\nTip💡 Concepto clave\n\n\n\nResalta un concepto o idea fundamental que debes recordar.\n\n\n\n\n\n\n\n\nWarning⚠️ Error frecuente\n\n\n\nSeñala errores comunes que cometen lxs estudiantes y cómo evitarlos.\n\n\n\n\n\n\n\n\nNote💡 Pista\n\n\n\n\n\nPistas progresivas para resolver ejercicios. Haz clic para expandir.",
     "crumbs": [
@@ -72,7 +72,7 @@
   {
     "objectID": "index.html#cómo-usar-este-libro",
     "href": "index.html#cómo-usar-este-libro",
-    "title": "Análisis de Redes con igraph en R",
+    "title": "Análisis de redes en R",
     "section": "Cómo usar este libro",
     "text": "Cómo usar este libro\n\nLee la teoría y ejecuta los ejemplos en tu sesión de R.\nIntenta los ejercicios antes de ver las soluciones o pistas.\nExperimenta: modifica parámetros, cambia redes, rompe cosas.\nAl final de cada capítulo, responde la autoevaluación para verificar tu comprensión.\n\n¡Comencemos!",
     "crumbs": [
@@ -624,7 +624,7 @@
     "href": "05-robustez.html#resumen-del-capítulo",
     "title": "5  Robustez de redes",
     "section": "5.12 Resumen del capítulo",
-    "text": "5.12 Resumen del capítulo\n\n\nCode\nflowchart LR\n    A[Eliminar nodos] --&gt; B[Fallos aleatorios]\n    A --&gt; C[Ataques dirigidos]\n    B --&gt; D[BA robusta / ER se degrada]\n    C --&gt; E[BA colapsa / ER resiste]\n    D --&gt; F[Paradoja robustez-fragilidad]\n    E --&gt; F\n    F --&gt; G[\"Siguiente: Ejercicios integradores →\"]\n    style G fill:#e8f4f8,stroke:#3ABEF9\n\n\n\n\n\n\nflowchart LR\n    A[Eliminar nodos] --&gt; B[Fallos aleatorios]\n    A --&gt; C[Ataques dirigidos]\n    B --&gt; D[BA robusta / ER se degrada]\n    C --&gt; E[BA colapsa / ER resiste]\n    D --&gt; F[Paradoja robustez-fragilidad]\n    E --&gt; F\n    F --&gt; G[\"Siguiente: Ejercicios integradores →\"]\n    style G fill:#e8f4f8,stroke:#3ABEF9\n\n\n\n\nFigure 5.9: Resumen visual del capítulo\n\n\n\n\n\n\nFunciones y conceptos clave del capítulo\n\n\n\n\n\n\nFunción / Concepto\nDescripción\n\n\n\n\ndelete_vertices(g, v)\nEliminar nodos de un grafo\n\n\ncomponents(g)\nIdentificar componentes conectados\n\n\ncomponents(g)$csize\nTamaños de cada componente\n\n\nComponente gigante\nComponente conectado más grande\n\n\nFallo aleatorio\nEliminación aleatoria de nodos\n\n\nAtaque dirigido\nEliminación del nodo con mayor grado (o betweenness)\n\n\nParadoja robustez-fragilidad\nRedes scale-free: robustas a fallos, frágiles a ataques\n\n\n\nConexión con los ejercicios integradores: En el Chapter 8 pondrás en práctica todo lo aprendido: crearás redes, calcularás métricas, compararás topologías y evaluarás su robustez en escenarios completos que combinan los conceptos de todos los capítulos.",
+    "text": "5.12 Resumen del capítulo\n\n\nCode\nflowchart LR\n    A[Eliminar nodos] --&gt; B[Fallos aleatorios]\n    A --&gt; C[Ataques dirigidos]\n    B --&gt; D[BA robusta / ER se degrada]\n    C --&gt; E[BA colapsa / ER resiste]\n    D --&gt; F[Paradoja robustez-fragilidad]\n    E --&gt; F\n    F --&gt; G[\"Siguiente: Ejercicios integradores →\"]\n    style G fill:#e8f4f8,stroke:#3ABEF9\n\n\n\n\n\n\nflowchart LR\n    A[Eliminar nodos] --&gt; B[Fallos aleatorios]\n    A --&gt; C[Ataques dirigidos]\n    B --&gt; D[BA robusta / ER se degrada]\n    C --&gt; E[BA colapsa / ER resiste]\n    D --&gt; F[Paradoja robustez-fragilidad]\n    E --&gt; F\n    F --&gt; G[\"Siguiente: Ejercicios integradores →\"]\n    style G fill:#e8f4f8,stroke:#3ABEF9\n\n\n\n\nFigure 5.9: Resumen visual del capítulo\n\n\n\n\n\n\nFunciones y conceptos clave del capítulo\n\n\n\n\n\n\nFunción / Concepto\nDescripción\n\n\n\n\ndelete_vertices(g, v)\nEliminar nodos de un grafo\n\n\ncomponents(g)\nIdentificar componentes conectados\n\n\ncomponents(g)$csize\nTamaños de cada componente\n\n\nComponente gigante\nComponente conectado más grande\n\n\nFallo aleatorio\nEliminación aleatoria de nodos\n\n\nAtaque dirigido\nEliminación del nodo con mayor grado (o betweenness)\n\n\nParadoja robustez-fragilidad\nRedes scale-free: robustas a fallos, frágiles a ataques\n\n\n\nConexión con los ejercicios integradores: En el Chapter 9 pondrás en práctica todo lo aprendido: crearás redes, calcularás métricas, compararás topologías y evaluarás su robustez en escenarios completos que combinan los conceptos de todos los capítulos.",
     "crumbs": [
       "<span class='chapter-number'>5</span>  <span class='chapter-title'>Robustez de redes</span>"
     ]
@@ -870,123 +870,133 @@
     ]
   },
   {
+    "objectID": "08-Visnetworks.html",
+    "href": "08-Visnetworks.html",
+    "title": "8  VisNetwork",
+    "section": "",
+    "text": "Note🎯 Objetivos de aprendizaje\n\n\n\nAl finalizar este capítulo serás capaz de:\n\nGenerar  redes interactivas usando la librería visNetwork\nGenerar redes con los modelos Erdős–Rényi (ER) y Barabási–Albert (BA) en igraph.\nVisualizar y comparar distribuciones de grado usando histogramas y gráficos log-log.\nAjustar una ley de potencia a datos de grado con el paquete poweRlaw.\nIdentificar hubs (nodos altamente conectados) y explicar su importancia en la estructura de la red.\n\n\n\nvisNetwork es una librería de R que permite crear visualizaciones interactivas de redes basado en la biblioteca de javascript vis.js Es especialmente útil para representar relaciones entre entidades, como conexiones entre personas, organizaciones o cualquier tipo de nodos y enlaces. A continuación, se muestra un ejemplo básico de cómo usar visNetwork para crear una red simple.\n\n\nCode\n# Instalar y cargar la librería visNetwork\n# install.packages(\"visNetwork\")\nlibrary(visNetwork)\n\n\nvisNetwork requiere de al menos, como cualquier red, de dos elementos:\n\nNodos: Representan las entidades en la red. Cada nodo puede tener atributos como un identificador, una etiqueta, un grupo, etc.\nEnlaces: Representan las conexiones entre los nodos. Cada enlace puede tener\n\n\n\nCode\n# Crear un data frame de nodos\nnodes &lt;- data.frame(id = 1:5)\n# Crear un data frame de conexiones\nedges &lt;- data.frame(from = c(1,2,5), to = c(3,4,5))\nvisNetwork(nodes, edges, width = \"100%\")\n\n\n\n\n\n\nEn este ejemplo, hemos creado una red con 5 nodos y 3 conexiones entre ellos. La función visNetwork() toma los data frames de nodos y enlaces como argumentos y genera una visualización interactiva de la red. Puedes personalizar la apariencia de los nodos y enlaces utilizando diferentes atributos, como colores, tamaños, etiquetas, etc.",
+    "crumbs": [
+      "<span class='chapter-number'>8</span>  <span class='chapter-title'>VisNetwork</span>"
+    ]
+  },
+  {
     "objectID": "99-ejercicios-integradores.html",
     "href": "99-ejercicios-integradores.html",
-    "title": "8  Ejercicios integradores",
+    "title": "9  Ejercicios integradores",
     "section": "",
     "text": "Guía de dificultad",
     "crumbs": [
-      "<span class='chapter-number'>8</span>  <span class='chapter-title'>Ejercicios integradores</span>"
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Ejercicios integradores</span>"
     ]
   },
   {
     "objectID": "99-ejercicios-integradores.html#guía-de-dificultad",
     "href": "99-ejercicios-integradores.html#guía-de-dificultad",
-    "title": "8  Ejercicios integradores",
+    "title": "9  Ejercicios integradores",
     "section": "",
     "text": "Nivel\nDescripción\nTiempo estimado\n\n\n\n\n⭐\nAplica funciones directamente\n15–20 min\n\n\n⭐⭐\nRequiere combinar 2–3 conceptos\n30–45 min\n\n\n⭐⭐⭐\nDiseño experimental y análisis completo\n60–90 min",
     "crumbs": [
-      "<span class='chapter-number'>8</span>  <span class='chapter-title'>Ejercicios integradores</span>"
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Ejercicios integradores</span>"
     ]
   },
   {
     "objectID": "99-ejercicios-integradores.html#preparación-del-entorno",
     "href": "99-ejercicios-integradores.html#preparación-del-entorno",
-    "title": "8  Ejercicios integradores",
-    "section": "8.1 Preparación del entorno",
-    "text": "8.1 Preparación del entorno\n\n\nCode\nlibrary(igraph)\nlibrary(poweRlaw)",
+    "title": "9  Ejercicios integradores",
+    "section": "9.1 Preparación del entorno",
+    "text": "9.1 Preparación del entorno\n\n\nCode\nlibrary(igraph)\nlibrary(poweRlaw)",
     "crumbs": [
-      "<span class='chapter-number'>8</span>  <span class='chapter-title'>Ejercicios integradores</span>"
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Ejercicios integradores</span>"
     ]
   },
   {
     "objectID": "99-ejercicios-integradores.html#ejercicio-integrador-1-perfil-completo-de-una-red",
     "href": "99-ejercicios-integradores.html#ejercicio-integrador-1-perfil-completo-de-una-red",
-    "title": "8  Ejercicios integradores",
+    "title": "9  Ejercicios integradores",
     "section": "Ejercicio integrador 1: Perfil completo de una red ⭐⭐",
     "text": "Ejercicio integrador 1: Perfil completo de una red ⭐⭐\nCrea una función perfil_red() que reciba un grafo g y devuelva un data frame con todas las métricas que hemos aprendido:\n\nNúmero de nodos y aristas\nGrado medio, mínimo y máximo\nDensidad de aristas\nDistancia media y diámetro\nClustering global y promedio\nNúmero de componentes conectados\nTamaño del componente gigante (fracción)\n\nPrueba tu función con las siguientes cinco redes (todas de 200 nodos):\n\nErdős–Rényi con \\(p = 0.03\\)\nBarabási–Albert con \\(m = 2\\)\nSmall-world con nei = 3, \\(p = 0.05\\)\nAnillo\nEstrella\n\nPresenta los resultados en una tabla comparativa y responde: ¿cuál red tiene la mejor combinación de distancia corta y clustering alto?\n\n\n\n\n\n\nTip📝 Solución\n\n\n\n\n\nPaso 1: Definir la función.\n\n\nCode\nperfil_red &lt;- function(g) {\n  comp &lt;- components(g)\n  \n  # Eficiencia: promedio de 1/d(i,j)\n  d &lt;- distances(g)\n  n &lt;- vcount(g)\n  inv_d &lt;- ifelse(d == 0 | is.infinite(d), 0, 1 / d)\n  eficiencia &lt;- sum(inv_d) / (n * (n - 1))\n  \n  data.frame(\n    Nodos            = vcount(g),\n    Aristas          = ecount(g),\n    Grado_medio      = round(mean(degree(g)), 2),\n    Grado_min        = min(degree(g)),\n    Grado_max        = max(degree(g)),\n    Densidad         = round(edge_density(g), 4),\n    Dist_media       = round(mean_distance(g), 3),\n    Diámetro         = diameter(g),\n    C_global         = round(transitivity(g, type = \"global\"), 4),\n    C_promedio       = round(transitivity(g, type = \"average\"), 4),\n    Componentes      = comp$no,\n    Comp_gigante_pct = round(max(comp$csize) / vcount(g) * 100, 1),\n    Eficiencia       = round(eficiencia, 4)\n  )\n}\n\n\nPaso 2: Generar las redes y calcular perfiles.\n\n\nCode\nset.seed(42)\n\nredes_perfil &lt;- list(\n  \"Erdős–Rényi\"     = sample_gnp(200, 0.03),\n  \"Barabási–Albert\"  = sample_pa(200, m = 2, directed = FALSE),\n  \"Small-world\"      = sample_smallworld(1, 200, nei = 3, p = 0.05),\n  \"Anillo\"           = make_ring(200),\n  \"Estrella\"         = make_star(200, mode = \"undirected\")\n)\n\n# Calcular el perfil de cada red\nperfiles &lt;- do.call(rbind, lapply(redes_perfil, perfil_red))\nperfiles &lt;- cbind(Red = names(redes_perfil), perfiles)\nrownames(perfiles) &lt;- NULL\n\nknitr::kable(perfiles,\n             caption = \"Perfil completo de cinco topologías con 200 nodos\")\n\n\n\nPerfil completo de cinco topologías con 200 nodos\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nRed\nNodos\nAristas\nGrado_medio\nGrado_min\nGrado_max\nDensidad\nDist_media\nDiámetro\nC_global\nC_promedio\nComponentes\nComp_gigante_pct\nEficiencia\n\n\n\n\nErdős–Rényi\n200\n578\n5.78\n0\n14\n0.0290\n3.181\n6\n0.0267\n0.0270\n2\n99.5\n0.3436\n\n\nBarabási–Albert\n200\n397\n3.97\n2\n28\n0.0199\n3.586\n6\n0.0292\n0.0491\n1\n100.0\n0.3086\n\n\nSmall-world\n200\n600\n6.00\n3\n9\n0.0302\n4.253\n7\n0.4150\n0.4329\n1\n100.0\n0.2734\n\n\nAnillo\n200\n200\n2.00\n2\n2\n0.0101\n50.251\n100\n0.0000\n0.0000\n1\n100.0\n0.0521\n\n\nEstrella\n200\n199\n1.99\n1\n199\n0.0100\n1.990\n2\n0.0000\n0.0000\n1\n100.0\n0.5050\n\n\n\n\n\nInterpretación: La red small-world ofrece la mejor combinación de distancia corta y clustering alto. La estrella tiene la menor distancia media pero clustering cero. La red completa sería ideal en ambas métricas, pero requiere \\(\\binom{200}{2} = 19{,}900\\) aristas, mientras que la small-world logra un excelente balance con solo ~600.",
     "crumbs": [
-      "<span class='chapter-number'>8</span>  <span class='chapter-title'>Ejercicios integradores</span>"
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Ejercicios integradores</span>"
     ]
   },
   {
     "objectID": "99-ejercicios-integradores.html#ejercicio-integrador-2-red-social-de-una-clase",
     "href": "99-ejercicios-integradores.html#ejercicio-integrador-2-red-social-de-una-clase",
-    "title": "8  Ejercicios integradores",
+    "title": "9  Ejercicios integradores",
     "section": "Ejercicio integrador 2: Red social de una clase ⭐⭐",
     "text": "Ejercicio integrador 2: Red social de una clase ⭐⭐\nDiseña una red que represente las relaciones de colaboración en un grupo de 20 estudiantes. Las reglas son:\n\nCada estudiante tiene un nombre (invéntalos o usa paste0(\"Est_\", 1:20)).\nCada estudiante pertenece a uno de 4 equipos de proyecto (5 por equipo).\nDentro de cada equipo, todos están conectados entre sí (clique).\nEntre equipos, agrega 8 conexiones aleatorias (simulando amistades inter-equipo).\n\nCon la red construida:\n\nVisualiza la red coloreando por equipo.\nCalcula el clustering local de cada nodo. ¿Los nodos “puente” (con conexiones inter-equipo) tienen clustering diferente?\nEncuentra el nodo con mayor betweenness centrality. ¿Es un puente?\nSimula la eliminación de ese nodo. ¿Cómo cambian la distancia media y el número de componentes?\n\n\n\n\n\n\n\nNote💡 Pista 1\n\n\n\n\n\nPara crear los cliques por equipo, usa make_full_graph(5) cuatro veces y luego disjoint_union() para combinarlos. Después agrega las aristas inter-equipo con add_edges().\n\n\n\n\n\n\n\n\n\nNote💡 Pista 2\n\n\n\n\n\nLos colores por equipo se asignan fácilmente: V(g)$color &lt;- rep(c(\"tomato\", \"skyblue\", \"gold\", \"lightgreen\"), each = 5). La betweenness centrality se calcula con betweenness(g).\n\n\n\n\n\n\n\n\n\nNote💡 Pista 3 — Pseudocódigo\n\n\n\n\n\n1. set.seed(42)\n2. # Crear 4 cliques\n3. equipos &lt;- disjoint_union(make_full_graph(5), make_full_graph(5),\n4.                           make_full_graph(5), make_full_graph(5))\n5. V(equipos)$name &lt;- paste0(\"Est_\", 1:20)\n6. V(equipos)$equipo &lt;- rep(1:4, each = 5)\n7. V(equipos)$color &lt;- rep(c(\"tomato\",\"skyblue\",\"gold\",\"lightgreen\"), each=5)\n8. \n9. # Agregar 8 conexiones inter-equipo aleatorias\n10. for (k in 1:8) {\n11.   e1 &lt;- sample(1:5, 1) + (sample(0:3, 1) * 5)\n12.   e2 &lt;- sample(1:5, 1) + (sample(0:3, 1) * 5)\n13.   while (V(equipos)$equipo[e1] == V(equipos)$equipo[e2]) {\n14.     e2 &lt;- sample(1:5, 1) + (sample(0:3, 1) * 5)\n15.   }\n16.   equipos &lt;- add_edges(equipos, c(e1, e2))\n17. }\n18. \n19. plot(equipos)\n20. betweenness(equipos)\n21. transitivity(equipos, type = \"local\")",
     "crumbs": [
-      "<span class='chapter-number'>8</span>  <span class='chapter-title'>Ejercicios integradores</span>"
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Ejercicios integradores</span>"
     ]
   },
   {
     "objectID": "99-ejercicios-integradores.html#ejercicio-integrador-3-epidemia-en-tres-topologías",
     "href": "99-ejercicios-integradores.html#ejercicio-integrador-3-epidemia-en-tres-topologías",
-    "title": "8  Ejercicios integradores",
+    "title": "9  Ejercicios integradores",
     "section": "Ejercicio integrador 3: Epidemia en tres topologías ⭐⭐⭐",
     "text": "Ejercicio integrador 3: Epidemia en tres topologías ⭐⭐⭐\nSimula una epidemia SIR (Susceptible → Infectado → Recuperado) simplificada en tres tipos de red con 500 nodos: ER (\\(p = 0.01\\)), BA (\\(m = 2\\)) y small-world (nei = 3, \\(p = 0.1\\)).\nReglas de la epidemia (por ronda):\n\nComienza con 1 nodo infectado al azar.\nCada nodo infectado contagia a cada vecino susceptible con probabilidad \\(\\beta = 0.3\\).\nCada nodo infectado se recupera (y se vuelve inmune) con probabilidad \\(\\gamma = 0.1\\).\nLa epidemia termina cuando no quedan infectados.\n\nTareas:\n\nImplementa la simulación como una función simular_sir(g, beta, gamma, semilla).\nEjecuta 20 realizaciones por red. Registra el número final de recuperados (= total de infectados acumulados).\nPresenta boxplots del total de infectados por tipo de red.\n¿En qué red se propaga más rápido la epidemia? ¿En cuál infecta a más personas en total?\nRelaciona los resultados con las métricas de distancia y clustering de cada red.\n\n\n\n\n\n\n\nNote💡 Pista 1\n\n\n\n\n\nUsa tres vectores de estado: S, I, R (lógicos o numéricos). En cada ronda, para cada infectado, recorre sus vecinos con neighbors(g, v) y contagia con rbinom(1, 1, beta).\n\n\n\n\n\n\n\n\n\nNote💡 Pista 2\n\n\n\n\n\nEstructura de la función:\nsimular_sir &lt;- function(g, beta = 0.3, gamma = 0.1, semilla = 42) {\n  set.seed(semilla)\n  n &lt;- vcount(g)\n  estado &lt;- rep(\"S\", n)  # S, I, R\n  paciente_cero &lt;- sample(1:n, 1)\n  estado[paciente_cero] &lt;- \"I\"\n  historial &lt;- data.frame(ronda = 0, S = n-1, I = 1, R = 0)\n  \n  while (sum(estado == \"I\") &gt; 0) {\n    # ... contagio y recuperación ...\n  }\n  historial\n}\n\n\n\n\n\n\n\n\n\nNote💡 Pista 3 — Pseudocódigo\n\n\n\n\n\nPara cada ronda mientras haya infectados:\n  1. nuevos_infectados &lt;- c()\n  2. Para cada nodo infectado v:\n     a) Para cada vecino u de v:\n        - Si u es susceptible y runif(1) &lt; beta:\n          nuevos_infectados &lt;- c(nuevos_infectados, u)\n     b) Si runif(1) &lt; gamma: estado[v] &lt;- \"R\"\n  3. estado[nuevos_infectados] &lt;- \"I\"\n  4. Registrar conteos S, I, R\nLa red BA debería propagar más rápido (distancia corta, hubs actúan como super-propagadores). La small-world debería alcanzar más personas en total (clustering alto = propagación local eficiente + atajos para propagación global).",
     "crumbs": [
-      "<span class='chapter-number'>8</span>  <span class='chapter-title'>Ejercicios integradores</span>"
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Ejercicios integradores</span>"
     ]
   },
   {
     "objectID": "99-ejercicios-integradores.html#ejercicio-integrador-4-análisis-de-robustez-comparativo-completo",
     "href": "99-ejercicios-integradores.html#ejercicio-integrador-4-análisis-de-robustez-comparativo-completo",
-    "title": "8  Ejercicios integradores",
+    "title": "9  Ejercicios integradores",
     "section": "Ejercicio integrador 4: Análisis de robustez comparativo completo ⭐⭐⭐",
     "text": "Ejercicio integrador 4: Análisis de robustez comparativo completo ⭐⭐⭐\nRealiza un análisis de robustez exhaustivo de tres redes de 300 nodos: ER (\\(p = 0.02\\)), BA (\\(m = 2\\)) y small-world (nei = 3, \\(p = 0.1\\)).\nTareas:\n\nPara cada red, ejecuta:\n\n10 simulaciones de fallos aleatorios (eliminando hasta el 50% de nodos).\n1 simulación de ataque dirigido por grado (determinista).\n1 simulación de ataque dirigido por betweenness.\n\nGenera un panel de 6 gráficos (3 redes × 2 escenarios: fallo vs. ataque) mostrando la evolución del componente gigante. Para los fallos, incluye la media y la banda de ± 1 DE.\nCalcula el “índice de robustez” \\(R\\) (área bajo la curva del componente gigante) para cada escenario y presenta una tabla resumen.\nRedacta un párrafo de conclusiones comparando las tres topologías.\n\n\n\n\n\n\n\nNote💡 Pista 1\n\n\n\n\n\nEl índice \\(R\\) se calcula como el área bajo la curva del componente gigante vs. fracción eliminada. Usa la regla del trapecio:\nindice_R &lt;- function(x, y) {\n  sum(diff(x) * (y[-length(y)] + y[-1]) / 2)\n}\nUn \\(R = 0.5\\) corresponde a una degradación lineal; \\(R &gt; 0.5\\) indica robustez; \\(R &lt; 0.5\\) indica fragilidad.\n\n\n\n\n\n\n\n\n\nNote💡 Pista 2\n\n\n\n\n\nPara el panel de 6 gráficos, usa par(mfrow = c(2, 3)). Fila superior: fallos aleatorios. Fila inferior: ataques. Columnas: ER, BA, SW.",
     "crumbs": [
-      "<span class='chapter-number'>8</span>  <span class='chapter-title'>Ejercicios integradores</span>"
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Ejercicios integradores</span>"
     ]
   },
   {
     "objectID": "99-ejercicios-integradores.html#ejercicio-integrador-5-red-de-ingredientes",
     "href": "99-ejercicios-integradores.html#ejercicio-integrador-5-red-de-ingredientes",
-    "title": "8  Ejercicios integradores",
+    "title": "9  Ejercicios integradores",
     "section": "Ejercicio integrador 5: Red de ingredientes ⭐⭐",
     "text": "Ejercicio integrador 5: Red de ingredientes ⭐⭐\nDiseña una red donde los nodos representen 15 ingredientes de cocina mexicana y las aristas indiquen que dos ingredientes aparecen juntos en al menos una receta.\nIngredientes sugeridos: chile, tomate, cebolla, ajo, cilantro, limón, aguacate, frijol, maíz, queso, crema, pollo, arroz, tortilla, sal.\nTareas:\n\nDefine las conexiones manualmente con graph_from_literal() basándote en recetas reales (salsa mexicana, guacamole, tacos, enchiladas, arroz rojo, etc.).\nVisualiza la red con tamaño de nodo proporcional al grado.\n¿Cuál es el ingrediente más “central” (mayor grado)? ¿Coincide con tu intuición culinaria?\nCalcula la distancia media. ¿Los ingredientes están “cerca” unos de otros?\nIdentifica si hay comunidades usando cluster_louvain() o cluster_walktrap(). ¿Las comunidades corresponden a tipos de ingrediente (proteínas, vegetales, condimentos)?\nElimina el ingrediente más conectado. ¿Cómo cambia la estructura de la red?\n\n\n\n\n\n\n\nNote💡 Pista 1\n\n\n\n\n\nUn ejemplo de definición:\ng &lt;- graph_from_literal(\n  chile -- tomate, chile -- cebolla, chile -- ajo,\n  tomate -- cebolla, tomate -- cilantro, tomate -- limón,\n  aguacate -- limón, aguacate -- cilantro, aguacate -- tomate, aguacate -- sal,\n  # ... continuar con más recetas\n)\n\n\n\n\n\n\n\n\n\nNote💡 Pista 2\n\n\n\n\n\nPara detectar comunidades: com &lt;- cluster_walktrap(g) y luego membership(com) te da el grupo de cada nodo. Colorea con V(g)$color &lt;- membership(com).",
     "crumbs": [
-      "<span class='chapter-number'>8</span>  <span class='chapter-title'>Ejercicios integradores</span>"
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Ejercicios integradores</span>"
     ]
   },
   {
     "objectID": "99-ejercicios-integradores.html#ejercicio-integrador-6-construir-desde-archivo",
     "href": "99-ejercicios-integradores.html#ejercicio-integrador-6-construir-desde-archivo",
-    "title": "8  Ejercicios integradores",
+    "title": "9  Ejercicios integradores",
     "section": "Ejercicio integrador 6: Construir desde archivo ⭐⭐",
     "text": "Ejercicio integrador 6: Construir desde archivo ⭐⭐\nCrea dos archivos CSV: uno de nodos y otro de aristas para representar una red de colaboración entre 12 investigadores.\nArchivo nodos.csv:\n\n\n\nid\nnombre\ndepartamento\npublicaciones\n\n\n\n\n1\nAna\nBiología\n15\n\n\n2\nBeto\nFísica\n22\n\n\n…\n…\n…\n…\n\n\n\nArchivo aristas.csv:\n\n\n\nfrom\nto\npeso\n\n\n\n\n1\n2\n3\n\n\n1\n5\n1\n\n\n…\n…\n…\n\n\n\nTareas:\n\nCrea ambos archivos con write.csv() y léelos con read.csv().\nConstruye la red con graph_from_data_frame(d = aristas, vertices = nodos, directed = FALSE).\nLimpia la red con simplify().\nVisualiza con tamaño proporcional a publicaciones y color por departamento.\nCalcula el perfil completo (usa perfil_red() del Ejercicio 1 si lo resolviste).\n¿Quién es el investigador más central por betweenness? ¿Conecta departamentos diferentes?\n\n\n\n\n\n\n\nNote💡 Pista 1\n\n\n\n\n\nDiseña la red pensando en que las colaboraciones inter-departamento sean menos frecuentes que las intra-departamento. Así la detección de comunidades debería encontrar los departamentos.",
     "crumbs": [
-      "<span class='chapter-number'>8</span>  <span class='chapter-title'>Ejercicios integradores</span>"
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Ejercicios integradores</span>"
     ]
   },
   {
     "objectID": "99-ejercicios-integradores.html#ejercicio-integrador-7-power-law-en-el-mundo-real",
     "href": "99-ejercicios-integradores.html#ejercicio-integrador-7-power-law-en-el-mundo-real",
-    "title": "8  Ejercicios integradores",
+    "title": "9  Ejercicios integradores",
     "section": "Ejercicio integrador 7: Power-law en el mundo real ⭐⭐⭐",
     "text": "Ejercicio integrador 7: Power-law en el mundo real ⭐⭐⭐\nGenera una red BA de 5000 nodos con \\(m = 2\\). Realiza un análisis completo de su distribución de grado:\n\nHistograma de grado con ejes lineales.\nHistograma con eje y logarítmico.\nGráfico log-log de la distribución de grado (CCDF).\nAjuste de ley de potencia con poweRlaw: reporta \\(\\gamma\\) y \\(x_{\\min}\\).\nSuperpón el ajuste sobre el gráfico CCDF.\nCompara con una red ER del mismo tamaño: ¿el ajuste power-law tiene sentido para la red ER?\nIdentifica los 20 hubs principales. ¿Qué fracción de las aristas totales concentran?\nElimina los 20 hubs y recalcula la distribución de grado. ¿Sigue siendo power-law?\n\n\n\n\n\n\n\nNote💡 Pista 1\n\n\n\n\n\nPara la fracción de aristas de los hubs: sum(degree(g)[top_20]) / (2 * ecount(g)). Se divide entre \\(2m\\) porque cada arista contribuye al grado de dos nodos (posible sobreconteo si los hubs están conectados entre sí).\n\n\n\n\n\n\n\n\n\nNote💡 Pista 2\n\n\n\n\n\nDespués de eliminar los hubs, la cola de la distribución debería “recortarse” pero el cuerpo debería seguir mostrando un patrón power-law con un \\(x_{\\min}\\) diferente. Las redes BA son scale-free en su estructura, no solo en unos pocos nodos.",
     "crumbs": [
-      "<span class='chapter-number'>8</span>  <span class='chapter-title'>Ejercicios integradores</span>"
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Ejercicios integradores</span>"
     ]
   },
   {
     "objectID": "99-ejercicios-integradores.html#ejercicio-integrador-8-diseña-tu-propia-red",
     "href": "99-ejercicios-integradores.html#ejercicio-integrador-8-diseña-tu-propia-red",
-    "title": "8  Ejercicios integradores",
+    "title": "9  Ejercicios integradores",
     "section": "Ejercicio integrador 8: Diseña tu propia red ⭐⭐⭐",
     "text": "Ejercicio integrador 8: Diseña tu propia red ⭐⭐⭐\nElige un sistema real que te interese (ejemplos: red de transporte de tu ciudad, red de personajes de una serie/película, red de interacciones en un ecosistema, red de citas entre artículos científicos) y modélalo como una red.\nRequisitos mínimos del análisis:\n\nConstrucción: Al menos 20 nodos y aristas definidas con sentido.\nVisualización: Red con atributos visuales (color, tamaño, etiquetas).\nMétricas básicas: Grado, distancia media, diámetro, clustering.\nDistribución de grado: Histograma y gráfico log-log.\nComunidades: Detección con al menos un algoritmo.\nRobustez: Simulación de fallo aleatorio y ataque dirigido.\nInterpretación: Para cada métrica, explica qué significa en el contexto de tu sistema real.\n\n\n\n\n\n\n\nNote💡 Pista 1\n\n\n\n\n\nSi no sabes qué sistema elegir, estas son opciones accesibles:\n\nRed de personajes de Harry Potter: Nodos = personajes, aristas = aparecen juntos en una escena.\nRed de metro/transporte: Nodos = estaciones, aristas = líneas directas.\nRed de playlist: Nodos = canciones, aristas = aparecen en la misma playlist.\nRed de ingredientes: Similar al Ejercicio 5 pero con tu cocina favorita.\n\n\n\n\n\n\n\n\n\n\nNote💡 Pista 2\n\n\n\n\n\nEstructura sugerida del reporte:\n## 1. Descripción del sistema\n## 2. Construcción de la red\n## 3. Visualización\n## 4. Análisis de métricas\n## 5. Distribución de grado\n## 6. Detección de comunidades\n## 7. Análisis de robustez\n## 8. Conclusiones",
     "crumbs": [
-      "<span class='chapter-number'>8</span>  <span class='chapter-title'>Ejercicios integradores</span>"
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Ejercicios integradores</span>"
     ]
   },
   {
     "objectID": "99-ejercicios-integradores.html#rúbrica-de-autoevaluación-general",
     "href": "99-ejercicios-integradores.html#rúbrica-de-autoevaluación-general",
-    "title": "8  Ejercicios integradores",
+    "title": "9  Ejercicios integradores",
     "section": "Rúbrica de autoevaluación general",
     "text": "Rúbrica de autoevaluación general\nUsa esta rúbrica para evaluar tus soluciones a los ejercicios integradores:\n\nRúbrica de autoevaluación\n\n\n\n\n\n\n\n\nCriterio\nExcelente (3)\nAdecuado (2)\nNecesita mejora (1)\n\n\n\n\nCódigo\nFunciona sin errores, bien comentado, usa funciones reutilizables\nFunciona con ajustes menores, comentarios parciales\nTiene errores o no es reproducible\n\n\nVisualización\nGráficos claros con títulos, ejes etiquetados y leyenda\nGráficos legibles pero incompletos en etiquetado\nGráficos difíciles de interpretar\n\n\nInterpretación\nConecta resultados numéricos con el contexto del problema\nInterpreta parcialmente\nSolo muestra números sin explicación\n\n\nIntegración\nCombina ≥ 3 conceptos del libro de forma coherente\nCombina 2 conceptos\nAplica conceptos de forma aislada",
     "crumbs": [
-      "<span class='chapter-number'>8</span>  <span class='chapter-title'>Ejercicios integradores</span>"
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Ejercicios integradores</span>"
     ]
   }
 ]

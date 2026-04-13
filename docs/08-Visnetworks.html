@@ -6,10 +6,8 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="author" content="Roberto Alvarez">
-<meta name="dcterms.date" content="2026-04-12">
 
-<title>Análisis de redes en R</title>
+<title>8&nbsp; VisNetwork – Análisis de redes en R</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -67,7 +65,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./01-fundamentos-igraph.html" rel="next">
+<link href="./99-ejercicios-integradores.html" rel="next">
+<link href="./07-comunidades.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="site_libs/quarto-html/axe/axe-check.js" type="module"></script>
@@ -111,6 +110,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   }
 }</script>
 <style>html{ scroll-behavior: smooth; }</style>
+<script src="site_libs/htmlwidgets-1.6.4/htmlwidgets.js"></script>
+<link href="site_libs/vis-9.1.0/vis-network.min.css" rel="stylesheet">
+<script src="site_libs/vis-9.1.0/vis-network.min.js"></script>
+<script src="site_libs/visNetwork-binding-2.1.4/visNetwork.js"></script>
 
 
 </head>
@@ -286,7 +289,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./index.html">Prefacio</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./08-Visnetworks.html"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">VisNetwork</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -318,7 +321,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./index.html" class="sidebar-item-text sidebar-link active">
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Prefacio</span></a>
   </div>
 </li>
@@ -366,7 +369,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./08-Visnetworks.html" class="sidebar-item-text sidebar-link">
+  <a href="./08-Visnetworks.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">VisNetwork</span></span></a>
   </div>
 </li>
@@ -387,23 +390,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </nav>
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        <nav id="TOC" role="doc-toc" class="toc-active">
-    <h2 id="toc-title">Table of contents</h2>
-   
-  <ul>
-  <li><a href="#prefacio" id="toc-prefacio" class="nav-link active" data-scroll-target="#prefacio">Prefacio</a>
-  <ul class="collapse">
-  <li><a href="#para-quién-es-este-libro" id="toc-para-quién-es-este-libro" class="nav-link" data-scroll-target="#para-quién-es-este-libro">¿Para quién es este libro?</a></li>
-  <li><a href="#qué-vas-a-aprender" id="toc-qué-vas-a-aprender" class="nav-link" data-scroll-target="#qué-vas-a-aprender">¿Qué vas a aprender?</a></li>
-  <li><a href="#estructura-del-libro" id="toc-estructura-del-libro" class="nav-link" data-scroll-target="#estructura-del-libro">Estructura del libro</a></li>
-  <li><a href="#prerrequisitos" id="toc-prerrequisitos" class="nav-link" data-scroll-target="#prerrequisitos">Prerrequisitos</a></li>
-  <li><a href="#paquetes-necesarios" id="toc-paquetes-necesarios" class="nav-link" data-scroll-target="#paquetes-necesarios">Paquetes necesarios</a></li>
-  <li><a href="#convenciones-del-libro" id="toc-convenciones-del-libro" class="nav-link" data-scroll-target="#convenciones-del-libro">Convenciones del libro</a></li>
-  <li><a href="#cómo-usar-este-libro" id="toc-cómo-usar-este-libro" class="nav-link" data-scroll-target="#cómo-usar-este-libro">Cómo usar este libro</a></li>
-  </ul></li>
-  </ul>
-</nav>
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
+        
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -411,34 +399,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<div class="quarto-title-block"><div><h1 class="title">Análisis de redes en R</h1><button type="button" class="btn code-tools-button dropdown-toggle" id="quarto-code-tools-menu" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi"></i> Code</button><ul class="dropdown-menu dropdown-menu-end" aria-labelelledby="quarto-code-tools-menu"><li><a id="quarto-show-all-code" class="dropdown-item" href="javascript:void(0)" role="button">Show All Code</a></li><li><a id="quarto-hide-all-code" class="dropdown-item" href="javascript:void(0)" role="button">Hide All Code</a></li><li><hr class="dropdown-divider"></li><li><a id="quarto-view-source" class="dropdown-item" href="javascript:void(0)" role="button">View Source</a></li></ul></div></div>
-<p class="subtitle lead">Un enfoque práctico y didáctico</p>
+<div class="quarto-title-block"><div><h1 class="title"><span id="Visnetwork" class="quarto-section-identifier"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">VisNetwork</span></span></h1><button type="button" class="btn code-tools-button dropdown-toggle" id="quarto-code-tools-menu" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi"></i> Code</button><ul class="dropdown-menu dropdown-menu-end" aria-labelelledby="quarto-code-tools-menu"><li><a id="quarto-show-all-code" class="dropdown-item" href="javascript:void(0)" role="button">Show All Code</a></li><li><a id="quarto-hide-all-code" class="dropdown-item" href="javascript:void(0)" role="button">Hide All Code</a></li><li><hr class="dropdown-divider"></li><li><a id="quarto-view-source" class="dropdown-item" href="javascript:void(0)" role="button">View Source</a></li></ul></div></div>
 </div>
 
 
-<div class="quarto-title-meta-author">
-  <div class="quarto-title-meta-heading">Author</div>
-  <div class="quarto-title-meta-heading">Affiliation</div>
-  
-    <div class="quarto-title-meta-contents">
-    <p class="author"><a href="https://sites.google.com/view/robertolvarezmartinez/página-principal">Roberto Alvarez</a> <a href="mailto:roberto.alvarez@uaq.mx" class="quarto-title-author-email"><i class="bi bi-envelope"></i></a> <a href="https://orcid.org/0000-0002-0821-0067" class="quarto-title-author-orcid"> <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA2ZpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDo1N0NEMjA4MDI1MjA2ODExOTk0QzkzNTEzRjZEQTg1NyIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDozM0NDOEJGNEZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDozM0NDOEJGM0ZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ1M1IE1hY2ludG9zaCI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOkZDN0YxMTc0MDcyMDY4MTE5NUZFRDc5MUM2MUUwNEREIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjU3Q0QyMDgwMjUyMDY4MTE5OTRDOTM1MTNGNkRBODU3Ii8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+84NovQAAAR1JREFUeNpiZEADy85ZJgCpeCB2QJM6AMQLo4yOL0AWZETSqACk1gOxAQN+cAGIA4EGPQBxmJA0nwdpjjQ8xqArmczw5tMHXAaALDgP1QMxAGqzAAPxQACqh4ER6uf5MBlkm0X4EGayMfMw/Pr7Bd2gRBZogMFBrv01hisv5jLsv9nLAPIOMnjy8RDDyYctyAbFM2EJbRQw+aAWw/LzVgx7b+cwCHKqMhjJFCBLOzAR6+lXX84xnHjYyqAo5IUizkRCwIENQQckGSDGY4TVgAPEaraQr2a4/24bSuoExcJCfAEJihXkWDj3ZAKy9EJGaEo8T0QSxkjSwORsCAuDQCD+QILmD1A9kECEZgxDaEZhICIzGcIyEyOl2RkgwAAhkmC+eAm0TAAAAABJRU5ErkJggg=="></a></p>
-  </div>
-  <div class="quarto-title-meta-contents">
-        <p class="affiliation">
-            Laboratorio de Biología Cuantitativa y Sistemas Complejos, Universidad Autónoma de Querétaro
-          </p>
-      </div>
-  </div>
 
 <div class="quarto-title-meta">
 
-      
-    <div>
-    <div class="quarto-title-meta-heading">Published</div>
-    <div class="quarto-title-meta-contents">
-      <p class="date">April 12, 2026</p>
-    </div>
-  </div>
+    
   
     
   </div>
@@ -448,182 +416,59 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<section id="prefacio" class="level1 unnumbered">
-<h1 class="unnumbered">Prefacio</h1>
-<p>Bienvenido a <strong>Análisis de redes en R</strong>, un libro diseñado para que aprendas, de forma práctica y progresiva, los fundamentos del análisis de redes complejas utilizando el lenguaje R y el paquete <code>igraph</code> y otros como <code>visNetwork</code> .</p>
-<section id="para-quién-es-este-libro" class="level2 unnumbered">
-<h2 class="unnumbered anchored" data-anchor-id="para-quién-es-este-libro">¿Para quién es este libro?</h2>
-<p>Este material está pensado para <strong>estudiantes universitarios</strong> de ciencias, ingeniería o áreas afines que deseen comprender cómo modelar, analizar y visualizar sistemas conectados: desde redes sociales y biológicas hasta infraestructuras tecnológicas. No se requieren conocimientos previos en teoría de grafos, pero sí es útil tener una base en estadística descriptiva y programación en R.</p>
-</section>
-<section id="qué-vas-a-aprender" class="level2 unnumbered">
-<h2 class="unnumbered anchored" data-anchor-id="qué-vas-a-aprender">¿Qué vas a aprender?</h2>
-<div class="callout callout-style-simple callout-note callout-titled" title="🎯 Objetivos generales del libro">
+<div class="callout callout-style-simple callout-note callout-titled" title="🎯 Objetivos de aprendizaje">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>🎯 Objetivos generales del libro
+<span class="screen-reader-only">Note</span>🎯 Objetivos de aprendizaje
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Al finalizar estas notas serás capaz de:</p>
+<p>Al finalizar este capítulo serás capaz de:</p>
 <ol type="1">
-<li><strong>Crear y manipular</strong> redes (grafos) en R usando <code>igraph</code>.</li>
-<li><strong>Calcular e interpretar</strong> métricas fundamentales: grado, distancia, clustering y centralidad.</li>
-<li><strong>Distinguir</strong> modelos de redes (Erdős–Rényi, Barabási–Albert, <em>small-world</em>) y sus propiedades.</li>
-<li><strong>Evaluar</strong> la robustez de una red ante fallos aleatorios y ataques dirigidos.</li>
-<li><strong>Comunicar</strong> hallazgos mediante visualizaciones claras y reproducibles.</li>
+<li><strong>Generar </strong> redes interactivas usando la librería <code>visNetwork</code></li>
+<li><strong>Generar</strong> redes con los modelos Erdős–Rényi (ER) y Barabási–Albert (BA) en <code>igraph</code>.</li>
+<li><strong>Visualizar y comparar</strong> distribuciones de grado usando histogramas y gráficos log-log.</li>
+<li><strong>Ajustar</strong> una ley de potencia a datos de grado con el paquete <code>poweRlaw</code>.</li>
+<li><strong>Identificar</strong> <em>hubs</em> (nodos altamente conectados) y explicar su importancia en la estructura de la red.</li>
 </ol>
 </div>
 </div>
-</section>
-<section id="estructura-del-libro" class="level2 unnumbered">
-<h2 class="unnumbered anchored" data-anchor-id="estructura-del-libro">Estructura del libro</h2>
-<table class="table-striped table-hover caption-top table">
-<caption>Mapa del libro</caption>
-<colgroup>
-<col style="width: 32%">
-<col style="width: 19%">
-<col style="width: 48%">
-</colgroup>
-<thead>
-<tr class="header">
-<th style="text-align: center;">Capítulo</th>
-<th>Tema</th>
-<th>Pregunta guía</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: center;">1</td>
-<td>Fundamentos de igraph</td>
-<td>¿Cómo se construye y representa una red en R?</td>
-</tr>
-<tr class="even">
-<td style="text-align: center;">2</td>
-<td>Grado y distribuciones</td>
-<td>¿Por qué algunas redes tienen “superhubs” y otras no?</td>
-</tr>
-<tr class="odd">
-<td style="text-align: center;">3</td>
-<td>Distancias y eficiencia</td>
-<td>¿Qué tan fácil es ir de un punto a otro en una red?</td>
-</tr>
-<tr class="even">
-<td style="text-align: center;">4</td>
-<td>Clustering y transitividad</td>
-<td>¿Los amigos de tus amigos son tus amigos?</td>
-</tr>
-<tr class="odd">
-<td style="text-align: center;">5</td>
-<td>Robustez de redes</td>
-<td>¿Qué pasa si falla un nodo crítico?</td>
-</tr>
-<tr class="even">
-<td style="text-align: center;">Integradores</td>
-<td>Ejercicios finales</td>
-<td>¿Puedes analizar una red completa de principio a fin?</td>
-</tr>
-</tbody>
-</table>
-</section>
-<section id="prerrequisitos" class="level2 unnumbered">
-<h2 class="unnumbered anchored" data-anchor-id="prerrequisitos">Prerrequisitos</h2>
-<div class="callout callout-style-simple callout-important callout-titled" title="🔑 Antes de empezar necesitas">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Important</span>🔑 Antes de empezar necesitas
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<ul>
-<li><strong>R</strong> (versión ≥ 4.1) y <strong>RStudio</strong> instalados.</li>
-<li>Conocimientos básicos de R: vectores, funciones, gráficos con <code>plot()</code>.</li>
-<li>Nociones elementales de estadística descriptiva (media, varianza, histogramas).</li>
-<li>Familiaridad básica con álgebra de matrices (útil, pero no indispensable).</li>
-</ul>
-</div>
-</div>
-</section>
-<section id="paquetes-necesarios" class="level2 unnumbered">
-<h2 class="unnumbered anchored" data-anchor-id="paquetes-necesarios">Paquetes necesarios</h2>
-<p>Ejecuta el siguiente bloque para instalar todos los paquetes que usaremos a lo largo del libro:</p>
+<p>visNetwork es una librería de R que permite crear visualizaciones interactivas de redes basado en la biblioteca de javascript <strong>vis.js</strong> Es especialmente útil para representar relaciones entre entidades, como conexiones entre personas, organizaciones o cualquier tipo de nodos y enlaces. A continuación, se muestra un ejemplo básico de cómo usar <code>visNetwork</code> para crear una red simple.</p>
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a>paquetes <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"igraph"</span>, <span class="st">"tidyverse"</span>, <span class="st">"poweRlaw"</span>, <span class="st">"gt"</span>, <span class="st">"knitr"</span>)</span>
-<span id="cb1-2"><a href="#cb1-2"></a></span>
-<span id="cb1-3"><a href="#cb1-3"></a><span class="co"># Instalar solo los que no tengas</span></span>
-<span id="cb1-4"><a href="#cb1-4"></a>nuevos <span class="ot">&lt;-</span> paquetes[<span class="sc">!</span>(paquetes <span class="sc">%in%</span> <span class="fu">installed.packages</span>()[, <span class="st">"Package"</span>])]</span>
-<span id="cb1-5"><a href="#cb1-5"></a><span class="cf">if</span> (<span class="fu">length</span>(nuevos)) <span class="fu">install.packages</span>(nuevos)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="co"># Instalar y cargar la librería visNetwork</span></span>
+<span id="cb1-2"><a href="#cb1-2"></a><span class="co"># install.packages("visNetwork")</span></span>
+<span id="cb1-3"><a href="#cb1-3"></a><span class="fu">library</span>(visNetwork)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 </div>
-</section>
-<section id="convenciones-del-libro" class="level2 unnumbered">
-<h2 class="unnumbered anchored" data-anchor-id="convenciones-del-libro">Convenciones del libro</h2>
-<p>A lo largo del texto encontrarás estos bloques informativos:</p>
-<div class="callout callout-style-simple callout-tip callout-titled" title="💡 Concepto clave">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Tip</span>💡 Concepto clave
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>Resalta un concepto o idea fundamental que debes recordar.</p>
-</div>
-</div>
-<div class="callout callout-style-simple callout-warning callout-titled" title="⚠️ Error frecuente">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Warning</span>⚠️ Error frecuente
+<p><strong>visNetwork</strong> requiere de al menos, como cualquier red, de dos elementos:</p>
+<ul>
+<li><strong>Nodos</strong>: Representan las entidades en la red. Cada nodo puede tener atributos como un identificador, una etiqueta, un grupo, etc.</li>
+<li><strong>Enlaces</strong>: Representan las conexiones entre los nodos. Cada enlace puede tener</li>
+</ul>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a><span class="co"># Crear un data frame de nodos</span></span>
+<span id="cb2-2"><a href="#cb2-2"></a>nodes <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">id =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>)</span>
+<span id="cb2-3"><a href="#cb2-3"></a><span class="co"># Crear un data frame de conexiones</span></span>
+<span id="cb2-4"><a href="#cb2-4"></a>edges <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">from =</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">5</span>), <span class="at">to =</span> <span class="fu">c</span>(<span class="dv">3</span>,<span class="dv">4</span>,<span class="dv">5</span>))</span>
+<span id="cb2-5"><a href="#cb2-5"></a><span class="fu">visNetwork</span>(nodes, edges, <span class="at">width =</span> <span class="st">"100%"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<div id="htmlwidget-d8a33d34b279e13af270" style="width:100%;height:480px;" class="visNetwork html-widget"></div>
+<script type="application/json" data-for="htmlwidget-d8a33d34b279e13af270">{"x":{"nodes":{"id":[1,2,3,4,5]},"edges":{"from":[1,2,5],"to":[3,4,5]},"nodesToDataframe":true,"edgesToDataframe":true,"options":{"width":"100%","height":"100%","nodes":{"shape":"dot"},"manipulation":{"enabled":false}},"groups":null,"width":"100%","height":null,"idselection":{"enabled":false},"byselection":{"enabled":false},"main":null,"submain":null,"footer":null,"background":"rgba(0, 0, 0, 0)"},"evals":[],"jsHooks":[]}</script>
 </div>
 </div>
-<div class="callout-body-container callout-body">
-<p>Señala errores comunes que cometen lxs estudiantes y cómo evitarlos.</p>
-</div>
-</div>
-<div class="callout callout-style-simple callout-note callout-titled" title="💡 Pista">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-5-contents" aria-controls="callout-5" aria-expanded="false" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>💡 Pista
-</div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
-</div>
-<div id="callout-5" class="callout-5-contents callout-collapse collapse">
-<div class="callout-body-container callout-body">
-<p>Pistas progresivas para resolver ejercicios. Haz clic para expandir.</p>
-</div>
-</div>
-</div>
-</section>
-<section id="cómo-usar-este-libro" class="level2 unnumbered">
-<h2 class="unnumbered anchored" data-anchor-id="cómo-usar-este-libro">Cómo usar este libro</h2>
-<ol type="1">
-<li><strong>Lee la teoría</strong> y ejecuta los ejemplos en tu sesión de R.</li>
-<li><strong>Intenta los ejercicios</strong> antes de ver las soluciones o pistas.</li>
-<li><strong>Experimenta</strong>: modifica parámetros, cambia redes, rompe cosas.</li>
-<li>Al final de cada capítulo, responde la <strong>autoevaluación</strong> para verificar tu comprensión.</li>
-</ol>
-<p>¡Comencemos!</p>
+<p>En este ejemplo, hemos creado una red con 5 nodos y 3 conexiones entre ellos. La función <code>visNetwork()</code> toma los data frames de nodos y enlaces como argumentos y genera una visualización interactiva de la red. Puedes personalizar la apariencia de los nodos y enlaces utilizando diferentes atributos, como colores, tamaños, etiquetas, etc.</p>
 
 
 <!-- -->
 
-</section>
-</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
@@ -1092,94 +937,55 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
+      <a href="./07-comunidades.html" class="pagination-link" aria-label="Detección de comunidades">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Detección de comunidades</span></span>
+      </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./01-fundamentos-igraph.html" class="pagination-link" aria-label="Fundamentos de igraph">
-        <span class="nav-page-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Fundamentos de igraph</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./99-ejercicios-integradores.html" class="pagination-link" aria-label="Ejercicios integradores">
+        <span class="nav-page-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Ejercicios integradores</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Source Code</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2" data-shortcodes="false"><pre class="sourceCode numberSource markdown number-lines code-with-copy"><code class="sourceCode markdown"><span id="cb2-1"><a href="#cb2-1"></a><span class="fu"># Prefacio {.unnumbered}</span></span>
-<span id="cb2-2"><a href="#cb2-2"></a></span>
-<span id="cb2-3"><a href="#cb2-3"></a>Bienvenido a **Análisis de redes  en R**, un libro diseñado para que aprendas, de forma práctica y progresiva, los fundamentos del análisis de redes complejas utilizando el lenguaje R y el paquete <span class="in">`igraph`</span> y otros como <span class="in">`visNetwork`</span> .</span>
-<span id="cb2-4"><a href="#cb2-4"></a></span>
-<span id="cb2-5"><a href="#cb2-5"></a><span class="fu">## ¿Para quién es este libro? {.unnumbered}</span></span>
-<span id="cb2-6"><a href="#cb2-6"></a></span>
-<span id="cb2-7"><a href="#cb2-7"></a>Este material está pensado para **estudiantes universitarios** de ciencias, ingeniería o áreas afines que deseen comprender cómo modelar, analizar y visualizar sistemas conectados: desde redes sociales y biológicas hasta infraestructuras tecnológicas. No se requieren conocimientos previos en teoría de grafos, pero sí es útil tener una base en estadística descriptiva y programación en R.</span>
-<span id="cb2-8"><a href="#cb2-8"></a></span>
-<span id="cb2-9"><a href="#cb2-9"></a><span class="fu">## ¿Qué vas a aprender? {.unnumbered}</span></span>
-<span id="cb2-10"><a href="#cb2-10"></a></span>
-<span id="cb2-11"><a href="#cb2-11"></a>::: {.callout-note title="🎯 Objetivos generales del libro"}</span>
-<span id="cb2-12"><a href="#cb2-12"></a>Al finalizar estas notas serás capaz de:</span>
-<span id="cb2-13"><a href="#cb2-13"></a></span>
-<span id="cb2-14"><a href="#cb2-14"></a><span class="ss">1. </span>**Crear y manipular** redes (grafos) en R usando <span class="in">`igraph`</span>.</span>
-<span id="cb2-15"><a href="#cb2-15"></a><span class="ss">2. </span>**Calcular e interpretar** métricas fundamentales: grado, distancia, clustering y centralidad.</span>
-<span id="cb2-16"><a href="#cb2-16"></a><span class="ss">3. </span>**Distinguir** modelos de redes (Erdős–Rényi, Barabási–Albert, *small-world*) y sus propiedades.</span>
-<span id="cb2-17"><a href="#cb2-17"></a><span class="ss">4. </span>**Evaluar** la robustez de una red ante fallos aleatorios y ataques dirigidos.</span>
-<span id="cb2-18"><a href="#cb2-18"></a><span class="ss">5. </span>**Comunicar** hallazgos mediante visualizaciones claras y reproducibles.</span>
-<span id="cb2-19"><a href="#cb2-19"></a>:::</span>
-<span id="cb2-20"><a href="#cb2-20"></a></span>
-<span id="cb2-21"><a href="#cb2-21"></a><span class="fu">## Estructura del libro {.unnumbered}</span></span>
-<span id="cb2-22"><a href="#cb2-22"></a></span>
-<span id="cb2-23"><a href="#cb2-23"></a><span class="pp">|</span> Capítulo <span class="pp">|</span> Tema <span class="pp">|</span> Pregunta guía <span class="pp">|</span></span>
-<span id="cb2-24"><a href="#cb2-24"></a><span class="pp">|:--------:|------|---------------|</span></span>
-<span id="cb2-25"><a href="#cb2-25"></a><span class="pp">|</span> 1 <span class="pp">|</span> Fundamentos de igraph <span class="pp">|</span> ¿Cómo se construye y representa una red en R? <span class="pp">|</span></span>
-<span id="cb2-26"><a href="#cb2-26"></a><span class="pp">|</span> 2 <span class="pp">|</span> Grado y distribuciones <span class="pp">|</span> ¿Por qué algunas redes tienen "superhubs" y otras no? <span class="pp">|</span></span>
-<span id="cb2-27"><a href="#cb2-27"></a><span class="pp">|</span> 3 <span class="pp">|</span> Distancias y eficiencia <span class="pp">|</span> ¿Qué tan fácil es ir de un punto a otro en una red? <span class="pp">|</span></span>
-<span id="cb2-28"><a href="#cb2-28"></a><span class="pp">|</span> 4 <span class="pp">|</span> Clustering y transitividad <span class="pp">|</span> ¿Los amigos de tus amigos son tus amigos? <span class="pp">|</span></span>
-<span id="cb2-29"><a href="#cb2-29"></a><span class="pp">|</span> 5 <span class="pp">|</span> Robustez de redes <span class="pp">|</span> ¿Qué pasa si falla un nodo crítico? <span class="pp">|</span></span>
-<span id="cb2-30"><a href="#cb2-30"></a><span class="pp">|</span> Integradores <span class="pp">|</span> Ejercicios finales <span class="pp">|</span> ¿Puedes analizar una red completa de principio a fin? <span class="pp">|</span></span>
-<span id="cb2-31"><a href="#cb2-31"></a></span>
-<span id="cb2-32"><a href="#cb2-32"></a>: Mapa del libro {.striped .hover}</span>
-<span id="cb2-33"><a href="#cb2-33"></a></span>
-<span id="cb2-34"><a href="#cb2-34"></a><span class="fu">## Prerrequisitos {.unnumbered}</span></span>
-<span id="cb2-35"><a href="#cb2-35"></a></span>
-<span id="cb2-36"><a href="#cb2-36"></a>::: {.callout-important title="🔑 Antes de empezar necesitas"}</span>
-<span id="cb2-37"><a href="#cb2-37"></a><span class="ss">- </span>**R** (versión ≥ 4.1) y **RStudio** instalados.</span>
-<span id="cb2-38"><a href="#cb2-38"></a><span class="ss">- </span>Conocimientos básicos de R: vectores, funciones, gráficos con <span class="in">`plot()`</span>.</span>
-<span id="cb2-39"><a href="#cb2-39"></a><span class="ss">- </span>Nociones elementales de estadística descriptiva (media, varianza, histogramas).</span>
-<span id="cb2-40"><a href="#cb2-40"></a><span class="ss">- </span>Familiaridad básica con álgebra de matrices (útil, pero no indispensable).</span>
-<span id="cb2-41"><a href="#cb2-41"></a>:::</span>
-<span id="cb2-42"><a href="#cb2-42"></a></span>
-<span id="cb2-43"><a href="#cb2-43"></a><span class="fu">## Paquetes necesarios {.unnumbered}</span></span>
-<span id="cb2-44"><a href="#cb2-44"></a></span>
-<span id="cb2-45"><a href="#cb2-45"></a>Ejecuta el siguiente bloque para instalar todos los paquetes que usaremos a lo largo del libro:</span>
-<span id="cb2-46"><a href="#cb2-46"></a></span>
-<span id="cb2-49"><a href="#cb2-49"></a><span class="in">```{r}</span></span>
-<span id="cb2-50"><a href="#cb2-50"></a><span class="co">#| label: instalar-paquetes</span></span>
-<span id="cb2-51"><a href="#cb2-51"></a><span class="co">#| eval: false</span></span>
-<span id="cb2-52"><a href="#cb2-52"></a></span>
-<span id="cb2-53"><a href="#cb2-53"></a>paquetes <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"igraph"</span>, <span class="st">"tidyverse"</span>, <span class="st">"poweRlaw"</span>, <span class="st">"gt"</span>, <span class="st">"knitr"</span>)</span>
-<span id="cb2-54"><a href="#cb2-54"></a></span>
-<span id="cb2-55"><a href="#cb2-55"></a><span class="co"># Instalar solo los que no tengas</span></span>
-<span id="cb2-56"><a href="#cb2-56"></a>nuevos <span class="ot">&lt;-</span> paquetes[<span class="sc">!</span>(paquetes <span class="sc">%in%</span> <span class="fu">installed.packages</span>()[, <span class="st">"Package"</span>])]</span>
-<span id="cb2-57"><a href="#cb2-57"></a><span class="cf">if</span> (<span class="fu">length</span>(nuevos)) <span class="fu">install.packages</span>(nuevos)</span>
-<span id="cb2-58"><a href="#cb2-58"></a><span class="in">```</span></span>
-<span id="cb2-59"><a href="#cb2-59"></a></span>
-<span id="cb2-60"><a href="#cb2-60"></a><span class="fu">## Convenciones del libro {.unnumbered}</span></span>
-<span id="cb2-61"><a href="#cb2-61"></a></span>
-<span id="cb2-62"><a href="#cb2-62"></a>A lo largo del texto encontrarás estos bloques informativos:</span>
-<span id="cb2-63"><a href="#cb2-63"></a></span>
-<span id="cb2-64"><a href="#cb2-64"></a>::: {.callout-tip title="💡 Concepto clave"}</span>
-<span id="cb2-65"><a href="#cb2-65"></a>Resalta un concepto o idea fundamental que debes recordar.</span>
-<span id="cb2-66"><a href="#cb2-66"></a>:::</span>
-<span id="cb2-67"><a href="#cb2-67"></a></span>
-<span id="cb2-68"><a href="#cb2-68"></a>::: {.callout-warning title="⚠️ Error frecuente"}</span>
-<span id="cb2-69"><a href="#cb2-69"></a>Señala errores comunes que cometen lxs estudiantes y cómo evitarlos.</span>
-<span id="cb2-70"><a href="#cb2-70"></a>:::</span>
-<span id="cb2-71"><a href="#cb2-71"></a></span>
-<span id="cb2-72"><a href="#cb2-72"></a>::: {.callout-note title="💡 Pista" collapse="true"}</span>
-<span id="cb2-73"><a href="#cb2-73"></a>Pistas progresivas para resolver ejercicios. Haz clic para expandir.</span>
-<span id="cb2-74"><a href="#cb2-74"></a>:::</span>
-<span id="cb2-75"><a href="#cb2-75"></a></span>
-<span id="cb2-76"><a href="#cb2-76"></a><span class="fu">## Cómo usar este libro {.unnumbered}</span></span>
-<span id="cb2-77"><a href="#cb2-77"></a></span>
-<span id="cb2-78"><a href="#cb2-78"></a><span class="ss">1. </span>**Lee la teoría** y ejecuta los ejemplos en tu sesión de R.</span>
-<span id="cb2-79"><a href="#cb2-79"></a><span class="ss">2. </span>**Intenta los ejercicios** antes de ver las soluciones o pistas.</span>
-<span id="cb2-80"><a href="#cb2-80"></a><span class="ss">3. </span>**Experimenta**: modifica parámetros, cambia redes, rompe cosas.</span>
-<span id="cb2-81"><a href="#cb2-81"></a><span class="ss">4. </span>Al final de cada capítulo, responde la **autoevaluación** para verificar tu comprensión.</span>
-<span id="cb2-82"><a href="#cb2-82"></a></span>
-<span id="cb2-83"><a href="#cb2-83"></a>¡Comencemos!</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3" data-shortcodes="false"><pre class="sourceCode numberSource markdown number-lines code-with-copy"><code class="sourceCode markdown"><span id="cb3-1"><a href="#cb3-1"></a><span class="fu">## VisNetwork {#Visnetwork}</span></span>
+<span id="cb3-2"><a href="#cb3-2"></a></span>
+<span id="cb3-3"><a href="#cb3-3"></a>::: {.callout-note title="🎯 Objetivos de aprendizaje"}</span>
+<span id="cb3-4"><a href="#cb3-4"></a>Al finalizar este capítulo serás capaz de:</span>
+<span id="cb3-5"><a href="#cb3-5"></a></span>
+<span id="cb3-6"><a href="#cb3-6"></a><span class="ss">1.  </span>**Generar ** redes interactivas usando la librería <span class="in">`visNetwork`</span> </span>
+<span id="cb3-7"><a href="#cb3-7"></a><span class="ss">2.  </span>**Generar** redes con los modelos Erdős–Rényi (ER) y Barabási–Albert (BA) en <span class="in">`igraph`</span>.</span>
+<span id="cb3-8"><a href="#cb3-8"></a><span class="ss">3.  </span>**Visualizar y comparar** distribuciones de grado usando histogramas y gráficos log-log.</span>
+<span id="cb3-9"><a href="#cb3-9"></a><span class="ss">4.  </span>**Ajustar** una ley de potencia a datos de grado con el paquete <span class="in">`poweRlaw`</span>.</span>
+<span id="cb3-10"><a href="#cb3-10"></a><span class="ss">5.  </span>**Identificar** *hubs* (nodos altamente conectados) y explicar su importancia en la estructura de la red.</span>
+<span id="cb3-11"><a href="#cb3-11"></a>:::</span>
+<span id="cb3-12"><a href="#cb3-12"></a></span>
+<span id="cb3-13"><a href="#cb3-13"></a></span>
+<span id="cb3-14"><a href="#cb3-14"></a>visNetwork es una librería de R que permite crear visualizaciones interactivas de redes basado en la biblioteca de javascript **vis.js**  Es especialmente útil para representar relaciones entre entidades, como conexiones entre personas, organizaciones o cualquier tipo de nodos y enlaces. A continuación, se muestra un ejemplo básico de cómo usar <span class="in">`visNetwork`</span> para crear una red simple.</span>
+<span id="cb3-15"><a href="#cb3-15"></a></span>
+<span id="cb3-18"><a href="#cb3-18"></a><span class="in">```{r}</span></span>
+<span id="cb3-19"><a href="#cb3-19"></a><span class="co">#| message: false</span></span>
+<span id="cb3-20"><a href="#cb3-20"></a><span class="co">#| warning: false</span></span>
+<span id="cb3-21"><a href="#cb3-21"></a><span class="co"># Instalar y cargar la librería visNetwork</span></span>
+<span id="cb3-22"><a href="#cb3-22"></a><span class="co"># install.packages("visNetwork")</span></span>
+<span id="cb3-23"><a href="#cb3-23"></a><span class="fu">library</span>(visNetwork)</span>
+<span id="cb3-24"><a href="#cb3-24"></a></span>
+<span id="cb3-25"><a href="#cb3-25"></a><span class="in">```</span></span>
+<span id="cb3-26"><a href="#cb3-26"></a></span>
+<span id="cb3-27"><a href="#cb3-27"></a>**visNetwork** requiere de al menos, como cualquier red, de dos elementos:</span>
+<span id="cb3-28"><a href="#cb3-28"></a></span>
+<span id="cb3-29"><a href="#cb3-29"></a><span class="ss">- </span>**Nodos**: Representan las entidades en la red. Cada nodo puede tener atributos como un identificador, una etiqueta, un grupo, etc.</span>
+<span id="cb3-30"><a href="#cb3-30"></a><span class="ss">- </span>**Enlaces**: Representan las conexiones entre los nodos. Cada enlace puede tener</span>
+<span id="cb3-31"><a href="#cb3-31"></a></span>
+<span id="cb3-34"><a href="#cb3-34"></a><span class="in">```{r}</span></span>
+<span id="cb3-35"><a href="#cb3-35"></a><span class="co"># Crear un data frame de nodos</span></span>
+<span id="cb3-36"><a href="#cb3-36"></a>nodes <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">id =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>)</span>
+<span id="cb3-37"><a href="#cb3-37"></a><span class="co"># Crear un data frame de conexiones</span></span>
+<span id="cb3-38"><a href="#cb3-38"></a>edges <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">from =</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">5</span>), <span class="at">to =</span> <span class="fu">c</span>(<span class="dv">3</span>,<span class="dv">4</span>,<span class="dv">5</span>))</span>
+<span id="cb3-39"><a href="#cb3-39"></a><span class="fu">visNetwork</span>(nodes, edges, <span class="at">width =</span> <span class="st">"100%"</span>)</span>
+<span id="cb3-40"><a href="#cb3-40"></a></span>
+<span id="cb3-41"><a href="#cb3-41"></a><span class="in">```</span></span>
+<span id="cb3-42"><a href="#cb3-42"></a>En este ejemplo, hemos creado una red con 5 nodos y 3 conexiones entre ellos. La función <span class="in">`visNetwork()`</span> toma los data frames de nodos y enlaces como argumentos y genera una visualización interactiva de la red. Puedes personalizar la apariencia de los nodos y enlaces utilizando diferentes atributos, como colores, tamaños, etiquetas, etc.</span>
+<span id="cb3-43"><a href="#cb3-43"></a></span>
 </code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
 </div></div></div></div></div>
 </div> <!-- /content -->

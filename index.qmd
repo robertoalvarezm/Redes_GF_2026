@@ -1,6 +1,6 @@
 # Prefacio {.unnumbered}
 
-Bienvenido a **Análisis de redes con igraph en R**, un libro diseñado para que aprendas, de forma práctica y progresiva, los fundamentos del análisis de redes complejas utilizando el lenguaje R y el paquete `igraph`.
+Bienvenido a **Análisis de redes  en R**, un libro diseñado para que aprendas, de forma práctica y progresiva, los fundamentos del análisis de redes complejas utilizando el lenguaje R y el paquete `igraph` y otros como `visNetwork` .
 
 ## ¿Para quién es este libro? {.unnumbered}
 

@@ -3,10 +3,10 @@ project:
   output-dir: docs
 
 book:
-  title: "Análisis de Redes con igraph en R"
+  title: "Análisis de redes en R"
   subtitle: "Un enfoque práctico y didáctico"
-  author:
-  - name: Roberto Álvarez
+  author: 
+  - name: Roberto Alvarez
     url: https://sites.google.com/view/robertolvarezmartinez/página-principal
     open-graph: true
     twitter-card:
@@ -36,6 +36,7 @@ book:
     - 05-robustez.qmd
     - 06-centralidad.qmd
     - 07-comunidades.qmd
+    - 08-Visnetworks.qmd
     - 99-ejercicios-integradores.qmd
     - references.qmd
 
