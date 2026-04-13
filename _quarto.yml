@@ -5,21 +5,12 @@ project:
 book:
   title: "Análisis de redes en R"
   subtitle: "Un enfoque práctico y didáctico"
-  author: 
-  - name: Roberto Alvarez
-    url: https://sites.google.com/view/robertolvarezmartinez/página-principal
-    open-graph: true
-    twitter-card:
-      creator: "@alvarezrobertoc"
-      card-style: summary_large_image
-    orcid: 0000-0002-0821-0067
+  author:
+  - name: Roberto Álvarez
+    affiliation: 
+      - Laboratorio de Biología Cuantitativa y Sistemas Complejos
+      - Facultad de Ciencias Naturales, Universidad Autónoma de Querétaro
     email: roberto.alvarez@uaq.mx
-    affiliations:
-      - name: Laboratorio de Biología Cuantitativa y Sistemas Complejos, Universidad Autónoma de Querétaro
-        address: Campus Aeropuerto
-        city: Querétaro
-        state: Querétaro
-        postal-code: 76261
   date: today
   language: es
   search: true
