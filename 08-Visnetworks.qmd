@@ -25,7 +25,7 @@ library(visNetwork)
 **visNetwork** requiere de al menos, como cualquier red, de dos elementos:
 
 - **Nodos**: Representan las entidades en la red. Cada nodo puede tener atributos como un identificador, una etiqueta, un grupo, etc.
-- **Enlaces**: Representan las conexiones entre los nodos. Cada enlace puede tener
+- **Enlaces**: Representan las conexiones entre los nodos. Cada enlace puede tener atributos como el nodo de origen, el nodo de destino, un peso, etc.
 
 ```{r}
 # Crear un data frame de nodos
@@ -35,6 +35,30 @@ edges <- data.frame(from = c(1,2,5), to = c(3,4,5))
 visNetwork(nodes, edges, width = "100%")
 
 ```
+
 En este ejemplo, hemos creado una red con 5 nodos y 3 conexiones entre ellos. La función `visNetwork()` toma los data frames de nodos y enlaces como argumentos y genera una visualización interactiva de la red. Puedes personalizar la apariencia de los nodos y enlaces utilizando diferentes atributos, como colores, tamaños, etiquetas, etc.
 
+### Cómo obtener ayuda en `visNetwork`
 
+Si necesitas ayuda con la función `visNetwork` o cualquier otra función de la librería, puedes usar la función `help()` o el signo de interrogación `?` seguido del nombre de la función. Además, existe ayuda adicional en esta librería usando:
+
+
+### Personalización de la visualización
+Puedes personalizar la apariencia de los nodos y enlaces utilizando diferentes atributos. Por ejemplo, puedes asignar colores a los nodos según un grupo o categoría, o ajustar el tamaño de los nodos en función de su grado (número de conexiones). 
+
+```{r}
+# Crear un data frame de nodos con atributos adicionales 
+nodes <- data.frame(id = 1:5, 
+                    label = c("A", "B", "C", "D", "E"), 
+                    group = c("X", "X", "Y", "Y", "Z"),
+                    value = c(10, 20, 30, 40, 50))
+# Crear un data frame de conexiones
+edges <- data.frame(from = c(1,2,5), to = c(3,4,5))
+# Visualizar la red con personalización
+visNetwork(nodes, edges, width = "100%") %>%  
+  visNodes(color = list(background = "lightblue", border = "black")) %>%
+  visEdges(color = "gray") %>%
+  visOptions(highlightNearest = TRUE, nodesIdSelection = TRUE)
+```
+
+En este ejemplo, hemos asignado etiquetas a los nodos, agrupado los nodos en categorías (X, Y, Z) y asignado un valor que podría representar el grado o cualquier otra métrica. Además, hemos personalizado los colores de los nodos y enlaces, y habilitado opciones interactivas como resaltar el nodo más cercano al pasar el mouse y permitir la selección de nodos por su ID.
