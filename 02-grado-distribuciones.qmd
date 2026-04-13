@@ -255,7 +255,7 @@ plot(k_ba, pk_ba,
 ```
 
 ::: {.callout-warning title="⚠️ Error frecuente"}
-No confundas "parece una recta en log-log" con "es una ley de potencia". Para confirmar se necesita un **ajuste estadístico formal**, que veremos en la siguiente sección. Muchas distribuciones con cola pesada (log-normal, exponencial estirada) pueden *parecer* lineales en log-log con pocos datos.
+No confundas "parece una recta en log-log" con "es una ley de potencia". Para confirmar se necesita un **ajuste estadístico formal**, que veremos en la siguiente sección. Muchas distribuciones con cola pesada (log-normal, exponencial estirada) pueden *parecer* lineales en log-log con pocos datos [@clauset2009power].
 :::
 
 ## Ajuste de ley de potencia con `poweRlaw`
@@ -683,25 +683,36 @@ flowchart LR
 
 ## Autoevaluación {.unnumbered}
 
-::: {.callout-caution title="Pregunta 1" collapse="true"}
+**Pregunta 1: ¿Qué modelo de red produce una distribución de grado tipo ley de potencia?**
+
+a)  Erdős–Rényi
+b)  Barabási–Albert 
+c)  Lattice regular
+d)  *Small-world*
+
+
+::: {.callout-caution title="Respuesta 1" collapse="true"}
 **¿Qué modelo de red produce una distribución de grado tipo ley de potencia?**
 
 a)  Erdős–Rényi
 b)  Barabási–Albert ✅
 c)  Lattice regular
-d)  Anillo
+d)  *Small-world*
 
 El modelo Barabási–Albert usa enlace preferencial, lo que genera distribuciones *power-law*.
 :::
 
-::: {.callout-caution title="Pregunta 2" collapse="true"}
-**Verdadero o Falso:** En una red ER con $n = 100$ y $p = 0.10$, el grado medio esperado es 10.
+**Pregunta 2: Verdadero o Falso:** En una red ER con $n = 100$ y $p = 0.10$, el grado medio esperado es 10.
+
+
+::: {.callout-caution title="Respuesta 2" collapse="true"}
 
 ✅ **Verdadero.** El grado medio teórico es $\langle k \rangle = p(n-1) = 0.10 \times 99 \approx 9.9 \approx 10$.
 :::
 
-::: {.callout-caution title="Pregunta 3" collapse="true"}
-**¿Qué representa el parámetro** $x_{\min}$ en un ajuste de ley de potencia?
+**Pregunta 3: ¿Qué representa el parámetro** $x_{\min}$ en un ajuste de ley de potencia?
+
+::: {.callout-caution title="Respuesta 3" collapse="true"}
 
 Es el valor de grado mínimo a partir del cual la distribución se comporta como *power-law*. Los nodos con grado menor a $x_{\min}$ no siguen este patrón.
 :::

@@ -668,7 +668,7 @@ Figure&nbsp;2.1: Mapa conceptual del capítulo: distribuciones de grado en redes
 <h3 data-number="2.2.1" class="anchored" data-anchor-id="modelo-erdősrényi-er-redes-aleatorias"><span class="header-section-number">2.2.1</span> Modelo Erdős–Rényi (ER): redes aleatorias</h3>
 <p>En este modelo, cada par de nodos tiene una <strong>probabilidad fija</strong> <span class="math inline">\(p\)</span> de estar conectado, independientemente de todo lo demás. Es como lanzar una moneda (con probabilidad <span class="math inline">\(p\)</span> de “cara”) por cada par posible de nodos.</p>
 <p><span class="math display">\[
-P(\text{arista entre } i \text{ y } j) = p, \quad \forall \, i \neq j
+P(\text{conexión entre } i \text{ y } j) = p, \quad \forall \, i \neq j
 \]</span></p>
 <p>El resultado: la mayoría de los nodos terminan con un grado similar, cercano al promedio <span class="math inline">\(\langle k \rangle \approx p \cdot (n-1)\)</span>, y la distribución de grado sigue una <strong>distribución de Poisson</strong> <span class="citation" data-cites="erdos1959">(<a href="#ref-erdos1959" role="doc-biblioref">Erdős &amp; Rényi, 1959</a>)</span>.</p>
 <div class="callout callout-style-simple callout-tip callout-titled" title="💡 Concepto clave">
@@ -912,7 +912,7 @@ Figure&nbsp;2.4: Distribución de grado en escala log-log: solo la BA muestra un
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>No confundas “parece una recta en log-log” con “es una ley de potencia”. Para confirmar se necesita un <strong>ajuste estadístico formal</strong>, que veremos en la siguiente sección. Muchas distribuciones con cola pesada (log-normal, exponencial estirada) pueden <em>parecer</em> lineales en log-log con pocos datos.</p>
+<p>No confundas “parece una recta en log-log” con “es una ley de potencia”. Para confirmar se necesita un <strong>ajuste estadístico formal</strong>, que veremos en la siguiente sección. Muchas distribuciones con cola pesada (log-normal, exponencial estirada) pueden <em>parecer</em> lineales en log-log con pocos datos <span class="citation" data-cites="clauset2009power">(<a href="#ref-clauset2009power" role="doc-biblioref">Clauset et al., 2009</a>)</span>.</p>
 </div>
 </div>
 </section>
@@ -1717,13 +1717,20 @@ Figure&nbsp;2.10: Resumen visual del capítulo
 </section>
 <section id="autoevaluación" class="level2 unnumbered">
 <h2 class="unnumbered anchored" data-anchor-id="autoevaluación">Autoevaluación</h2>
-<div class="callout callout-style-simple callout-caution callout-titled" title="Pregunta 1">
+<p><strong>Pregunta 1: ¿Qué modelo de red produce una distribución de grado tipo ley de potencia?</strong></p>
+<ol type="a">
+<li>Erdős–Rényi</li>
+<li>Barabási–Albert</li>
+<li>Lattice regular</li>
+<li><em>Small-world</em></li>
+</ol>
+<div class="callout callout-style-simple callout-caution callout-titled" title="Respuesta 1">
 <div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-21-contents" aria-controls="callout-21" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Caution</span>Pregunta 1
+<span class="screen-reader-only">Caution</span>Respuesta 1
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
@@ -1734,42 +1741,42 @@ Figure&nbsp;2.10: Resumen visual del capítulo
 <li>Erdős–Rényi</li>
 <li>Barabási–Albert ✅</li>
 <li>Lattice regular</li>
-<li>Anillo</li>
+<li><em>Small-world</em></li>
 </ol>
 <p>El modelo Barabási–Albert usa enlace preferencial, lo que genera distribuciones <em>power-law</em>.</p>
 </div>
 </div>
 </div>
-<div class="callout callout-style-simple callout-caution callout-titled" title="Pregunta 2">
+<p><strong>Pregunta 2: Verdadero o Falso:</strong> En una red ER con <span class="math inline">\(n = 100\)</span> y <span class="math inline">\(p = 0.10\)</span>, el grado medio esperado es 10.</p>
+<div class="callout callout-style-simple callout-caution callout-titled" title="Respuesta 2">
 <div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-22-contents" aria-controls="callout-22" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Caution</span>Pregunta 2
+<span class="screen-reader-only">Caution</span>Respuesta 2
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
 <div id="callout-22" class="callout-22-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p><strong>Verdadero o Falso:</strong> En una red ER con <span class="math inline">\(n = 100\)</span> y <span class="math inline">\(p = 0.10\)</span>, el grado medio esperado es 10.</p>
 <p>✅ <strong>Verdadero.</strong> El grado medio teórico es <span class="math inline">\(\langle k \rangle = p(n-1) = 0.10 \times 99 \approx 9.9 \approx 10\)</span>.</p>
 </div>
 </div>
 </div>
-<div class="callout callout-style-simple callout-caution callout-titled" title="Pregunta 3">
+<p><strong>Pregunta 3: ¿Qué representa el parámetro</strong> <span class="math inline">\(x_{\min}\)</span> en un ajuste de ley de potencia?</p>
+<div class="callout callout-style-simple callout-caution callout-titled" title="Respuesta 3">
 <div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-23-contents" aria-controls="callout-23" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Caution</span>Pregunta 3
+<span class="screen-reader-only">Caution</span>Respuesta 3
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
 <div id="callout-23" class="callout-23-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p><strong>¿Qué representa el parámetro</strong> <span class="math inline">\(x_{\min}\)</span> en un ajuste de ley de potencia?</p>
 <p>Es el valor de grado mínimo a partir del cual la distribución se comporta como <em>power-law</em>. Los nodos con grado menor a <span class="math inline">\(x_{\min}\)</span> no siguen este patrón.</p>
 </div>
 </div>
@@ -1824,6 +1831,9 @@ Albert, R., &amp; Barabási, A.-L. (2002). Statistical mechanics of complex netw
 </div>
 <div id="ref-barabasi2016" class="csl-entry" role="listitem">
 Barabási, A.-L. (2016). <em>Network science</em>. Cambridge University Press. <a href="http://networksciencebook.com/">http://networksciencebook.com/</a>
+</div>
+<div id="ref-clauset2009power" class="csl-entry" role="listitem">
+Clauset, A., Shalizi, C. R., &amp; Newman, M. E. (2009). Power-law distributions in empirical data. <em>SIAM Review</em>, <em>51</em>(4), 661–703.
 </div>
 <div id="ref-erdos1959" class="csl-entry" role="listitem">
 Erdős, P., &amp; Rényi, A. (1959). On random graphs <span>I</span>. <em>Publicationes Mathematicae Debrecen</em>, <em>6</em>, 290–297.
@@ -2407,7 +2417,7 @@ Watts, D. J., &amp; Strogatz, S. H. (1998). Collective dynamics of ’small-worl
 <span id="cb40-98"><a href="#cb40-98"></a>En este modelo, cada par de nodos tiene una **probabilidad fija** $p$ de estar conectado, independientemente de todo lo demás. Es como lanzar una moneda (con probabilidad $p$ de "cara") por cada par posible de nodos.</span>
 <span id="cb40-99"><a href="#cb40-99"></a></span>
 <span id="cb40-100"><a href="#cb40-100"></a>$$</span>
-<span id="cb40-101"><a href="#cb40-101"></a>P(\text{arista entre } i \text{ y } j) = p, \quad \forall \, i \neq j</span>
+<span id="cb40-101"><a href="#cb40-101"></a>P(\text{conexión entre } i \text{ y } j) = p, \quad \forall \, i \neq j</span>
 <span id="cb40-102"><a href="#cb40-102"></a>$$</span>
 <span id="cb40-103"><a href="#cb40-103"></a></span>
 <span id="cb40-104"><a href="#cb40-104"></a>El resultado: la mayoría de los nodos terminan con un grado similar, cercano al promedio $\langle k \rangle \approx p \cdot (n-1)$, y la distribución de grado sigue una **distribución de Poisson** <span class="co">[</span><span class="ot">@erdos1959</span><span class="co">]</span>.</span>
@@ -2568,7 +2578,7 @@ Watts, D. J., &amp; Strogatz, S. H. (1998). Collective dynamics of ’small-worl
 <span id="cb40-267"><a href="#cb40-267"></a><span class="in">```</span></span>
 <span id="cb40-268"><a href="#cb40-268"></a></span>
 <span id="cb40-269"><a href="#cb40-269"></a>::: {.callout-warning title="⚠️ Error frecuente"}</span>
-<span id="cb40-270"><a href="#cb40-270"></a>No confundas "parece una recta en log-log" con "es una ley de potencia". Para confirmar se necesita un **ajuste estadístico formal**, que veremos en la siguiente sección. Muchas distribuciones con cola pesada (log-normal, exponencial estirada) pueden *parecer* lineales en log-log con pocos datos.</span>
+<span id="cb40-270"><a href="#cb40-270"></a>No confundas "parece una recta en log-log" con "es una ley de potencia". Para confirmar se necesita un **ajuste estadístico formal**, que veremos en la siguiente sección. Muchas distribuciones con cola pesada (log-normal, exponencial estirada) pueden *parecer* lineales en log-log con pocos datos <span class="co">[</span><span class="ot">@clauset2009power</span><span class="co">]</span>.</span>
 <span id="cb40-271"><a href="#cb40-271"></a>:::</span>
 <span id="cb40-272"><a href="#cb40-272"></a></span>
 <span id="cb40-273"><a href="#cb40-273"></a><span class="fu">## Ajuste de ley de potencia con `poweRlaw`</span></span>
@@ -2996,45 +3006,56 @@ Watts, D. J., &amp; Strogatz, S. H. (1998). Collective dynamics of ’small-worl
 <span id="cb40-723"><a href="#cb40-723"></a></span>
 <span id="cb40-724"><a href="#cb40-724"></a><span class="fu">## Autoevaluación {.unnumbered}</span></span>
 <span id="cb40-725"><a href="#cb40-725"></a></span>
-<span id="cb40-726"><a href="#cb40-726"></a>::: {.callout-caution title="Pregunta 1" collapse="true"}</span>
-<span id="cb40-727"><a href="#cb40-727"></a>**¿Qué modelo de red produce una distribución de grado tipo ley de potencia?**</span>
-<span id="cb40-728"><a href="#cb40-728"></a></span>
-<span id="cb40-729"><a href="#cb40-729"></a>a)  Erdős–Rényi</span>
-<span id="cb40-730"><a href="#cb40-730"></a>b)  Barabási–Albert ✅</span>
-<span id="cb40-731"><a href="#cb40-731"></a>c)  Lattice regular</span>
-<span id="cb40-732"><a href="#cb40-732"></a>d)  Anillo</span>
+<span id="cb40-726"><a href="#cb40-726"></a>**Pregunta 1: ¿Qué modelo de red produce una distribución de grado tipo ley de potencia?**</span>
+<span id="cb40-727"><a href="#cb40-727"></a></span>
+<span id="cb40-728"><a href="#cb40-728"></a>a)  Erdős–Rényi</span>
+<span id="cb40-729"><a href="#cb40-729"></a>b)  Barabási–Albert </span>
+<span id="cb40-730"><a href="#cb40-730"></a>c)  Lattice regular</span>
+<span id="cb40-731"><a href="#cb40-731"></a>d)  *Small-world*</span>
+<span id="cb40-732"><a href="#cb40-732"></a></span>
 <span id="cb40-733"><a href="#cb40-733"></a></span>
-<span id="cb40-734"><a href="#cb40-734"></a>El modelo Barabási–Albert usa enlace preferencial, lo que genera distribuciones *power-law*.</span>
-<span id="cb40-735"><a href="#cb40-735"></a>:::</span>
+<span id="cb40-734"><a href="#cb40-734"></a>::: {.callout-caution title="Respuesta 1" collapse="true"}</span>
+<span id="cb40-735"><a href="#cb40-735"></a>**¿Qué modelo de red produce una distribución de grado tipo ley de potencia?**</span>
 <span id="cb40-736"><a href="#cb40-736"></a></span>
-<span id="cb40-737"><a href="#cb40-737"></a>::: {.callout-caution title="Pregunta 2" collapse="true"}</span>
-<span id="cb40-738"><a href="#cb40-738"></a>**Verdadero o Falso:** En una red ER con $n = 100$ y $p = 0.10$, el grado medio esperado es 10.</span>
-<span id="cb40-739"><a href="#cb40-739"></a></span>
-<span id="cb40-740"><a href="#cb40-740"></a>✅ **Verdadero.** El grado medio teórico es $\langle k \rangle = p(n-1) = 0.10 \times 99 \approx 9.9 \approx 10$.</span>
-<span id="cb40-741"><a href="#cb40-741"></a>:::</span>
-<span id="cb40-742"><a href="#cb40-742"></a></span>
-<span id="cb40-743"><a href="#cb40-743"></a>::: {.callout-caution title="Pregunta 3" collapse="true"}</span>
-<span id="cb40-744"><a href="#cb40-744"></a>**¿Qué representa el parámetro** $x_{\min}$ en un ajuste de ley de potencia?</span>
-<span id="cb40-745"><a href="#cb40-745"></a></span>
-<span id="cb40-746"><a href="#cb40-746"></a>Es el valor de grado mínimo a partir del cual la distribución se comporta como *power-law*. Los nodos con grado menor a $x_{\min}$ no siguen este patrón.</span>
-<span id="cb40-747"><a href="#cb40-747"></a>:::</span>
-<span id="cb40-748"><a href="#cb40-748"></a></span>
-<span id="cb40-749"><a href="#cb40-749"></a>::: {.callout-caution title="Pregunta 4" collapse="true"}</span>
-<span id="cb40-750"><a href="#cb40-750"></a>**¿Qué tipo de gráfico es el más adecuado para identificar visualmente una ley de potencia?**</span>
-<span id="cb40-751"><a href="#cb40-751"></a></span>
-<span id="cb40-752"><a href="#cb40-752"></a>a)  Histograma con ejes lineales</span>
-<span id="cb40-753"><a href="#cb40-753"></a>b)  Gráfico de barras</span>
-<span id="cb40-754"><a href="#cb40-754"></a>c)  Gráfico log-log ✅</span>
-<span id="cb40-755"><a href="#cb40-755"></a>d)  Diagrama de caja (*boxplot*)</span>
+<span id="cb40-737"><a href="#cb40-737"></a>a)  Erdős–Rényi</span>
+<span id="cb40-738"><a href="#cb40-738"></a>b)  Barabási–Albert ✅</span>
+<span id="cb40-739"><a href="#cb40-739"></a>c)  Lattice regular</span>
+<span id="cb40-740"><a href="#cb40-740"></a>d)  *Small-world*</span>
+<span id="cb40-741"><a href="#cb40-741"></a></span>
+<span id="cb40-742"><a href="#cb40-742"></a>El modelo Barabási–Albert usa enlace preferencial, lo que genera distribuciones *power-law*.</span>
+<span id="cb40-743"><a href="#cb40-743"></a>:::</span>
+<span id="cb40-744"><a href="#cb40-744"></a></span>
+<span id="cb40-745"><a href="#cb40-745"></a>**Pregunta 2: Verdadero o Falso:** En una red ER con $n = 100$ y $p = 0.10$, el grado medio esperado es 10.</span>
+<span id="cb40-746"><a href="#cb40-746"></a></span>
+<span id="cb40-747"><a href="#cb40-747"></a></span>
+<span id="cb40-748"><a href="#cb40-748"></a>::: {.callout-caution title="Respuesta 2" collapse="true"}</span>
+<span id="cb40-749"><a href="#cb40-749"></a></span>
+<span id="cb40-750"><a href="#cb40-750"></a>✅ **Verdadero.** El grado medio teórico es $\langle k \rangle = p(n-1) = 0.10 \times 99 \approx 9.9 \approx 10$.</span>
+<span id="cb40-751"><a href="#cb40-751"></a>:::</span>
+<span id="cb40-752"><a href="#cb40-752"></a></span>
+<span id="cb40-753"><a href="#cb40-753"></a>**Pregunta 3: ¿Qué representa el parámetro** $x_{\min}$ en un ajuste de ley de potencia?</span>
+<span id="cb40-754"><a href="#cb40-754"></a></span>
+<span id="cb40-755"><a href="#cb40-755"></a>::: {.callout-caution title="Respuesta 3" collapse="true"}</span>
 <span id="cb40-756"><a href="#cb40-756"></a></span>
-<span id="cb40-757"><a href="#cb40-757"></a>En escala log-log, una *power-law* aparece como una línea recta con pendiente $-\gamma$.</span>
+<span id="cb40-757"><a href="#cb40-757"></a>Es el valor de grado mínimo a partir del cual la distribución se comporta como *power-law*. Los nodos con grado menor a $x_{\min}$ no siguen este patrón.</span>
 <span id="cb40-758"><a href="#cb40-758"></a>:::</span>
 <span id="cb40-759"><a href="#cb40-759"></a></span>
-<span id="cb40-760"><a href="#cb40-760"></a>::: {.callout-caution title="Pregunta 5" collapse="true"}</span>
-<span id="cb40-761"><a href="#cb40-761"></a>**Verdadero o Falso:** Los *hubs* son igual de probables en redes ER que en redes BA.</span>
+<span id="cb40-760"><a href="#cb40-760"></a>::: {.callout-caution title="Pregunta 4" collapse="true"}</span>
+<span id="cb40-761"><a href="#cb40-761"></a>**¿Qué tipo de gráfico es el más adecuado para identificar visualmente una ley de potencia?**</span>
 <span id="cb40-762"><a href="#cb40-762"></a></span>
-<span id="cb40-763"><a href="#cb40-763"></a>❌ **Falso.** En redes ER la probabilidad de encontrar un nodo con grado extremo es exponencialmente baja (distribución Poisson). En redes BA, los *hubs* emergen naturalmente por el mecanismo de enlace preferencial.</span>
-<span id="cb40-764"><a href="#cb40-764"></a>:::</span>
+<span id="cb40-763"><a href="#cb40-763"></a>a)  Histograma con ejes lineales</span>
+<span id="cb40-764"><a href="#cb40-764"></a>b)  Gráfico de barras</span>
+<span id="cb40-765"><a href="#cb40-765"></a>c)  Gráfico log-log ✅</span>
+<span id="cb40-766"><a href="#cb40-766"></a>d)  Diagrama de caja (*boxplot*)</span>
+<span id="cb40-767"><a href="#cb40-767"></a></span>
+<span id="cb40-768"><a href="#cb40-768"></a>En escala log-log, una *power-law* aparece como una línea recta con pendiente $-\gamma$.</span>
+<span id="cb40-769"><a href="#cb40-769"></a>:::</span>
+<span id="cb40-770"><a href="#cb40-770"></a></span>
+<span id="cb40-771"><a href="#cb40-771"></a>::: {.callout-caution title="Pregunta 5" collapse="true"}</span>
+<span id="cb40-772"><a href="#cb40-772"></a>**Verdadero o Falso:** Los *hubs* son igual de probables en redes ER que en redes BA.</span>
+<span id="cb40-773"><a href="#cb40-773"></a></span>
+<span id="cb40-774"><a href="#cb40-774"></a>❌ **Falso.** En redes ER la probabilidad de encontrar un nodo con grado extremo es exponencialmente baja (distribución Poisson). En redes BA, los *hubs* emergen naturalmente por el mecanismo de enlace preferencial.</span>
+<span id="cb40-775"><a href="#cb40-775"></a>:::</span>
 </code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
 </div></div></div></div></div>
 </div> <!-- /content -->

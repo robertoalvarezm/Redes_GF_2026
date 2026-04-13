@@ -1,4 +1,4 @@
-## VisNetwork y networkD3 {#Visnetwork}
+# VisNetwork y networkD3 {#Visnetwork}
 
 ::: {.callout-note title="🎯 Objetivos de aprendizaje"}
 Al finalizar este capítulo serás capaz de:
