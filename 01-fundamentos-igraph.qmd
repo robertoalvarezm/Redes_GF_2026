@@ -10,7 +10,7 @@ Al finalizar este capítulo serás capaz de:
 5. **Generar** redes especiales: estrella, anillo, árbol, lattice.
 :::
 
-> **Pregunta motivadora:** Si representaras tu grupo de amigos como una red, donde cada persona es un punto y cada amistad es una línea, ¿cómo se vería? ¿Quién estaría más "conectado"? ¿Habría grupos aislados?
+> **Pregunta motivadora:** Si representaras tu grupo de amigos como una red, donde cada persona es un punto (nodo) y cada amistad es una línea, ¿cómo se vería? ¿Quién estaría más "conectado"? ¿Habría grupos aislados?
 
 ```{mermaid}
 %%| label: fig-mapa-cap1
@@ -80,7 +80,7 @@ install.packages("igraph")
 
 ## Crear redes desde cero
 
-Un **grafo** (o red) se compone de **vértices** (nodos) y **conexiones** (conexiones entre nodos). En `igraph`, todo comienza creando un grafo vacío y luego añadiendo elementos.
+Un **grafo** (o red) se compone de **vértices** (nodos) y **conexiones** (conexiones entre nodos). En `igraph`, podemos comenzar creando un grafo vacío y luego añadiendo elementos.
 
 ::: {.callout-tip title="💡 Concepto clave"}
 En `igraph`, los vértices se acceden con `V(g)` y las conexiones con `E(g)`. Piensa en `V` de *vertices* y `E` de *edges*.
@@ -557,7 +557,7 @@ flowchart LR
 
 : Funciones clave del capítulo {.striped .hover}
 
-**Conexión con el siguiente capítulo:** Ahora que sabes crear redes y calcular grados, en el @sec-grado (degree)-distribuciones exploraremos *cómo se distribuyen* esos grados y por qué algunas redes producen "superhubs" mientras que otras son más homogéneas.
+**Conexión con el siguiente capítulo:** Ahora que sabes crear redes y calcular grados, en el @sec-grado-distribuciones (degree)-distribuciones exploraremos *cómo se distribuyen* esos grados y por qué algunas redes producen "superhubs" mientras que otras son más homogéneas.
 
 ## Autoevaluación {.unnumbered}
 
@@ -587,20 +587,26 @@ d) $2$
 El nodo central se conecta con todos los demás, así que su grado (degree) es $n - 1$.
 :::
 
-::: {.callout-caution title="Pregunta 3" collapse="true"}
-**¿Qué función usarías para eliminar *self-loops* y conexiones duplicadas de una red?**
+
+**Pregunta 3: ¿Qué función usarías para eliminar *self-loops* y conexiones duplicadas de una red?**
+
+
+::: {.callout-caution title="Respuesta 3" collapse="true"}
 
 `simplify()` con los parámetros `remove.multiple = TRUE` y `remove.loops = TRUE`.
 :::
 
-::: {.callout-caution title="Pregunta 4" collapse="true"}
-**Verdadero o Falso:** `add_edges(g, c(1,2,3))` agrega tres conexiones.
+**Pregunta 4: Verdadero o Falso:** ¿La función `add_edges(g, c(1,2,3))` agrega tres conexiones?
+
+::: {.callout-caution title="Respuesta 4" collapse="true"}
 
 ❌ **Falso.** El vector debe tener un número par de elementos (pares origen-destino). Este código produciría un error.
 :::
 
-::: {.callout-caution title="Pregunta 5" collapse="true"}
-**¿Cuántas conexiones tiene un `make_ring(10)`?**
+**Pregunta 5: ¿Cuántas conexiones tiene un `make_ring(10)`?**
+
+::: {.callout-caution title="Respuesta 5" collapse="true"}
+
 
 Exactamente **10**: cada nodo se conecta con su vecino y el último se conecta con el primero, formando un ciclo.
 :::

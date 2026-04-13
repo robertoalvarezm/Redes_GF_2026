@@ -493,7 +493,7 @@ window.Quarto = {
 </div>
 </div>
 <blockquote class="blockquote">
-<p><strong>Pregunta motivadora:</strong> Si representaras tu grupo de amigos como una red, donde cada persona es un punto y cada amistad es una línea, ¿cómo se vería? ¿Quién estaría más “conectado”? ¿Habría grupos aislados?</p>
+<p><strong>Pregunta motivadora:</strong> Si representaras tu grupo de amigos como una red, donde cada persona es un punto (nodo) y cada amistad es una línea, ¿cómo se vería? ¿Quién estaría más “conectado”? ¿Habría grupos aislados?</p>
 </blockquote>
 <div class="cell" data-layout-align="center">
 <details class="code-fold">
@@ -632,7 +632,7 @@ Figure&nbsp;1.1: Mapa conceptual del capítulo
 </section>
 <section id="crear-redes-desde-cero" class="level2" data-number="1.2">
 <h2 data-number="1.2" class="anchored" data-anchor-id="crear-redes-desde-cero"><span class="header-section-number">1.2</span> Crear redes desde cero</h2>
-<p>Un <strong>grafo</strong> (o red) se compone de <strong>vértices</strong> (nodos) y <strong>conexiones</strong> (conexiones entre nodos). En <code>igraph</code>, todo comienza creando un grafo vacío y luego añadiendo elementos.</p>
+<p>Un <strong>grafo</strong> (o red) se compone de <strong>vértices</strong> (nodos) y <strong>conexiones</strong> (conexiones entre nodos). En <code>igraph</code>, podemos comenzar creando un grafo vacío y luego añadiendo elementos.</p>
 <div class="callout callout-style-simple callout-tip callout-titled" title="💡 Concepto clave">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -1580,7 +1580,7 @@ Figure&nbsp;1.9: Resumen visual del capítulo
 </tr>
 </tbody>
 </table>
-<p><strong>Conexión con el siguiente capítulo:</strong> Ahora que sabes crear redes y calcular grados, en el <span class="quarto-unresolved-ref">?sec-grado</span> (degree)-distribuciones exploraremos <em>cómo se distribuyen</em> esos grados y por qué algunas redes producen “superhubs” mientras que otras son más homogéneas.</p>
+<p><strong>Conexión con el siguiente capítulo:</strong> Ahora que sabes crear redes y calcular grados, en el <a href="02-grado-distribuciones.html" class="quarto-xref"><span>Chapter 2</span></a> (degree)-distribuciones exploraremos <em>cómo se distribuyen</em> esos grados y por qué algunas redes producen “superhubs” mientras que otras son más homogéneas.</p>
 </section>
 <section id="autoevaluación" class="level2 unnumbered">
 <h2 class="unnumbered anchored" data-anchor-id="autoevaluación">Autoevaluación</h2>
@@ -1631,53 +1631,53 @@ Figure&nbsp;1.9: Resumen visual del capítulo
 </div>
 </div>
 </div>
-<div class="callout callout-style-simple callout-caution callout-titled" title="Pregunta 3">
+<p><strong>Pregunta 3: ¿Qué función usarías para eliminar <em>self-loops</em> y conexiones duplicadas de una red?</strong></p>
+<div class="callout callout-style-simple callout-caution callout-titled" title="Respuesta 3">
 <div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-19-contents" aria-controls="callout-19" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Caution</span>Pregunta 3
+<span class="screen-reader-only">Caution</span>Respuesta 3
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
 <div id="callout-19" class="callout-19-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p><strong>¿Qué función usarías para eliminar <em>self-loops</em> y conexiones duplicadas de una red?</strong></p>
 <p><code>simplify()</code> con los parámetros <code>remove.multiple = TRUE</code> y <code>remove.loops = TRUE</code>.</p>
 </div>
 </div>
 </div>
-<div class="callout callout-style-simple callout-caution callout-titled" title="Pregunta 4">
+<p><strong>Pregunta 4: Verdadero o Falso:</strong> ¿La función <code>add_edges(g, c(1,2,3))</code> agrega tres conexiones?</p>
+<div class="callout callout-style-simple callout-caution callout-titled" title="Respuesta 4">
 <div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-20-contents" aria-controls="callout-20" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Caution</span>Pregunta 4
+<span class="screen-reader-only">Caution</span>Respuesta 4
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
 <div id="callout-20" class="callout-20-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p><strong>Verdadero o Falso:</strong> <code>add_edges(g, c(1,2,3))</code> agrega tres conexiones.</p>
 <p>❌ <strong>Falso.</strong> El vector debe tener un número par de elementos (pares origen-destino). Este código produciría un error.</p>
 </div>
 </div>
 </div>
-<div class="callout callout-style-simple callout-caution callout-titled" title="Pregunta 5">
+<p><strong>Pregunta 5: ¿Cuántas conexiones tiene un <code>make_ring(10)</code>?</strong></p>
+<div class="callout callout-style-simple callout-caution callout-titled" title="Respuesta 5">
 <div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-21-contents" aria-controls="callout-21" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Caution</span>Pregunta 5
+<span class="screen-reader-only">Caution</span>Respuesta 5
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
 <div id="callout-21" class="callout-21-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p><strong>¿Cuántas conexiones tiene un <code>make_ring(10)</code>?</strong></p>
 <p>Exactamente <strong>10</strong>: cada nodo se conecta con su vecino y el último se conecta con el primero, formando un ciclo.</p>
 </div>
 </div>
@@ -2177,7 +2177,7 @@ Figure&nbsp;1.9: Resumen visual del capítulo
 <span id="cb40-10"><a href="#cb40-10"></a><span class="ss">5. </span>**Generar** redes especiales: estrella, anillo, árbol, lattice.</span>
 <span id="cb40-11"><a href="#cb40-11"></a>:::</span>
 <span id="cb40-12"><a href="#cb40-12"></a></span>
-<span id="cb40-13"><a href="#cb40-13"></a><span class="at">&gt; **Pregunta motivadora:** Si representaras tu grupo de amigos como una red, donde cada persona es un punto y cada amistad es una línea, ¿cómo se vería? ¿Quién estaría más "conectado"? ¿Habría grupos aislados?</span></span>
+<span id="cb40-13"><a href="#cb40-13"></a><span class="at">&gt; **Pregunta motivadora:** Si representaras tu grupo de amigos como una red, donde cada persona es un punto (nodo) y cada amistad es una línea, ¿cómo se vería? ¿Quién estaría más "conectado"? ¿Habría grupos aislados?</span></span>
 <span id="cb40-14"><a href="#cb40-14"></a></span>
 <span id="cb40-17"><a href="#cb40-17"></a><span class="in">```{mermaid}</span></span>
 <span id="cb40-18"><a href="#cb40-18"></a>%%| label: fig-mapa-cap1</span>
@@ -2247,7 +2247,7 @@ Figure&nbsp;1.9: Resumen visual del capítulo
 <span id="cb40-84"><a href="#cb40-84"></a></span>
 <span id="cb40-85"><a href="#cb40-85"></a><span class="fu">## Crear redes desde cero</span></span>
 <span id="cb40-86"><a href="#cb40-86"></a></span>
-<span id="cb40-87"><a href="#cb40-87"></a>Un **grafo** (o red) se compone de **vértices** (nodos) y **conexiones** (conexiones entre nodos). En <span class="in">`igraph`</span>, todo comienza creando un grafo vacío y luego añadiendo elementos.</span>
+<span id="cb40-87"><a href="#cb40-87"></a>Un **grafo** (o red) se compone de **vértices** (nodos) y **conexiones** (conexiones entre nodos). En <span class="in">`igraph`</span>, podemos comenzar creando un grafo vacío y luego añadiendo elementos.</span>
 <span id="cb40-88"><a href="#cb40-88"></a></span>
 <span id="cb40-89"><a href="#cb40-89"></a>::: {.callout-tip title="💡 Concepto clave"}</span>
 <span id="cb40-90"><a href="#cb40-90"></a>En <span class="in">`igraph`</span>, los vértices se acceden con <span class="in">`V(g)`</span> y las conexiones con <span class="in">`E(g)`</span>. Piensa en <span class="in">`V`</span> de *vertices* y `E` de *edges*.</span>
@@ -2724,7 +2724,7 @@ Figure&nbsp;1.9: Resumen visual del capítulo
 <span id="cb40-607"><a href="#cb40-607"></a></span>
 <span id="cb40-608"><a href="#cb40-608"></a>: Funciones clave del capítulo {.striped .hover}</span>
 <span id="cb40-609"><a href="#cb40-609"></a></span>
-<span id="cb40-610"><a href="#cb40-610"></a>**Conexión con el siguiente capítulo:** Ahora que sabes crear redes y calcular grados, en el @sec-grado (degree)-distribuciones exploraremos *cómo se distribuyen* esos grados y por qué algunas redes producen "superhubs" mientras que otras son más homogéneas.</span>
+<span id="cb40-610"><a href="#cb40-610"></a>**Conexión con el siguiente capítulo:** Ahora que sabes crear redes y calcular grados, en el @sec-grado-distribuciones (degree)-distribuciones exploraremos *cómo se distribuyen* esos grados y por qué algunas redes producen "superhubs" mientras que otras son más homogéneas.</span>
 <span id="cb40-611"><a href="#cb40-611"></a></span>
 <span id="cb40-612"><a href="#cb40-612"></a><span class="fu">## Autoevaluación {.unnumbered}</span></span>
 <span id="cb40-613"><a href="#cb40-613"></a></span>
@@ -2754,23 +2754,29 @@ Figure&nbsp;1.9: Resumen visual del capítulo
 <span id="cb40-637"><a href="#cb40-637"></a>El nodo central se conecta con todos los demás, así que su grado (degree) es $n - 1$.</span>
 <span id="cb40-638"><a href="#cb40-638"></a>:::</span>
 <span id="cb40-639"><a href="#cb40-639"></a></span>
-<span id="cb40-640"><a href="#cb40-640"></a>::: {.callout-caution title="Pregunta 3" collapse="true"}</span>
-<span id="cb40-641"><a href="#cb40-641"></a>**¿Qué función usarías para eliminar *self-loops* y conexiones duplicadas de una red?**</span>
+<span id="cb40-640"><a href="#cb40-640"></a></span>
+<span id="cb40-641"><a href="#cb40-641"></a>**Pregunta 3: ¿Qué función usarías para eliminar *self-loops* y conexiones duplicadas de una red?**</span>
 <span id="cb40-642"><a href="#cb40-642"></a></span>
-<span id="cb40-643"><a href="#cb40-643"></a><span class="in">`simplify()`</span> con los parámetros <span class="in">`remove.multiple = TRUE`</span> y <span class="in">`remove.loops = TRUE`</span>.</span>
-<span id="cb40-644"><a href="#cb40-644"></a>:::</span>
+<span id="cb40-643"><a href="#cb40-643"></a></span>
+<span id="cb40-644"><a href="#cb40-644"></a>::: {.callout-caution title="Respuesta 3" collapse="true"}</span>
 <span id="cb40-645"><a href="#cb40-645"></a></span>
-<span id="cb40-646"><a href="#cb40-646"></a>::: {.callout-caution title="Pregunta 4" collapse="true"}</span>
-<span id="cb40-647"><a href="#cb40-647"></a>**Verdadero o Falso:** <span class="in">`add_edges(g, c(1,2,3))`</span> agrega tres conexiones.</span>
+<span id="cb40-646"><a href="#cb40-646"></a><span class="in">`simplify()`</span> con los parámetros <span class="in">`remove.multiple = TRUE`</span> y <span class="in">`remove.loops = TRUE`</span>.</span>
+<span id="cb40-647"><a href="#cb40-647"></a>:::</span>
 <span id="cb40-648"><a href="#cb40-648"></a></span>
-<span id="cb40-649"><a href="#cb40-649"></a>❌ **Falso.** El vector debe tener un número par de elementos (pares origen-destino). Este código produciría un error.</span>
-<span id="cb40-650"><a href="#cb40-650"></a>:::</span>
-<span id="cb40-651"><a href="#cb40-651"></a></span>
-<span id="cb40-652"><a href="#cb40-652"></a>::: {.callout-caution title="Pregunta 5" collapse="true"}</span>
-<span id="cb40-653"><a href="#cb40-653"></a>**¿Cuántas conexiones tiene un `make_ring(10)`?**</span>
-<span id="cb40-654"><a href="#cb40-654"></a></span>
-<span id="cb40-655"><a href="#cb40-655"></a>Exactamente **10**: cada nodo se conecta con su vecino y el último se conecta con el primero, formando un ciclo.</span>
-<span id="cb40-656"><a href="#cb40-656"></a>:::</span>
+<span id="cb40-649"><a href="#cb40-649"></a>**Pregunta 4: Verdadero o Falso:** ¿La función <span class="in">`add_edges(g, c(1,2,3))`</span> agrega tres conexiones?</span>
+<span id="cb40-650"><a href="#cb40-650"></a></span>
+<span id="cb40-651"><a href="#cb40-651"></a>::: {.callout-caution title="Respuesta 4" collapse="true"}</span>
+<span id="cb40-652"><a href="#cb40-652"></a></span>
+<span id="cb40-653"><a href="#cb40-653"></a>❌ **Falso.** El vector debe tener un número par de elementos (pares origen-destino). Este código produciría un error.</span>
+<span id="cb40-654"><a href="#cb40-654"></a>:::</span>
+<span id="cb40-655"><a href="#cb40-655"></a></span>
+<span id="cb40-656"><a href="#cb40-656"></a>**Pregunta 5: ¿Cuántas conexiones tiene un `make_ring(10)`?**</span>
+<span id="cb40-657"><a href="#cb40-657"></a></span>
+<span id="cb40-658"><a href="#cb40-658"></a>::: {.callout-caution title="Respuesta 5" collapse="true"}</span>
+<span id="cb40-659"><a href="#cb40-659"></a></span>
+<span id="cb40-660"><a href="#cb40-660"></a></span>
+<span id="cb40-661"><a href="#cb40-661"></a>Exactamente **10**: cada nodo se conecta con su vecino y el último se conecta con el primero, formando un ciclo.</span>
+<span id="cb40-662"><a href="#cb40-662"></a>:::</span>
 </code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
 </div></div></div></div></div>
 </div> <!-- /content -->

@@ -32,12 +32,21 @@ library(networkD3)
 # Instalar y cargar la librería networkD3
 # install.packages("networkD3")
 library(networkD3)
-# Crear un data frame de nodos
-nodes <- data.frame(name = c("A", "B", "C", "D",  "E"))
-# Crear un data frame de enlaces
-links <- data.frame(source = c(0, 0, 1, 1,3), target = c(1, 2, 3, 4, 0), value = c(10, 20, 30, 40, 50))
-# Visualizar la red jerárquica
-forceNetwork(Links = links, Nodes = nodes, Source = "source", Target = "
+library(igraph)
+```
+  
+```{r}
+karate <- make_graph("Zachary")
+wc <- cluster_walktrap(karate)
+members <- membership(wc)
+
+# Convert to object suitable for networkD3
+karate_d3 <- igraph_to_networkD3(karate, group = members)
+
+# Create force directed network plot
+forceNetwork(Links = karate_d3$links, Nodes = karate_d3$nodes, 
+             Source = 'source', Target = 'target', 
+             NodeID = 'name', Group = 'group')
 ```
   
 

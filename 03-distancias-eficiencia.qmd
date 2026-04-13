@@ -6,11 +6,11 @@ Al finalizar este capítulo serás capaz de:
 1. **Calcular** la distancia más corta (*shortest path*) entre cualquier par de nodos.
 2. **Construir e interpretar** la matriz de distancias y su representación como mapa de calor.
 3. **Medir** la distancia media, el diámetro y la excentricidad de una red.
-4. **Evaluar** la eficiencia global de una red y su densidad de aristas.
+4. **Evaluar** la eficiencia global de una red y su densidad de conexiones.
 5. **Comparar** distintas topologías en función de sus propiedades de distancia.
 :::
 
-> **Pregunta motivadora:** En una red social, ¿cuántos "apretones de manos" separan a dos personas cualesquiera? La famosa idea de los "seis grados de separación" sugiere que el número es sorprendentemente bajo. ¿Es cierto para cualquier tipo de red?
+> **Pregunta motivadora:** En una red social, ¿cuántos "apretones de manos" separan a dos personas cualesquiera? La famosa idea de los "seis grados de separación" sugiere que el número es sorprendentemente bajo. ¿Es cierto para cualquier tipo de red? ¿Cuántas personas ( yo conozco a A quien a su vez conoce a B  quien su vez conoce a C,...) crees que te separan de Dua Lipa, Harry Styles,el Papa, Claudia Sheinbaum?
 
 ```{mermaid}
 %%| label: fig-mapa-cap3
@@ -27,7 +27,7 @@ flowchart TD
     D --> D2[Excentricidad]
     D --> D3[Centro y periferia]
     E --> E1[Eficiencia global]
-    E --> E2[Densidad de aristas]
+    E --> E2[Densidad de conexiones]
 ```
 
 ## Preparación del entorno
@@ -40,14 +40,14 @@ library(igraph)
 
 ## ¿Qué es la distancia en una red?
 
-En una red, la **distancia** entre dos nodos $u$ y $v$ es el número mínimo de aristas que hay que recorrer para ir de $u$ a $v$. Se denota $d(u, v)$ y también se le llama *geodésica* o *shortest path length*.
+En una red, la **distancia** entre dos nodos $u$ y $v$ es el número **mínimo** de conexiones que hay que recorrer para ir de $u$ a $v$. Se denota $d(u, v)$ y también se le llama *geodésica* o *shortest path length*.
 
 $$
-d(u, v) = \min \{ \text{número de aristas en un camino de } u \text{ a } v \}
+d(u, v) = \min \{ \text{número de conexiones en un camino de } u \text{ a } v \}
 $$
 
 ::: {.callout-tip title="💡 Concepto clave"}
-La distancia en redes **no es geográfica**, es **topológica**: mide saltos entre nodos, no kilómetros. Dos personas en diferentes continentes pueden estar a distancia 1 si son amigos directos en una red social.
+La distancia en redes **no es geográfica**, es **topológica**: mide saltos entre nodos, no kilómetros. Dos personas en diferentes continentes pueden estar a distancia 1 si son amigos directos en una red social (real o virtual).
 :::
 
 Comencemos con un ejemplo simple: una red tipo anillo.
@@ -89,7 +89,7 @@ cat("Distancia:", length(camino) - 1, "saltos\n")
 V(g)$color <- "skyblue"
 V(g)$color[camino] <- "tomato"
 
-# Identificar las aristas del camino
+# Identificar las conexiones del camino
 camino_ids <- as.integer(camino)
 pares <- c()
 for (i in 1:(length(camino_ids) - 1)) {
@@ -224,7 +224,7 @@ $$
 E_{\text{global}} = \frac{1}{n(n-1)} \sum_{i \neq j} \frac{1}{d(i, j)}
 $$
 
-Una red completamente conectada tiene eficiencia 1; una red sin aristas tiene eficiencia 0.
+Una red completamente conectada tiene eficiencia 1; una red sin conexiones tiene eficiencia 0.
 
 ```{r}
 #| label: eficiencia-global
@@ -241,27 +241,27 @@ eficiencia_global <- function(g) {
 cat("Eficiencia global (anillo):", round(eficiencia_global(g), 4), "\n")
 ```
 
-### Densidad de aristas
+### Densidad de conexiones
 
-La **densidad** indica qué fracción de todas las aristas posibles existen realmente:
+La **densidad** indica qué fracción de todas las conexiones posibles existen realmente:
 
 $$
 \rho = \frac{2m}{n(n-1)} \quad \text{(red no dirigida)}
 $$
 
-donde $m$ es el número de aristas y $n$ el de nodos.
+donde $m$ es el número de conexiones y $n$ el de nodos.
 
 ```{r}
 #| label: densidad
 
-cat("Densidad de aristas (anillo):", round(edge_density(g), 4), "\n")
-cat("Aristas existentes:", ecount(g), "\n")
-cat("Aristas posibles:", choose(vcount(g), 2), "\n")
+cat("Densidad de conexiones (anillo):", round(edge_density(g), 4), "\n")
+cat("conexiones existentes:", ecount(g), "\n")
+cat("conexiones posibles:", choose(vcount(g), 2), "\n")
 ```
 
 ## El efecto de los atajos
 
-¿Qué pasa si agregamos una sola arista "atajo" entre dos nodos distantes de una red anillo? Veamos cómo impacta las métricas.
+¿Qué pasa si agregamos una sola conexión "atajo" entre dos nodos distantes de una red anillo? Veamos cómo impacta las métricas.
 
 ```{r}
 #| label: fig-efecto-atajo
@@ -299,7 +299,7 @@ knitr::kable(metricas,
 ```{r}
 #| label: fig-anillo-atajo-visual
 #| fig-cap: "Visualización del anillo original (izq.) y con atajo (der.)"
-#| fig-alt: "Dos redes anillo: la de la derecha tiene una arista adicional cruzando el centro"
+#| fig-alt: "Dos redes anillo: la de la derecha tiene una conexión adicional cruzando el centro"
 #| fig-width: 12
 #| fig-height: 5
 
@@ -348,7 +348,7 @@ redes <- list(
 comparacion <- data.frame(
   Red = names(redes),
   Nodos = sapply(redes, vcount),
-  Aristas = sapply(redes, ecount),
+  conexiones = sapply(redes, ecount),
   Dist_media = round(sapply(redes, mean_distance), 3),
   Diámetro = sapply(redes, diameter),
   Densidad = round(sapply(redes, edge_density), 4),
@@ -357,7 +357,7 @@ comparacion <- data.frame(
 
 knitr::kable(comparacion,
              caption = "Comparación de métricas de distancia entre cinco topologías (50 nodos)",
-             col.names = c("Red", "Nodos", "Aristas", "Dist. media", 
+             col.names = c("Red", "Nodos", "conexiones", "Dist. media", 
                            "Diámetro", "Densidad", "Eficiencia"))
 ```
 
@@ -388,7 +388,7 @@ barplot(comparacion$Eficiencia,
 ```
 
 ::: {.callout-tip title="💡 Concepto clave"}
-La red **completa** tiene la eficiencia máxima (todos están a distancia 1), pero requiere $\binom{n}{2}$ aristas. La red *small-world* logra una eficiencia alta con muchas menos aristas, lo que la convierte en un diseño "económico" para la propagación rápida de información.
+La red **completa** tiene la eficiencia máxima (todos están a distancia 1), pero requiere $\binom{n}{2}$ conexiones. La red *small-world* logra una eficiencia alta con muchas menos conexioness, lo que la convierte en un diseño "económico" para la propagación rápida de información.
 :::
 
 ## Distancias en redes grandes
@@ -402,7 +402,7 @@ set.seed(42)
 g_large <- sample_smallworld(1, 500, nei = 3, p = 0.1)
 
 cat("Nodos:", vcount(g_large), "\n")
-cat("Aristas:", ecount(g_large), "\n")
+cat("conexiones:", ecount(g_large), "\n")
 cat("Distancia media:", round(mean_distance(g_large), 3), "\n")
 cat("Diámetro:", diameter(g_large), "\n")
 ```
@@ -467,12 +467,12 @@ metricas_30 <- data.frame(
   Red = names(redes_30),
   Dist_media = round(sapply(redes_30, mean_distance), 3),
   Diámetro = sapply(redes_30, diameter),
-  Aristas = sapply(redes_30, ecount)
+  conexiones = sapply(redes_30, ecount)
 )
 
 knitr::kable(metricas_30,
              caption = "Métricas de tres topologías con 30 nodos",
-             col.names = c("Red", "Dist. media", "Diámetro", "Aristas"))
+             col.names = c("Red", "Dist. media", "Diámetro", "conexiones"))
 ```
 
 **Paso 2:** Visualizar con gráfico de barras.
@@ -492,7 +492,7 @@ text(x = c(0.7, 1.9, 3.1), y = metricas_30$Dist_media + 0.3,
      labels = metricas_30$Dist_media, cex = 0.9, font = 2)
 ```
 
-**Interpretación:** La red **completa** tiene distancia media 1 (todos conectados directamente), pero requiere $\binom{30}{2} = 435$ aristas. La **estrella** logra una distancia media de apenas ~2 con solo 29 aristas (muy eficiente). El **anillo** tiene la mayor distancia media (~8) porque la información debe recorrer la mitad del círculo. Para difundir una noticia rápido, la completa es óptima pero costosa; la estrella es la más eficiente en aristas por unidad de distancia.
+**Interpretación:** La red **completa** tiene distancia media 1 (todos conectados directamente), pero requiere $\binom{30}{2} = 435$ conexiones. La **estrella** logra una distancia media de apenas ~2 con solo 29 conexiones (muy eficiente). El **anillo** tiene la mayor distancia media (~8) porque la información debe recorrer la mitad del círculo. Para difundir una noticia rápido, la completa es óptima pero costosa; la estrella es la más eficiente en conexiones por unidad de distancia.
 :::
 
 ---
@@ -547,7 +547,7 @@ knitr::kable(resumen_distancias(g_sw100),
 
 ### Ejercicios con pistas {.unnumbered}
 
-**Ejercicio 1:** Crea una red tipo anillo de 20 nodos. Agrega una arista entre dos nodos distantes (por ejemplo, N1 y N11). ¿Cuánto se reduce la distancia media? ¿Y el diámetro? Repite agregando 2, 3 y 5 atajos en posiciones diferentes y grafica la evolución de la distancia media.
+**Ejercicio 1:** Crea una red tipo anillo de 20 nodos. Agrega una conexión entre dos nodos distantes (por ejemplo, N1 y N11). ¿Cuánto se reduce la distancia media? ¿Y el diámetro? Repite agregando 2, 3 y 5 atajos en posiciones diferentes y grafica la evolución de la distancia media.
 
 ::: {.callout-note title="💡 Pista 1" collapse="true"}
 Guarda la distancia media original con `mean_distance(g)` antes de modificar. Usa `add_edges()` para agregar atajos en cada iteración.
@@ -659,7 +659,7 @@ Diseña un experimento: genera 30 redes *small-world* con $n = 200$ y $p$ fijo e
 
 Investiga la relación entre densidad y eficiencia: genera redes ER con 100 nodos y $p$ variando de 0.01 a 0.50 (en pasos de 0.01). Para cada una, calcula la densidad y la eficiencia global. Grafica eficiencia vs. densidad. ¿La relación es lineal?
 
-> **Autoevaluación:** La relación debería ser creciente pero **no lineal**: la eficiencia crece rápido al principio (las primeras aristas tienen un impacto enorme) y luego se satura al acercarse a 1. Un gráfico con forma de curva logarítmica o raíz cuadrada es esperable.
+> **Autoevaluación:** La relación debería ser creciente pero **no lineal**: la eficiencia crece rápido al principio (las primeras conexiones tienen un impacto enorme) y luego se satura al acercarse a 1. Un gráfico con forma de curva logarítmica o raíz cuadrada es esperable.
 
 ## Resumen del capítulo
 
@@ -683,7 +683,7 @@ flowchart LR
 | `mean_distance(g)` | Distancia media de la red |
 | `diameter(g)` / `get_diameter(g)` | Diámetro y camino correspondiente |
 | `eccentricity(g)` | Excentricidad de cada nodo |
-| `edge_density(g)` | Densidad de aristas |
+| `edge_density(g)` | Densidad de conexiones |
 | Eficiencia global | $\frac{1}{n(n-1)} \sum_{i \neq j} 1/d(i,j)$ |
 | Centro / Periferia | Nodos con menor / mayor excentricidad |
 
@@ -696,7 +696,7 @@ flowchart LR
 ::: {.callout-caution title="Pregunta 1" collapse="true"}
 **¿Qué representa el diámetro de una red?**
 
-a) El número total de aristas
+a) El número total de conexiones
 b) La distancia media entre todos los pares
 c) La distancia más larga entre cualquier par de nodos ✅
 d) El grado del nodo más conectado
