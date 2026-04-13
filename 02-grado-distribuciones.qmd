@@ -717,19 +717,30 @@ El modelo Barabási–Albert usa enlace preferencial, lo que genera distribucion
 Es el valor de grado mínimo a partir del cual la distribución se comporta como *power-law*. Los nodos con grado menor a $x_{\min}$ no siguen este patrón.
 :::
 
+**Pregunta 4: ¿Qué tipo de gráfico es el más adecuado para identificar visualmente una ley de potencia?**
+
+a)  Histograma con ejes lineales
+b)  Gráfico de barras
+c)  Gráfico log-log 
+d)  Diagrama de caja (*boxplot*)
+
+
+
 ::: {.callout-caution title="Pregunta 4" collapse="true"}
 **¿Qué tipo de gráfico es el más adecuado para identificar visualmente una ley de potencia?**
 
 a)  Histograma con ejes lineales
 b)  Gráfico de barras
 c)  Gráfico log-log ✅
-d)  Diagrama de caja (*boxplot*)
+d)  *Boxplot*
 
 En escala log-log, una *power-law* aparece como una línea recta con pendiente $-\gamma$.
 :::
 
-::: {.callout-caution title="Pregunta 5" collapse="true"}
-**Verdadero o Falso:** Los *hubs* son igual de probables en redes ER que en redes BA.
+**Pregunta 5: Verdadero o Falso:** Los *hubs* son igual de probables en redes ER que en redes BA.
+
+::: {.callout-caution title="Respuesta 5" collapse="true"}
+
 
 ❌ **Falso.** En redes ER la probabilidad de encontrar un nodo con grado extremo es exponencialmente baja (distribución Poisson). En redes BA, los *hubs* emergen naturalmente por el mecanismo de enlace preferencial.
 :::
