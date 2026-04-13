@@ -1,17 +1,17 @@
-## VisNetwork {#Visnetwork}
+## VisNetwork y networkD3 {#Visnetwork}
 
 ::: {.callout-note title="🎯 Objetivos de aprendizaje"}
 Al finalizar este capítulo serás capaz de:
 
-1.  **Generar ** redes interactivas usando la librería `visNetwork` 
-2.  **Generar** redes con los modelos Erdős–Rényi (ER) y Barabási–Albert (BA) en `igraph`.
+1.  **Generar ** redes interactivas usando la librería e`VisNetwork `y `networkD3`.
+2.  **Generar** redes h`.ierárquicas usando `networkD3` y explicar su utilidad para representar relaciones de dependencia.graph`.
 3.  **Visualizar y comparar** distribuciones de grado usando histogramas y gráficos log-log.
 4.  **Ajustar** una ley de potencia a datos de grado con el paquete `poweRlaw`.
 5.  **Identificar** *hubs* (nodos altamente conectados) y explicar su importancia en la estructura de la red.
 :::
 
 
-visNetwork es una librería de R que permite crear visualizaciones interactivas de redes basado en la biblioteca de javascript **vis.js**  Es especialmente útil para representar relaciones entre entidades, como conexiones entre personas, organizaciones o cualquier tipo de nodos y enlaces. A continuación, se muestra un ejemplo básico de cómo usar `visNetwork` para crear una red simple.
+`visNetwork` es una librería de R que permite crear visualizaciones interactivas de redes basado en la biblioteca de javascript **vis.js**  Es especialmente útil para representar relaciones entre entidades, como conexiones entre personas, organizaciones o cualquier tipo de nodos y enlaces. A continuación, se muestra un ejemplo básico de cómo usar `visNetwork` para crear una red simple.
 
 ```{r}
 #| message: false
@@ -19,8 +19,30 @@ visNetwork es una librería de R que permite crear visualizaciones interactivas 
 # Instalar y cargar la librería visNetwork
 # install.packages("visNetwork")
 library(visNetwork)
+library(networkD3)
 
 ```
+
+
+### Redes con `networkD3`
+
+`networkD3` es otra librería de R que permite crear visualizaciones interactivas de redes utilizando la biblioteca de javascript **D3.js**. Es especialmente útil para crear gráficos de redes jerárquicas, como árboles y diagramas de Sankey. A continuación, se muestra un ejemplo básico de cómo usar `networkD3` para crear una red jerárquica simple.
+
+```{r}
+# Instalar y cargar la librería networkD3
+# install.packages("networkD3")
+library(networkD3)
+# Crear un data frame de nodos
+nodes <- data.frame(name = c("A", "B", "C", "D",  "E"))
+# Crear un data frame de enlaces
+links <- data.frame(source = c(0, 0, 1, 1,3), target = c(1, 2, 3, 4, 0), value = c(10, 20, 30, 40, 50))
+# Visualizar la red jerárquica
+forceNetwork(Links = links, Nodes = nodes, Source = "source", Target = "
+```
+  
+
+
+  
 
 **visNetwork** requiere de al menos, como cualquier red, de dos elementos:
 
@@ -42,6 +64,16 @@ En este ejemplo, hemos creado una red con 5 nodos y 3 conexiones entre ellos. La
 
 Si necesitas ayuda con la función `visNetwork` o cualquier otra función de la librería, puedes usar la función `help()` o el signo de interrogación `?` seguido del nombre de la función. Además, existe ayuda adicional en esta librería usando:
 
+```{r}
+#| eval: false
+#| include: false
+# Obtener ayuda sobre la función visNetwork
+# javascript api
+visDocumentation()
+vignette("Introduction-to-visNetwork") # with CRAN version
+# shiny examples
+shiny::runApp(system.file("shiny", package = "visNetwork"))
+```
 
 ### Personalización de la visualización
 Puedes personalizar la apariencia de los nodos y enlaces utilizando diferentes atributos. Por ejemplo, puedes asignar colores a los nodos según un grupo o categoría, o ajustar el tamaño de los nodos en función de su grado (número de conexiones). 

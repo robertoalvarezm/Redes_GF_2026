@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>8&nbsp; VisNetwork – Análisis de redes en R</title>
+<title>8&nbsp; VisNetwork y networkD3 – Análisis de redes en R</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -289,7 +289,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./08-Visnetworks.html"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">VisNetwork</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./08-Visnetworks.html"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">VisNetwork y networkD3</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -370,7 +370,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./08-Visnetworks.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">VisNetwork</span></span></a>
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">VisNetwork y networkD3</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -395,7 +395,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#personalización-de-la-visualización" id="toc-personalización-de-la-visualización" class="nav-link active" data-scroll-target="#personalización-de-la-visualización"><span class="header-section-number">8.0.1</span> Personalización de la visualización</a></li>
+  <li><a href="#redes-con-networkd3" id="toc-redes-con-networkd3" class="nav-link active" data-scroll-target="#redes-con-networkd3"><span class="header-section-number">8.0.1</span> Redes con <code>networkD3</code></a></li>
+  <li><a href="#cómo-obtener-ayuda-en-visnetwork" id="toc-cómo-obtener-ayuda-en-visnetwork" class="nav-link" data-scroll-target="#cómo-obtener-ayuda-en-visnetwork"><span class="header-section-number">8.0.2</span> Cómo obtener ayuda en <code>visNetwork</code></a></li>
+  <li><a href="#personalización-de-la-visualización" id="toc-personalización-de-la-visualización" class="nav-link" data-scroll-target="#personalización-de-la-visualización"><span class="header-section-number">8.0.3</span> Personalización de la visualización</a></li>
   </ul>
 </nav>
     </div>
@@ -405,7 +407,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<div class="quarto-title-block"><div><h1 class="title"><span id="Visnetwork" class="quarto-section-identifier"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">VisNetwork</span></span></h1><button type="button" class="btn code-tools-button dropdown-toggle" id="quarto-code-tools-menu" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi"></i> Code</button><ul class="dropdown-menu dropdown-menu-end" aria-labelelledby="quarto-code-tools-menu"><li><a id="quarto-show-all-code" class="dropdown-item" href="javascript:void(0)" role="button">Show All Code</a></li><li><a id="quarto-hide-all-code" class="dropdown-item" href="javascript:void(0)" role="button">Hide All Code</a></li><li><hr class="dropdown-divider"></li><li><a id="quarto-view-source" class="dropdown-item" href="javascript:void(0)" role="button">View Source</a></li></ul></div></div>
+<div class="quarto-title-block"><div><h1 class="title"><span id="Visnetwork" class="quarto-section-identifier"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">VisNetwork y networkD3</span></span></h1><button type="button" class="btn code-tools-button dropdown-toggle" id="quarto-code-tools-menu" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi"></i> Code</button><ul class="dropdown-menu dropdown-menu-end" aria-labelelledby="quarto-code-tools-menu"><li><a id="quarto-show-all-code" class="dropdown-item" href="javascript:void(0)" role="button">Show All Code</a></li><li><a id="quarto-hide-all-code" class="dropdown-item" href="javascript:void(0)" role="button">Hide All Code</a></li><li><hr class="dropdown-divider"></li><li><a id="quarto-view-source" class="dropdown-item" href="javascript:void(0)" role="button">View Source</a></li></ul></div></div>
 </div>
 
 
@@ -434,23 +436,27 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="callout-body-container callout-body">
 <p>Al finalizar este capítulo serás capaz de:</p>
 <ol type="1">
-<li><strong>Generar </strong> redes interactivas usando la librería <code>visNetwork</code></li>
-<li><strong>Generar</strong> redes con los modelos Erdős–Rényi (ER) y Barabási–Albert (BA) en <code>igraph</code>.</li>
+<li><strong>Generar </strong> redes interactivas usando la librería e<code>VisNetwork</code>y <code>networkD3</code>.</li>
+<li><strong>Generar</strong> redes h<code>.ierárquicas usando</code>networkD3<code>y explicar su utilidad para representar relaciones de dependencia.graph</code>.</li>
 <li><strong>Visualizar y comparar</strong> distribuciones de grado usando histogramas y gráficos log-log.</li>
 <li><strong>Ajustar</strong> una ley de potencia a datos de grado con el paquete <code>poweRlaw</code>.</li>
 <li><strong>Identificar</strong> <em>hubs</em> (nodos altamente conectados) y explicar su importancia en la estructura de la red.</li>
 </ol>
 </div>
 </div>
-<p>visNetwork es una librería de R que permite crear visualizaciones interactivas de redes basado en la biblioteca de javascript <strong>vis.js</strong> Es especialmente útil para representar relaciones entre entidades, como conexiones entre personas, organizaciones o cualquier tipo de nodos y enlaces. A continuación, se muestra un ejemplo básico de cómo usar <code>visNetwork</code> para crear una red simple.</p>
+<p><code>visNetwork</code> es una librería de R que permite crear visualizaciones interactivas de redes basado en la biblioteca de javascript <strong>vis.js</strong> Es especialmente útil para representar relaciones entre entidades, como conexiones entre personas, organizaciones o cualquier tipo de nodos y enlaces. A continuación, se muestra un ejemplo básico de cómo usar <code>visNetwork</code> para crear una red simple.</p>
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="co"># Instalar y cargar la librería visNetwork</span></span>
 <span id="cb1-2"><a href="#cb1-2"></a><span class="co"># install.packages("visNetwork")</span></span>
-<span id="cb1-3"><a href="#cb1-3"></a><span class="fu">library</span>(visNetwork)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb1-3"><a href="#cb1-3"></a><span class="fu">library</span>(visNetwork)</span>
+<span id="cb1-4"><a href="#cb1-4"></a><span class="fu">library</span>(networkD3)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 </div>
+<section id="redes-con-networkd3" class="level3" data-number="8.0.1">
+<h3 data-number="8.0.1" class="anchored" data-anchor-id="redes-con-networkd3"><span class="header-section-number">8.0.1</span> Redes con <code>networkD3</code></h3>
+<p><code>networkD3</code> es otra librería de R que permite crear visualizaciones interactivas de redes utilizando la biblioteca de javascript <strong>D3.js</strong>. Es especialmente útil para crear gráficos de redes jerárquicas, como árboles y diagramas de Sankey. A continuación, se muestra un ejemplo básico de cómo usar <code>networkD3</code> para crear una red jerárquica simple.</p>
 <p><strong>visNetwork</strong> requiere de al menos, como cualquier red, de dos elementos:</p>
 <ul>
 <li><strong>Nodos</strong>: Representan las entidades en la red. Cada nodo puede tener atributos como un identificador, una etiqueta, un grupo, etc.</li>
@@ -466,13 +472,18 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb2-5"><a href="#cb2-5"></a><span class="fu">visNetwork</span>(nodes, edges, <span class="at">width =</span> <span class="st">"100%"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output-display">
-<div id="htmlwidget-7adbbd00faab2286a2a3" style="width:100%;height:480px;" class="visNetwork html-widget"></div>
-<script type="application/json" data-for="htmlwidget-7adbbd00faab2286a2a3">{"x":{"nodes":{"id":[1,2,3,4,5]},"edges":{"from":[1,2,5],"to":[3,4,5]},"nodesToDataframe":true,"edgesToDataframe":true,"options":{"width":"100%","height":"100%","nodes":{"shape":"dot"},"manipulation":{"enabled":false}},"groups":null,"width":"100%","height":null,"idselection":{"enabled":false},"byselection":{"enabled":false},"main":null,"submain":null,"footer":null,"background":"rgba(0, 0, 0, 0)"},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-ea2e7b514f62bb583a1b" style="width:100%;height:480px;" class="visNetwork html-widget"></div>
+<script type="application/json" data-for="htmlwidget-ea2e7b514f62bb583a1b">{"x":{"nodes":{"id":[1,2,3,4,5]},"edges":{"from":[1,2,5],"to":[3,4,5]},"nodesToDataframe":true,"edgesToDataframe":true,"options":{"width":"100%","height":"100%","nodes":{"shape":"dot"},"manipulation":{"enabled":false}},"groups":null,"width":"100%","height":null,"idselection":{"enabled":false},"byselection":{"enabled":false},"main":null,"submain":null,"footer":null,"background":"rgba(0, 0, 0, 0)"},"evals":[],"jsHooks":[]}</script>
 </div>
 </div>
 <p>En este ejemplo, hemos creado una red con 5 nodos y 3 conexiones entre ellos. La función <code>visNetwork()</code> toma los data frames de nodos y enlaces como argumentos y genera una visualización interactiva de la red. Puedes personalizar la apariencia de los nodos y enlaces utilizando diferentes atributos, como colores, tamaños, etiquetas, etc.</p>
-<section id="personalización-de-la-visualización" class="level3" data-number="8.0.1">
-<h3 data-number="8.0.1" class="anchored" data-anchor-id="personalización-de-la-visualización"><span class="header-section-number">8.0.1</span> Personalización de la visualización</h3>
+</section>
+<section id="cómo-obtener-ayuda-en-visnetwork" class="level3" data-number="8.0.2">
+<h3 data-number="8.0.2" class="anchored" data-anchor-id="cómo-obtener-ayuda-en-visnetwork"><span class="header-section-number">8.0.2</span> Cómo obtener ayuda en <code>visNetwork</code></h3>
+<p>Si necesitas ayuda con la función <code>visNetwork</code> o cualquier otra función de la librería, puedes usar la función <code>help()</code> o el signo de interrogación <code>?</code> seguido del nombre de la función. Además, existe ayuda adicional en esta librería usando:</p>
+</section>
+<section id="personalización-de-la-visualización" class="level3" data-number="8.0.3">
+<h3 data-number="8.0.3" class="anchored" data-anchor-id="personalización-de-la-visualización"><span class="header-section-number">8.0.3</span> Personalización de la visualización</h3>
 <p>Puedes personalizar la apariencia de los nodos y enlaces utilizando diferentes atributos. Por ejemplo, puedes asignar colores a los nodos según un grupo o categoría, o ajustar el tamaño de los nodos en función de su grado (número de conexiones).</p>
 <div class="cell">
 <details class="code-fold">
@@ -491,8 +502,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb3-12"><a href="#cb3-12"></a>  <span class="fu">visOptions</span>(<span class="at">highlightNearest =</span> <span class="cn">TRUE</span>, <span class="at">nodesIdSelection =</span> <span class="cn">TRUE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output-display">
-<div id="htmlwidget-70c664f373045bcbe253" style="width:100%;height:480px;" class="visNetwork html-widget"></div>
-<script type="application/json" data-for="htmlwidget-70c664f373045bcbe253">{"x":{"nodes":{"id":[1,2,3,4,5],"label":["A","B","C","D","E"],"group":["X","X","Y","Y","Z"],"value":[10,20,30,40,50]},"edges":{"from":[1,2,5],"to":[3,4,5]},"nodesToDataframe":true,"edgesToDataframe":true,"options":{"width":"100%","height":"100%","nodes":{"shape":"dot","color":{"background":"lightblue","border":"black"}},"manipulation":{"enabled":false},"edges":{"color":"gray"}},"groups":["X","Y","Z"],"width":"100%","height":null,"idselection":{"enabled":true,"style":"width: 150px; height: 26px","useLabels":true,"main":"Select by id"},"byselection":{"enabled":false,"style":"width: 150px; height: 26px","multiple":false,"hideColor":"rgba(200,200,200,0.5)","highlight":false},"main":null,"submain":null,"footer":null,"background":"rgba(0, 0, 0, 0)","highlight":{"enabled":true,"hoverNearest":false,"degree":1,"algorithm":"all","hideColor":"rgba(200,200,200,0.5)","labelOnly":true},"collapse":{"enabled":false,"fit":false,"resetHighlight":true,"clusterOptions":null,"keepCoord":true,"labelSuffix":"(cluster)"}},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-f0af4b37026fdfab639b" style="width:100%;height:480px;" class="visNetwork html-widget"></div>
+<script type="application/json" data-for="htmlwidget-f0af4b37026fdfab639b">{"x":{"nodes":{"id":[1,2,3,4,5],"label":["A","B","C","D","E"],"group":["X","X","Y","Y","Z"],"value":[10,20,30,40,50]},"edges":{"from":[1,2,5],"to":[3,4,5]},"nodesToDataframe":true,"edgesToDataframe":true,"options":{"width":"100%","height":"100%","nodes":{"shape":"dot","color":{"background":"lightblue","border":"black"}},"manipulation":{"enabled":false},"edges":{"color":"gray"}},"groups":["X","Y","Z"],"width":"100%","height":null,"idselection":{"enabled":true,"style":"width: 150px; height: 26px","useLabels":true,"main":"Select by id"},"byselection":{"enabled":false,"style":"width: 150px; height: 26px","multiple":false,"hideColor":"rgba(200,200,200,0.5)","highlight":false},"main":null,"submain":null,"footer":null,"background":"rgba(0, 0, 0, 0)","highlight":{"enabled":true,"hoverNearest":false,"degree":1,"algorithm":"all","hideColor":"rgba(200,200,200,0.5)","labelOnly":true},"collapse":{"enabled":false,"fit":false,"resetHighlight":true,"clusterOptions":null,"keepCoord":true,"labelSuffix":"(cluster)"}},"evals":[],"jsHooks":[]}</script>
 </div>
 </div>
 <p>En este ejemplo, hemos asignado etiquetas a los nodos, agrupado los nodos en categorías (X, Y, Z) y asignado un valor que podría representar el grado o cualquier otra métrica. Además, hemos personalizado los colores de los nodos y enlaces, y habilitado opciones interactivas como resaltar el nodo más cercano al pasar el mouse y permitir la selección de nodos por su ID.</p>
@@ -979,20 +990,20 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       </a>
   </div>
 </nav><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Source Code</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4" data-shortcodes="false"><pre class="sourceCode numberSource markdown number-lines code-with-copy"><code class="sourceCode markdown"><span id="cb4-1"><a href="#cb4-1"></a><span class="fu">## VisNetwork {#Visnetwork}</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4" data-shortcodes="false"><pre class="sourceCode numberSource markdown number-lines code-with-copy"><code class="sourceCode markdown"><span id="cb4-1"><a href="#cb4-1"></a><span class="fu">## VisNetwork y networkD3 {#Visnetwork}</span></span>
 <span id="cb4-2"><a href="#cb4-2"></a></span>
 <span id="cb4-3"><a href="#cb4-3"></a>::: {.callout-note title="🎯 Objetivos de aprendizaje"}</span>
 <span id="cb4-4"><a href="#cb4-4"></a>Al finalizar este capítulo serás capaz de:</span>
 <span id="cb4-5"><a href="#cb4-5"></a></span>
-<span id="cb4-6"><a href="#cb4-6"></a><span class="ss">1.  </span>**Generar ** redes interactivas usando la librería <span class="in">`visNetwork`</span> </span>
-<span id="cb4-7"><a href="#cb4-7"></a><span class="ss">2.  </span>**Generar** redes con los modelos Erdős–Rényi (ER) y Barabási–Albert (BA) en <span class="in">`igraph`</span>.</span>
+<span id="cb4-6"><a href="#cb4-6"></a><span class="ss">1.  </span>**Generar ** redes interactivas usando la librería e<span class="in">`VisNetwork `</span>y <span class="in">`networkD3`</span>.</span>
+<span id="cb4-7"><a href="#cb4-7"></a><span class="ss">2.  </span>**Generar** redes h<span class="in">`.ierárquicas usando `</span>networkD3<span class="in">` y explicar su utilidad para representar relaciones de dependencia.graph`</span>.</span>
 <span id="cb4-8"><a href="#cb4-8"></a><span class="ss">3.  </span>**Visualizar y comparar** distribuciones de grado usando histogramas y gráficos log-log.</span>
 <span id="cb4-9"><a href="#cb4-9"></a><span class="ss">4.  </span>**Ajustar** una ley de potencia a datos de grado con el paquete <span class="in">`poweRlaw`</span>.</span>
 <span id="cb4-10"><a href="#cb4-10"></a><span class="ss">5.  </span>**Identificar** *hubs* (nodos altamente conectados) y explicar su importancia en la estructura de la red.</span>
 <span id="cb4-11"><a href="#cb4-11"></a>:::</span>
 <span id="cb4-12"><a href="#cb4-12"></a></span>
 <span id="cb4-13"><a href="#cb4-13"></a></span>
-<span id="cb4-14"><a href="#cb4-14"></a>visNetwork es una librería de R que permite crear visualizaciones interactivas de redes basado en la biblioteca de javascript **vis.js**  Es especialmente útil para representar relaciones entre entidades, como conexiones entre personas, organizaciones o cualquier tipo de nodos y enlaces. A continuación, se muestra un ejemplo básico de cómo usar <span class="in">`visNetwork`</span> para crear una red simple.</span>
+<span id="cb4-14"><a href="#cb4-14"></a><span class="in">`visNetwork`</span> es una librería de R que permite crear visualizaciones interactivas de redes basado en la biblioteca de javascript **vis.js**  Es especialmente útil para representar relaciones entre entidades, como conexiones entre personas, organizaciones o cualquier tipo de nodos y enlaces. A continuación, se muestra un ejemplo básico de cómo usar <span class="in">`visNetwork`</span> para crear una red simple.</span>
 <span id="cb4-15"><a href="#cb4-15"></a></span>
 <span id="cb4-18"><a href="#cb4-18"></a><span class="in">```{r}</span></span>
 <span id="cb4-19"><a href="#cb4-19"></a><span class="co">#| message: false</span></span>
@@ -1000,49 +1011,68 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb4-21"><a href="#cb4-21"></a><span class="co"># Instalar y cargar la librería visNetwork</span></span>
 <span id="cb4-22"><a href="#cb4-22"></a><span class="co"># install.packages("visNetwork")</span></span>
 <span id="cb4-23"><a href="#cb4-23"></a><span class="fu">library</span>(visNetwork)</span>
-<span id="cb4-24"><a href="#cb4-24"></a></span>
-<span id="cb4-25"><a href="#cb4-25"></a><span class="in">```</span></span>
-<span id="cb4-26"><a href="#cb4-26"></a></span>
-<span id="cb4-27"><a href="#cb4-27"></a>**visNetwork** requiere de al menos, como cualquier red, de dos elementos:</span>
+<span id="cb4-24"><a href="#cb4-24"></a><span class="fu">library</span>(networkD3)</span>
+<span id="cb4-25"><a href="#cb4-25"></a></span>
+<span id="cb4-26"><a href="#cb4-26"></a><span class="in">```</span></span>
+<span id="cb4-27"><a href="#cb4-27"></a></span>
 <span id="cb4-28"><a href="#cb4-28"></a></span>
-<span id="cb4-29"><a href="#cb4-29"></a><span class="ss">- </span>**Nodos**: Representan las entidades en la red. Cada nodo puede tener atributos como un identificador, una etiqueta, un grupo, etc.</span>
-<span id="cb4-30"><a href="#cb4-30"></a><span class="ss">- </span>**Enlaces**: Representan las conexiones entre los nodos. Cada enlace puede tener atributos como el nodo de origen, el nodo de destino, un peso, etc.</span>
-<span id="cb4-31"><a href="#cb4-31"></a></span>
-<span id="cb4-34"><a href="#cb4-34"></a><span class="in">```{r}</span></span>
-<span id="cb4-35"><a href="#cb4-35"></a><span class="co"># Crear un data frame de nodos</span></span>
-<span id="cb4-36"><a href="#cb4-36"></a>nodes <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">id =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>)</span>
-<span id="cb4-37"><a href="#cb4-37"></a><span class="co"># Crear un data frame de conexiones</span></span>
-<span id="cb4-38"><a href="#cb4-38"></a>edges <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">from =</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">5</span>), <span class="at">to =</span> <span class="fu">c</span>(<span class="dv">3</span>,<span class="dv">4</span>,<span class="dv">5</span>))</span>
-<span id="cb4-39"><a href="#cb4-39"></a><span class="fu">visNetwork</span>(nodes, edges, <span class="at">width =</span> <span class="st">"100%"</span>)</span>
+<span id="cb4-29"><a href="#cb4-29"></a><span class="fu">### Redes con `networkD3`</span></span>
+<span id="cb4-30"><a href="#cb4-30"></a></span>
+<span id="cb4-31"><a href="#cb4-31"></a><span class="in">`networkD3`</span> es otra librería de R que permite crear visualizaciones interactivas de redes utilizando la biblioteca de javascript **D3.js**. Es especialmente útil para crear gráficos de redes jerárquicas, como árboles y diagramas de Sankey. A continuación, se muestra un ejemplo básico de cómo usar <span class="in">`networkD3`</span> para crear una red jerárquica simple.</span>
+<span id="cb4-32"><a href="#cb4-32"></a></span>
+<span id="cb4-33"><a href="#cb4-33"></a></span>
+<span id="cb4-34"><a href="#cb4-34"></a>  </span>
+<span id="cb4-35"><a href="#cb4-35"></a></span>
+<span id="cb4-36"><a href="#cb4-36"></a>**visNetwork** requiere de al menos, como cualquier red, de dos elementos:</span>
+<span id="cb4-37"><a href="#cb4-37"></a></span>
+<span id="cb4-38"><a href="#cb4-38"></a><span class="ss">- </span>**Nodos**: Representan las entidades en la red. Cada nodo puede tener atributos como un identificador, una etiqueta, un grupo, etc.</span>
+<span id="cb4-39"><a href="#cb4-39"></a><span class="ss">- </span>**Enlaces**: Representan las conexiones entre los nodos. Cada enlace puede tener atributos como el nodo de origen, el nodo de destino, un peso, etc.</span>
 <span id="cb4-40"><a href="#cb4-40"></a></span>
-<span id="cb4-41"><a href="#cb4-41"></a><span class="in">```</span></span>
-<span id="cb4-42"><a href="#cb4-42"></a></span>
-<span id="cb4-43"><a href="#cb4-43"></a>En este ejemplo, hemos creado una red con 5 nodos y 3 conexiones entre ellos. La función <span class="in">`visNetwork()`</span> toma los data frames de nodos y enlaces como argumentos y genera una visualización interactiva de la red. Puedes personalizar la apariencia de los nodos y enlaces utilizando diferentes atributos, como colores, tamaños, etiquetas, etc.</span>
-<span id="cb4-44"><a href="#cb4-44"></a></span>
-<span id="cb4-45"><a href="#cb4-45"></a><span class="fu">### Cómo obtener ayuda en `visNetwork`</span></span>
-<span id="cb4-46"><a href="#cb4-46"></a></span>
-<span id="cb4-47"><a href="#cb4-47"></a>Si necesitas ayuda con la función <span class="in">`visNetwork`</span> o cualquier otra función de la librería, puedes usar la función <span class="in">`help()`</span> o el signo de interrogación <span class="in">`?`</span> seguido del nombre de la función. Además, existe ayuda adicional en esta librería usando:</span>
-<span id="cb4-48"><a href="#cb4-48"></a></span>
+<span id="cb4-43"><a href="#cb4-43"></a><span class="in">```{r}</span></span>
+<span id="cb4-44"><a href="#cb4-44"></a><span class="co"># Crear un data frame de nodos</span></span>
+<span id="cb4-45"><a href="#cb4-45"></a>nodes <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">id =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>)</span>
+<span id="cb4-46"><a href="#cb4-46"></a><span class="co"># Crear un data frame de conexiones</span></span>
+<span id="cb4-47"><a href="#cb4-47"></a>edges <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">from =</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">5</span>), <span class="at">to =</span> <span class="fu">c</span>(<span class="dv">3</span>,<span class="dv">4</span>,<span class="dv">5</span>))</span>
+<span id="cb4-48"><a href="#cb4-48"></a><span class="fu">visNetwork</span>(nodes, edges, <span class="at">width =</span> <span class="st">"100%"</span>)</span>
 <span id="cb4-49"><a href="#cb4-49"></a></span>
-<span id="cb4-50"><a href="#cb4-50"></a><span class="fu">### Personalización de la visualización</span></span>
-<span id="cb4-51"><a href="#cb4-51"></a>Puedes personalizar la apariencia de los nodos y enlaces utilizando diferentes atributos. Por ejemplo, puedes asignar colores a los nodos según un grupo o categoría, o ajustar el tamaño de los nodos en función de su grado (número de conexiones). </span>
-<span id="cb4-52"><a href="#cb4-52"></a></span>
-<span id="cb4-55"><a href="#cb4-55"></a><span class="in">```{r}</span></span>
-<span id="cb4-56"><a href="#cb4-56"></a><span class="co"># Crear un data frame de nodos con atributos adicionales </span></span>
-<span id="cb4-57"><a href="#cb4-57"></a>nodes <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">id =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>, </span>
-<span id="cb4-58"><a href="#cb4-58"></a>                    <span class="at">label =</span> <span class="fu">c</span>(<span class="st">"A"</span>, <span class="st">"B"</span>, <span class="st">"C"</span>, <span class="st">"D"</span>, <span class="st">"E"</span>), </span>
-<span id="cb4-59"><a href="#cb4-59"></a>                    <span class="at">group =</span> <span class="fu">c</span>(<span class="st">"X"</span>, <span class="st">"X"</span>, <span class="st">"Y"</span>, <span class="st">"Y"</span>, <span class="st">"Z"</span>),</span>
-<span id="cb4-60"><a href="#cb4-60"></a>                    <span class="at">value =</span> <span class="fu">c</span>(<span class="dv">10</span>, <span class="dv">20</span>, <span class="dv">30</span>, <span class="dv">40</span>, <span class="dv">50</span>))</span>
-<span id="cb4-61"><a href="#cb4-61"></a><span class="co"># Crear un data frame de conexiones</span></span>
-<span id="cb4-62"><a href="#cb4-62"></a>edges <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">from =</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">5</span>), <span class="at">to =</span> <span class="fu">c</span>(<span class="dv">3</span>,<span class="dv">4</span>,<span class="dv">5</span>))</span>
-<span id="cb4-63"><a href="#cb4-63"></a><span class="co"># Visualizar la red con personalización</span></span>
-<span id="cb4-64"><a href="#cb4-64"></a><span class="fu">visNetwork</span>(nodes, edges, <span class="at">width =</span> <span class="st">"100%"</span>) <span class="sc">%&gt;%</span>  </span>
-<span id="cb4-65"><a href="#cb4-65"></a>  <span class="fu">visNodes</span>(<span class="at">color =</span> <span class="fu">list</span>(<span class="at">background =</span> <span class="st">"lightblue"</span>, <span class="at">border =</span> <span class="st">"black"</span>)) <span class="sc">%&gt;%</span></span>
-<span id="cb4-66"><a href="#cb4-66"></a>  <span class="fu">visEdges</span>(<span class="at">color =</span> <span class="st">"gray"</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb4-67"><a href="#cb4-67"></a>  <span class="fu">visOptions</span>(<span class="at">highlightNearest =</span> <span class="cn">TRUE</span>, <span class="at">nodesIdSelection =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb4-68"><a href="#cb4-68"></a><span class="in">```</span></span>
-<span id="cb4-69"><a href="#cb4-69"></a></span>
-<span id="cb4-70"><a href="#cb4-70"></a>En este ejemplo, hemos asignado etiquetas a los nodos, agrupado los nodos en categorías (X, Y, Z) y asignado un valor que podría representar el grado o cualquier otra métrica. Además, hemos personalizado los colores de los nodos y enlaces, y habilitado opciones interactivas como resaltar el nodo más cercano al pasar el mouse y permitir la selección de nodos por su ID.</span>
+<span id="cb4-50"><a href="#cb4-50"></a><span class="in">```</span></span>
+<span id="cb4-51"><a href="#cb4-51"></a></span>
+<span id="cb4-52"><a href="#cb4-52"></a>En este ejemplo, hemos creado una red con 5 nodos y 3 conexiones entre ellos. La función <span class="in">`visNetwork()`</span> toma los data frames de nodos y enlaces como argumentos y genera una visualización interactiva de la red. Puedes personalizar la apariencia de los nodos y enlaces utilizando diferentes atributos, como colores, tamaños, etiquetas, etc.</span>
+<span id="cb4-53"><a href="#cb4-53"></a></span>
+<span id="cb4-54"><a href="#cb4-54"></a><span class="fu">### Cómo obtener ayuda en `visNetwork`</span></span>
+<span id="cb4-55"><a href="#cb4-55"></a></span>
+<span id="cb4-56"><a href="#cb4-56"></a>Si necesitas ayuda con la función <span class="in">`visNetwork`</span> o cualquier otra función de la librería, puedes usar la función <span class="in">`help()`</span> o el signo de interrogación <span class="in">`?`</span> seguido del nombre de la función. Además, existe ayuda adicional en esta librería usando:</span>
+<span id="cb4-57"><a href="#cb4-57"></a></span>
+<span id="cb4-60"><a href="#cb4-60"></a><span class="in">```{r}</span></span>
+<span id="cb4-61"><a href="#cb4-61"></a><span class="co">#| eval: false</span></span>
+<span id="cb4-62"><a href="#cb4-62"></a><span class="co">#| include: false</span></span>
+<span id="cb4-63"><a href="#cb4-63"></a><span class="co"># Obtener ayuda sobre la función visNetwork</span></span>
+<span id="cb4-64"><a href="#cb4-64"></a><span class="co"># javascript api</span></span>
+<span id="cb4-65"><a href="#cb4-65"></a><span class="fu">visDocumentation</span>()</span>
+<span id="cb4-66"><a href="#cb4-66"></a><span class="fu">vignette</span>(<span class="st">"Introduction-to-visNetwork"</span>) <span class="co"># with CRAN version</span></span>
+<span id="cb4-67"><a href="#cb4-67"></a><span class="co"># shiny examples</span></span>
+<span id="cb4-68"><a href="#cb4-68"></a>shiny<span class="sc">::</span><span class="fu">runApp</span>(<span class="fu">system.file</span>(<span class="st">"shiny"</span>, <span class="at">package =</span> <span class="st">"visNetwork"</span>))</span>
+<span id="cb4-69"><a href="#cb4-69"></a><span class="in">```</span></span>
+<span id="cb4-70"><a href="#cb4-70"></a></span>
+<span id="cb4-71"><a href="#cb4-71"></a><span class="fu">### Personalización de la visualización</span></span>
+<span id="cb4-72"><a href="#cb4-72"></a>Puedes personalizar la apariencia de los nodos y enlaces utilizando diferentes atributos. Por ejemplo, puedes asignar colores a los nodos según un grupo o categoría, o ajustar el tamaño de los nodos en función de su grado (número de conexiones). </span>
+<span id="cb4-73"><a href="#cb4-73"></a></span>
+<span id="cb4-76"><a href="#cb4-76"></a><span class="in">```{r}</span></span>
+<span id="cb4-77"><a href="#cb4-77"></a><span class="co"># Crear un data frame de nodos con atributos adicionales </span></span>
+<span id="cb4-78"><a href="#cb4-78"></a>nodes <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">id =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>, </span>
+<span id="cb4-79"><a href="#cb4-79"></a>                    <span class="at">label =</span> <span class="fu">c</span>(<span class="st">"A"</span>, <span class="st">"B"</span>, <span class="st">"C"</span>, <span class="st">"D"</span>, <span class="st">"E"</span>), </span>
+<span id="cb4-80"><a href="#cb4-80"></a>                    <span class="at">group =</span> <span class="fu">c</span>(<span class="st">"X"</span>, <span class="st">"X"</span>, <span class="st">"Y"</span>, <span class="st">"Y"</span>, <span class="st">"Z"</span>),</span>
+<span id="cb4-81"><a href="#cb4-81"></a>                    <span class="at">value =</span> <span class="fu">c</span>(<span class="dv">10</span>, <span class="dv">20</span>, <span class="dv">30</span>, <span class="dv">40</span>, <span class="dv">50</span>))</span>
+<span id="cb4-82"><a href="#cb4-82"></a><span class="co"># Crear un data frame de conexiones</span></span>
+<span id="cb4-83"><a href="#cb4-83"></a>edges <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">from =</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">5</span>), <span class="at">to =</span> <span class="fu">c</span>(<span class="dv">3</span>,<span class="dv">4</span>,<span class="dv">5</span>))</span>
+<span id="cb4-84"><a href="#cb4-84"></a><span class="co"># Visualizar la red con personalización</span></span>
+<span id="cb4-85"><a href="#cb4-85"></a><span class="fu">visNetwork</span>(nodes, edges, <span class="at">width =</span> <span class="st">"100%"</span>) <span class="sc">%&gt;%</span>  </span>
+<span id="cb4-86"><a href="#cb4-86"></a>  <span class="fu">visNodes</span>(<span class="at">color =</span> <span class="fu">list</span>(<span class="at">background =</span> <span class="st">"lightblue"</span>, <span class="at">border =</span> <span class="st">"black"</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb4-87"><a href="#cb4-87"></a>  <span class="fu">visEdges</span>(<span class="at">color =</span> <span class="st">"gray"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb4-88"><a href="#cb4-88"></a>  <span class="fu">visOptions</span>(<span class="at">highlightNearest =</span> <span class="cn">TRUE</span>, <span class="at">nodesIdSelection =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb4-89"><a href="#cb4-89"></a><span class="in">```</span></span>
+<span id="cb4-90"><a href="#cb4-90"></a></span>
+<span id="cb4-91"><a href="#cb4-91"></a>En este ejemplo, hemos asignado etiquetas a los nodos, agrupado los nodos en categorías (X, Y, Z) y asignado un valor que podría representar el grado o cualquier otra métrica. Además, hemos personalizado los colores de los nodos y enlaces, y habilitado opciones interactivas como resaltar el nodo más cercano al pasar el mouse y permitir la selección de nodos por su ID.</span>
 </code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
 </div></div></div></div></div>
 </div> <!-- /content -->
