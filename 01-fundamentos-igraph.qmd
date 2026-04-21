@@ -7,7 +7,7 @@ Al finalizar este capítulo serás capaz de:
 2.  **Manipular** atributos de vértices y conexiones (color, nombre, forma).
 3.  **Visualizar** redes con distintos *layouts* y personalizaciones.
 4.  **Construir** la matriz de adyacencia y representarla como mapa de calor.
-5.  **Generar** redes especiales: estrella, anillo, árbol, lattice.
+5.  **Generar** redes especiales: estrella, anillo, árbol, rejilla (lattice).
 :::
 
 > **Pregunta motivadora:** Si representaras tu grupo de amigos como una red, donde cada persona es un punto (nodo) y cada amistad es una línea, ¿cómo se vería? ¿Quién estaría más "conectado"? ¿Habría grupos aislados?
