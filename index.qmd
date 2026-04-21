@@ -27,6 +27,8 @@ Al finalizar estas notas serás capaz de:
 | 3 | Distancias y eficiencia | ¿Qué tan fácil es ir de un punto a otro en una red? |
 | 4 | Clustering y transitividad | ¿Los amigos de tus amigos son tus amigos? |
 | 5 | Robustez de redes | ¿Qué pasa si falla un nodo crítico? |
+| 6 | Medidas de centralidad | ¿Qué pasa si falla un nodo crítico? |
+| 7 | Robustez de redes | ¿Qué pasa si falla un nodo crítico? |
 | Integradores | Ejercicios finales | ¿Puedes analizar una red completa de principio a fin? |
 
 : Mapa del libro {.striped .hover}

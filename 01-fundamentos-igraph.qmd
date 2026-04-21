@@ -3,11 +3,11 @@
 ::: {.callout-note title="🎯 Objetivos de aprendizaje"}
 Al finalizar este capítulo serás capaz de:
 
-1. **Crear** redes vacías, agregar nodos y conexiones usando `igraph`.
-2. **Manipular** atributos de vértices y conexiones (color, nombre, forma).
-3. **Visualizar** redes con distintos *layouts* y personalizaciones.
-4. **Construir** la matriz de adyacencia y representarla como mapa de calor.
-5. **Generar** redes especiales: estrella, anillo, árbol, lattice.
+1.  **Crear** redes vacías, agregar nodos y conexiones usando `igraph`.
+2.  **Manipular** atributos de vértices y conexiones (color, nombre, forma).
+3.  **Visualizar** redes con distintos *layouts* y personalizaciones.
+4.  **Construir** la matriz de adyacencia y representarla como mapa de calor.
+5.  **Generar** redes especiales: estrella, anillo, árbol, lattice.
 :::
 
 > **Pregunta motivadora:** Si representaras tu grupo de amigos como una red, donde cada persona es un punto (nodo) y cada amistad es una línea, ¿cómo se vería? ¿Quién estaría más "conectado"? ¿Habría grupos aislados?
@@ -73,7 +73,7 @@ library(igraph)
 ::: {.callout-note title="📦 Paquete requerido" collapse="true"}
 Si no tienes instalado `igraph`, ejecuta:
 
-```r
+``` r
 install.packages("igraph")
 ```
 :::
@@ -179,12 +179,11 @@ plot(g,
 Cuando eliminas conexiones con `delete_edges()`, los **índices se reorganizan**. Si eliminas la conexión 2, la que antes era la 3 ahora es la 2. Siempre verifica con `E(g)` después de eliminar.
 :::
 
-## grado (degree) y distribución de grado (degree) {#sec-grado (degree)-basico}
+## Grado (*degree*) y distribución de grado (*degree distribution*){# sec-grado (degree)-basico}
 
 El **grado (degree)** de un nodo es el número de conexiones que tiene. En redes dirigidas, distinguimos entre grado (degree) de entrada (*in-degree*) y de salida (*out-degree*).
 
-::: {.panel-tabset}
-
+::: panel-tabset
 ### grado (degree) total
 
 ```{r}
@@ -211,7 +210,6 @@ degree(g, mode = "in")
 # ¿Cuántas conexiones salen de cada nodo?
 degree(g, mode = "out")
 ```
-
 :::
 
 ### Visualizar el grado (degree)
@@ -254,7 +252,7 @@ $$
 #| label: matriz-adyacencia
 
 # Obtener la matriz de adyacencia
-adj_mat <- as.matrix(get.adjacency(g))
+adj_mat <- as.matrix(as_adjacency_matrix(g))
 
 # Mostrar como tabla
 knitr::kable(adj_mat, caption = "Matriz de adyacencia de la red")
@@ -280,8 +278,7 @@ En una red **no dirigida**, la matriz de adyacencia es **simétrica** ($A_{ij} =
 
 `igraph` incluye funciones para crear topologías clásicas que aparecen frecuentemente en la teoría de redes.
 
-::: {.panel-tabset}
-
+::: panel-tabset
 ### Estrella
 
 ```{r}
@@ -322,7 +319,7 @@ plot(make_tree(15, children = 2),
      main = "Árbol binario")
 ```
 
-### Lattice
+### Rejilla (*Lattice*)
 
 ```{r}
 #| label: fig-red-lattice
@@ -334,7 +331,6 @@ plot(make_lattice(c(4, 4)),
      vertex.size = 20,
      main = "Lattice 4×4")
 ```
-
 :::
 
 ## Ejercicios
@@ -344,7 +340,6 @@ plot(make_lattice(c(4, 4)),
 **Ejercicio resuelto 1:** Crea una red no dirigida de 7 nodos con colores aleatorios de una paleta, conéctalos formando una cadena (*path*), y visualiza el resultado.
 
 ::: {.callout-tip title="📝 Solución" collapse="true"}
-
 **Paso 1:** Crear el grafo tipo cadena y asignar colores.
 
 ```{r}
@@ -386,12 +381,11 @@ cat("¿Es conexa?", is_connected(g_cadena), "\n")
 **Interpretación:** La cadena tiene 7 nodos y 6 conexiones. Los nodos extremos tienen grado (degree) 1 y los internos grado (degree) 2. La red es conexa (todos los nodos se pueden alcanzar entre sí).
 :::
 
----
+------------------------------------------------------------------------
 
 **Ejercicio resuelto 2:** Construye manualmente una red donde los nodos representen 5 ciudades mexicanas y las conexiones indiquen si comparten frontera estatal. Muestra la matriz de adyacencia.
 
 ::: {.callout-tip title="📝 Solución" collapse="true"}
-
 **Paso 1:** Definir las ciudades y sus conexiones fronterizas.
 
 ```{r}
@@ -446,7 +440,7 @@ El vector de conexiones sería: `c(1,2, 2,3, 1,3, 5,6, 6,7, 5,7, 3,5)`. Son 7 co
 :::
 
 ::: {.callout-note title="💡 Pista 3 — Pseudocódigo" collapse="true"}
-```
+```         
 1. g <- make_empty_graph(7, directed = FALSE)
 2. g <- add_edges(g, c(1,2, 2,3, ...))
 3. plot(g)
@@ -454,7 +448,7 @@ El vector de conexiones sería: `c(1,2, 2,3, 1,3, 5,6, 6,7, 5,7, 3,5)`. Son 7 co
 ```
 :::
 
----
+------------------------------------------------------------------------
 
 **Ejercicio 2:** Genera un `make_tree()` con 3 hijos por nodo y profundidad suficiente para tener al menos 40 nodos. ¿Cuántos nodos tiene exactamente? ¿Cuántas hojas (nodos con grado (degree) 1)?
 
@@ -467,7 +461,7 @@ Las hojas son los nodos con grado (degree) 1. Filtra con: `sum(degree(arbol) == 
 :::
 
 ::: {.callout-note title="💡 Pista 3 — Pseudocódigo" collapse="true"}
-```
+```         
 1. arbol <- make_tree(40, children = 3)
 2. vcount(arbol)
 3. sum(degree(arbol) == 1)
@@ -475,7 +469,7 @@ Las hojas son los nodos con grado (degree) 1. Filtra con: `sum(degree(arbol) == 
 ```
 :::
 
----
+------------------------------------------------------------------------
 
 **Ejercicio 3:** ¿Qué pasa si agregas un *self-loop* (conexión de un nodo a sí mismo) y una conexión duplicada? Crea una red, agrégalos, visualiza, y luego "limpia" la red con `simplify()`. Compara el antes y después.
 
@@ -488,7 +482,7 @@ Usa `add_edges(g, c(1,1))` para un *self-loop* y repite una conexión existente 
 :::
 
 ::: {.callout-note title="💡 Pista 3 — Pseudocódigo" collapse="true"}
-```
+```         
 1. g <- make_ring(5)
 2. g <- add_edges(g, c(1,1, 1,2))  # loop + duplicada
 3. ecount(g)  # contar conexiones antes
@@ -507,7 +501,7 @@ Crea una red estrella de 15 nodos. Calcula su grado (degree) máximo y mínimo. 
 
 > **Autoevaluación:** El grado (degree) máximo debe ser 14 (el nodo central) y el mínimo 1 (nodos periféricos).
 
----
+------------------------------------------------------------------------
 
 **Ejercicio propuesto 2** ⭐⭐
 
@@ -515,7 +509,7 @@ Genera tres redes con `sample_gnp(50, p)` usando $p = 0.05$, $p = 0.20$ y $p = 0
 
 > **Autoevaluación:** A mayor $p$, la distribución de grado (degree) se desplaza a la derecha y se vuelve más concentrada. Con $p = 0.50$ el grado (degree) medio debe estar cerca de 25.
 
----
+------------------------------------------------------------------------
 
 **Ejercicio propuesto 3** ⭐⭐
 
@@ -523,7 +517,7 @@ Diseña una red hipotética de 8 ingredientes de cocina donde las conexiones rep
 
 > **Autoevaluación:** Todos los nodos deben ser alcanzables entre sí (la red debe ser conexa). Si alguna distancia es `Inf`, tienes componentes desconectados.
 
----
+------------------------------------------------------------------------
 
 **Ejercicio propuesto 4** ⭐⭐⭐
 
@@ -566,7 +560,7 @@ flowchart TD
 ```
 
 | Función | Descripción |
-|---------|-------------|
+|----|----|
 | `make_empty_graph()` | Crear grafo vacío |
 | `add_vertices()` / `add_edges()` | Agregar nodos / conexiones |
 | `delete_vertices()` / `delete_edges()` | Eliminar nodos / conexiones |
@@ -584,49 +578,41 @@ flowchart TD
 **Pregunta 1: Verdadero o Falso:** En una red no dirigida, ¿la matriz de adyacencia siempre es simétrica?
 
 ::: {.callout-caution title="Respuesta 1" collapse="true"}
-
 ✅ **Verdadero.** Si $i$ está conectado con $j$, entonces $j$ también está conectado con $i$.
 :::
 
-**Pregunta 2: ¿Cuál es el grado (degree) del nodo central en una red estrella de $n$ nodos?**
+**Pregunta 2: ¿Cuál es el grado (degree) del nodo central en una red estrella de** $n$ nodos?
 
-a) $1$
-b) $n$
-c) $n - 1$ 
-d) $2$
-
+a)  $1$
+b)  $n$
+c)  $n - 1$
+d)  $2$
 
 ::: {.callout-caution title="Respuesta 2 " collapse="true"}
-**¿Cuál es el grado (degree) del nodo central en una red estrella de $n$ nodos?**
+**¿Cuál es el grado (degree) del nodo central en una red estrella de** $n$ nodos?
 
-a) $1$
-b) $n$
-c) $n - 1$ ✅
-d) $2$
+a)  $1$
+b)  $n$
+c)  $n - 1$ ✅
+d)  $2$
 
 El nodo central se conecta con todos los demás, así que su grado (degree) es $n - 1$.
 :::
 
-
 **Pregunta 3: ¿Qué función usarías para eliminar *self-loops* y conexiones duplicadas de una red?**
 
-
 ::: {.callout-caution title="Respuesta 3" collapse="true"}
-
 `simplify()` con los parámetros `remove.multiple = TRUE` y `remove.loops = TRUE`.
 :::
 
 **Pregunta 4: Verdadero o Falso:** ¿La función `add_edges(g, c(1,2,3))` agrega tres conexiones?
 
 ::: {.callout-caution title="Respuesta 4" collapse="true"}
-
 ❌ **Falso.** El vector debe tener un número par de elementos (pares origen-destino). Este código produciría un error.
 :::
 
 **Pregunta 5: ¿Cuántas conexiones tiene un `make_ring(10)`?**
 
 ::: {.callout-caution title="Respuesta 5" collapse="true"}
-
-
 Exactamente **10**: cada nodo se conecta con su vecino y el último se conecta con el primero, formando un ciclo.
 :::

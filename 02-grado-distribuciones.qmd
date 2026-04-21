@@ -536,6 +536,10 @@ legend("bottomleft",
 **Interpretación:** El exponente $\gamma$ debería estar cerca de 3 (el valor teórico para redes BA generadas con $m = 1$). El ajuste visual muestra que la cola de la distribución sigue razonablemente bien la recta en escala log-log a partir de $x_{\min}$.
 :::
 
+
+
+
+
 ### Ejercicios con pistas {.unnumbered}
 
 **Ejercicio 1:** Genera redes BA con 100, 500, 1000 y 5000 nodos. ¿Cómo cambia el grado del *hub* más conectado a medida que crece la red? Haz un gráfico de dispersión de $n$ (tamaño de red) vs. grado máximo.

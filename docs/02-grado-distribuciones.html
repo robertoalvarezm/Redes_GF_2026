@@ -1025,7 +1025,7 @@ Figure&nbsp;2.5: Ajuste de ley de potencia sobre la distribución de grado de la
 </section>
 <section id="identificar-hubs" class="level2" data-number="2.6">
 <h2 data-number="2.6" class="anchored" data-anchor-id="identificar-hubs"><span class="header-section-number">2.6</span> Identificar <em>hubs</em></h2>
-<p>Los <em>hubs</em> son los nodos con grado extremadamente alto en una red <em>power-law</em>. Actúan como conectores centrales y su eliminación puede fragmentar la red (esto lo veremos a fondo en el <a href="05-robustez.html" class="quarto-xref"><span>Chapter 5</span></a>).</p>
+<p>Los <em>hubs</em> son los nodos con grado extremadamente alto en una red <em>power-law</em>. Actúan como conectores centrales y su eliminación puede fragmentar la red (esto lo veremos a fondo en el <a href="#sec-robustez" class="quarto-xref"><span class="quarto-unresolved-ref">sec-robustez</span></a>).</p>
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
@@ -1713,7 +1713,7 @@ Figure&nbsp;2.10: Resumen visual del capítulo
 </tr>
 </tbody>
 </table>
-<p><strong>Conexión con el siguiente capítulo:</strong> Ahora que sabes cómo se distribuyen las conexiones en distintos tipos de red, en el <a href="03-distancias-eficiencia.html" class="quarto-xref"><span>Chapter 3</span></a> exploraremos <em>qué tan lejos</em> están los nodos entre sí: distancias, caminos más cortos y eficiencia de la red.</p>
+<p><strong>Conexión con el siguiente capítulo:</strong> Ahora que sabes cómo se distribuyen las conexiones en distintos tipos de red, en el <a href="#sec-distancias" class="quarto-xref"><span class="quarto-unresolved-ref">sec-distancias</span></a> exploraremos <em>qué tan lejos</em> están los nodos entre sí: distancias, caminos más cortos y eficiencia de la red.</p>
 </section>
 <section id="autoevaluación" class="level2 unnumbered">
 <h2 class="unnumbered anchored" data-anchor-id="autoevaluación">Autoevaluación</h2>
@@ -2866,214 +2866,218 @@ Watts, D. J., &amp; Strogatz, S. H. (1998). Collective dynamics of ’small-worl
 <span id="cb40-574"><a href="#cb40-574"></a>**Interpretación:** El exponente $\gamma$ debería estar cerca de 3 (el valor teórico para redes BA generadas con $m = 1$). El ajuste visual muestra que la cola de la distribución sigue razonablemente bien la recta en escala log-log a partir de $x_{\min}$.</span>
 <span id="cb40-575"><a href="#cb40-575"></a>:::</span>
 <span id="cb40-576"><a href="#cb40-576"></a></span>
-<span id="cb40-577"><a href="#cb40-577"></a><span class="fu">### Ejercicios con pistas {.unnumbered}</span></span>
+<span id="cb40-577"><a href="#cb40-577"></a></span>
 <span id="cb40-578"><a href="#cb40-578"></a></span>
-<span id="cb40-579"><a href="#cb40-579"></a>**Ejercicio 1:** Genera redes BA con 100, 500, 1000 y 5000 nodos. ¿Cómo cambia el grado del *hub* más conectado a medida que crece la red? Haz un gráfico de dispersión de $n$ (tamaño de red) vs. grado máximo.</span>
+<span id="cb40-579"><a href="#cb40-579"></a></span>
 <span id="cb40-580"><a href="#cb40-580"></a></span>
-<span id="cb40-581"><a href="#cb40-581"></a>::: {.callout-note title="💡 Pista 1" collapse="true"}</span>
-<span id="cb40-582"><a href="#cb40-582"></a>Usa un <span class="in">`for`</span> o <span class="in">`sapply()`</span> sobre un vector de tamaños: <span class="in">`tamanos &lt;- c(100, 500, 1000, 5000)`</span>. Para cada tamaño, genera la red y extrae <span class="in">`max(degree(g))`</span>.</span>
-<span id="cb40-583"><a href="#cb40-583"></a>:::</span>
+<span id="cb40-581"><a href="#cb40-581"></a><span class="fu">### Ejercicios con pistas {.unnumbered}</span></span>
+<span id="cb40-582"><a href="#cb40-582"></a></span>
+<span id="cb40-583"><a href="#cb40-583"></a>**Ejercicio 1:** Genera redes BA con 100, 500, 1000 y 5000 nodos. ¿Cómo cambia el grado del *hub* más conectado a medida que crece la red? Haz un gráfico de dispersión de $n$ (tamaño de red) vs. grado máximo.</span>
 <span id="cb40-584"><a href="#cb40-584"></a></span>
-<span id="cb40-585"><a href="#cb40-585"></a>::: {.callout-note title="💡 Pista 2" collapse="true"}</span>
-<span id="cb40-586"><a href="#cb40-586"></a>Teóricamente, el grado máximo en una red BA crece como $k_{\max} \sim \sqrt{n}$. Puedes superponer esta curva teórica sobre tus datos empíricos.</span>
+<span id="cb40-585"><a href="#cb40-585"></a>::: {.callout-note title="💡 Pista 1" collapse="true"}</span>
+<span id="cb40-586"><a href="#cb40-586"></a>Usa un <span class="in">`for`</span> o <span class="in">`sapply()`</span> sobre un vector de tamaños: <span class="in">`tamanos &lt;- c(100, 500, 1000, 5000)`</span>. Para cada tamaño, genera la red y extrae <span class="in">`max(degree(g))`</span>.</span>
 <span id="cb40-587"><a href="#cb40-587"></a>:::</span>
 <span id="cb40-588"><a href="#cb40-588"></a></span>
-<span id="cb40-589"><a href="#cb40-589"></a>::: {.callout-note title="💡 Pista 3 — Pseudocódigo" collapse="true"}</span>
-<span id="cb40-590"><a href="#cb40-590"></a><span class="in">```         </span></span>
-<span id="cb40-591"><a href="#cb40-591"></a><span class="in">1. tamanos &lt;- c(100, 500, 1000, 5000)</span></span>
-<span id="cb40-592"><a href="#cb40-592"></a><span class="in">2. set.seed(42)</span></span>
-<span id="cb40-593"><a href="#cb40-593"></a><span class="in">3. grado_max &lt;- sapply(tamanos, function(n) {</span></span>
-<span id="cb40-594"><a href="#cb40-594"></a><span class="in">4.     g &lt;- sample_pa(n, directed = FALSE)</span></span>
-<span id="cb40-595"><a href="#cb40-595"></a><span class="in">5.     max(degree(g))</span></span>
-<span id="cb40-596"><a href="#cb40-596"></a><span class="in">6. })</span></span>
-<span id="cb40-597"><a href="#cb40-597"></a><span class="in">7. plot(tamanos, grado_max, type = "b", log = "xy")</span></span>
-<span id="cb40-598"><a href="#cb40-598"></a><span class="in">8. # Superponer curva teórica: sqrt(n)</span></span>
-<span id="cb40-599"><a href="#cb40-599"></a><span class="in">```</span></span>
-<span id="cb40-600"><a href="#cb40-600"></a>:::</span>
-<span id="cb40-601"><a href="#cb40-601"></a></span>
-<span id="cb40-602"><a href="#cb40-602"></a>------------------------------------------------------------------------</span>
-<span id="cb40-603"><a href="#cb40-603"></a></span>
-<span id="cb40-604"><a href="#cb40-604"></a>**Ejercicio 2:** Crea una red ER con 200 nodos y $p = 0.03$. Identifica los nodos con grado mayor al promedio + 2 desviaciones estándar. ¿Cuántos son? Coloréalos de rojo en la visualización.</span>
+<span id="cb40-589"><a href="#cb40-589"></a>::: {.callout-note title="💡 Pista 2" collapse="true"}</span>
+<span id="cb40-590"><a href="#cb40-590"></a>Teóricamente, el grado máximo en una red BA crece como $k_{\max} \sim \sqrt{n}$. Puedes superponer esta curva teórica sobre tus datos empíricos.</span>
+<span id="cb40-591"><a href="#cb40-591"></a>:::</span>
+<span id="cb40-592"><a href="#cb40-592"></a></span>
+<span id="cb40-593"><a href="#cb40-593"></a>::: {.callout-note title="💡 Pista 3 — Pseudocódigo" collapse="true"}</span>
+<span id="cb40-594"><a href="#cb40-594"></a><span class="in">```         </span></span>
+<span id="cb40-595"><a href="#cb40-595"></a><span class="in">1. tamanos &lt;- c(100, 500, 1000, 5000)</span></span>
+<span id="cb40-596"><a href="#cb40-596"></a><span class="in">2. set.seed(42)</span></span>
+<span id="cb40-597"><a href="#cb40-597"></a><span class="in">3. grado_max &lt;- sapply(tamanos, function(n) {</span></span>
+<span id="cb40-598"><a href="#cb40-598"></a><span class="in">4.     g &lt;- sample_pa(n, directed = FALSE)</span></span>
+<span id="cb40-599"><a href="#cb40-599"></a><span class="in">5.     max(degree(g))</span></span>
+<span id="cb40-600"><a href="#cb40-600"></a><span class="in">6. })</span></span>
+<span id="cb40-601"><a href="#cb40-601"></a><span class="in">7. plot(tamanos, grado_max, type = "b", log = "xy")</span></span>
+<span id="cb40-602"><a href="#cb40-602"></a><span class="in">8. # Superponer curva teórica: sqrt(n)</span></span>
+<span id="cb40-603"><a href="#cb40-603"></a><span class="in">```</span></span>
+<span id="cb40-604"><a href="#cb40-604"></a>:::</span>
 <span id="cb40-605"><a href="#cb40-605"></a></span>
-<span id="cb40-606"><a href="#cb40-606"></a>::: {.callout-note title="💡 Pista 1" collapse="true"}</span>
-<span id="cb40-607"><a href="#cb40-607"></a>Calcula el umbral como <span class="in">`mean(deg) + 2 * sd(deg)`</span>. Luego usa <span class="in">`which(deg &gt; umbral)`</span> para identificar los nodos.</span>
-<span id="cb40-608"><a href="#cb40-608"></a>:::</span>
+<span id="cb40-606"><a href="#cb40-606"></a>------------------------------------------------------------------------</span>
+<span id="cb40-607"><a href="#cb40-607"></a></span>
+<span id="cb40-608"><a href="#cb40-608"></a>**Ejercicio 2:** Crea una red ER con 200 nodos y $p = 0.03$. Identifica los nodos con grado mayor al promedio + 2 desviaciones estándar. ¿Cuántos son? Coloréalos de rojo en la visualización.</span>
 <span id="cb40-609"><a href="#cb40-609"></a></span>
-<span id="cb40-610"><a href="#cb40-610"></a>::: {.callout-note title="💡 Pista 2" collapse="true"}</span>
-<span id="cb40-611"><a href="#cb40-611"></a>En una distribución Poisson, aproximadamente el 2.5% de los valores están por encima de $\mu + 2\sigma$. Para 200 nodos, espera alrededor de 5 nodos "extremos".</span>
+<span id="cb40-610"><a href="#cb40-610"></a>::: {.callout-note title="💡 Pista 1" collapse="true"}</span>
+<span id="cb40-611"><a href="#cb40-611"></a>Calcula el umbral como <span class="in">`mean(deg) + 2 * sd(deg)`</span>. Luego usa <span class="in">`which(deg &gt; umbral)`</span> para identificar los nodos.</span>
 <span id="cb40-612"><a href="#cb40-612"></a>:::</span>
 <span id="cb40-613"><a href="#cb40-613"></a></span>
-<span id="cb40-614"><a href="#cb40-614"></a>::: {.callout-note title="💡 Pista 3 — Pseudocódigo" collapse="true"}</span>
-<span id="cb40-615"><a href="#cb40-615"></a><span class="in">```         </span></span>
-<span id="cb40-616"><a href="#cb40-616"></a><span class="in">1. set.seed(10)</span></span>
-<span id="cb40-617"><a href="#cb40-617"></a><span class="in">2. g &lt;- sample_gnp(200, 0.03)</span></span>
-<span id="cb40-618"><a href="#cb40-618"></a><span class="in">3. deg &lt;- degree(g)</span></span>
-<span id="cb40-619"><a href="#cb40-619"></a><span class="in">4. umbral &lt;- mean(deg) + 2 * sd(deg)</span></span>
-<span id="cb40-620"><a href="#cb40-620"></a><span class="in">5. extremos &lt;- which(deg &gt; umbral)</span></span>
-<span id="cb40-621"><a href="#cb40-621"></a><span class="in">6. V(g)$color &lt;- ifelse(deg &gt; umbral, "red", "gray80")</span></span>
-<span id="cb40-622"><a href="#cb40-622"></a><span class="in">7. V(g)$size &lt;- ifelse(deg &gt; umbral, 10, 3)</span></span>
-<span id="cb40-623"><a href="#cb40-623"></a><span class="in">8. plot(g, vertex.label = NA)</span></span>
-<span id="cb40-624"><a href="#cb40-624"></a><span class="in">```</span></span>
-<span id="cb40-625"><a href="#cb40-625"></a>:::</span>
-<span id="cb40-626"><a href="#cb40-626"></a></span>
-<span id="cb40-627"><a href="#cb40-627"></a>------------------------------------------------------------------------</span>
-<span id="cb40-628"><a href="#cb40-628"></a></span>
-<span id="cb40-629"><a href="#cb40-629"></a>**Ejercicio 3:** Compara visualmente la distribución de grado de una red BA y una red *small-world* (Watts-Strogatz) en un **gráfico log-log**. ¿Cuál muestra un patrón más lineal? ¿Por qué?</span>
+<span id="cb40-614"><a href="#cb40-614"></a>::: {.callout-note title="💡 Pista 2" collapse="true"}</span>
+<span id="cb40-615"><a href="#cb40-615"></a>En una distribución Poisson, aproximadamente el 2.5% de los valores están por encima de $\mu + 2\sigma$. Para 200 nodos, espera alrededor de 5 nodos "extremos".</span>
+<span id="cb40-616"><a href="#cb40-616"></a>:::</span>
+<span id="cb40-617"><a href="#cb40-617"></a></span>
+<span id="cb40-618"><a href="#cb40-618"></a>::: {.callout-note title="💡 Pista 3 — Pseudocódigo" collapse="true"}</span>
+<span id="cb40-619"><a href="#cb40-619"></a><span class="in">```         </span></span>
+<span id="cb40-620"><a href="#cb40-620"></a><span class="in">1. set.seed(10)</span></span>
+<span id="cb40-621"><a href="#cb40-621"></a><span class="in">2. g &lt;- sample_gnp(200, 0.03)</span></span>
+<span id="cb40-622"><a href="#cb40-622"></a><span class="in">3. deg &lt;- degree(g)</span></span>
+<span id="cb40-623"><a href="#cb40-623"></a><span class="in">4. umbral &lt;- mean(deg) + 2 * sd(deg)</span></span>
+<span id="cb40-624"><a href="#cb40-624"></a><span class="in">5. extremos &lt;- which(deg &gt; umbral)</span></span>
+<span id="cb40-625"><a href="#cb40-625"></a><span class="in">6. V(g)$color &lt;- ifelse(deg &gt; umbral, "red", "gray80")</span></span>
+<span id="cb40-626"><a href="#cb40-626"></a><span class="in">7. V(g)$size &lt;- ifelse(deg &gt; umbral, 10, 3)</span></span>
+<span id="cb40-627"><a href="#cb40-627"></a><span class="in">8. plot(g, vertex.label = NA)</span></span>
+<span id="cb40-628"><a href="#cb40-628"></a><span class="in">```</span></span>
+<span id="cb40-629"><a href="#cb40-629"></a>:::</span>
 <span id="cb40-630"><a href="#cb40-630"></a></span>
-<span id="cb40-631"><a href="#cb40-631"></a>::: {.callout-note title="💡 Pista 1" collapse="true"}</span>
-<span id="cb40-632"><a href="#cb40-632"></a>Genera ambas redes con <span class="in">`sample_pa(500)`</span> y <span class="in">`sample_smallworld(1, 500, nei = 3, p = 0.1)`</span>. Calcula <span class="in">`degree_distribution()`</span> para cada una.</span>
-<span id="cb40-633"><a href="#cb40-633"></a>:::</span>
+<span id="cb40-631"><a href="#cb40-631"></a>------------------------------------------------------------------------</span>
+<span id="cb40-632"><a href="#cb40-632"></a></span>
+<span id="cb40-633"><a href="#cb40-633"></a>**Ejercicio 3:** Compara visualmente la distribución de grado de una red BA y una red *small-world* (Watts-Strogatz) en un **gráfico log-log**. ¿Cuál muestra un patrón más lineal? ¿Por qué?</span>
 <span id="cb40-634"><a href="#cb40-634"></a></span>
-<span id="cb40-635"><a href="#cb40-635"></a>::: {.callout-note title="💡 Pista 2" collapse="true"}</span>
-<span id="cb40-636"><a href="#cb40-636"></a>Para graficar en log-log, usa <span class="in">`plot(k, pk, log = "xy")`</span>. Recuerda filtrar los valores donde $P(k) &gt; 0$ para evitar <span class="in">`log(0)`</span>.</span>
+<span id="cb40-635"><a href="#cb40-635"></a>::: {.callout-note title="💡 Pista 1" collapse="true"}</span>
+<span id="cb40-636"><a href="#cb40-636"></a>Genera ambas redes con <span class="in">`sample_pa(500)`</span> y <span class="in">`sample_smallworld(1, 500, nei = 3, p = 0.1)`</span>. Calcula <span class="in">`degree_distribution()`</span> para cada una.</span>
 <span id="cb40-637"><a href="#cb40-637"></a>:::</span>
 <span id="cb40-638"><a href="#cb40-638"></a></span>
-<span id="cb40-639"><a href="#cb40-639"></a>::: {.callout-note title="💡 Pista 3 — Pseudocódigo" collapse="true"}</span>
-<span id="cb40-640"><a href="#cb40-640"></a><span class="in">```         </span></span>
-<span id="cb40-641"><a href="#cb40-641"></a><span class="in">1. par(mfrow = c(1, 2))</span></span>
-<span id="cb40-642"><a href="#cb40-642"></a><span class="in">2. Para cada red:</span></span>
-<span id="cb40-643"><a href="#cb40-643"></a><span class="in">3.   dd &lt;- degree_distribution(g)</span></span>
-<span id="cb40-644"><a href="#cb40-644"></a><span class="in">4.   k &lt;- which(dd &gt; 0) - 1</span></span>
-<span id="cb40-645"><a href="#cb40-645"></a><span class="in">5.   pk &lt;- dd[dd &gt; 0]</span></span>
-<span id="cb40-646"><a href="#cb40-646"></a><span class="in">6.   plot(k, pk, log = "xy", pch = 19)</span></span>
-<span id="cb40-647"><a href="#cb40-647"></a><span class="in">```</span></span>
-<span id="cb40-648"><a href="#cb40-648"></a></span>
-<span id="cb40-649"><a href="#cb40-649"></a>La red BA debería mostrar un patrón más lineal porque su distribución es *power-law*. La *small-world* tiene distribución más acotada (similar a Poisson desplazada).</span>
-<span id="cb40-650"><a href="#cb40-650"></a>:::</span>
-<span id="cb40-651"><a href="#cb40-651"></a></span>
-<span id="cb40-652"><a href="#cb40-652"></a><span class="fu">### Ejercicios propuestos {.unnumbered}</span></span>
-<span id="cb40-653"><a href="#cb40-653"></a></span>
-<span id="cb40-654"><a href="#cb40-654"></a>**Ejercicio propuesto 1** ⭐</span>
+<span id="cb40-639"><a href="#cb40-639"></a>::: {.callout-note title="💡 Pista 2" collapse="true"}</span>
+<span id="cb40-640"><a href="#cb40-640"></a>Para graficar en log-log, usa <span class="in">`plot(k, pk, log = "xy")`</span>. Recuerda filtrar los valores donde $P(k) &gt; 0$ para evitar <span class="in">`log(0)`</span>.</span>
+<span id="cb40-641"><a href="#cb40-641"></a>:::</span>
+<span id="cb40-642"><a href="#cb40-642"></a></span>
+<span id="cb40-643"><a href="#cb40-643"></a>::: {.callout-note title="💡 Pista 3 — Pseudocódigo" collapse="true"}</span>
+<span id="cb40-644"><a href="#cb40-644"></a><span class="in">```         </span></span>
+<span id="cb40-645"><a href="#cb40-645"></a><span class="in">1. par(mfrow = c(1, 2))</span></span>
+<span id="cb40-646"><a href="#cb40-646"></a><span class="in">2. Para cada red:</span></span>
+<span id="cb40-647"><a href="#cb40-647"></a><span class="in">3.   dd &lt;- degree_distribution(g)</span></span>
+<span id="cb40-648"><a href="#cb40-648"></a><span class="in">4.   k &lt;- which(dd &gt; 0) - 1</span></span>
+<span id="cb40-649"><a href="#cb40-649"></a><span class="in">5.   pk &lt;- dd[dd &gt; 0]</span></span>
+<span id="cb40-650"><a href="#cb40-650"></a><span class="in">6.   plot(k, pk, log = "xy", pch = 19)</span></span>
+<span id="cb40-651"><a href="#cb40-651"></a><span class="in">```</span></span>
+<span id="cb40-652"><a href="#cb40-652"></a></span>
+<span id="cb40-653"><a href="#cb40-653"></a>La red BA debería mostrar un patrón más lineal porque su distribución es *power-law*. La *small-world* tiene distribución más acotada (similar a Poisson desplazada).</span>
+<span id="cb40-654"><a href="#cb40-654"></a>:::</span>
 <span id="cb40-655"><a href="#cb40-655"></a></span>
-<span id="cb40-656"><a href="#cb40-656"></a>Genera 5 redes ER de 100 nodos con $p \in <span class="sc">\{</span>0.01, 0.05, 0.10, 0.20, 0.50<span class="sc">\}</span>$. Para cada una, calcula el grado medio y grafícalo contra $p$. ¿La relación es lineal?</span>
+<span id="cb40-656"><a href="#cb40-656"></a><span class="fu">### Ejercicios propuestos {.unnumbered}</span></span>
 <span id="cb40-657"><a href="#cb40-657"></a></span>
-<span id="cb40-658"><a href="#cb40-658"></a><span class="at">&gt; **Autoevaluación:** El grado medio teórico es $\langle k \rangle = p(n-1) = 99p$. Para $p = 0.50$, el grado medio debe ser cercano a 49.5.</span></span>
+<span id="cb40-658"><a href="#cb40-658"></a>**Ejercicio propuesto 1** ⭐</span>
 <span id="cb40-659"><a href="#cb40-659"></a></span>
-<span id="cb40-660"><a href="#cb40-660"></a>------------------------------------------------------------------------</span>
+<span id="cb40-660"><a href="#cb40-660"></a>Genera 5 redes ER de 100 nodos con $p \in <span class="sc">\{</span>0.01, 0.05, 0.10, 0.20, 0.50<span class="sc">\}</span>$. Para cada una, calcula el grado medio y grafícalo contra $p$. ¿La relación es lineal?</span>
 <span id="cb40-661"><a href="#cb40-661"></a></span>
-<span id="cb40-662"><a href="#cb40-662"></a>**Ejercicio propuesto 2** ⭐⭐</span>
+<span id="cb40-662"><a href="#cb40-662"></a><span class="at">&gt; **Autoevaluación:** El grado medio teórico es $\langle k \rangle = p(n-1) = 99p$. Para $p = 0.50$, el grado medio debe ser cercano a 49.5.</span></span>
 <span id="cb40-663"><a href="#cb40-663"></a></span>
-<span id="cb40-664"><a href="#cb40-664"></a>Usa <span class="in">`poweRlaw`</span> para ajustar una ley de potencia a una red BA de 2000 nodos. Luego, intenta ajustar la misma distribución a una red ER de 2000 nodos con $p = 0.01$. Compara los gráficos de ajuste. ¿Tiene sentido el ajuste *power-law* para la red ER?</span>
+<span id="cb40-664"><a href="#cb40-664"></a>------------------------------------------------------------------------</span>
 <span id="cb40-665"><a href="#cb40-665"></a></span>
-<span id="cb40-666"><a href="#cb40-666"></a><span class="at">&gt; **Autoevaluación:** El ajuste sobre la red ER debería ser visualmente pobre (la línea roja no sigue los puntos). Si el $x_{\min}$ estimado es muy cercano al grado máximo, es señal de que la *power-law* no es un buen modelo para esos datos.</span></span>
+<span id="cb40-666"><a href="#cb40-666"></a>**Ejercicio propuesto 2** ⭐⭐</span>
 <span id="cb40-667"><a href="#cb40-667"></a></span>
-<span id="cb40-668"><a href="#cb40-668"></a>------------------------------------------------------------------------</span>
+<span id="cb40-668"><a href="#cb40-668"></a>Usa <span class="in">`poweRlaw`</span> para ajustar una ley de potencia a una red BA de 2000 nodos. Luego, intenta ajustar la misma distribución a una red ER de 2000 nodos con $p = 0.01$. Compara los gráficos de ajuste. ¿Tiene sentido el ajuste *power-law* para la red ER?</span>
 <span id="cb40-669"><a href="#cb40-669"></a></span>
-<span id="cb40-670"><a href="#cb40-670"></a>**Ejercicio propuesto 3** ⭐⭐</span>
+<span id="cb40-670"><a href="#cb40-670"></a><span class="at">&gt; **Autoevaluación:** El ajuste sobre la red ER debería ser visualmente pobre (la línea roja no sigue los puntos). Si el $x_{\min}$ estimado es muy cercano al grado máximo, es señal de que la *power-law* no es un buen modelo para esos datos.</span></span>
 <span id="cb40-671"><a href="#cb40-671"></a></span>
-<span id="cb40-672"><a href="#cb40-672"></a>Genera una red BA con 500 nodos. Encuentra los 10 *hubs* más conectados. Luego, crea un subgrafo que contenga **solo** esos 10 hubs y las aristas entre ellos (`induced_subgraph()`). ¿Están los *hubs* conectados entre sí?</span>
+<span id="cb40-672"><a href="#cb40-672"></a>------------------------------------------------------------------------</span>
 <span id="cb40-673"><a href="#cb40-673"></a></span>
-<span id="cb40-674"><a href="#cb40-674"></a><span class="at">&gt; **Autoevaluación:** En una red BA, los *hubs* suelen estar conectados entre sí (el hub más antiguo se conecta con los más nuevos). El subgrafo debería ser conexo o tener muy pocos componentes.</span></span>
+<span id="cb40-674"><a href="#cb40-674"></a>**Ejercicio propuesto 3** ⭐⭐</span>
 <span id="cb40-675"><a href="#cb40-675"></a></span>
-<span id="cb40-676"><a href="#cb40-676"></a>------------------------------------------------------------------------</span>
+<span id="cb40-676"><a href="#cb40-676"></a>Genera una red BA con 500 nodos. Encuentra los 10 *hubs* más conectados. Luego, crea un subgrafo que contenga **solo** esos 10 hubs y las aristas entre ellos (`induced_subgraph()`). ¿Están los *hubs* conectados entre sí?</span>
 <span id="cb40-677"><a href="#cb40-677"></a></span>
-<span id="cb40-678"><a href="#cb40-678"></a>**Ejercicio propuesto 4** ⭐⭐⭐</span>
+<span id="cb40-678"><a href="#cb40-678"></a><span class="at">&gt; **Autoevaluación:** En una red BA, los *hubs* suelen estar conectados entre sí (el hub más antiguo se conecta con los más nuevos). El subgrafo debería ser conexo o tener muy pocos componentes.</span></span>
 <span id="cb40-679"><a href="#cb40-679"></a></span>
-<span id="cb40-680"><a href="#cb40-680"></a>Diseña un experimento numérico: genera 50 redes BA de 500 nodos cada una (con diferentes semillas). Para cada red, ajusta la ley de potencia y guarda el exponente $\gamma$. Grafica un histograma de los 50 valores de $\gamma$. ¿Alrededor de qué valor se concentran? ¿Cuál es la varianza?</span>
+<span id="cb40-680"><a href="#cb40-680"></a>------------------------------------------------------------------------</span>
 <span id="cb40-681"><a href="#cb40-681"></a></span>
-<span id="cb40-682"><a href="#cb40-682"></a><span class="at">&gt; **Autoevaluación:** Los valores de $\gamma$ deberían concentrarse alrededor de 3 (el valor teórico para el modelo BA clásico con $m = 1$). La varianza debería ser pequeña pero no nula, debido a la aleatoriedad finita.</span></span>
+<span id="cb40-682"><a href="#cb40-682"></a>**Ejercicio propuesto 4** ⭐⭐⭐</span>
 <span id="cb40-683"><a href="#cb40-683"></a></span>
-<span id="cb40-684"><a href="#cb40-684"></a>------------------------------------------------------------------------</span>
+<span id="cb40-684"><a href="#cb40-684"></a>Diseña un experimento numérico: genera 50 redes BA de 500 nodos cada una (con diferentes semillas). Para cada red, ajusta la ley de potencia y guarda el exponente $\gamma$. Grafica un histograma de los 50 valores de $\gamma$. ¿Alrededor de qué valor se concentran? ¿Cuál es la varianza?</span>
 <span id="cb40-685"><a href="#cb40-685"></a></span>
-<span id="cb40-686"><a href="#cb40-686"></a>**Ejercicio propuesto 5** ⭐⭐⭐</span>
+<span id="cb40-686"><a href="#cb40-686"></a><span class="at">&gt; **Autoevaluación:** Los valores de $\gamma$ deberían concentrarse alrededor de 3 (el valor teórico para el modelo BA clásico con $m = 1$). La varianza debería ser pequeña pero no nula, debido a la aleatoriedad finita.</span></span>
 <span id="cb40-687"><a href="#cb40-687"></a></span>
-<span id="cb40-688"><a href="#cb40-688"></a>Investiga: ¿Qué pasa con la distribución de grado de una red BA si cambias el parámetro <span class="in">`m`</span> (número de aristas que agrega cada nodo nuevo) de 1 a 3 a 5? Genera las tres variantes con 1000 nodos, compara sus histogramas y ajusta la *power-law* a cada una. ¿Cambia el exponente $\gamma$?</span>
+<span id="cb40-688"><a href="#cb40-688"></a>------------------------------------------------------------------------</span>
 <span id="cb40-689"><a href="#cb40-689"></a></span>
-<span id="cb40-690"><a href="#cb40-690"></a><span class="at">&gt; **Autoevaluación:** El grado medio aumenta ($\langle k \rangle \approx 2m$), pero el exponente teórico $\gamma = 3$ se mantiene independiente de $m$ en el modelo BA estándar. Empíricamente podrías observar variaciones leves.</span></span>
+<span id="cb40-690"><a href="#cb40-690"></a>**Ejercicio propuesto 5** ⭐⭐⭐</span>
 <span id="cb40-691"><a href="#cb40-691"></a></span>
-<span id="cb40-692"><a href="#cb40-692"></a><span class="fu">## Resumen del capítulo</span></span>
+<span id="cb40-692"><a href="#cb40-692"></a>Investiga: ¿Qué pasa con la distribución de grado de una red BA si cambias el parámetro <span class="in">`m`</span> (número de aristas que agrega cada nodo nuevo) de 1 a 3 a 5? Genera las tres variantes con 1000 nodos, compara sus histogramas y ajusta la *power-law* a cada una. ¿Cambia el exponente $\gamma$?</span>
 <span id="cb40-693"><a href="#cb40-693"></a></span>
-<span id="cb40-696"><a href="#cb40-696"></a><span class="in">```{mermaid}</span></span>
-<span id="cb40-697"><a href="#cb40-697"></a>%%| label: fig-resumen-cap2</span>
-<span id="cb40-698"><a href="#cb40-698"></a>%%| fig-cap: <span class="ot">"</span><span class="st">Resumen visual del capítulo</span><span class="ot">"</span></span>
-<span id="cb40-699"><a href="#cb40-699"></a>flowchart LR</span>
-<span id="cb40-700"><a href="#cb40-700"></a>    A[Modelos de red] --&gt; B[ER → Poisson]</span>
-<span id="cb40-701"><a href="#cb40-701"></a>    A --&gt; C[BA → Power-law]</span>
-<span id="cb40-702"><a href="#cb40-702"></a>    B --&gt; D[Grado homogéneo]</span>
-<span id="cb40-703"><a href="#cb40-703"></a>    C --&gt; E[Hubs emergentes]</span>
-<span id="cb40-704"><a href="#cb40-704"></a>    D --&gt; F[Ajuste con dpois]</span>
-<span id="cb40-705"><a href="#cb40-705"></a>    E --&gt; G[Ajuste con poweRlaw]</span>
-<span id="cb40-706"><a href="#cb40-706"></a>    G --&gt; H[<span class="ot">"</span><span class="st">Siguiente: Distancias →</span><span class="ot">"</span>]</span>
-<span id="cb40-707"><a href="#cb40-707"></a>    style H fill:<span class="co">#e8f4f8,stroke:#3ABEF9</span></span>
-<span id="cb40-708"><a href="#cb40-708"></a><span class="in">```</span></span>
-<span id="cb40-709"><a href="#cb40-709"></a></span>
-<span id="cb40-710"><a href="#cb40-710"></a><span class="pp">|</span> Función / Concepto <span class="pp">|</span> Descripción <span class="pp">|</span></span>
-<span id="cb40-711"><a href="#cb40-711"></a><span class="pp">|------------------------------------|------------------------------------|</span></span>
-<span id="cb40-712"><a href="#cb40-712"></a><span class="pp">|</span> <span class="in">`sample_gnp(n, p)`</span> <span class="pp">|</span> Genera red Erdős–Rényi con $n$ nodos y probabilidad $p$ <span class="pp">|</span></span>
-<span id="cb40-713"><a href="#cb40-713"></a><span class="pp">|</span> <span class="in">`sample_pa(n)`</span> <span class="pp">|</span> Genera red Barabási–Albert con enlace preferencial <span class="pp">|</span></span>
-<span id="cb40-714"><a href="#cb40-714"></a><span class="pp">|</span> <span class="in">`degree_distribution()`</span> <span class="pp">|</span> Calcula la distribución de grado normalizada <span class="pp">|</span></span>
-<span id="cb40-715"><a href="#cb40-715"></a><span class="pp">|</span> <span class="in">`displ$new()`</span> <span class="pp">|</span> Crea modelo *power-law* discreto (paquete <span class="in">`poweRlaw`</span>) <span class="pp">|</span></span>
-<span id="cb40-716"><a href="#cb40-716"></a><span class="pp">|</span> <span class="in">`estimate_xmin()`</span> <span class="pp">|</span> Estima el $x_{\min}$ óptimo para el ajuste <span class="pp">|</span></span>
-<span id="cb40-717"><a href="#cb40-717"></a><span class="pp">|</span> *Hub* <span class="pp">|</span> Nodo con grado desproporcionadamente alto <span class="pp">|</span></span>
-<span id="cb40-718"><a href="#cb40-718"></a><span class="pp">|</span> $\gamma$ (exponente) <span class="pp">|</span> Pendiente del ajuste *power-law*; típicamente $2 &lt; \gamma &lt; 3$ <span class="pp">|</span></span>
-<span id="cb40-719"><a href="#cb40-719"></a></span>
-<span id="cb40-720"><a href="#cb40-720"></a>: Funciones y conceptos clave del capítulo {.striped .hover}</span>
-<span id="cb40-721"><a href="#cb40-721"></a></span>
-<span id="cb40-722"><a href="#cb40-722"></a>**Conexión con el siguiente capítulo:** Ahora que sabes cómo se distribuyen las conexiones en distintos tipos de red, en el @sec-distancias exploraremos *qué tan lejos* están los nodos entre sí: distancias, caminos más cortos y eficiencia de la red.</span>
+<span id="cb40-694"><a href="#cb40-694"></a><span class="at">&gt; **Autoevaluación:** El grado medio aumenta ($\langle k \rangle \approx 2m$), pero el exponente teórico $\gamma = 3$ se mantiene independiente de $m$ en el modelo BA estándar. Empíricamente podrías observar variaciones leves.</span></span>
+<span id="cb40-695"><a href="#cb40-695"></a></span>
+<span id="cb40-696"><a href="#cb40-696"></a><span class="fu">## Resumen del capítulo</span></span>
+<span id="cb40-697"><a href="#cb40-697"></a></span>
+<span id="cb40-700"><a href="#cb40-700"></a><span class="in">```{mermaid}</span></span>
+<span id="cb40-701"><a href="#cb40-701"></a>%%| label: fig-resumen-cap2</span>
+<span id="cb40-702"><a href="#cb40-702"></a>%%| fig-cap: <span class="ot">"</span><span class="st">Resumen visual del capítulo</span><span class="ot">"</span></span>
+<span id="cb40-703"><a href="#cb40-703"></a>flowchart LR</span>
+<span id="cb40-704"><a href="#cb40-704"></a>    A[Modelos de red] --&gt; B[ER → Poisson]</span>
+<span id="cb40-705"><a href="#cb40-705"></a>    A --&gt; C[BA → Power-law]</span>
+<span id="cb40-706"><a href="#cb40-706"></a>    B --&gt; D[Grado homogéneo]</span>
+<span id="cb40-707"><a href="#cb40-707"></a>    C --&gt; E[Hubs emergentes]</span>
+<span id="cb40-708"><a href="#cb40-708"></a>    D --&gt; F[Ajuste con dpois]</span>
+<span id="cb40-709"><a href="#cb40-709"></a>    E --&gt; G[Ajuste con poweRlaw]</span>
+<span id="cb40-710"><a href="#cb40-710"></a>    G --&gt; H[<span class="ot">"</span><span class="st">Siguiente: Distancias →</span><span class="ot">"</span>]</span>
+<span id="cb40-711"><a href="#cb40-711"></a>    style H fill:<span class="co">#e8f4f8,stroke:#3ABEF9</span></span>
+<span id="cb40-712"><a href="#cb40-712"></a><span class="in">```</span></span>
+<span id="cb40-713"><a href="#cb40-713"></a></span>
+<span id="cb40-714"><a href="#cb40-714"></a><span class="pp">|</span> Función / Concepto <span class="pp">|</span> Descripción <span class="pp">|</span></span>
+<span id="cb40-715"><a href="#cb40-715"></a><span class="pp">|------------------------------------|------------------------------------|</span></span>
+<span id="cb40-716"><a href="#cb40-716"></a><span class="pp">|</span> <span class="in">`sample_gnp(n, p)`</span> <span class="pp">|</span> Genera red Erdős–Rényi con $n$ nodos y probabilidad $p$ <span class="pp">|</span></span>
+<span id="cb40-717"><a href="#cb40-717"></a><span class="pp">|</span> <span class="in">`sample_pa(n)`</span> <span class="pp">|</span> Genera red Barabási–Albert con enlace preferencial <span class="pp">|</span></span>
+<span id="cb40-718"><a href="#cb40-718"></a><span class="pp">|</span> <span class="in">`degree_distribution()`</span> <span class="pp">|</span> Calcula la distribución de grado normalizada <span class="pp">|</span></span>
+<span id="cb40-719"><a href="#cb40-719"></a><span class="pp">|</span> <span class="in">`displ$new()`</span> <span class="pp">|</span> Crea modelo *power-law* discreto (paquete <span class="in">`poweRlaw`</span>) <span class="pp">|</span></span>
+<span id="cb40-720"><a href="#cb40-720"></a><span class="pp">|</span> <span class="in">`estimate_xmin()`</span> <span class="pp">|</span> Estima el $x_{\min}$ óptimo para el ajuste <span class="pp">|</span></span>
+<span id="cb40-721"><a href="#cb40-721"></a><span class="pp">|</span> *Hub* <span class="pp">|</span> Nodo con grado desproporcionadamente alto <span class="pp">|</span></span>
+<span id="cb40-722"><a href="#cb40-722"></a><span class="pp">|</span> $\gamma$ (exponente) <span class="pp">|</span> Pendiente del ajuste *power-law*; típicamente $2 &lt; \gamma &lt; 3$ <span class="pp">|</span></span>
 <span id="cb40-723"><a href="#cb40-723"></a></span>
-<span id="cb40-724"><a href="#cb40-724"></a><span class="fu">## Autoevaluación {.unnumbered}</span></span>
+<span id="cb40-724"><a href="#cb40-724"></a>: Funciones y conceptos clave del capítulo {.striped .hover}</span>
 <span id="cb40-725"><a href="#cb40-725"></a></span>
-<span id="cb40-726"><a href="#cb40-726"></a>**Pregunta 1: ¿Qué modelo de red produce una distribución de grado tipo ley de potencia?**</span>
+<span id="cb40-726"><a href="#cb40-726"></a>**Conexión con el siguiente capítulo:** Ahora que sabes cómo se distribuyen las conexiones en distintos tipos de red, en el @sec-distancias exploraremos *qué tan lejos* están los nodos entre sí: distancias, caminos más cortos y eficiencia de la red.</span>
 <span id="cb40-727"><a href="#cb40-727"></a></span>
-<span id="cb40-728"><a href="#cb40-728"></a>a)  Erdős–Rényi</span>
-<span id="cb40-729"><a href="#cb40-729"></a>b)  Barabási–Albert </span>
-<span id="cb40-730"><a href="#cb40-730"></a>c)  Lattice regular</span>
-<span id="cb40-731"><a href="#cb40-731"></a>d)  *Small-world*</span>
-<span id="cb40-732"><a href="#cb40-732"></a></span>
-<span id="cb40-733"><a href="#cb40-733"></a></span>
-<span id="cb40-734"><a href="#cb40-734"></a>::: {.callout-caution title="Respuesta 1" collapse="true"}</span>
-<span id="cb40-735"><a href="#cb40-735"></a>**¿Qué modelo de red produce una distribución de grado tipo ley de potencia?**</span>
+<span id="cb40-728"><a href="#cb40-728"></a><span class="fu">## Autoevaluación {.unnumbered}</span></span>
+<span id="cb40-729"><a href="#cb40-729"></a></span>
+<span id="cb40-730"><a href="#cb40-730"></a>**Pregunta 1: ¿Qué modelo de red produce una distribución de grado tipo ley de potencia?**</span>
+<span id="cb40-731"><a href="#cb40-731"></a></span>
+<span id="cb40-732"><a href="#cb40-732"></a>a)  Erdős–Rényi</span>
+<span id="cb40-733"><a href="#cb40-733"></a>b)  Barabási–Albert </span>
+<span id="cb40-734"><a href="#cb40-734"></a>c)  Lattice regular</span>
+<span id="cb40-735"><a href="#cb40-735"></a>d)  *Small-world*</span>
 <span id="cb40-736"><a href="#cb40-736"></a></span>
-<span id="cb40-737"><a href="#cb40-737"></a>a)  Erdős–Rényi</span>
-<span id="cb40-738"><a href="#cb40-738"></a>b)  Barabási–Albert ✅</span>
-<span id="cb40-739"><a href="#cb40-739"></a>c)  Lattice regular</span>
-<span id="cb40-740"><a href="#cb40-740"></a>d)  *Small-world*</span>
-<span id="cb40-741"><a href="#cb40-741"></a></span>
-<span id="cb40-742"><a href="#cb40-742"></a>El modelo Barabási–Albert usa enlace preferencial, lo que genera distribuciones *power-law*.</span>
-<span id="cb40-743"><a href="#cb40-743"></a>:::</span>
-<span id="cb40-744"><a href="#cb40-744"></a></span>
-<span id="cb40-745"><a href="#cb40-745"></a>**Pregunta 2: Verdadero o Falso:** En una red ER con $n = 100$ y $p = 0.10$, el grado medio esperado es 10.</span>
-<span id="cb40-746"><a href="#cb40-746"></a></span>
-<span id="cb40-747"><a href="#cb40-747"></a></span>
-<span id="cb40-748"><a href="#cb40-748"></a>::: {.callout-caution title="Respuesta 2" collapse="true"}</span>
-<span id="cb40-749"><a href="#cb40-749"></a></span>
-<span id="cb40-750"><a href="#cb40-750"></a>✅ **Verdadero.** El grado medio teórico es $\langle k \rangle = p(n-1) = 0.10 \times 99 \approx 9.9 \approx 10$.</span>
-<span id="cb40-751"><a href="#cb40-751"></a>:::</span>
-<span id="cb40-752"><a href="#cb40-752"></a></span>
-<span id="cb40-753"><a href="#cb40-753"></a>**Pregunta 3: ¿Qué representa el parámetro** $x_{\min}$ en un ajuste de ley de potencia?</span>
-<span id="cb40-754"><a href="#cb40-754"></a></span>
-<span id="cb40-755"><a href="#cb40-755"></a>::: {.callout-caution title="Respuesta 3" collapse="true"}</span>
+<span id="cb40-737"><a href="#cb40-737"></a></span>
+<span id="cb40-738"><a href="#cb40-738"></a>::: {.callout-caution title="Respuesta 1" collapse="true"}</span>
+<span id="cb40-739"><a href="#cb40-739"></a>**¿Qué modelo de red produce una distribución de grado tipo ley de potencia?**</span>
+<span id="cb40-740"><a href="#cb40-740"></a></span>
+<span id="cb40-741"><a href="#cb40-741"></a>a)  Erdős–Rényi</span>
+<span id="cb40-742"><a href="#cb40-742"></a>b)  Barabási–Albert ✅</span>
+<span id="cb40-743"><a href="#cb40-743"></a>c)  Lattice regular</span>
+<span id="cb40-744"><a href="#cb40-744"></a>d)  *Small-world*</span>
+<span id="cb40-745"><a href="#cb40-745"></a></span>
+<span id="cb40-746"><a href="#cb40-746"></a>El modelo Barabási–Albert usa enlace preferencial, lo que genera distribuciones *power-law*.</span>
+<span id="cb40-747"><a href="#cb40-747"></a>:::</span>
+<span id="cb40-748"><a href="#cb40-748"></a></span>
+<span id="cb40-749"><a href="#cb40-749"></a>**Pregunta 2: Verdadero o Falso:** En una red ER con $n = 100$ y $p = 0.10$, el grado medio esperado es 10.</span>
+<span id="cb40-750"><a href="#cb40-750"></a></span>
+<span id="cb40-751"><a href="#cb40-751"></a></span>
+<span id="cb40-752"><a href="#cb40-752"></a>::: {.callout-caution title="Respuesta 2" collapse="true"}</span>
+<span id="cb40-753"><a href="#cb40-753"></a></span>
+<span id="cb40-754"><a href="#cb40-754"></a>✅ **Verdadero.** El grado medio teórico es $\langle k \rangle = p(n-1) = 0.10 \times 99 \approx 9.9 \approx 10$.</span>
+<span id="cb40-755"><a href="#cb40-755"></a>:::</span>
 <span id="cb40-756"><a href="#cb40-756"></a></span>
-<span id="cb40-757"><a href="#cb40-757"></a>Es el valor de grado mínimo a partir del cual la distribución se comporta como *power-law*. Los nodos con grado menor a $x_{\min}$ no siguen este patrón.</span>
-<span id="cb40-758"><a href="#cb40-758"></a>:::</span>
-<span id="cb40-759"><a href="#cb40-759"></a></span>
-<span id="cb40-760"><a href="#cb40-760"></a>**Pregunta 4: ¿Qué tipo de gráfico es el más adecuado para identificar visualmente una ley de potencia?**</span>
-<span id="cb40-761"><a href="#cb40-761"></a></span>
-<span id="cb40-762"><a href="#cb40-762"></a>a)  Histograma con ejes lineales</span>
-<span id="cb40-763"><a href="#cb40-763"></a>b)  Gráfico de barras</span>
-<span id="cb40-764"><a href="#cb40-764"></a>c)  Gráfico log-log </span>
-<span id="cb40-765"><a href="#cb40-765"></a>d)  Diagrama de caja (*boxplot*)</span>
-<span id="cb40-766"><a href="#cb40-766"></a></span>
-<span id="cb40-767"><a href="#cb40-767"></a></span>
-<span id="cb40-768"><a href="#cb40-768"></a></span>
-<span id="cb40-769"><a href="#cb40-769"></a>::: {.callout-caution title="Pregunta 4" collapse="true"}</span>
-<span id="cb40-770"><a href="#cb40-770"></a>**¿Qué tipo de gráfico es el más adecuado para identificar visualmente una ley de potencia?**</span>
+<span id="cb40-757"><a href="#cb40-757"></a>**Pregunta 3: ¿Qué representa el parámetro** $x_{\min}$ en un ajuste de ley de potencia?</span>
+<span id="cb40-758"><a href="#cb40-758"></a></span>
+<span id="cb40-759"><a href="#cb40-759"></a>::: {.callout-caution title="Respuesta 3" collapse="true"}</span>
+<span id="cb40-760"><a href="#cb40-760"></a></span>
+<span id="cb40-761"><a href="#cb40-761"></a>Es el valor de grado mínimo a partir del cual la distribución se comporta como *power-law*. Los nodos con grado menor a $x_{\min}$ no siguen este patrón.</span>
+<span id="cb40-762"><a href="#cb40-762"></a>:::</span>
+<span id="cb40-763"><a href="#cb40-763"></a></span>
+<span id="cb40-764"><a href="#cb40-764"></a>**Pregunta 4: ¿Qué tipo de gráfico es el más adecuado para identificar visualmente una ley de potencia?**</span>
+<span id="cb40-765"><a href="#cb40-765"></a></span>
+<span id="cb40-766"><a href="#cb40-766"></a>a)  Histograma con ejes lineales</span>
+<span id="cb40-767"><a href="#cb40-767"></a>b)  Gráfico de barras</span>
+<span id="cb40-768"><a href="#cb40-768"></a>c)  Gráfico log-log </span>
+<span id="cb40-769"><a href="#cb40-769"></a>d)  Diagrama de caja (*boxplot*)</span>
+<span id="cb40-770"><a href="#cb40-770"></a></span>
 <span id="cb40-771"><a href="#cb40-771"></a></span>
-<span id="cb40-772"><a href="#cb40-772"></a>a)  Histograma con ejes lineales</span>
-<span id="cb40-773"><a href="#cb40-773"></a>b)  Gráfico de barras</span>
-<span id="cb40-774"><a href="#cb40-774"></a>c)  Gráfico log-log ✅</span>
-<span id="cb40-775"><a href="#cb40-775"></a>d)  *Boxplot*</span>
-<span id="cb40-776"><a href="#cb40-776"></a></span>
-<span id="cb40-777"><a href="#cb40-777"></a>En escala log-log, una *power-law* aparece como una línea recta con pendiente $-\gamma$.</span>
-<span id="cb40-778"><a href="#cb40-778"></a>:::</span>
-<span id="cb40-779"><a href="#cb40-779"></a></span>
-<span id="cb40-780"><a href="#cb40-780"></a>**Pregunta 5: Verdadero o Falso:** Los *hubs* son igual de probables en redes ER que en redes BA.</span>
-<span id="cb40-781"><a href="#cb40-781"></a></span>
-<span id="cb40-782"><a href="#cb40-782"></a>::: {.callout-caution title="Respuesta 5" collapse="true"}</span>
+<span id="cb40-772"><a href="#cb40-772"></a></span>
+<span id="cb40-773"><a href="#cb40-773"></a>::: {.callout-caution title="Pregunta 4" collapse="true"}</span>
+<span id="cb40-774"><a href="#cb40-774"></a>**¿Qué tipo de gráfico es el más adecuado para identificar visualmente una ley de potencia?**</span>
+<span id="cb40-775"><a href="#cb40-775"></a></span>
+<span id="cb40-776"><a href="#cb40-776"></a>a)  Histograma con ejes lineales</span>
+<span id="cb40-777"><a href="#cb40-777"></a>b)  Gráfico de barras</span>
+<span id="cb40-778"><a href="#cb40-778"></a>c)  Gráfico log-log ✅</span>
+<span id="cb40-779"><a href="#cb40-779"></a>d)  *Boxplot*</span>
+<span id="cb40-780"><a href="#cb40-780"></a></span>
+<span id="cb40-781"><a href="#cb40-781"></a>En escala log-log, una *power-law* aparece como una línea recta con pendiente $-\gamma$.</span>
+<span id="cb40-782"><a href="#cb40-782"></a>:::</span>
 <span id="cb40-783"><a href="#cb40-783"></a></span>
-<span id="cb40-784"><a href="#cb40-784"></a></span>
-<span id="cb40-785"><a href="#cb40-785"></a>❌ **Falso.** En redes ER la probabilidad de encontrar un nodo con grado extremo es exponencialmente baja (distribución Poisson). En redes BA, los *hubs* emergen naturalmente por el mecanismo de enlace preferencial.</span>
-<span id="cb40-786"><a href="#cb40-786"></a>:::</span>
+<span id="cb40-784"><a href="#cb40-784"></a>**Pregunta 5: Verdadero o Falso:** Los *hubs* son igual de probables en redes ER que en redes BA.</span>
+<span id="cb40-785"><a href="#cb40-785"></a></span>
+<span id="cb40-786"><a href="#cb40-786"></a>::: {.callout-caution title="Respuesta 5" collapse="true"}</span>
+<span id="cb40-787"><a href="#cb40-787"></a></span>
+<span id="cb40-788"><a href="#cb40-788"></a></span>
+<span id="cb40-789"><a href="#cb40-789"></a>❌ **Falso.** En redes ER la probabilidad de encontrar un nodo con grado extremo es exponencialmente baja (distribución Poisson). En redes BA, los *hubs* emergen naturalmente por el mecanismo de enlace preferencial.</span>
+<span id="cb40-790"><a href="#cb40-790"></a>:::</span>
 </code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
 </div></div></div></div></div>
 </div> <!-- /content -->
