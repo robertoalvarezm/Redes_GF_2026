@@ -524,6 +524,21 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <td>¿Qué pasa si falla un nodo crítico?</td>
 </tr>
 <tr class="even">
+<td style="text-align: center;">6</td>
+<td>Medidas de centralidad</td>
+<td>¿Cuáles son los nodos más importantes en una red? ?</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">7</td>
+<td>Detección de comunidades</td>
+<td>¿Cómo se agrupan la red?</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">8</td>
+<td>visNetwork y networkD3</td>
+<td>¿Cómo se ve mejor una red?</td>
+</tr>
+<tr class="odd">
 <td style="text-align: center;">Integradores</td>
 <td>Ejercicios finales</td>
 <td>¿Puedes analizar una red completa de principio a fin?</td>
@@ -1131,58 +1146,61 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb2-27"><a href="#cb2-27"></a><span class="pp">|</span> 3 <span class="pp">|</span> Distancias y eficiencia <span class="pp">|</span> ¿Qué tan fácil es ir de un punto a otro en una red? <span class="pp">|</span></span>
 <span id="cb2-28"><a href="#cb2-28"></a><span class="pp">|</span> 4 <span class="pp">|</span> Clustering y transitividad <span class="pp">|</span> ¿Los amigos de tus amigos son tus amigos? <span class="pp">|</span></span>
 <span id="cb2-29"><a href="#cb2-29"></a><span class="pp">|</span> 5 <span class="pp">|</span> Robustez de redes <span class="pp">|</span> ¿Qué pasa si falla un nodo crítico? <span class="pp">|</span></span>
-<span id="cb2-30"><a href="#cb2-30"></a><span class="pp">|</span> Integradores <span class="pp">|</span> Ejercicios finales <span class="pp">|</span> ¿Puedes analizar una red completa de principio a fin? <span class="pp">|</span></span>
-<span id="cb2-31"><a href="#cb2-31"></a></span>
-<span id="cb2-32"><a href="#cb2-32"></a>: Mapa del libro {.striped .hover}</span>
-<span id="cb2-33"><a href="#cb2-33"></a></span>
-<span id="cb2-34"><a href="#cb2-34"></a><span class="fu">## Prerrequisitos {.unnumbered}</span></span>
-<span id="cb2-35"><a href="#cb2-35"></a></span>
-<span id="cb2-36"><a href="#cb2-36"></a>::: {.callout-important title="🔑 Antes de empezar necesitas"}</span>
-<span id="cb2-37"><a href="#cb2-37"></a><span class="ss">- </span>**R** (versión ≥ 4.1) y **RStudio** instalados.</span>
-<span id="cb2-38"><a href="#cb2-38"></a><span class="ss">- </span>Conocimientos básicos de R: vectores, funciones, gráficos con <span class="in">`plot()`</span>.</span>
-<span id="cb2-39"><a href="#cb2-39"></a><span class="ss">- </span>Nociones elementales de estadística descriptiva (media, varianza, histogramas).</span>
-<span id="cb2-40"><a href="#cb2-40"></a><span class="ss">- </span>Familiaridad básica con álgebra de matrices (útil, pero no indispensable).</span>
-<span id="cb2-41"><a href="#cb2-41"></a>:::</span>
-<span id="cb2-42"><a href="#cb2-42"></a></span>
-<span id="cb2-43"><a href="#cb2-43"></a><span class="fu">## Paquetes necesarios {.unnumbered}</span></span>
-<span id="cb2-44"><a href="#cb2-44"></a></span>
-<span id="cb2-45"><a href="#cb2-45"></a>Ejecuta el siguiente bloque para instalar todos los paquetes que usaremos a lo largo del libro:</span>
-<span id="cb2-46"><a href="#cb2-46"></a></span>
-<span id="cb2-49"><a href="#cb2-49"></a><span class="in">```{r}</span></span>
-<span id="cb2-50"><a href="#cb2-50"></a><span class="co">#| label: instalar-paquetes</span></span>
-<span id="cb2-51"><a href="#cb2-51"></a><span class="co">#| eval: false</span></span>
-<span id="cb2-52"><a href="#cb2-52"></a></span>
-<span id="cb2-53"><a href="#cb2-53"></a>paquetes <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"igraph"</span>, <span class="st">"tidyverse"</span>, <span class="st">"poweRlaw"</span>, <span class="st">"gt"</span>, <span class="st">"knitr"</span>)</span>
-<span id="cb2-54"><a href="#cb2-54"></a></span>
-<span id="cb2-55"><a href="#cb2-55"></a><span class="co"># Instalar solo los que no tengas</span></span>
-<span id="cb2-56"><a href="#cb2-56"></a>nuevos <span class="ot">&lt;-</span> paquetes[<span class="sc">!</span>(paquetes <span class="sc">%in%</span> <span class="fu">installed.packages</span>()[, <span class="st">"Package"</span>])]</span>
-<span id="cb2-57"><a href="#cb2-57"></a><span class="cf">if</span> (<span class="fu">length</span>(nuevos)) <span class="fu">install.packages</span>(nuevos)</span>
-<span id="cb2-58"><a href="#cb2-58"></a><span class="in">```</span></span>
-<span id="cb2-59"><a href="#cb2-59"></a></span>
-<span id="cb2-60"><a href="#cb2-60"></a><span class="fu">## Convenciones del libro {.unnumbered}</span></span>
-<span id="cb2-61"><a href="#cb2-61"></a></span>
-<span id="cb2-62"><a href="#cb2-62"></a>A lo largo del texto encontrarás estos bloques informativos:</span>
-<span id="cb2-63"><a href="#cb2-63"></a></span>
-<span id="cb2-64"><a href="#cb2-64"></a>::: {.callout-tip title="💡 Concepto clave"}</span>
-<span id="cb2-65"><a href="#cb2-65"></a>Resalta un concepto o idea fundamental que debes recordar.</span>
-<span id="cb2-66"><a href="#cb2-66"></a>:::</span>
-<span id="cb2-67"><a href="#cb2-67"></a></span>
-<span id="cb2-68"><a href="#cb2-68"></a>::: {.callout-warning title="⚠️ Error frecuente"}</span>
-<span id="cb2-69"><a href="#cb2-69"></a>Señala errores comunes que cometen lxs estudiantes y cómo evitarlos.</span>
-<span id="cb2-70"><a href="#cb2-70"></a>:::</span>
-<span id="cb2-71"><a href="#cb2-71"></a></span>
-<span id="cb2-72"><a href="#cb2-72"></a>::: {.callout-note title="💡 Pista" collapse="true"}</span>
-<span id="cb2-73"><a href="#cb2-73"></a>Pistas progresivas para resolver ejercicios. Haz clic para expandir.</span>
-<span id="cb2-74"><a href="#cb2-74"></a>:::</span>
-<span id="cb2-75"><a href="#cb2-75"></a></span>
-<span id="cb2-76"><a href="#cb2-76"></a><span class="fu">## Cómo usar este libro {.unnumbered}</span></span>
-<span id="cb2-77"><a href="#cb2-77"></a></span>
-<span id="cb2-78"><a href="#cb2-78"></a><span class="ss">1. </span>**Lee la teoría** y ejecuta los ejemplos en tu sesión de R.</span>
-<span id="cb2-79"><a href="#cb2-79"></a><span class="ss">2. </span>**Intenta los ejercicios** antes de ver las soluciones o pistas.</span>
-<span id="cb2-80"><a href="#cb2-80"></a><span class="ss">3. </span>**Experimenta**: modifica parámetros, cambia redes, rompe cosas.</span>
-<span id="cb2-81"><a href="#cb2-81"></a><span class="ss">4. </span>Al final de cada capítulo, responde la **autoevaluación** para verificar tu comprensión.</span>
-<span id="cb2-82"><a href="#cb2-82"></a></span>
-<span id="cb2-83"><a href="#cb2-83"></a>¡Comencemos!</span>
+<span id="cb2-30"><a href="#cb2-30"></a><span class="pp">|</span> 6 <span class="pp">|</span> Medidas de centralidad <span class="pp">|</span> ¿Cuáles son los nodos más importantes en una red? ?<span class="pp">|</span></span>
+<span id="cb2-31"><a href="#cb2-31"></a><span class="pp">|</span> 7 <span class="pp">|</span> Detección de comunidades <span class="pp">|</span> ¿Cómo se agrupan la red? <span class="pp">|</span></span>
+<span id="cb2-32"><a href="#cb2-32"></a><span class="pp">|</span> 8 <span class="pp">|</span> visNetwork y networkD3 <span class="pp">|</span> ¿Cómo se ve mejor  una red? <span class="pp">|</span></span>
+<span id="cb2-33"><a href="#cb2-33"></a><span class="pp">|</span> Integradores <span class="pp">|</span> Ejercicios finales <span class="pp">|</span> ¿Puedes analizar una red completa de principio a fin? <span class="pp">|</span></span>
+<span id="cb2-34"><a href="#cb2-34"></a></span>
+<span id="cb2-35"><a href="#cb2-35"></a>: Mapa del libro {.striped .hover}</span>
+<span id="cb2-36"><a href="#cb2-36"></a></span>
+<span id="cb2-37"><a href="#cb2-37"></a><span class="fu">## Prerrequisitos {.unnumbered}</span></span>
+<span id="cb2-38"><a href="#cb2-38"></a></span>
+<span id="cb2-39"><a href="#cb2-39"></a>::: {.callout-important title="🔑 Antes de empezar necesitas"}</span>
+<span id="cb2-40"><a href="#cb2-40"></a><span class="ss">- </span>**R** (versión ≥ 4.1) y **RStudio** instalados.</span>
+<span id="cb2-41"><a href="#cb2-41"></a><span class="ss">- </span>Conocimientos básicos de R: vectores, funciones, gráficos con <span class="in">`plot()`</span>.</span>
+<span id="cb2-42"><a href="#cb2-42"></a><span class="ss">- </span>Nociones elementales de estadística descriptiva (media, varianza, histogramas).</span>
+<span id="cb2-43"><a href="#cb2-43"></a><span class="ss">- </span>Familiaridad básica con álgebra de matrices (útil, pero no indispensable).</span>
+<span id="cb2-44"><a href="#cb2-44"></a>:::</span>
+<span id="cb2-45"><a href="#cb2-45"></a></span>
+<span id="cb2-46"><a href="#cb2-46"></a><span class="fu">## Paquetes necesarios {.unnumbered}</span></span>
+<span id="cb2-47"><a href="#cb2-47"></a></span>
+<span id="cb2-48"><a href="#cb2-48"></a>Ejecuta el siguiente bloque para instalar todos los paquetes que usaremos a lo largo del libro:</span>
+<span id="cb2-49"><a href="#cb2-49"></a></span>
+<span id="cb2-52"><a href="#cb2-52"></a><span class="in">```{r}</span></span>
+<span id="cb2-53"><a href="#cb2-53"></a><span class="co">#| label: instalar-paquetes</span></span>
+<span id="cb2-54"><a href="#cb2-54"></a><span class="co">#| eval: false</span></span>
+<span id="cb2-55"><a href="#cb2-55"></a></span>
+<span id="cb2-56"><a href="#cb2-56"></a>paquetes <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"igraph"</span>, <span class="st">"tidyverse"</span>, <span class="st">"poweRlaw"</span>, <span class="st">"gt"</span>, <span class="st">"knitr"</span>)</span>
+<span id="cb2-57"><a href="#cb2-57"></a></span>
+<span id="cb2-58"><a href="#cb2-58"></a><span class="co"># Instalar solo los que no tengas</span></span>
+<span id="cb2-59"><a href="#cb2-59"></a>nuevos <span class="ot">&lt;-</span> paquetes[<span class="sc">!</span>(paquetes <span class="sc">%in%</span> <span class="fu">installed.packages</span>()[, <span class="st">"Package"</span>])]</span>
+<span id="cb2-60"><a href="#cb2-60"></a><span class="cf">if</span> (<span class="fu">length</span>(nuevos)) <span class="fu">install.packages</span>(nuevos)</span>
+<span id="cb2-61"><a href="#cb2-61"></a><span class="in">```</span></span>
+<span id="cb2-62"><a href="#cb2-62"></a></span>
+<span id="cb2-63"><a href="#cb2-63"></a><span class="fu">## Convenciones del libro {.unnumbered}</span></span>
+<span id="cb2-64"><a href="#cb2-64"></a></span>
+<span id="cb2-65"><a href="#cb2-65"></a>A lo largo del texto encontrarás estos bloques informativos:</span>
+<span id="cb2-66"><a href="#cb2-66"></a></span>
+<span id="cb2-67"><a href="#cb2-67"></a>::: {.callout-tip title="💡 Concepto clave"}</span>
+<span id="cb2-68"><a href="#cb2-68"></a>Resalta un concepto o idea fundamental que debes recordar.</span>
+<span id="cb2-69"><a href="#cb2-69"></a>:::</span>
+<span id="cb2-70"><a href="#cb2-70"></a></span>
+<span id="cb2-71"><a href="#cb2-71"></a>::: {.callout-warning title="⚠️ Error frecuente"}</span>
+<span id="cb2-72"><a href="#cb2-72"></a>Señala errores comunes que cometen lxs estudiantes y cómo evitarlos.</span>
+<span id="cb2-73"><a href="#cb2-73"></a>:::</span>
+<span id="cb2-74"><a href="#cb2-74"></a></span>
+<span id="cb2-75"><a href="#cb2-75"></a>::: {.callout-note title="💡 Pista" collapse="true"}</span>
+<span id="cb2-76"><a href="#cb2-76"></a>Pistas progresivas para resolver ejercicios. Haz clic para expandir.</span>
+<span id="cb2-77"><a href="#cb2-77"></a>:::</span>
+<span id="cb2-78"><a href="#cb2-78"></a></span>
+<span id="cb2-79"><a href="#cb2-79"></a><span class="fu">## Cómo usar este libro {.unnumbered}</span></span>
+<span id="cb2-80"><a href="#cb2-80"></a></span>
+<span id="cb2-81"><a href="#cb2-81"></a><span class="ss">1. </span>**Lee la teoría** y ejecuta los ejemplos en tu sesión de R.</span>
+<span id="cb2-82"><a href="#cb2-82"></a><span class="ss">2. </span>**Intenta los ejercicios** antes de ver las soluciones o pistas.</span>
+<span id="cb2-83"><a href="#cb2-83"></a><span class="ss">3. </span>**Experimenta**: modifica parámetros, cambia redes, rompe cosas.</span>
+<span id="cb2-84"><a href="#cb2-84"></a><span class="ss">4. </span>Al final de cada capítulo, responde la **autoevaluación** para verificar tu comprensión.</span>
+<span id="cb2-85"><a href="#cb2-85"></a></span>
+<span id="cb2-86"><a href="#cb2-86"></a>¡Comencemos!</span>
 </code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
 </div></div></div></div></div>
 </div> <!-- /content -->
